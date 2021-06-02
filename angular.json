@@ -94,7 +94,10 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "./node_modules/codemirror/lib/codemirror.css",
+              "./node_modules/codemirror/theme/rubyblue.css",
+              "./node_modules/codemirror/mode/xml/xml.js"
             ],
             "scripts": []
           }
