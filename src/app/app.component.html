@@ -1,7 +1,17 @@
 <div class="container">
   <div class="row">
-    <div class="col-12 mt-3">
-      <h1>Codemirror</h1>
+    <div class="col-6 mt-3">
+      <h2>Archivos: {{index_files}}</h2>
+    </div>
+    <div class="col-6 mt-3">
+      <select class="form-control" id="selectFile" name="selectFile" [(ngModel)]="actual_file" (change)="showFile()">
+        <option [value]="fl.n" *ngFor="let fl of fls">{{fl.nombre}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 mt-1">
+      <h2>Entrada</h2>
     </div>
     <div class="col-12 mt-3">
       <!--CODEMIRROR-->
@@ -22,8 +32,8 @@
     <div class="col-12">
       <!--FUNCION ABRIR ARCHIVO-->
       <input type="file" id="file-input" (change)="openFile($event.target)">
-      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalT">Ver</button>
-      <button type="button" class="btn btn-primary" (click)="addFile()">Agregar</button>
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalVer">Ver</button>
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalAdded" (click)="addFile()">Agregar</button>
     </div>
     <div class="col-12 mt-3">
       <h3 id="name">Archivo</h3>
@@ -34,24 +44,14 @@
       </div>
     </div>
   </div>
-  <div class="row mt-3">
-    <div class="col-6">
-      <h2>Archivos: {{index_files}}</h2>
-    </div>
-    <div class="col-6">
-      <select class="form-control" id="selectFile" name="selectFile" [(ngModel)]="actual_file" (change)="showFile()">
-        <option [value]="fl.n" *ngFor="let fl of fls">{{fl.nombre}}</option>
-      </select>
-    </div>
-  </div>
 </div>
 
 <!--MODAL-->
-<div class="modal" tabindex="-1" id="ModalT">
+<div class="modal" tabindex="-1" id="ModalVer">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Modal title</h5>
+        <h5 class="modal-title">Contenido del archivo</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -59,7 +59,24 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--MODAL-->
+<div class="modal" tabindex="-1" id="ModalAdded">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Resultado</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <h3>Archivo agregado con exito</h3>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
   </div>

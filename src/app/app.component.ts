@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+import nodo_xml from 'src/clases/nodo_xml';
 import archivos from "../clases/archivos";
+import xml from "../gramatica/xml";
 
 @Component({
   selector: 'app-root',
@@ -46,7 +48,14 @@ export class AppComponent {
     document.getElementById('name').innerText = actual_file.nombre
     document.getElementById('contenido').innerHTML = actual_file.contenido
     this.xcode = actual_file.contenido
+    this.analizarXml(this.xcode)
     //console.log(actual_file)
+  }
+  analizarXml(entrada){
+    let result:nodo_xml = xml.parse(entrada);
+    console.log("Analisis xml")
+    result.printNode("")
+    console.log(result)
   }
 }
 
