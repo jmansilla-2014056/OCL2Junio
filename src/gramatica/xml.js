@@ -72,11 +72,11 @@
   }
 */
 var xml = (function(){
-var o=function(k,v,o,l){for(o=o||{},l=k.length;l--;o[k[l]]=v);return o},$V0=[1,7],$V1=[1,10],$V2=[1,15],$V3=[1,19],$V4=[1,20],$V5=[5,6],$V6=[1,26],$V7=[1,27],$V8=[4,5,17];
+var o=function(k,v,o,l){for(o=o||{},l=k.length;l--;o[k[l]]=v);return o},$V0=[1,7],$V1=[1,10],$V2=[1,15],$V3=[1,19],$V4=[1,20],$V5=[5,6],$V6=[1,27],$V7=[1,26],$V8=[4,17,18];
 var parser = {trace: function trace () { },
 yy: {},
-symbols_: {"error":2,"inicio":3,"INI":4,"ID":5,"FIN":6,"lista_nodos":7,"CIERRE":8,"EOF":9,"nodo":10,"lista_valor":11,"lista_atributos":12,"atributos":13,"IGUAL":14,"valor":15,"CADENA":16,"NUM":17,"$accept":0,"$end":1},
-terminals_: {2:"error",4:"INI",5:"ID",6:"FIN",8:"CIERRE",9:"EOF",14:"IGUAL",16:"CADENA",17:"NUM"},
+symbols_: {"error":2,"inicio":3,"INI":4,"ID":5,"FIN":6,"lista_nodos":7,"CIERRE":8,"EOF":9,"nodo":10,"lista_valor":11,"lista_atributos":12,"atributos":13,"IGUAL":14,"valor":15,"CADENA":16,"NUM":17,"ID2":18,"$accept":0,"$end":1},
+terminals_: {2:"error",4:"INI",5:"ID",6:"FIN",8:"CIERRE",9:"EOF",14:"IGUAL",16:"CADENA",17:"NUM",18:"ID2"},
 productions_: [0,[3,9],[7,2],[7,1],[10,8],[10,8],[10,9],[10,9],[12,2],[12,1],[13,3],[15,1],[15,1],[11,2],[11,2],[11,1],[11,1]],
 performAction: function anonymous(yytext, yyleng, yylineno, yy, yystate /* action[1] */, $$ /* vstack */, _$ /* lstack */) {
 /* this == yyval */
@@ -84,7 +84,7 @@ performAction: function anonymous(yytext, yyleng, yylineno, yy, yystate /* actio
 var $0 = $$.length - 1;
 switch (yystate) {
 case 1:
- this.$ = new nodo_xml.default($$[$0-7],[],"",$$[$0-5]); return this.$ 
+ this.$ = new nodo_xml.default($$[$0-7],[],"",$$[$0-5]); console.log("SE ACTUALIZA???"); return this.$;  
 break;
 case 2: case 8:
  this.$ = $$[$0-1]; this.$.push($$[$0]) 
@@ -118,7 +118,7 @@ case 13: case 14:
 break;
 }
 },
-table: [{3:1,4:[1,2]},{1:[3]},{5:[1,3]},{6:[1,4]},{4:$V0,7:5,10:6},{4:[1,8],10:9},{4:[2,3]},{5:$V1},{5:$V1,8:[1,11]},{4:[2,2]},{5:$V2,6:[1,12],12:13,13:14},{5:[1,16]},{4:$V0,5:$V3,7:18,10:6,11:17,17:$V4},{5:$V2,6:[1,21],13:22},o($V5,[2,9]),{14:[1,23]},{6:[1,24]},{4:[1,25],5:$V6,17:$V7},{4:[1,28],10:9},o($V8,[2,15]),o($V8,[2,16]),{4:$V0,5:$V3,7:30,10:6,11:29,17:$V4},o($V5,[2,8]),{15:31,16:[1,32],17:[1,33]},{9:[1,34]},{8:[1,35]},o($V8,[2,13]),o($V8,[2,14]),{5:$V1,8:[1,36]},{4:[1,37],5:$V6,17:$V7},{4:[1,38],10:9},o($V5,[2,10]),o($V5,[2,11]),o($V5,[2,12]),{1:[2,1]},{5:[1,39]},{5:[1,40]},{8:[1,41]},{5:$V1,8:[1,42]},{6:[1,43]},{6:[1,44]},{5:[1,45]},{5:[1,46]},{4:[2,4]},{4:[2,5]},{6:[1,47]},{6:[1,48]},{4:[2,6]},{4:[2,7]}],
+table: [{3:1,4:[1,2]},{1:[3]},{5:[1,3]},{6:[1,4]},{4:$V0,7:5,10:6},{4:[1,8],10:9},{4:[2,3]},{5:$V1},{5:$V1,8:[1,11]},{4:[2,2]},{5:$V2,6:[1,12],12:13,13:14},{5:[1,16]},{4:$V0,5:$V3,7:18,10:6,11:17,17:$V4},{5:$V2,6:[1,21],13:22},o($V5,[2,9]),{14:[1,23]},{6:[1,24]},{4:[1,25],17:$V6,18:$V7},{4:[1,28],10:9},o($V8,[2,15]),o($V8,[2,16]),{4:$V0,5:$V3,7:30,10:6,11:29,17:$V4},o($V5,[2,8]),{15:31,16:[1,32],17:[1,33]},{9:[1,34]},{8:[1,35]},o($V8,[2,13]),o($V8,[2,14]),{5:$V1,8:[1,36]},{4:[1,37],17:$V6,18:$V7},{4:[1,38],10:9},o($V5,[2,10]),o($V5,[2,11]),o($V5,[2,12]),{1:[2,1]},{5:[1,39]},{5:[1,40]},{8:[1,41]},{5:$V1,8:[1,42]},{6:[1,43]},{6:[1,44]},{5:[1,45]},{5:[1,46]},{4:[2,4]},{4:[2,5]},{6:[1,47]},{6:[1,48]},{4:[2,6]},{4:[2,7]}],
 defaultActions: {6:[2,3],9:[2,2],34:[2,1],43:[2,4],44:[2,5],47:[2,6],48:[2,7]},
 parseError: function parseError (str, hash) {
     if (hash.recoverable) {
@@ -609,18 +609,20 @@ case 4: return 17
 break;
 case 5: return 5
 break;
-case 6: return 16
+case 6:console.log("SI ENTRE"); return 18
 break;
-case 7:/* skip whitespace */
+case 7: return 16
 break;
-case 8:return 9
+case 8:/* skip whitespace */
 break;
-case 9: console.log(`Error lexico ${yy_.yytext}`) 
+case 9:return 9
+break;
+case 10: console.log(`Error lexico ${yy_.yytext}`) 
 break;
 }
 },
-rules: [/^(?:<)/i,/^(?:\/)/i,/^(?:>)/i,/^(?:=)/i,/^(?:([0-9]+(\.[0-9]+)?))/i,/^(?:([a-zñA-ZÑ][a-zñA-ZÑ0-9_]*))/i,/^(?:(("([^\"\\])*")))/i,/^(?:[\s\r\n\t])/i,/^(?:$)/i,/^(?:.)/i],
-conditions: {"INITIAL":{"rules":[0,1,2,3,4,5,6,7,8,9],"inclusive":true}}
+rules: [/^(?:<)/i,/^(?:\/)/i,/^(?:>)/i,/^(?:=)/i,/^(?:([0-9]+(\.[0-9]+)?))/i,/^(?:([a-zñA-ZÑ][a-zñA-ZÑ0-9_]*))/i,/^(?:(([a-zñA-ZÑ][a-zñA-ZÑ0-9_]*)|((    |,|-|\.| |\\s|\\r|\\n|\\t|[\s\r\n\t])))*([a-zñA-ZÑ][a-zñA-ZÑ0-9_]*))/i,/^(?:(("([^\"\\])*")))/i,/^(?:[\s\r\n\t])/i,/^(?:$)/i,/^(?:.)/i],
+conditions: {"INITIAL":{"rules":[0,1,2,3,4,5,6,7,8,9,10],"inclusive":true}}
 });
 return lexer;
 })();

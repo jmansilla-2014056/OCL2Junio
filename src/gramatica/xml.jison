@@ -7,7 +7,8 @@
 num         [0-9]+("."[0-9]+)?
 id      [a-zñA-ZÑ][a-zñA-ZÑ0-9_]*
 cadena      (\"([^\"\\])*\")
-
+especiales  ("    "|","|"-"|"."|" "|"\s"|"\r"|"\n"|"\t"|[\s\r\n\t])
+BSL               "\\".
 %%
 
 /* Simbolos del programa */
@@ -16,8 +17,9 @@ cadena      (\"([^\"\\])*\")
 "/"                   { return 'CIERRE'}
 ">"                   { return 'FIN'}
 "="                   { return 'IGUAL'}
-{num}                  { return 'NUM'}
+{num}                 { return 'NUM'}
 {id}                  { return 'ID'}
+({id}|{especiales})*{id} {console.log("SI ENTRE"); return 'ID2'}
 {cadena}              { return 'CADENA'}
 
 /* Espacios */
@@ -41,7 +43,7 @@ cadena      (\"([^\"\\])*\")
 
 %% /* Gramatica */
 
-inicio : INI ID FIN lista_nodos INI CIERRE ID FIN EOF  { $$ = new nodo_xml.default($2,[],"",$4); return $$ }
+inicio : INI ID FIN lista_nodos INI CIERRE ID FIN EOF  { $$ = new nodo_xml.default($2,[],"",$4); console.log("SE ACTUALIZA???"); return $$;  }
     ;
 
 lista_nodos : lista_nodos nodo  { $$ = $1; $$.push($2) }
@@ -65,7 +67,7 @@ valor : CADENA  { $1 = $1.slice(1, $1.length-1); $$ = $1 }
     | NUM       { $$ = $1 }
     ;
 
-lista_valor : lista_valor ID    { $$ = $1 + " " + $2 }
+lista_valor : lista_valor ID2    { $$ = $1 + " " + $2 }
     | lista_valor NUM           { $$ = $1 + " " + $2 }
     | ID                        { $$ = $1 }
     | NUM                       { $$ = $1 }
