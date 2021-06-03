@@ -57,8 +57,6 @@ export class AppComponent {
       entrada = entrada.split('>'+'\s').join('>');
       entrada = entrada.split('> ').join('>');
     }
-
-    alert(entrada);
     let result:nodo_xml = xml.parse(entrada);
     console.log("Analisis xml")
     result.printNode("")

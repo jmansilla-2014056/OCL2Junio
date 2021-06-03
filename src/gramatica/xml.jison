@@ -7,7 +7,7 @@
 num         [0-9]+("."[0-9]+)?
 id      [a-zñA-ZÑ][a-zñA-ZÑ0-9_]*
 cadena      (\"([^\"\\])*\")
-especiales  (","|"-"|"."|" "+|[\s\r\n\t])
+especiales  ("$"|"#"|","|"-"|"."|" "+|[\s\r\n\t])
 others      (\n\s*)
 BSL               "\\".
 %%
@@ -20,7 +20,11 @@ BSL               "\\".
 "="                   { return 'IGUAL'}
 {num}                 { return 'NUM'}
 {id}                  { return 'ID'}
-({id}|{especiales}|{others})*{id} {console.log("SI ENTRE"); return 'ID2'}
+{money}               {console.log("SI ENTRE1"); return 'ID2'}
+({id}|{especiales}|{others}|{num})*{id} {console.log("SI ENTRE2"); return 'ID2'}
+({id}|{especiales}|{others}|{num})*{num} {console.log("SI ENTRE2"); return 'ID2'}
+({id}|{especiales}|{others}|{num})*{especiales} {console.log("SI ENTRE2"); return 'ID2'}
+
 {cadena}              { return 'CADENA'}
 
 /* Espacios */
@@ -69,7 +73,9 @@ valor : CADENA  { $1 = $1.slice(1, $1.length-1); $$ = $1 }
     ;
 
 lista_valor : lista_valor ID2    { $$ = $1 + " " + $2 }
+    | lista_valor ID    { $$ = $1 + " " + $2 }
     | lista_valor NUM           { $$ = $1 + " " + $2 }
     | ID                        { $$ = $1 }
+    | ID2                        { $$ = $1 }
     | NUM                       { $$ = $1 }
     ;
