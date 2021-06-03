@@ -7,7 +7,7 @@
 num         [0-9]+("."[0-9]+)?
 id      [a-zñA-ZÑ][a-zñA-ZÑ0-9_]*
 cadena      (\"([^\"\\])*\")
-especiales  ("    "|","|"-"|"."|" "+|\s+|"\r"|"\n"|"\t"|[\s\r\n\t])
+especiales  (","|"-"|"."|" "+|[\s\r\n\t])
 others      (\n\s*)
 BSL               "\\".
 %%
