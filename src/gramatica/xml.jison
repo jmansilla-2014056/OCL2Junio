@@ -7,7 +7,8 @@
 num         [0-9]+("."[0-9]+)?
 id      [a-zñA-ZÑ][a-zñA-ZÑ0-9_]*
 cadena      (\"([^\"\\])*\")
-especiales  ("$"|"#"|","|"-"|"."|" "+|[\s\r\n\t])
+
+especiales  ("¡"|"~"|"?"|"¿"|"!"|"|"|"}"|"{"|"^"|"\"|"]"|"["|"%"|"&"|"%"|"("|")"|"*"|"+"|"."|"$"|"#"|","|"-"|"."|" "+|[\s\r\n\t])
 others      (\n\s*)
 BSL               "\\".
 %%
@@ -20,10 +21,11 @@ BSL               "\\".
 "="                   { return 'IGUAL'}
 {num}                 { return 'NUM'}
 {id}                  { return 'ID'}
-{money}               {console.log("SI ENTRE1"); return 'ID2'}
+{num}{FIN}{num}     { return 'ID2'}
 ({id}|{especiales}|{others}|{num})*{id} {console.log("SI ENTRE2"); return 'ID2'}
 ({id}|{especiales}|{others}|{num})*{num} {console.log("SI ENTRE2"); return 'ID2'}
 ({id}|{especiales}|{others}|{num})*{especiales} {console.log("SI ENTRE2"); return 'ID2'}
+
 
 {cadena}              { return 'CADENA'}
 
