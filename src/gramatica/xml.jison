@@ -21,7 +21,6 @@ BSL               "\\".
 "="                   { return 'IGUAL'}
 {num}                 { return 'NUM'}
 {id}                  { return 'ID'}
-{num}{FIN}{num}     { return 'ID2'}
 ({id}|{especiales}|{others}|{num})*{id} {console.log("SI ENTRE2"); return 'ID2'}
 ({id}|{especiales}|{others}|{num})*{num} {console.log("SI ENTRE2"); return 'ID2'}
 ({id}|{especiales}|{others}|{num})*{especiales} {console.log("SI ENTRE2"); return 'ID2'}
