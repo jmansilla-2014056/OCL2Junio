@@ -1,3 +1,13 @@
+/* Area de imports */
+
+%{
+    const nodo_xml = require('../clases/nodo_xml');
+    const atr_xml = require('../clases/atr_xml');
+    const rep_error = require('../reports/ReportController')
+
+%}
+
+
 %lex
 %options case-insensitive
 %option yylineno
@@ -8,10 +18,30 @@ num         [0-9]+("."[0-9]+)?
 id      [a-zñA-ZÑ][a-zñA-ZÑ0-9_]*
 cadena      (\"([^\"\\])*\")
 
-especiales  ("¡"|"~"|"?"|"¿"|"!"|"|"|"}"|"{"|"^"|"\"|"]"|"["|"%"|"&"|"%"|"("|")"|"*"|"+"|"."|"$"|"#"|","|"-"|"."|" "+|[\s\r\n\t])
+especiales  (
+"!"|
+"¡"|
+")"|
+"("|
+"["|
+"]"|
+"%"|
+"?"|
+"¿"|
+"$"|
+"#"|
+","|
+"-"|
+"."|
+" "|
+[\s\r\n\t])
 others      (\n\s*)
-BSL               "\\".
 %%
+
+((\/\*)[^\*\/]*(\*\/))  /* */
+[ \\\t\r\n\f]           /* */
+\s+                     /* skip whitespace */
+(\/\/[^\n]*)            /* */
 
 /* Simbolos del programa */
 
@@ -24,8 +54,6 @@ BSL               "\\".
 ({id}|{especiales}|{others}|{num})*{id} {console.log("SI ENTRE2"); return 'ID2'}
 ({id}|{especiales}|{others}|{num})*{num} {console.log("SI ENTRE2"); return 'ID2'}
 ({id}|{especiales}|{others}|{num})*{especiales} {console.log("SI ENTRE2"); return 'ID2'}
-
-
 {cadena}              { return 'CADENA'}
 
 /* Espacios */
@@ -34,16 +62,9 @@ BSL               "\\".
 <<EOF>>               return 'EOF'
 
 /* Errores lexicos */
-.                     { console.log(`Error lexico ${yytext}`) }
+.                     { rep_error.InsertarError("lexico", yytext, yylloc.first_line, yylloc.first_column); console.log(`Error lexico ${yytext}`) }
 
 /lex
-
-/* Area de imports */
-
-%{
-    const nodo_xml = require('../clases/nodo_xml');
-    const atr_xml = require('../clases/atr_xml');
-%}
 
 %start inicio
 
@@ -60,6 +81,7 @@ nodo : INI ID FIN lista_valor INI CIERRE ID FIN  { $$ = new nodo_xml.default($2,
     | INI ID FIN lista_nodos INI CIERRE ID FIN  { $$ = new nodo_xml.default($2,[],"",$4) }
     | INI ID lista_atributos FIN lista_valor INI CIERRE ID FIN  { $$ = new nodo_xml.default($2,$3,$5,[]) }
     | INI ID lista_atributos FIN lista_nodos INI CIERRE ID FIN  { $$ = new nodo_xml.default($2,$3,"",$5) }
+
     ;
 
 lista_atributos : lista_atributos atributos { $$ = $1; $$.push($2) }

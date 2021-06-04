@@ -52,11 +52,11 @@ export class AppComponent {
     //console.log(actual_file)
   }
   analizarXml(entrada){
-    entrada = entrada.split('\n').join('');
     for (var _i = 0; _i < 50; _i++) {
       entrada = entrada.split('>'+'\s').join('>');
       entrada = entrada.split('> ').join('>');
     }
+    localStorage.clear();
     let result:nodo_xml = xml.parse(entrada);
     console.log("Analisis xml")
     result.printNode("")
