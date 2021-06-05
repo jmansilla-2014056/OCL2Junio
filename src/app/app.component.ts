@@ -69,38 +69,40 @@ export class AppComponent {
     let entornoGlobal: entorno = new entorno(null)
     let entornoNodo: entorno = new entorno(null)
     if (result.valor != ""){
-      entornoNodo.agregar(result.id,new simbolo(result.id,result.valor,tipo.VALOR,result.linea,result.columna))
+      entornoNodo.agregar("valor",new simbolo(result.id,result.valor,tipo.VALOR,result.linea,result.columna))
     }
-    for (let atr of result.atributos){
-      entornoNodo.agregar(atr.id,new simbolo(atr.id,atr.valor,tipo.ATRIBUTE,atr.linea,atr.columna))
+    for (let i = 0; i < result.atributos.length; i++){
+      let atr = result.atributos[i]
+      entornoNodo.agregar("atr"+i,new simbolo(atr.id,atr.valor,tipo.ATRIBUTE,atr.linea,atr.columna))
     }
     console.log("Entorno: "+result.id)
     result.entorno = entornoNodo
     /*FUNCION RECURSIVA PARA CREAR ENTORNOS DE LOS HIJOS*/
-    for (let hijo of result.hijos){
-      this.addNodo(hijo,result.entorno)
+    for (let j = 0; j < result.hijos.length; j++){
+      let hijo = result.hijos[j]
+      this.addNodo(hijo,result.entorno,j)
     }
     /*SE AGREGA AL ENTORNO GLOBAL*/
-    entornoGlobal.agregar(result.id,new simbolo(result.id,entornoNodo,tipo.STRUCT,result.linea,result.columna))
+    entornoGlobal.agregar("xml",new simbolo(result.id,entornoNodo,tipo.STRUCT,result.linea,result.columna))
     console.log(entornoGlobal)
   }
-  addNodo(hijo: nodo_xml,oldEntorno: entorno){
+  addNodo(hijo: nodo_xml,oldEntorno: entorno,n:number){
     let newEntorno: entorno = new entorno(null)
     if (hijo.valor != ""){
-      newEntorno.agregar(hijo.id,new simbolo(hijo.id,hijo.valor,tipo.VALOR,hijo.linea,hijo.columna))
+      newEntorno.agregar("valor",new simbolo(hijo.id,hijo.valor,tipo.VALOR,hijo.linea,hijo.columna))
     }
-    for (let atr of hijo.atributos){
-      newEntorno.agregar(atr.id,new simbolo(atr.id,atr.valor,tipo.ATRIBUTE,atr.linea,atr.columna))
+    for (let i = 0; i < hijo.atributos.length; i++){
+      let atr = hijo.atributos[i]
+      newEntorno.agregar("atr"+i,new simbolo(atr.id,atr.valor,tipo.ATRIBUTE,atr.linea,atr.columna))
     }
     /*FUNCION RECURSIVA PARA CREAR ENTORNOS DE LOS HIJOS*/
-    //console.log(newNodo.id + "[" + newNodo.valor + "]" + " Hijos: "+newNodo.hijos.length)
-    console.log(hijo.id + " Hijos: "+hijo.hijos.length)
     hijo.entorno = newEntorno
-    for (let son of hijo.hijos){
-      this.addNodo(son,hijo.entorno)
+    for (let j = 0; j < hijo.hijos.length; j++){
+      let son = hijo.hijos[j]
+      this.addNodo(son,hijo.entorno,j)
     }
     /*SE AGREGA AL ENTORNO PADRE*/
-    oldEntorno.agregar(hijo.id,new simbolo(hijo.id,newEntorno,tipo.STRUCT,hijo.linea,hijo.columna))
+    oldEntorno.agregar("hijo"+n,new simbolo(hijo.id,newEntorno,tipo.STRUCT,hijo.linea,hijo.columna))
   }
   test(){
     let diccionario: {[id:string]: string}
