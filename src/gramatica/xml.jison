@@ -74,6 +74,11 @@ others      (\n\s*)
 inicio : INI ID FIN lista_nodos INI CIERRE ID FIN EOF  { $$ = new nodo_xml.default($2,[],"",$4); console.log("SE ACTUALIZA???"); return $$;  }
     ;
 
+ERROR_SINTACTIO  : error FIN { rep_error.InsertarError("Sintactico", "Se encontro un error cerca de token: " + yytext, this._$.first_line, this._$.first_column);}
+                 | error CIERRE ID FIN{ rep_error.InsertarError("Sintactico", "Se encontro un error cerca de token: " + yytext, this._$.first_line, this._$.first_column);}
+                 | error INI { rep_error.InsertarError("Sintactico", "Se encontro un error cerca de token: " + yytext, this._$.first_line, this._$.first_column);}
+;
+
 lista_nodos : lista_nodos nodo  { $$ = $1; $$.push($2) }
     | nodo  { $$ = new Array(); $$.push($1) }
     ;
@@ -84,6 +89,7 @@ nodo : INI ID FIN lista_valor INI CIERRE ID FIN  { $$ = new nodo_xml.default($2,
     | INI ID lista_atributos FIN lista_nodos INI CIERRE ID FIN  { $$ = new nodo_xml.default($2,$3,"",$5,@1.first_line,@1.first_column) }
     //| INI ID CIERRE FIN     { $$ = new nodo_xml.default($2,[],"",[]) }
     | INI ID lista_atributos CIERRE FIN     { $$ = new nodo_xml.default($2,$3,"",[],@1.first_line,@1.first_column) }
+    | ERROR_SINTACTIO { $$ = new nodo_xml.default("recuparado",[],"",[])  }
     ;
 
 lista_atributos : lista_atributos atributos { $$ = $1; $$.push($2) }

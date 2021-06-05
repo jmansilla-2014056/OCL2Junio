@@ -62,13 +62,13 @@ export class AppComponent {
     }
     localStorage.clear();
     let result:nodo_xml = xml.parse(entrada);
-    let resultd:nodo_xml = xmld.parse(entrada);
+    //let resultd:nodo_xml = xmld.parse(entrada);
     console.log("Analisis xml (arbol):")
     result.printNode("")
     console.log(result)
     console.log("Analisis xml (arbol descendente):")
-    resultd.printNode("")
-    console.log(resultd)
+    //resultd.printNode("")
+    //console.log(resultd)
 
     /*MANEJO DE ENTORNOS DE LOS NODOS*/
     let entornoGlobal: entorno = new entorno(null)
