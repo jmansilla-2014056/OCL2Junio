@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     <div class="col-6 mt-3">
-      <h2>archivos: {{index_files}}</h2>
+      <h2>Archivos: {{index_files}}</h2>
     </div>
     <div class="col-6 mt-3">
       <select class="form-control" id="selectFile" name="selectFile" [(ngModel)]="actual_file" (change)="showFile()">
@@ -9,34 +9,50 @@
       </select>
     </div>
   </div>
+  <div class="col-12">
+    <!--FUNCION ABRIR ARCHIVO-->
+    <input type="file" id="file-input" (change)="openFile($event.target)">
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalVer">Ver</button>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalAdded"
+      (click)="addFile()">Agregar</button>
+    <button type="button" class="btn btn-primary" (click)="test()">Test</button>
+  </div>
   <div class="row">
-    <div class="col-12 mt-1">
-      <h2>Entrada</h2>
-    </div>
-    <div class="col-12 mt-3">
-      <!--CODEMIRROR-->
+    <div class="col-6">
       <div class="row">
         <div class="col-12">
-          <ngx-codemirror id="xcode" [(ngModel)]="xcode" [options]="{
-      lineNumbers: true,
-      theme: 'material',
-      mode: 'xml',
-      htmlMode: true
-      }">
-          </ngx-codemirror>
+          <h2 id="name">Archivo: </h2>
+        </div>
+        <div class="col-12 mt-3">
+          <!--CODEMIRROR-->
+          <div class="row">
+            <div class="col-12">
+              <ngx-codemirror id="xcode" [(ngModel)]="xcode" [options]="{
+          lineNumbers: true,
+          theme: 'material',
+          mode: 'xml',
+          htmlMode: true
+          }">
+              </ngx-codemirror>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="row">
+        <div class="col-12">
+          <h2>Consola</h2>
+        </div>
+        <div class="col-12 mt-3">
+          <textarea class="form-control" name="xpath" id="xpath" rows="12"></textarea>
         </div>
       </div>
     </div>
   </div>
   <div class="row mt-3">
-    <div class="col-12">
-      <!--FUNCION ABRIR ARCHIVO-->
-      <input type="file" id="file-input" (change)="openFile($event.target)">
-      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalVer">Ver</button>
-      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalAdded" (click)="addFile()">Agregar</button>
-    </div>
     <div class="col-12 mt-3">
-      <h3 id="name">Archivo</h3>
+      <h2>Salida</h2>
     </div>
     <div class="col-12">
       <div class="form-group">
