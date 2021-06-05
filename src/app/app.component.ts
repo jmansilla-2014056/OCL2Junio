@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import nodo_xml from '../clases/xml/nodo_xml';
 import archivos from "../clases/archivos";
-import xml from "../gramatica/xml";
 import { entorno } from 'src/clases/ast/entorno';
 import { simbolo } from 'src/clases/ast/simbolo';
 import { tipo } from 'src/clases/ast/tipo';
+import xml from "../gramatica/xml";
+import xmld from "../gramatica/xml_descendente";
 
 @Component({
   selector: 'app-root',
@@ -61,9 +62,13 @@ export class AppComponent {
     }
     localStorage.clear();
     let result:nodo_xml = xml.parse(entrada);
+    let resultd:nodo_xml = xmld.parse(entrada);
     console.log("Analisis xml (arbol):")
     result.printNode("")
     console.log(result)
+    console.log("Analisis xml (arbol descendente):")
+    resultd.printNode("")
+    console.log(resultd)
 
     /*MANEJO DE ENTORNOS DE LOS NODOS*/
     let entornoGlobal: entorno = new entorno(null)
