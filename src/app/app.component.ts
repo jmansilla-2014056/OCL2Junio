@@ -124,6 +124,11 @@ export class AppComponent {
     diccionario["letra"] = "C"
     console.log(diccionario)
   }
+
+  ast(){
+    localStorage.setItem('ast', 'digraph g { ejemplo -> html; }' )
+  }
+
 }
 
 function abrirArchivo(evento) {

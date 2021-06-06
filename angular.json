@@ -24,12 +24,16 @@
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/static-pages/reporte.html",
+              { "glob": "reporte.html", "input": "src/static-pages/", "output": "/tree/" }
             ],
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/static-pages/"
+            ]
           },
           "configurations": {
             "production": {
