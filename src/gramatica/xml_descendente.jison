@@ -61,7 +61,7 @@ others      (\n\s*)
 <<EOF>>                                         return 'EOF'
 
 /* Errores lexicos */
-.                                               { rep_error.InsertarError("lexico", yytext, yylloc.first_line, yylloc.first_column); console.log(`Error lexico ${yytext}`) }
+.                                               { rep_error.InsertarError("lexico", yytext, "xml", yylloc.first_line, yylloc.first_column); console.log(`Error lexico ${yytext}`) }
 
 /lex
 
@@ -69,6 +69,14 @@ others      (\n\s*)
 
 %% /* Gramatica */
 inicio          : INI ID FIN lista_nodos INI CIERRE ID FIN EOF { $$ = new nodo_xml.default($2,[],"",$4); console.log("SE ACTUALIZA???"); return $$;  }
+                ;
+
+error_sintactio : error tipo_error_sinc
+                ;
+
+tipo_error_sinc : FIN { rep_error.InsertarError("Sintactico", "Se encontro un error cerca de token: " + yytext, "xml", this._$.first_line, this._$.first_column) }
+                | CIERRE ID FIN { rep_error.InsertarError("Sintactico", "Se encontro un error cerca de token: " + yytext, "xml", this._$.first_line, this._$.first_column) }
+                | INI { rep_error.InsertarError("Sintactico", "Se encontro un error cerca de token: " + yytext, "xml", this._$.first_line, this._$.first_column) }
                 ;
 
 lista_nodos     : lista_nodos nodo { $$ = $1; $$.push($2) }
@@ -83,11 +91,11 @@ opcion_nodo     : cierre_nodo { $$ = $1 }
                 ;
 
 cierre_nodo     : FIN cuerpo_nodo { $$ = $2 }
-                | CIERRE FIN { $$ = new nodo_xml.default("",[],"",[],@1.first_line,@1.first_column) }
                 ;
 
 cuerpo_nodo     : lista_valor INI CIERRE ID FIN { $$ = new nodo_xml.default("",[],$1,[],@1.first_line,@1.first_column) }
                 | lista_nodos INI CIERRE ID FIN { $$ = new nodo_xml.default("",[],"",$1,@1.first_line,@1.first_column) }
+                | error_sintactio { $$ = new nodo_xml.default("recuparado",[],"",[])  }
                 ;
 
 lista_atributos : atributos lista_atributos { $$ = $2; $$.push($1) }

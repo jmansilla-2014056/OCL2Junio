@@ -4,6 +4,7 @@ import archivos from "../clases/archivos";
 import { entorno } from 'src/clases/ast/entorno';
 import { simbolo } from 'src/clases/ast/simbolo';
 import { tipo } from 'src/clases/ast/tipo';
+import { ast }  from '../clases/ast/ast';
 import xml from "../gramatica/xml";
 import xmld from "../gramatica/xml_descendente";
 
@@ -67,6 +68,12 @@ export class AppComponent {
     result.printNode("")
     console.log(result)
     console.log("Analisis xml (arbol descendente):")
+
+    let arbol = new ast();
+    let arbolito = arbol.getArbolito(result);
+    console.log(arbolito);
+
+    let container = document.getElementById("graph");
     //resultd.printNode("")
     //console.log(resultd)
 

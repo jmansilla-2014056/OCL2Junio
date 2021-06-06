@@ -1,8 +1,8 @@
 import {Errors} from './Errors';
 
 
-  export function InsertarError(tipo: string, desc: string, linea: number, columna: number){
-    let error = new Errors(tipo,desc,linea,columna);
+  export function InsertarError(tipo: string, desc: string, analis:string, linea: number, columna: number){
+    let error = new Errors(tipo,desc,analis,linea,columna);
     let lista = [];
     let listaerrores;
     if(localStorage.getItem('errores') === null){

@@ -63,7 +63,7 @@ others      (\n\s*)
 <<EOF>>               return 'EOF'
 
 /* Errores lexicos */
-.                     { rep_error.InsertarError("lexico", yytext, yylloc.first_line, yylloc.first_column); console.log(`Error lexico ${yytext}`) }
+.                     { rep_error.InsertarError("lexico", yytext, "xml", yylloc.first_line, yylloc.first_column); console.log(`Error lexico ${yytext}`) }
 
 /lex
 
@@ -74,9 +74,9 @@ others      (\n\s*)
 inicio : INI ID FIN lista_nodos INI CIERRE ID FIN EOF  { $$ = new nodo_xml.default($2,[],"",$4); console.log("SE ACTUALIZA???"); return $$;  }
     ;
 
-ERROR_SINTACTIO  : error FIN { rep_error.InsertarError("Sintactico", "Se encontro un error cerca de token: " + yytext, this._$.first_line, this._$.first_column);}
-                 | error CIERRE ID FIN{ rep_error.InsertarError("Sintactico", "Se encontro un error cerca de token: " + yytext, this._$.first_line, this._$.first_column);}
-                 | error INI { rep_error.InsertarError("Sintactico", "Se encontro un error cerca de token: " + yytext, this._$.first_line, this._$.first_column);}
+ERROR_SINTACTIO  : error FIN { rep_error.InsertarError("Sintactico", "Se encontro un error cerca de token: " + yytext, "xml", this._$.first_line, this._$.first_column);}
+                 | error CIERRE ID FIN{ rep_error.InsertarError("Sintactico", "Se encontro un error cerca de token: " + yytext, "xml", this._$.first_line, this._$.first_column);}
+                 | error INI { rep_error.InsertarError("Sintactico", "Se encontro un error cerca de token: " + yytext, "xml", this._$.first_line, this._$.first_column);}
 ;
 
 lista_nodos : lista_nodos nodo  { $$ = $1; $$.push($2) }

@@ -87,7 +87,7 @@ case 1:
  this.$ = new nodo_xml.default($$[$0-7],[],"",$$[$0-5]); console.log("SE ACTUALIZA???"); return this.$;  
 break;
 case 2: case 3: case 4:
- rep_error.InsertarError("Sintactico", "Se encontro un error cerca de token: " + yytext, this._$.first_line, this._$.first_column);
+ rep_error.InsertarError("Sintactico", "Se encontro un error cerca de token: " + yytext, "xml", this._$.first_line, this._$.first_column);
 break;
 case 5: case 13:
  this.$ = $$[$0-1]; this.$.push($$[$0]) 
@@ -741,7 +741,7 @@ case 14:/* skip whitespace */
 break;
 case 15:return 9
 break;
-case 16: rep_error.InsertarError("lexico", yy_.yytext, yy_.yylloc.first_line, yy_.yylloc.first_column); console.log(`Error lexico ${yy_.yytext}`) 
+case 16: rep_error.InsertarError("lexico", yy_.yytext, "xml", yy_.yylloc.first_line, yy_.yylloc.first_column); console.log(`Error lexico ${yy_.yytext}`) 
 break;
 }
 },
