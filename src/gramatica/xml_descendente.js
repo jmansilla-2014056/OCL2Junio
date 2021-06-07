@@ -84,109 +84,43 @@ performAction: function anonymous(yytext, yyleng, yylineno, yy, yystate /* actio
 var $0 = $$.length - 1;
 switch (yystate) {
 case 1:
- this.$ = new nodo_xml.default($$[$0-7],[],"",$$[$0-5]);
-                    var inicio_ = new ast_nodo.default("inicio","");
-                    inicio_.InsertarUnNodo("INI", $$[$0-8]);
-                    inicio_.InsertarUnNodo("ID", $$[$0-7]);
-                    inicio_.InsertarUnNodo("FIN", $$[$0-6]);
-                    inicio_.InsertarHijo(lista_nodos_);
-                    inicio_.InsertarUnNodo("INI", $$[$0-4]);
-                    inicio_.InsertarUnNodo("CIERRE", $$[$0-3]);
-                    inicio_.InsertarUnNodo("ID", $$[$0-2]);
-                    return this.$;
-                    
+ this.$ = new nodo_xml.default($$[$0-7],[],"",$$[$0-5]); console.log("SE ACTUALIZA???"); return this.$;  
 break;
 case 3: case 4: case 5:
  rep_error.InsertarError("Sintactico", "Se encontro un error cerca de token: " + yytext, "xml", this._$.first_line, this._$.first_column) 
 break;
 case 6:
- this.$ = $$[$0-1]; this.$.push($$[$0]);
-                          let tempA = new ast_nodo.default("lista_nodosA","");
-                          tempA.InsertarHijo(nodo_);
-                          lista_nodos_.InsertarHijo(tempA);
-                          
+ this.$ = $$[$0-1]; this.$.push($$[$0]) 
 break;
-case 7:
- this.$ = new Array(); this.$.push($$[$0]);
-                          lista_nodos_.InsertarHijo(nodo_)
-                          let tempB = new ast_nodo.default("lista_nodosA","");
-                          tempB.InsertarHijo(lista_nodos_);
-                          lista_nodos_ = tempB;
-                
+case 7: case 16:
+ this.$ = new Array(); this.$.push($$[$0]) 
 break;
 case 8:
- $$[$0].id = $$[$0-1];this.$ = $$[$0];
-                                        nodo_ = new ast_nodo.default("nodo","");
-                                        nodo_.InsertarUnNodo("INI", $$[$0-2]);
-                                        nodo_.InsertarUnNodo("ID", $$[$0-1]);
-                                        nodo_.InsertarHijo(opcion_nodo_);
-                                        
+ $$[$0].id = $$[$0-1];this.$ = $$[$0] 
 break;
-case 9:
- this.$ = $$[$0];
-                    opcion_nodo_ = new ast_nodo.default("opcion_nodo","");
-                    opcion_nodo_.InsertarHijo(cierre_nodo_);
-                     
+case 9: case 11: case 19: case 21: case 22: case 23: case 24:
+ this.$ = $$[$0] 
 break;
 case 10:
- $$[$0].atributos = $$[$0-1];this.$ = $$[$0];
-                     cierre_nodo_.InsertarHijo(lista_atributos_);
-                     opcion_nodo_.InsertarHijo(cierre_nodo_);
-                     
-break;
-case 11:
- this.$ = $$[$0];
-                  cierre_nodo_ = new ast_nodo.default("cierre_nodo","");
-                  cierre_nodo_.InsertarHijo(cuerpo_nodo_);
-                  ;
-                  
+ $$[$0].atributos = $$[$0-1];this.$ = $$[$0] 
 break;
 case 12:
- this.$ = new nodo_xml.default("",[],$$[$0-4],[],_$[$0-4].first_line,_$[$0-4].first_column)
-                    cuerpo_nodo_ = new ast_nodo.default("cuerpo_nodo","");
-                    cuerpo_nodo_.InsertarUnNodo("Valor", $$[$0-4]); alert($$[$0-4]);
-                    cuerpo_nodo_.InsertarUnNodo("INI", $$[$0-3]);
-                    cuerpo_nodo_.InsertarUnNodo("CIERRE", $$[$0-2]);
-                    cuerpo_nodo_.InsertarUnNodo("ID", $$[$0-1]);
-                    cuerpo_nodo_.InsertarUnNodo("FIN", $$[$0]);
-                    
+ this.$ = new nodo_xml.default("",[],$$[$0-4],[],_$[$0-4].first_line,_$[$0-4].first_column) 
 break;
 case 13:
- this.$ = new nodo_xml.default("",[],"",$$[$0-4],_$[$0-4].first_line,_$[$0-4].first_column)
-                    cuerpo_nodo_ = new ast_nodo.default("cuerpo_nodo","");
-                    cuerpo_nodo_.InsertarHijo(lista_nodos_);
-                    cuerpo_nodo_.InsertarUnNodo("INI", $$[$0-3]);
-                    cuerpo_nodo_.InsertarUnNodo("CIERRE", $$[$0-2]);
-                    cuerpo_nodo_.InsertarUnNodo("ID", $$[$0-1]);
-                    cuerpo_nodo_.InsertarUnNodo("FIN", $$[$0]);
-                  
+ this.$ = new nodo_xml.default("",[],"",$$[$0-4],_$[$0-4].first_line,_$[$0-4].first_column) 
 break;
 case 14:
  this.$ = new nodo_xml.default("recuparado",[],"",[])  
 break;
 case 15:
- this.$ = $$[$0]; this.$.push($$[$0-1])
-                      lista_atributos_.InsertarHijo(atributos_);
-                      
-break;
-case 16:
- this.$ = new Array(); this.$.push($$[$0]);
-                      lista_atributos_ = new ast_nodo.default("lista_atributos","");
-                
+ this.$ = $$[$0]; this.$.push($$[$0-1]) 
 break;
 case 17:
- this.$ = new atr_xml.default($$[$0-2],$$[$0],_$[$0-2].first_line,_$[$0-2].first_column);
-                      atributos_ = new ast_nodo.default("atributos","");
-                      atributos_.InsertarUnNodo("ID", $$[$0-2]);
-                      atributos_.InsertarUnNodo("IGUAL", $$[$0-1]);
-                      atributos_.InsertarUnNodo("VALOR", $$[$0]);
-                      
+ this.$ = new atr_xml.default($$[$0-2],$$[$0],_$[$0-2].first_line,_$[$0-2].first_column) 
 break;
 case 18:
  $$[$0] = $$[$0].slice(1, $$[$0].length-1); this.$ = $$[$0] 
-break;
-case 19: case 21: case 22: case 23: case 24:
- this.$ = $$[$0] 
 break;
 case 20:
  this.$ = $$[$0-1] + " " + $$[$0] 
@@ -446,16 +380,6 @@ _handle_error:
     const nodo_xml = require('../clases/xml/nodo_xml');
     const atr_xml = require('../clases/xml/atr_xml');
     const rep_error = require('../reports/ReportController')
-    const ast_nodo = require('../reports/ASTNodo')
-
-    let lista_nodos_ = new ast_nodo.default("lista_nodos0","");
-    let nodo_ = new ast_nodo.default("nodo","");
-    let opcion_nodo_ = new ast_nodo.default("opcion_nodo","");
-    let ciere_nodo_ = new ast_nodo.default("cierre_nodo","");
-    let lista_atributos_ = new ast_nodo.default("lista_atributos","");
-    let cuerpo_nodo_ = new ast_nodo.default("cuerpo_nodo","");
-    let lista_valor_ = new ast_nodo.default("lista_valor","");
-    let atributos_ = new ast_nodo.default("atributos","");
 
 /* generated by jison-lex 0.3.4 */
 var lexer = (function(){
