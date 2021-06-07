@@ -144,8 +144,7 @@ export default class aritmetica implements expresion {
             default:
                 break;
         }
-        return ":("
-        //return null
+        return null
     }
 
 }

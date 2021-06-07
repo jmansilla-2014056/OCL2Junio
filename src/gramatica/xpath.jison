@@ -6,6 +6,8 @@
     const ast_xpath = require('../clases/ast/ast_xpath')
 
     const aritmetica = require('../clases/expresiones/operaciones/aritmetica')
+    const relacional = require('../clases/expresiones/operaciones/relacional')
+    const logica = require('../clases/expresiones/operaciones/logica')
 %}
 
 /* Definicion lexica */
@@ -45,8 +47,8 @@ cadena      (\"([^\"\\])*\")
 "<"                    { return 'MENORQUE'}
 ">"                    { return 'MAYORQUE'}
 "!="                   { return 'DIFERENTE'}
-"="                    { return 'IGUAL'}
 "=="                   { return 'IGUALIGUAL'}
+"="                    { return 'IGUAL'}
 
 /* Operaciones Logicas */
 "||"                   { return 'OR'}
@@ -107,4 +109,13 @@ e :  NUM                       { $$ = new primitivo.default(Number($1),@1.first_
     | e DIV e                   { $$ = new aritmetica.default($1,"/",$3,@1.first_line,@1.first_column,false) }
     | e MODULO e                { $$ = new aritmetica.default($1,"%",$3,@1.first_line,@1.first_column,false) }
     | MENOS e %prec UNARIO      { $$ = new aritmetica.default($2,"UNARIO",null,@1.first_line,@1.first_column,true) } }
+    | e MENORQUE e              { $$ = new relacional.default($1,"<",$3,@1.first_line,@1.first_column,false) }
+    | e MAYORQUE e              { $$ = new relacional.default($1,">",$3,@1.first_line,@1.first_column,false) }
+    | e MENORIGUAL e            { $$ = new relacional.default($1,"<=",$3,@1.first_line,@1.first_column,false) }
+    | e MAYORIGUAL e            { $$ = new relacional.default($1,">=",$3,@1.first_line,@1.first_column,false) }
+    | e IGUALIGUAL e            { $$ = new relacional.default($1,"==",$3,@1.first_line,@1.first_column,false) }
+    | e DIFERENTE e             { $$ = new relacional.default($1,"!=",$3,@1.first_line,@1.first_column,false) }
+    | e OR e                    { $$ = new logica.default($1,"||",$3,@1.first_line,@1.first_column,false) }
+    | e AND e                   { $$ = new logica.default($1,"&&",$3,@1.first_line,@1.first_column,false) }
+    | NOT e                     { $$ = new logica.default($2,"!",null,@1.first_line,@1.first_column,true) }
     ;
