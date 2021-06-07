@@ -4,6 +4,8 @@
     const primitivo = require('../clases/expresiones/primitivo')
     const print = require('../clases/instrucciones/print')
     const ast_xpath = require('../clases/ast/ast_xpath')
+
+    const aritmetica = require('../clases/expresiones/operaciones/aritmetica')
 %}
 
 /* Definicion lexica */
@@ -94,9 +96,15 @@ lista_instrucciones : lista_instrucciones instruccion    { $$ = $1; $1.push($2) 
 instruccion : PRINT PARA e PARC     { $$ = new print.default($3,@1.first_line,@1.first_column) }
     ;
 
-e :  NUM                       { $$ = new primitivo.default($1,@1.first_line,@1.first_column) }
+e :  NUM                       { $$ = new primitivo.default(Number($1),@1.first_line,@1.first_column) }
     | CADENA                    { $1 = $1.slice(1, $1.length-1); $$ = new primitivo.default($1,@1.first_line,@1.first_column) }
     //| ID                        { $$ = new  }
     | TRUE                      { $$ = new primitivo.default(true,@1.first_line,@1.first_column) }
     | FALSE                     { $$ = new primitivo.default(false,@1.first_line,@1.first_column) }
+    | e MAS e                   { $$ = new aritmetica.default($1,"+",$3,@1.first_line,@1.first_column,false) }
+    | e MENOS e                 { $$ = new aritmetica.default($1,"-",$3,@1.first_line,@1.first_column,false) }
+    | e MULTI e                 { $$ = new aritmetica.default($1,"*",$3,@1.first_line,@1.first_column,false) }
+    | e DIV e                   { $$ = new aritmetica.default($1,"/",$3,@1.first_line,@1.first_column,false) }
+    | e MODULO e                { $$ = new aritmetica.default($1,"%",$3,@1.first_line,@1.first_column,false) }
+    | MENOS e %prec UNARIO      { $$ = new aritmetica.default($2,"UNARIO",null,@1.first_line,@1.first_column,true) } }
     ;
