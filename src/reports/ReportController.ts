@@ -18,3 +18,17 @@ import {Errors} from './Errors';
 
   }
 
+  export function InsertarCst(nodoS: string){
+    let inicializar = "digraph L {\n" + "\n" + "  node [shape=record fontname=Arial];"
+    if(localStorage.getItem('cst') === null){
+      localStorage.setItem('cst', inicializar);
+      inicializar  = localStorage.getItem('cst');
+    }else{
+      inicializar  = localStorage.getItem('cst');
+    }
+
+    inicializar = inicializar + nodoS;
+    localStorage.setItem('cst', inicializar);
+
+  }
+
