@@ -8,6 +8,9 @@ import { ast }  from '../clases/ast/ast';
 import xml from "../gramatica/xml";
 import xmld from "../gramatica/xml_descendente";
 
+import xpath from "../gramatica/xpath";
+import ast_xpath from "../clases/ast/ast_xpath";
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -23,6 +26,8 @@ export class AppComponent {
   actual_file: number
   nombre: string = "name_ini"
   contenido: string = "cont_ini"
+  consola:string = ""
+  salida:string = ""
   openFile(input) {
     var x: File = input.files[0]
     if (x){
@@ -79,7 +84,7 @@ export class AppComponent {
 
     /*MANEJO DE ENTORNOS DE LOS NODOS*/
     let entornoGlobal: entorno = new entorno(null)
-    let entornoNodo: entorno = new entorno(null)
+    let entornoNodo: entorno = new entorno(entornoGlobal)
     if (result.valor != ""){
       entornoNodo.agregar("valor",new simbolo(result.id,result.valor,tipo.VALOR,result.linea,result.columna))
     }
@@ -99,7 +104,7 @@ export class AppComponent {
     console.log(entornoGlobal)
   }
   addNodo(hijo: nodo_xml,oldEntorno: entorno,n:number){
-    let newEntorno: entorno = new entorno(null)
+    let newEntorno: entorno = new entorno(oldEntorno)
     if (hijo.valor != ""){
       newEntorno.agregar("valor",new simbolo(hijo.id,hijo.valor,tipo.VALOR,hijo.linea,hijo.columna))
     }
@@ -117,12 +122,14 @@ export class AppComponent {
     oldEntorno.agregar("hijo"+n,new simbolo(hijo.id,newEntorno,tipo.STRUCT,hijo.linea,hijo.columna))
   }
   test(){
-    let diccionario: {[id:string]: string}
-    diccionario = {}
-    diccionario["letra"] = "A"
-    diccionario["letra"] = "B"
-    diccionario["letra"] = "C"
-    console.log(diccionario)
+    let entrada = this.consola
+    let result: ast_xpath = xpath.parse(entrada)
+    let ent = new entorno(null)
+    let arbol = new ast();
+    result.ejecutar(ent,arbol)
+    console.log("Resultado: ")
+    console.log(ent.consola)
+    this.salida = ent.consola
   }
 
   ast(){
