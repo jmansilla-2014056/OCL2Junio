@@ -58,31 +58,48 @@ export class AppComponent {
     document.getElementById('name').innerText = actual_file.nombre
     //document.getElementById('contenido').innerHTML = actual_file.contenido
     this.xcode = actual_file.contenido
-    this.analizarXml(this.xcode)
+    //this.analizarXml(this.xcode)
     //console.log(actual_file)
   }
-  analizarXml(entrada){
-    for (var _i = 0; _i < 50; _i++) {
-      entrada = entrada.split('>'+'\s').join('>');
-      entrada = entrada.split('> ').join('>');
-    }
+
+  /* Analisis Ascendente */
+  analizarXml(){
     localStorage.clear();
+    let entrada = this.clearEntry(this.xcode);
     let result:nodo_xml = xml.parse(entrada);
     //let resultd:nodo_xml = xmld.parse(entrada);
     console.log("Analisis xml (arbol):")
     result.printNode("")
     console.log(result)
+
+    let arbol = new ast().getArbolito(result);
+    localStorage.setItem('ast', 'digraph g {\n ' + arbol + '}');
+    localStorage.setItem('cst', 'digraph g { A -> B}');
+
+    /* Entornos */
+    this.createEntorno(result);
+  }
+
+  /* Analisis descendente */
+  analizarXmlDesc(){
+    localStorage.clear();
+    let entrada = this.clearEntry(this.xcode);
+    let result:nodo_xml = xmld.parse(entrada);
+    
     console.log("Analisis xml (arbol descendente):")
+    result.printNode("")
+    console.log(result)
 
-    let arbol = new ast();
-    let arbolito = arbol.getArbolito(result);
-    console.log(arbolito);
+    let arbol = new ast().getArbolito(result);
+    localStorage.setItem('ast', 'digraph g {\n ' + arbol + '}');
+    localStorage.setItem('cst', 'digraph g { A -> B}');
 
-    let container = document.getElementById("graph");
-    //resultd.printNode("")
-    //console.log(resultd)
+    /* Entornos */
+    this.createEntorno(result);
+  }
 
-    /*MANEJO DE ENTORNOS DE LOS NODOS*/
+  /*MANEJO DE ENTORNOS DE LOS NODOS*/
+  createEntorno(result:nodo_xml){
     let entornoGlobal: entorno = new entorno(null)
     let entornoNodo: entorno = new entorno(entornoGlobal)
     if (result.valor != ""){
@@ -103,6 +120,8 @@ export class AppComponent {
     entornoGlobal.agregar("xml",new simbolo(result.id,entornoNodo,tipo.STRUCT,result.linea,result.columna))
     console.log(entornoGlobal)
   }
+
+  /* Agregar nodo a entorno */
   addNodo(hijo: nodo_xml,oldEntorno: entorno,n:number){
     let newEntorno: entorno = new entorno(oldEntorno)
     if (hijo.valor != ""){
@@ -132,8 +151,17 @@ export class AppComponent {
     this.salida = ent.consola
   }
 
-  ast(){
-    localStorage.setItem('ast', 'digraph g { ejemplo -> html; }' )
+  reporteArbol(){
+    window.open('/tree/reporte.html','_blank');
+  }
+
+  /* Limpiar Entrada */
+  clearEntry(entrada:string):string{
+    for (var _i = 0; _i < 50; _i++) {
+      entrada = entrada.split('>'+'\s').join('>');
+      entrada = entrada.split('> ').join('>');
+    }
+    return entrada;
   }
 
 }
