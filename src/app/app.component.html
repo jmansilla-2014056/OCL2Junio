@@ -1,30 +1,27 @@
 <div class="container">
   <div class="row">
     <div class="col-6 mt-3">
-      <h2>Archivos: {{index_files}}</h2>
+      <h5>Entrada:</h5>
+      <input type="file" id="file-input" (change)="openFile($event.target)">
+      <div class="col-12">
+        <button type="button" class="btn btn-info col-3" data-bs-toggle="modal" data-bs-target="#ModalVer">Ver</button>
+        <button type="button" class="btn btn btn-success col-3" data-bs-toggle="modal" data-bs-target="#ModalAdded" (click)="addFile()">Agregar</button>
+      </div>
     </div>
     <div class="col-6 mt-3">
+      <h5>Archivos: {{index_files}}</h5>
       <select class="form-control" id="selectFile" name="selectFile" [(ngModel)]="actual_file" (change)="showFile()">
         <option [value]="fl.n" *ngFor="let fl of fls">{{fl.nombre}}</option>
       </select>
     </div>
   </div>
-  <div class="col-12">
-    <!--FUNCION ABRIR ARCHIVO-->
-    <input type="file" id="file-input" (change)="openFile($event.target)">
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalVer">Ver</button>
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalAdded"
-      (click)="addFile()">Agregar</button>
-    <button type="button" class="btn btn-primary" (click)="test()">Test</button>
-    <button type="button" class="btn btn-primary" (click)="ast()">Ast</button>
-  </div>
   <div class="row">
     <div class="col-6">
       <div class="row">
-        <div class="col-12">
+        <div class="col-12 mt-3">
           <h2 id="name">Archivo: </h2>
         </div>
-        <div class="col-12 mt-3">
+        <div class="col-12">
           <!--CODEMIRROR-->
           <div class="row">
             <div class="col-12">
@@ -42,27 +39,39 @@
     </div>
     <div class="col-6">
       <div class="row">
-        <div class="col-12">
-          <h2>Consola</h2>
-        </div>
         <div class="col-12 mt-3">
-          <textarea class="form-control" name="xpath" id="xpath" [(ngModel)]="consola" rows="12"></textarea>
+          <h2>Consola:</h2>
+        </div>
+        <div class="col-12">
+          <div class="col-12">
+            <!--FUNCION ABRIR ARCHIVO-->
+            <button type="button" class="btn btn-success" (click)="analizarXml()">Analisis Ascendente</button>
+            <button type="button" class="btn btn-success" (click)="analizarXmlDesc()">Analisis Descendente</button>
+            <button type="button" class="btn btn-success" (click)="test()">test</button>
+          </div>
+          <textarea class="form-control" name="xpath" id="xpath" [(ngModel)]="consola" rows="10"></textarea>
         </div>
       </div>
     </div>
   </div>
   <div class="row mt-3 pb-5">
     <div class="col-12 mt-3">
-      <h2>Salida</h2>
+      <h2>Salida:</h2>
     </div>
     <div class="col-12">
+      <div class="col-12">
+        <!--FUNCION ABRIR ARCHIVO-->
+        <button type="button" class="btn btn-success" (click)="reporteArbol()">Reporte de Arboles</button>
+        <button type="button" class="btn btn-success">Tabla de Simbolos</button>
+        <button type="button" class="btn btn-success">Reporte de Errores</button>
+      </div>
       <div class="form-group">
         <textarea class="form-control" name="contenido" id="contenido" [(ngModel)]="salida" rows="10"></textarea>
       </div>
     </div>
   </div>
-  <div class="row mt-3 pb-5">
-    <div class="col-12" id="graph"></div>
+  <div class="row">
+    <div class="col-12" id="report"></div>
   </div>
 </div>
 
@@ -78,7 +87,7 @@
         <textarea class="form-control" name="contenido2" id="contenido2" rows="10"></textarea>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
@@ -89,14 +98,14 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h2 class="modal-title">Resultado</h2>
+        <h3 class="modal-title">Entrada</h3>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <h3>Archivo agregado con exito</h3>
+        <h4>Archivo agregado con exito</h4>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Aceptar</button>
       </div>
     </div>
   </div>
