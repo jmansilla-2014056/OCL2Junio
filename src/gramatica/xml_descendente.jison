@@ -133,8 +133,8 @@ opcion_nodo     : cierre_nodo { $$ = $1;
 cierre_nodo     : FIN cuerpo_nodo { $$ = $2;
                   cierre_nodo_ = new ast_nodo.default("cierre_nodo","");
                   cierre_nodo_.InsertarHijo(cuerpo_nodo_);
+                  ;
                   }
-                | CIERRE FIN     { $$ = new nodo_xml.default("",[],"",[],@1.first_line,@1.first_column) }                
                 ;
 
 cuerpo_nodo     : lista_valor INI CIERRE ID FIN { $$ = new nodo_xml.default("",[],$1,[],@1.first_line,@1.first_column)
