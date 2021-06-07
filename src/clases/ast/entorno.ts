@@ -3,9 +3,11 @@ import { simbolo } from "./simbolo"
 export class entorno{
     public anterior: entorno
     public tabla: {[id:string] : simbolo}
+    public consola: string
     constructor(anterior){
         this.anterior = anterior
         this.tabla = {}
+        this.consola = ""
     }
     agregar(id:string,simbolo:simbolo){
         this.tabla[id.toLocaleLowerCase()] = simbolo
@@ -38,5 +40,8 @@ export class entorno{
             ts = ts.anterior
         }
         return null
+    }
+    appEnd(cadena: string){
+        return this.consola+= cadena + "\n"
     }
 }

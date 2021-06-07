@@ -8,6 +8,9 @@ import { ast }  from '../clases/ast/ast';
 import xml from "../gramatica/xml";
 import xmld from "../gramatica/xml_descendente";
 
+import xpath from "../gramatica/xpath";
+import ast_xpath from "../clases/ast/ast_xpath";
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -23,6 +26,8 @@ export class AppComponent {
   actual_file: number
   nombre: string = "name_ini"
   contenido: string = "cont_ini"
+  consola:string = ""
+  salida:string = ""
   openFile(input) {
     var x: File = input.files[0]
     if (x){
@@ -53,33 +58,50 @@ export class AppComponent {
     document.getElementById('name').innerText = actual_file.nombre
     //document.getElementById('contenido').innerHTML = actual_file.contenido
     this.xcode = actual_file.contenido
-    this.analizarXml(this.xcode)
+    //this.analizarXml(this.xcode)
     //console.log(actual_file)
   }
-  analizarXml(entrada){
-    for (var _i = 0; _i < 50; _i++) {
-      entrada = entrada.split('>'+'\s').join('>');
-      entrada = entrada.split('> ').join('>');
-    }
+
+  /* Analisis Ascendente */
+  analizarXml(){
     localStorage.clear();
+    let entrada = this.clearEntry(this.xcode);
     let result:nodo_xml = xml.parse(entrada);
     //let resultd:nodo_xml = xmld.parse(entrada);
     console.log("Analisis xml (arbol):")
     result.printNode("")
     console.log(result)
+
+    let arbol = new ast().getArbolito(result);
+    localStorage.setItem('ast', 'digraph g {\n ' + arbol + '}');
+    localStorage.setItem('cst', 'digraph g { A -> B}');
+
+    /* Entornos */
+    this.createEntorno(result);
+  }
+
+  /* Analisis descendente */
+  analizarXmlDesc(){
+    localStorage.clear();
+    let entrada = this.clearEntry(this.xcode);
+    let result:nodo_xml = xmld.parse(entrada);
+    
     console.log("Analisis xml (arbol descendente):")
+    result.printNode("")
+    console.log(result)
 
-    let arbol = new ast();
-    let arbolito = arbol.getArbolito(result);
-    console.log(arbolito);
+    let arbol = new ast().getArbolito(result);
+    localStorage.setItem('ast', 'digraph g {\n ' + arbol + '}');
+    localStorage.setItem('cst', 'digraph g { A -> B}');
 
-    let container = document.getElementById("graph");
-    //resultd.printNode("")
-    //console.log(resultd)
+    /* Entornos */
+    this.createEntorno(result);
+  }
 
-    /*MANEJO DE ENTORNOS DE LOS NODOS*/
+  /*MANEJO DE ENTORNOS DE LOS NODOS*/
+  createEntorno(result:nodo_xml){
     let entornoGlobal: entorno = new entorno(null)
-    let entornoNodo: entorno = new entorno(null)
+    let entornoNodo: entorno = new entorno(entornoGlobal)
     if (result.valor != ""){
       entornoNodo.agregar("valor",new simbolo(result.id,result.valor,tipo.VALOR,result.linea,result.columna))
     }
@@ -98,8 +120,10 @@ export class AppComponent {
     entornoGlobal.agregar("xml",new simbolo(result.id,entornoNodo,tipo.STRUCT,result.linea,result.columna))
     console.log(entornoGlobal)
   }
+
+  /* Agregar nodo a entorno */
   addNodo(hijo: nodo_xml,oldEntorno: entorno,n:number){
-    let newEntorno: entorno = new entorno(null)
+    let newEntorno: entorno = new entorno(oldEntorno)
     if (hijo.valor != ""){
       newEntorno.agregar("valor",new simbolo(hijo.id,hijo.valor,tipo.VALOR,hijo.linea,hijo.columna))
     }
@@ -117,16 +141,27 @@ export class AppComponent {
     oldEntorno.agregar("hijo"+n,new simbolo(hijo.id,newEntorno,tipo.STRUCT,hijo.linea,hijo.columna))
   }
   test(){
-    let diccionario: {[id:string]: string}
-    diccionario = {}
-    diccionario["letra"] = "A"
-    diccionario["letra"] = "B"
-    diccionario["letra"] = "C"
-    console.log(diccionario)
+    let entrada = this.consola
+    let result: ast_xpath = xpath.parse(entrada)
+    let ent = new entorno(null)
+    let arbol = new ast();
+    result.ejecutar(ent,arbol)
+    console.log("Resultado: ")
+    console.log(ent.consola)
+    this.salida = ent.consola
   }
 
-  ast(){
-    localStorage.setItem('ast', 'digraph g { ejemplo -> html; }' )
+  reporteArbol(){
+    window.open('/tree/reporte.html','_blank');
+  }
+
+  /* Limpiar Entrada */
+  clearEntry(entrada:string):string{
+    for (var _i = 0; _i < 50; _i++) {
+      entrada = entrada.split('>'+'\s').join('>');
+      entrada = entrada.split('> ').join('>');
+    }
+    return entrada;
   }
 
 }
