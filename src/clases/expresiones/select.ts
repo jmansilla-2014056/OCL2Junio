@@ -114,17 +114,32 @@ export default class select implements expresion {
                     }
                 }
             }
-            console.log(typeof (ent))
-            /**/
         }
-        //if (ent.tabla["valor"] == undefined)
     }
-    lookAtPath(ent: entorno, arbol: ast) {
-        if (ent.tabla["valor"] == null) {
-            let simbol: simbolo = ent.tabla["id"]
-            if (simbol.valor == this.id) {
-                //Encontrar valor
-                this.matches.push(ent)
+    lookAtPath(ent, arbol: ast) {
+        if (this.ini) {
+            if (ent.tabla["valor"] == null) {
+                let simbol: simbolo = ent.tabla["id"]
+                if (simbol.valor == this.id) {
+                    //Encontrar valor
+                    this.matches.push(ent)
+                }
+            }
+        } else {
+            if (ent instanceof Array) {
+                for (let n_ent of ent) {
+                    if (n_ent.tabla["valor"] == null) {
+                        for (let key in n_ent.tabla) {
+                            if (key.startsWith("hijo")) {
+                                let hijo: simbolo = n_ent.tabla[key]
+                                if (hijo.id == this.id) {
+                                    //Encontrar valor
+                                    this.matches.push(hijo.valor)
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }
