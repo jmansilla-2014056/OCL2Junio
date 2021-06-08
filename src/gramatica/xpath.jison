@@ -102,13 +102,17 @@ inicio : lista_select EOF  { $$ = new ast_xpath.default($1); return $$ }
     ;
 
 lista_select : lista_select select      { $$ = $1; $$.push($2) }
-    | select                            { $$ = new Array(); $$.push($1) }
+    | select_ini                        { $$ = new Array(); $$.push($1) }
     ;
 
-select : DIV ID             {  }
+select_ini : DIV ID         { $$ = new select.default("/",$2,false,@1.first_line,@1.first_column,true) }
     | DIV DIV ID            { $$ = new select.default("//",$3,false,@1.first_line,@1.first_column,true) }
-    | DIV ATR ID            {  }
-    | DIV DIV ATR ID        {  }
+    | DIV DIV ATR ID        { $$ = new select.default("//",$4,true,@1.first_line,@1.first_column,true) }
+    ;
+
+select : DIV ID         { $$ = new select.default("/",$2,false,@1.first_line,@1.first_column,false) }
+    | DIV DIV ID            { $$ = new select.default("//",$3,false,@1.first_line,@1.first_column,false) }
+    //| DIV DIV ATR ID        { $$ = new select.default("//",$4,true,@1.first_line,@1.first_column,true) }
     ;
 
 instruccion : PRINT PARA e PARC     { $$ = new print.default($3,@1.first_line,@1.first_column) }

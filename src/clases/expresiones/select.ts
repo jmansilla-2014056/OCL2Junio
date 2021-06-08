@@ -1,3 +1,4 @@
+import { keyframes } from "@angular/animations";
 import { ast } from "../ast/ast";
 import { entorno } from "../ast/entorno";
 import { simbolo } from "../ast/simbolo";
@@ -29,33 +30,114 @@ export default class select implements expresion {
         if (this.ini) {
             if (this.tipe == "//" && this.atr == false) {
                 this.lookAllNodes(ent.tabla["xml"].valor, arbol)
+            } else if (this.tipe == "/" && this.atr == false) {
+                this.lookAtPath(ent.tabla["xml"].valor, arbol)
+            } else if (this.tipe == "//" && this.atr == true) {
+                this.lookAllParams(ent.tabla["xml"].valor, arbol)
+            }
+        } else {
+            if (this.tipe == "//" && this.atr == false) {
+                this.lookAllNodes(ent, arbol)
+            } else if (this.tipe == "/" && this.atr == false) {
+                this.lookAtPath(ent, arbol)
+            } else if (this.tipe == "//" && this.atr == true) {
+                this.lookAllParams(ent, arbol)
             }
         }
         return this.matches
     }
-    lookAllNodes(ent: entorno, arbol: ast) {
-        let simbol = ent.tabla["id"].id
-        if (simbol == this.id) {
-            //Encontrar valor
-            console.log("Match en la entrada")
-        } else {
-            for (let key in ent.tabla) {
-                if (key.startsWith("hijo")) {
-                    let hijo = ent.tabla[key]
-                    if (hijo.id == this.id) {
-                        //Match obtener valor
-                        this.getNodeVal(hijo.valor, arbol)
-                    } else {
-                        //Look all
-                        this.lookAllNodes(ent, arbol)
+    lookAllNodes(ent, arbol: ast) {
+        if (this.ini) {
+            if (ent.tabla["valor"] == null) {
+                let simbol: simbolo = ent.tabla["id"]
+                if (simbol.valor == this.id) {
+                    //Encontrar valor
+                    this.matches.push(ent)
+                    for (let key in ent.tabla) {
+                        if (key.startsWith("hijo")) {
+                            let hijo = ent.tabla[key]
+                            this.lookAllNodes(hijo.valor, arbol)
+                        }
+                    }
+                } else {
+                    for (let key in ent.tabla) {
+                        if (key.startsWith("hijo")) {
+                            let hijo = ent.tabla[key]
+                            this.lookAllNodes(hijo.valor, arbol)
+                        }
                     }
                 }
             }
+        } else {
+            if (ent instanceof Array) {
+                for (let n_ent of ent) {
+                    if (n_ent.tabla["valor"] == null) {
+                        let simbol: simbolo = n_ent.tabla["id"]
+                        if (simbol.valor == this.id) {
+                            //Encontrar valor
+                            this.matches.push(n_ent)
+                            for (let key in n_ent.tabla) {
+                                if (key.startsWith("hijo")) {
+                                    let hijo = n_ent.tabla[key]
+                                    this.lookAllNodes(hijo.valor, arbol)
+                                }
+                            }
+                        } else {
+                            for (let key in n_ent.tabla) {
+                                if (key.startsWith("hijo")) {
+                                    let hijo = n_ent.tabla[key]
+                                    this.lookAllNodes(hijo.valor, arbol)
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (ent.tabla["valor"] == null) {
+                    let simbol: simbolo = ent.tabla["id"]
+                    if (simbol.valor == this.id) {
+                        //Encontrar valor
+                        this.matches.push(ent)
+                        for (let key in ent.tabla) {
+                            if (key.startsWith("hijo")) {
+                                let hijo = ent.tabla[key]
+                                this.lookAllNodes(hijo.valor, arbol)
+                            }
+                        }
+                    } else {
+                        for (let key in ent.tabla) {
+                            if (key.startsWith("hijo")) {
+                                let hijo = ent.tabla[key]
+                                this.lookAllNodes(hijo.valor, arbol)
+                            }
+                        }
+                    }
+                }
+            }
+            console.log(typeof (ent))
+            /**/
+        }
+        //if (ent.tabla["valor"] == undefined)
+    }
+    lookAtPath(ent: entorno, arbol: ast) {
+        if (ent.tabla["valor"] == null) {
+            let simbol: simbolo = ent.tabla["id"]
+            if (simbol.valor == this.id) {
+                //Encontrar valor
+                this.matches.push(ent)
+            }
         }
     }
-    getNodeVal(ent: entorno, arbol: ast) {
-        if (ent.tabla["valor"] == null){
-            this.matches.push(ent)
+    lookAllParams(ent: entorno, arbol: ast) {
+        for (let key in ent.tabla) {
+            let hijo = ent.tabla[key]
+            if (key.startsWith("atr")) {
+                if (hijo.id == this.id) {
+                    console.log("Match atributo: " + hijo.valor)
+                }
+            } else if (key.startsWith("hijo")) {
+                this.lookAllParams(hijo.valor, arbol)
+            }
         }
     }
 

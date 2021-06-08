@@ -8,10 +8,15 @@ export default class ast_xpath {
         this.lista_select = lista_select
     }
     ejecutar (ent: entorno, arbol: ast){
-        let result
-        for (let slc of this.lista_select){
-            result = slc.getValor(ent,arbol)
+        let entorno_result
+        if (this.lista_select.length == 1){
+            entorno_result = this.lista_select[0].getValor(ent,arbol)
+        } else {
+            entorno_result = ent
+            for (let slc of this.lista_select){
+                entorno_result = slc.getValor(entorno_result,arbol)
+            }
         }
-        return result
+        return entorno_result
     }
 }
