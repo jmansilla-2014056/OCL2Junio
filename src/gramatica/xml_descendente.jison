@@ -161,6 +161,7 @@ opcion_nodo     : cierre_nodo {
                 | lista_atributos cierre_nodo { 
                   $2.atributos = $1;
                   $$ = $2;
+                  opcion_nodo_ = new ast_nodo.default("opcion_nodo","");
                   cierre_nodo_.InsertarHijo(lista_atributos_);
                   opcion_nodo_.InsertarHijo(cierre_nodo_);
                   reportG.push(new gramatic.default("opcion_nodo : lista_atributos cierre_nodo","{ cierre_nodo.val.atributos = lista_atributos.val \n opcion_nodo.val = cierre_nodo.val }"));
