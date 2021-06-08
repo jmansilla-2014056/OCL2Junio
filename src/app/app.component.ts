@@ -86,15 +86,15 @@ export class AppComponent {
   analizarXmlDesc() {
     localStorage.clear();
     let entrada = this.clearEntry(this.xcode);
-    let result: nodo_xml = xmld.parse(entrada);
-
+    let result:nodo_xml = xmld.parse(entrada);
+    
     console.log("Analisis xml (arbol descendente):")
     result.printNode("")
     console.log(result)
 
     let arbol = new ast().getArbolito(result);
     localStorage.setItem('ast', 'digraph g {\n ' + arbol + '}');
-    localStorage.setItem('cst', 'digraph g { A -> B}');
+    localStorage.setItem('cst', localStorage.getItem('cst')+"}");
 
     /* Entornos */
     this.createEntorno(result,null);

@@ -25,8 +25,8 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/static-pages/reporte.html",
-              { "glob": "reporte.html", "input": "src/static-pages/", "output": "/tree/" }
+              { "glob": "ast.html", "input": "src/static-pages/xml/", "output": "/xml/" },
+              { "glob": "cst.html", "input": "src/static-pages/xml/", "output": "/xml/" }
             ],
             "styles": [
               "src/styles.css"
