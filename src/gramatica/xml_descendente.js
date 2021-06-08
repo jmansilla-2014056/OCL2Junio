@@ -130,6 +130,7 @@ case 9:
 break;
 case 10:
  $$[$0].atributos = $$[$0-1];this.$ = $$[$0];
+                     opcion_nodo_ = new ast_nodo.default("opcion_nodo","");
                      cierre_nodo_.InsertarHijo(lista_atributos_);
                      opcion_nodo_.InsertarHijo(cierre_nodo_);
                      
@@ -141,7 +142,10 @@ case 11:
                   
 break;
 case 12:
- this.$ = new nodo_xml.default("",[],"",[],_$[$0-1].first_line,_$[$0-1].first_column) 
+ this.$ = new nodo_xml.default("",[],"",[],_$[$0-1].first_line,_$[$0-1].first_column);
+                 cierre_nodo_.InsertarUnNodo("CIERRE", $$[$0-1]);
+                 cierre_nodo_ = new ast_nodo.default("cierre_nodo","");
+                 
 break;
 case 13:
  this.$ = new nodo_xml.default("",[],$$[$0-4],[],_$[$0-4].first_line,_$[$0-4].first_column)
@@ -167,13 +171,18 @@ case 15:
  this.$ = new nodo_xml.default("recuparado",[],"",[])  
 break;
 case 16:
- this.$ = $$[$0]; this.$.push($$[$0-1])
-                      lista_atributos_.InsertarHijo(atributos_);
+ this.$ = $$[$0]; this.$.push($$[$0-1]);
+                      let tempD = new ast_nodo.default("lista_atrubutos","");
+                      tempD.InsertarHijo(atributos_);
+                      lista_atributos_.InsertarHijo(tempD);
                       
 break;
 case 17:
  this.$ = new Array(); this.$.push($$[$0]);
-                      lista_atributos_ = new ast_nodo.default("lista_atributos","");
+                      lista_atributos_.InsertarHijo(atributos_);
+                      let tempC = new ast_nodo.default("lista_atributos","");
+                      tempC.InsertarHijo(lista_atributos_);
+                      lista_atributos_ = tempC;
                 
 break;
 case 18:
