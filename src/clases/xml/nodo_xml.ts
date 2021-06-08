@@ -10,13 +10,15 @@ export default class nodo_xml{
     public entorno: entorno
     public linea: number
     public columna: number
-    constructor(id,atributos,valor,hijos,linea,columna){
+    public id2: string
+    constructor(id,atributos,valor,hijos,linea,columna,id2){
         this.id = id
         this.atributos = atributos
         this.valor = valor
         this.hijos = hijos
         this.linea = linea
         this.columna = columna
+        this.id2 = id2
     }
     printNode(str){
         console.log(str+this.id)

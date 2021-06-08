@@ -37,7 +37,12 @@ especiales  (
 " "|
 [\s\r\n\t])
 others      (\n\s*)
+
 %%
+
+/*COMENTARIOS*/
+
+[<][!][-][-][^-<]*[-][-][>]                 /*skip comments*/
 
 ((\/\*)[^\*\/]*(\*\/))  /* */
 [ \\\t\r\n\f]           /* */
@@ -50,6 +55,8 @@ others      (\n\s*)
 "/"                   { return 'CIERRE'}
 ">"                   { return 'FIN'}
 "="                   { return 'IGUAL'}
+"?"                   { return 'INTERROGAC'}
+"xml"                 { return 'XML' }
 {num}                 { return 'NUM'}
 {id}                  { return 'ID'}
 ({id}|{especiales}|{others}|{num})*{id} {console.log("SI ENTRE2"); return 'ID2'}
@@ -71,7 +78,13 @@ others      (\n\s*)
 
 %% /* Gramatica */
 
-inicio : INI ID FIN lista_nodos INI CIERRE ID FIN EOF  { $$ = new nodo_xml.default($2,[],"",$4); console.log("SE ACTUALIZA???"); return $$;  }
+inicio : encoding etiqueta { $$ = { "encoding": $1, "etiqueta": $2}; return $$ }
+    ;
+
+encoding: INI INTERROGAC XML lista_atributos INTERROGAC FIN { $$ = new nodo_xml.default("encoding",$4,"",[],@1.first_line,@1.first_column,null) }
+    ;
+
+etiqueta : INI ID FIN lista_nodos INI CIERRE ID FIN EOF  { $$ = new nodo_xml.default($2,[],"",$4,@1.first_line,@1.first_column,$7); console.log("SE ACTUALIZA???") }
     ;
 
 ERROR_SINTACTIO  : error FIN { rep_error.InsertarError("Sintactico", "Se encontro un error cerca de token: " + yytext, "xml", this._$.first_line, this._$.first_column);}
@@ -83,12 +96,12 @@ lista_nodos : lista_nodos nodo  { $$ = $1; $$.push($2) }
     | nodo  { $$ = new Array(); $$.push($1) }
     ;
 
-nodo : INI ID FIN lista_valor INI CIERRE ID FIN  { $$ = new nodo_xml.default($2,[],$4,[],@1.first_line,@1.first_column) }
-    | INI ID FIN lista_nodos INI CIERRE ID FIN  { $$ = new nodo_xml.default($2,[],"",$4,@1.first_line,@1.first_column) }
-    | INI ID lista_atributos FIN lista_valor INI CIERRE ID FIN  { $$ = new nodo_xml.default($2,$3,$5,[],@1.first_line,@1.first_column) }
-    | INI ID lista_atributos FIN lista_nodos INI CIERRE ID FIN  { $$ = new nodo_xml.default($2,$3,"",$5,@1.first_line,@1.first_column) }
+nodo : INI ID FIN lista_valor INI CIERRE ID FIN  { $$ = new nodo_xml.default($2,[],$4,[],@1.first_line,@1.first_column,$7) }
+    | INI ID FIN lista_nodos INI CIERRE ID FIN  { $$ = new nodo_xml.default($2,[],"",$4,@1.first_line,@1.first_column,$7) }
+    | INI ID lista_atributos FIN lista_valor INI CIERRE ID FIN  { $$ = new nodo_xml.default($2,$3,$5,[],@1.first_line,@1.first_column,$8) }
+    | INI ID lista_atributos FIN lista_nodos INI CIERRE ID FIN  { $$ = new nodo_xml.default($2,$3,"",$5,@1.first_line,@1.first_column,$8) }
     //| INI ID CIERRE FIN     { $$ = new nodo_xml.default($2,[],"",[]) }
-    | INI ID lista_atributos CIERRE FIN     { $$ = new nodo_xml.default($2,$3,"",[],@1.first_line,@1.first_column) }
+    | INI ID lista_atributos CIERRE FIN     { $$ = new nodo_xml.default($2,$3,"",[],@1.first_line,@1.first_column,null) }
     | ERROR_SINTACTIO { $$ = new nodo_xml.default("recuparado",[],"",[])  }
     ;
 
