@@ -84,52 +84,142 @@ performAction: function anonymous(yytext, yyleng, yylineno, yy, yystate /* actio
 var $0 = $$.length - 1;
 switch (yystate) {
 case 1:
- this.$ = { "encoding": $$[$0-1], "etiqueta": $$[$0]}; return this.$ 
+
+                        this.$ = { "encoding": $$[$0-1], "etiqueta": $$[$0], "reportG": reportG};
+                        return this.$ 
+                    
 break;
 case 2:
- this.$ = new nodo_xml.default("encoding",$$[$0-2],"",[],_$[$0-5].first_line,_$[$0-5].first_column,null) 
+ 
+                        this.$ = new nodo_xml.default("encoding",$$[$0-2],"",[],_$[$0-5].first_line,_$[$0-5].first_column,null);
+                        reportG.push(new gramatic.default("encoding : INI INTERROGAC XML lista_atributos INTERROGAC FIN","{ encoding.val = new nodo_xml.defaul('encoding',lista_atributos.val,'',[])}"));
+                    
 break;
 case 3:
- this.$ = new nodo_xml.default($$[$0-7],[],"",$$[$0-5],_$[$0-8].first_line,_$[$0-8].first_column,$$[$0-2]); console.log("SE ACTUALIZA???") 
+ 
+                        this.$ = new nodo_xml.default($$[$0-7],[],"",$$[$0-5],_$[$0-8].first_line,_$[$0-8].first_column,$$[$0-2]);
+                        console.log("SE ACTUALIZA???");
+                        reportG.push(new gramatic.default("etiqueta : INI ID FIN lista_nodos INI CIERRE ID FIN","{ etiqueta.val = new nodo_xml.defaul(ID.valLex,[],'',lista_nodos.val)}"));
+                    
 break;
 case 4: case 5: case 6:
  rep_error.InsertarError("Sintactico", "Se encontro un error cerca de token: " + yytext, "xml", this._$.first_line, this._$.first_column);
 break;
-case 7: case 15:
- this.$ = $$[$0-1]; this.$.push($$[$0]) 
+case 7:
+
+                        this.$ = $$[$0-1];
+                        this.$.push($$[$0]);
+                        reportG.push(new gramatic.default("lista_nodos : lista_nodos nodo","{ lista_nodos.val = lista_nodosP.val; \n lista_nodos.val.push(nodo.val)}"));
+                    
 break;
-case 8: case 16:
- this.$ = new Array(); this.$.push($$[$0]) 
+case 8:
+
+                        this.$ = new Array();
+                        this.$.push($$[$0]);
+                        reportG.push(new gramatic.default("lista_nodos : nodo","{ lista_nodos.val = new Array(); \n lista_nodos.val.push(nodo)}"));
+                    
 break;
 case 9:
- this.$ = new nodo_xml.default($$[$0-6],[],$$[$0-4],[],_$[$0-7].first_line,_$[$0-7].first_column,$$[$0-1]) 
+
+                        this.$ = new nodo_xml.default($$[$0-6],[],$$[$0-4],[],_$[$0-7].first_line,_$[$0-7].first_column,$$[$0-1]);
+                        reportG.push(new gramatic.default("nodo : INI ID FIN lista_valor INI CIERRE ID FIN","{ nodo.val = new nodo_xml.default(ID.valLex,[],lista_valor.val,[],ID.valLex) }"));
+                    
 break;
 case 10:
- this.$ = new nodo_xml.default($$[$0-6],[],"",$$[$0-4],_$[$0-7].first_line,_$[$0-7].first_column,$$[$0-1]) 
+
+                        this.$ = new nodo_xml.default($$[$0-6],[],"",$$[$0-4],_$[$0-7].first_line,_$[$0-7].first_column,$$[$0-1]);
+                        reportG.push(new gramatic.default("nodo : INI ID FIN lista_nodos INI CIERRE ID FIN","{ nodo.val = new nodo_xml.default(ID.valLex,[],'',lista_nodos.val,ID.valLex) }"));
+                    
 break;
 case 11:
- this.$ = new nodo_xml.default($$[$0-7],$$[$0-6],$$[$0-4],[],_$[$0-8].first_line,_$[$0-8].first_column,$$[$0-1]) 
+
+                        this.$ = new nodo_xml.default($$[$0-7],$$[$0-6],$$[$0-4],[],_$[$0-8].first_line,_$[$0-8].first_column,$$[$0-1]);
+                        reportG.push(new gramatic.default("nodo : INI ID lista_atributos FIN lista_valor INI CIERRE ID FIN","{ nodo.val = new nodo_xml.default(ID.valLex,lista_atributos.val,lista_valor.val,[],ID.valLex) }"));
+                    
 break;
 case 12:
- this.$ = new nodo_xml.default($$[$0-7],$$[$0-6],"",$$[$0-4],_$[$0-8].first_line,_$[$0-8].first_column,$$[$0-1]) 
+
+                        this.$ = new nodo_xml.default($$[$0-7],$$[$0-6],"",$$[$0-4],_$[$0-8].first_line,_$[$0-8].first_column,$$[$0-1]);
+                        reportG.push(new gramatic.default("nodo : INI ID lista_atributos FIN lista_nodos INI CIERRE ID FIN","{ nodo.val = new nodo_xml.default(ID.valLex,lista_atributos.val,'',lista_nodos.val,ID.valLex) }"));
+                    
 break;
 case 13:
- this.$ = new nodo_xml.default($$[$0-3],$$[$0-2],"",[],_$[$0-4].first_line,_$[$0-4].first_column,null) 
+
+                        this.$ = new nodo_xml.default($$[$0-3],$$[$0-2],"",[],_$[$0-4].first_line,_$[$0-4].first_column,null);
+                        reportG.push(new gramatic.default("nodo : INI ID lista_atributos CIERRE FIN","{ nodo.val = new nodo_xml.default(ID.valLex,lista_atributos.val,'',[],null) }"));
+                    
 break;
 case 14:
- this.$ = new nodo_xml.default("recuparado",[],"",[])  
+ this.$ = new nodo_xml.default("recuparado",[],"",[]); 
+break;
+case 15:
+
+                        this.$ = $$[$0-1];
+                        this.$.push($$[$0]);
+                        reportG.push(new gramatic.default("lista_atributos : lista_atributos atributos","{ lista_atributos.val = lista_atributosP.val \n lista_atributos.val.push(atributos.val) }"));
+                    
+break;
+case 16:
+
+                        this.$ = new Array();
+                        this.$.push($$[$0]);
+                        reportG.push(new gramatic.default("lista_atributos : atributos","{ lista_atributos.val = new Array(); \n lista_atributos.val.push(atributos.val) }"));
+                    
 break;
 case 17:
- this.$ = new atr_xml.default($$[$0-2],$$[$0],_$[$0-2].first_line,_$[$0-2].first_column) 
+
+                        this.$ = new atr_xml.default($$[$0-2],$$[$0],_$[$0-2].first_line,_$[$0-2].first_column);
+                        reportG.push(new gramatic.default("atributos : ID IGUAL valor","{ atributos.val = new atr_xml.default(ID.valLex,valor.val) }"));
+                    
 break;
 case 18:
- $$[$0] = $$[$0].slice(1, $$[$0].length-1); this.$ = $$[$0] 
+
+                        $$[$0] = $$[$0].slice(1, $$[$0].length-1);
+                        this.$ = $$[$0];
+                        reportG.push(new gramatic.default("valor : CADENA","{ CADENA.val = CADENA.val.slice(1,CADENA.val.length-1) }"));
+                    
 break;
-case 19: case 23: case 24: case 25:
- this.$ = $$[$0] 
+case 19:
+
+                        this.$ = $$[$0];
+                        reportG.push(new gramatic.default("valor : NUM","{ valor.val = NUM.valLex }"));
+                    
 break;
-case 20: case 21: case 22:
- this.$ = $$[$0-1] + " " + $$[$0] 
+case 20:
+
+                        this.$ = $$[$0-1] + " " + $$[$0];
+                        reportG.push(new gramatic.default("lista_valor : lista_valor ID2","{ lista_valor.val = lista_valorP.val + ' ' + ID2.valLex }"));
+                    
+break;
+case 21:
+
+                        this.$ = $$[$0-1] + " " + $$[$0];
+                        reportG.push(new gramatic.default("lista_valor : lista_valor ID","{ lista_valor.val = lista_valorP.val + ' ' + ID.valLex }"));
+                    
+break;
+case 22:
+
+                        this.$ = $$[$0-1] + " " + $$[$0];
+                        reportG.push(new gramatic.default("lista_valor : lista_valor NUM","{ lista_valor.val = lista_valorP.val + ' ' + NUM.valLex }"));
+                    
+break;
+case 23:
+
+                        this.$ = $$[$0];
+                        reportG.push(new gramatic.default("lista_valor : ID","{ lista_valor.val = ID.valLex }"));
+                    
+break;
+case 24:
+
+                        this.$ = $$[$0];
+                        reportG.push(new gramatic.default("lista_valor : ID2","{ lista_valor.val = NUM.valLex }"));
+                    
+break;
+case 25:
+
+                        this.$ = $$[$0];
+                        reportG.push(new gramatic.default("lista_valor : NUM","{ lista_valor.val = NUM.valLex }"));
+                    
 break;
 }
 },
@@ -386,7 +476,10 @@ _handle_error:
     const nodo_xml = require('../clases/xml/nodo_xml');
     const atr_xml = require('../clases/xml/atr_xml');
     const rep_error = require('../reports/ReportController')
+    const gramatic = require('../reports/gramatical');
 
+    /* Reporte Gramatical */
+    let reportG = new Array();
 /* generated by jison-lex 0.3.4 */
 var lexer = (function(){
 var lexer = ({
