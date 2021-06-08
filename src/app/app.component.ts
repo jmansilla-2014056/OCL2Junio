@@ -5,6 +5,7 @@ import { entorno } from 'src/clases/ast/entorno';
 import { simbolo } from 'src/clases/ast/simbolo';
 import { tipo } from 'src/clases/ast/tipo';
 import { ast } from '../clases/ast/ast';
+import gramatical from '../reports/gramatical';
 import xml from "../gramatica/xml";
 import xmld from "../gramatica/xml_descendente";
 
@@ -70,6 +71,7 @@ export class AppComponent {
     let parse_result = xml.parse(entrada);
     let result: nodo_xml = parse_result.etiqueta
     let encoding: nodo_xml = parse_result.encoding
+    let reportG = parse_result.reportG;
     //let resultd:nodo_xml = xmld.parse(entrada);
     console.log("Analisis xml (arbol):")
     result.printNode("")
@@ -79,6 +81,13 @@ export class AppComponent {
     localStorage.setItem('ast', 'digraph g {\n ' + arbol + '}');
     localStorage.setItem('cst', 'digraph g { A -> B}');
 
+    /* reporte gramatical */
+    let gramar = new gramatical("","").getReporteG(reportG);
+    document.getElementById("TitleReportGramatical").innerHTML = "Reporte Gramatical Ascendente"
+    document.getElementById("reportG").innerHTML = gramar;
+
+
+
     /* Entornos */
     this.createEntorno(result,encoding);
   }
@@ -87,7 +96,10 @@ export class AppComponent {
   analizarXmlDesc() {
     localStorage.clear();
     let entrada = this.clearEntry(this.xcode);
-    let result:nodo_xml = xmld.parse(entrada);
+    let parse_result = xmld.parse(entrada);
+    let result:nodo_xml = parse_result.etiqueta;
+    let encoding: nodo_xml = parse_result.encoding;
+    let reportG = parse_result.reportG;
     
     console.log("Analisis xml (arbol descendente):")
     result.printNode("")
@@ -97,8 +109,13 @@ export class AppComponent {
     localStorage.setItem('ast', 'digraph g {\n ' + arbol + '}');
     localStorage.setItem('cst', localStorage.getItem('cst')+"}");
 
+    /* reporte gramatical */
+    let gramar = new gramatical("","").getReporteG(reportG);
+    document.getElementById("TitleReportGramatical").innerHTML = "Reporte Gramatical Descendente"
+    document.getElementById("reportG").innerHTML = gramar;
+
     /* Entornos */
-    this.createEntorno(result,null);
+    this.createEntorno(result,encoding);
   }
 
   /*MANEJO DE ENTORNOS DE LOS NODOS*/
@@ -169,7 +186,7 @@ export class AppComponent {
   }
 
   reporteArbol() {
-    window.open('/tree/reporte.html', '_blank');
+    window.open('/xml/ast.html', '_blank');
   }
 
   /* Limpiar Entrada */
