@@ -111,9 +111,9 @@ select_ini : DIV ID         { $$ = new select.default("/",$2,false,@1.first_line
     ;
 
 select : DIV ID         { $$ = new select.default("/",$2,false,@1.first_line,@1.first_column,false) }
-    | DIV DIV ID            { $$ = new select.default("//",$3,false,@1.first_line,@1.first_column,false) }
-    //| DIV ATR ID        { $$ = new select.default("//",$4,true,@1.first_line,@1.first_column,true) }
-    //| DIV DIV ATR ID        { $$ = new select.default("//",$4,true,@1.first_line,@1.first_column,true) }
+    | DIV DIV ID        { $$ = new select.default("//",$3,false,@1.first_line,@1.first_column,false) }
+    | DIV ATR ID        { $$ = new select.default("/",$3,true,@1.first_line,@1.first_column,false) }
+    | DIV DIV ATR ID    { $$ = new select.default("//",$4,true,@1.first_line,@1.first_column,false) }
     ;
 
 instruccion : PRINT PARA e PARC     { $$ = new print.default($3,@1.first_line,@1.first_column) }

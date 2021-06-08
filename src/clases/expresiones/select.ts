@@ -42,6 +42,8 @@ export default class select implements expresion {
                 this.lookAtPath(ent, arbol)
             } else if (this.tipe == "//" && this.atr == true) {
                 this.lookAllParams(ent, arbol)
+            } else if (this.tipe == "/" && this.atr == true){
+                this.lookParamsAtPath(ent, arbol)
             }
         }
         return this.matches
@@ -143,15 +145,69 @@ export default class select implements expresion {
             }
         }
     }
-    lookAllParams(ent: entorno, arbol: ast) {
-        for (let key in ent.tabla) {
-            let hijo = ent.tabla[key]
-            if (key.startsWith("atr")) {
-                if (hijo.id == this.id) {
-                    console.log("Match atributo: " + hijo.valor)
+    lookAllParams(ent, arbol: ast) {
+        if (this.ini) {
+            for (let key in ent.tabla) {
+                if (key.startsWith("atr")) {
+                    let atr: simbolo = ent.tabla[key]
+                    if (atr.id == this.id) {
+                        this.matches.push(ent)
+                    }
+                } else if (key.startsWith("hijo")) {
+                    let hijo = ent.tabla[key]
+                    this.lookAllParams(hijo.valor, arbol)
                 }
-            } else if (key.startsWith("hijo")) {
-                this.lookAllParams(hijo.valor, arbol)
+            }
+        } else {
+            if (ent instanceof Array) {
+                for (let n_ent of ent) {
+                    for (let key in n_ent.tabla) {
+                        if (key.startsWith("atr")) {
+                            let atr: simbolo = n_ent.tabla[key]
+                            if (atr.id == this.id) {
+                                this.matches.push(n_ent)
+                            }
+                        } else if (key.startsWith("hijo")) {
+                            let hijo = n_ent.tabla[key]
+                            this.lookAllParams(hijo.valor, arbol)
+                        }
+                    }
+                }
+            } else {
+                for (let key in ent.tabla) {
+                    if (key.startsWith("atr")) {
+                        let atr: simbolo = ent.tabla[key]
+                        if (atr.id == this.id) {
+                            this.matches.push(ent)
+                        }
+                    } else if (key.startsWith("hijo")) {
+                        let hijo = ent.tabla[key]
+                        this.lookAllParams(hijo.valor, arbol)
+                    }
+                }
+            }
+        }
+    }
+    lookParamsAtPath(ent, arbol: ast) {
+        if (ent instanceof Array) {
+            for (let n_ent of ent) {
+                for (let key in n_ent.tabla) {
+                    if (key.startsWith("atr")) {
+                        let atr: simbolo = n_ent.tabla[key]
+                        if (atr.id == this.id) {
+                            this.matches.push(n_ent)
+                        }
+                    }
+                }
+            }
+        } else {
+            for (let key in ent.tabla) {
+                if (key.startsWith("atr")) {
+                    let atr: simbolo = ent.tabla[key]
+                    if (atr.id == this.id) {
+                        this.matches.push(ent)
+                    }
+                }
             }
         }
     }
