@@ -125,6 +125,7 @@ opcion_nodo     : cierre_nodo { $$ = $1;
                     opcion_nodo_.InsertarHijo(cierre_nodo_);
                      }
                 | lista_atributos cierre_nodo { $2.atributos = $1;$$ = $2;
+                     opcion_nodo_ = new ast_nodo.default("opcion_nodo","");
                      cierre_nodo_.InsertarHijo(lista_atributos_);
                      opcion_nodo_.InsertarHijo(cierre_nodo_);
                      }
@@ -134,7 +135,10 @@ cierre_nodo     : FIN cuerpo_nodo { $$ = $2;
                   cierre_nodo_ = new ast_nodo.default("cierre_nodo","");
                   cierre_nodo_.InsertarHijo(cuerpo_nodo_);
                   }
-                | CIERRE FIN     { $$ = new nodo_xml.default("",[],"",[],@1.first_line,@1.first_column) }
+                | CIERRE FIN     { $$ = new nodo_xml.default("",[],"",[],@1.first_line,@1.first_column);
+                 cierre_nodo_.InsertarUnNodo("CIERRE", $1);
+                 cierre_nodo_ = new ast_nodo.default("cierre_nodo","");
+                 }
                 ;
 
 cuerpo_nodo     : lista_valor INI CIERRE ID FIN { $$ = new nodo_xml.default("",[],$1,[],@1.first_line,@1.first_column)
@@ -156,11 +160,16 @@ cuerpo_nodo     : lista_valor INI CIERRE ID FIN { $$ = new nodo_xml.default("",[
                 | error_sintactio { $$ = new nodo_xml.default("recuparado",[],"",[])  }
                 ;
 
-lista_atributos : atributos lista_atributos { $$ = $2; $$.push($1)
-                      lista_atributos_.InsertarHijo(atributos_);
+lista_atributos : atributos lista_atributos { $$ = $2; $$.push($1);
+                      let tempD = new ast_nodo.default("lista_atrubutos","");
+                      tempD.InsertarHijo(atributos_);
+                      lista_atributos_.InsertarHijo(tempD);
                       }
                 | atributos { $$ = new Array(); $$.push($1);
-                      lista_atributos_ = new ast_nodo.default("lista_atributos","");
+                      lista_atributos_.InsertarHijo(atributos_);
+                      let tempC = new ast_nodo.default("lista_atributos","");
+                      tempC.InsertarHijo(lista_atributos_);
+                      lista_atributos_ = tempC;
                 }
                 ;
 
