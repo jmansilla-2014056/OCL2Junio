@@ -7,5 +7,6 @@ export enum tipo{
     STRUCT,
     ATRIBUTE,
     VALOR,
-    ARRAY
+    ARRAY,
+    N_ETIQUETAS
 }

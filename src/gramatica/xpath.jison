@@ -8,6 +8,8 @@
     const aritmetica = require('../clases/expresiones/operaciones/aritmetica')
     const relacional = require('../clases/expresiones/operaciones/relacional')
     const logica = require('../clases/expresiones/operaciones/logica')
+
+    const select = require('../clases/expresiones/select')
 %}
 
 /* Definicion lexica */
@@ -24,7 +26,6 @@ cadena      (\"([^\"\\])*\")
 
 /* Comentarios */
 
-"//".*              {/* Ignoro los comentarios simples */}
 "/*"((\*+[^/*])|([^*]))*\**"*/"     {/*Ignorar comentarios con multiples lneas*/}
 
 /* Simbolos del programa */
@@ -54,6 +55,9 @@ cadena      (\"([^\"\\])*\")
 "||"                   { return 'OR'}
 "&&"                   { return 'AND'}
 "!"                    { return 'NOT'}
+
+/* Selecting nodes */
+"@"                     { return 'ATR' }
 
 "true"                 { return 'TRUE'}
 "false"                { return 'FALSE'}
@@ -88,11 +92,23 @@ cadena      (\"([^\"\\])*\")
 
 %% /* Gramatica */
 
-inicio : lista_instrucciones EOF { console.log($1); $$ = new ast_xpath.default($1); return $$; }
+/*inicio : lista_instrucciones EOF { console.log($1); $$ = new ast_xpath.default($1); return $$; }
     ;
-
 lista_instrucciones : lista_instrucciones instruccion    { $$ = $1; $1.push($2) }
     | instruccion                                        { $$ = new Array(); $$.push($1) }
+    ;*/
+
+inicio : lista_select EOF  { $$ = new ast_xpath.default($1); return $$ }
+    ;
+
+lista_select : lista_select select      { $$ = $1; $$.push($2) }
+    | select                            { $$ = new Array(); $$.push($1) }
+    ;
+
+select : DIV ID             {  }
+    | DIV DIV ID            { $$ = new select.default("//",$3,false,@1.first_line,@1.first_column,true) }
+    | DIV ATR ID            {  }
+    | DIV DIV ATR ID        {  }
     ;
 
 instruccion : PRINT PARA e PARC     { $$ = new print.default($3,@1.first_line,@1.first_column) }

@@ -10,6 +10,7 @@ import xmld from "../gramatica/xml_descendente";
 
 import xpath from "../gramatica/xpath";
 import ast_xpath from "../clases/ast/ast_xpath";
+import select from 'src/clases/expresiones/select';
 
 @Component({
   selector: 'app-root',
@@ -58,7 +59,7 @@ export class AppComponent {
     document.getElementById('name').innerText = actual_file.nombre
     //document.getElementById('contenido').innerHTML = actual_file.contenido
     this.xcode = actual_file.contenido
-    this.analizarXml()
+    //this.analizarXml()
     //console.log(actual_file)
   }
 
@@ -108,6 +109,7 @@ export class AppComponent {
         entornoGlobal.agregar(atr.id,new simbolo(atr.id,"",tipo.ATRIBUTE,atr.linea,atr.columna))
       }
       let entornoNodo: entorno = new entorno(entornoGlobal)
+      entornoNodo.agregar("id",new simbolo("id",result.id,tipo.STRING,result.linea,result.columna))
       if (result.valor != "") {
         entornoNodo.agregar("valor", new simbolo(result.id, result.valor, tipo.VALOR, result.linea, result.columna))
       }
@@ -124,6 +126,7 @@ export class AppComponent {
       /*SE AGREGA AL ENTORNO GLOBAL*/
       entornoGlobal.agregar("xml", new simbolo(result.id, entornoNodo, tipo.STRUCT, result.linea, result.columna))
       console.log(entornoGlobal)
+      this.fls[this.actual_file].ent = entornoGlobal
     }
   }
 
@@ -131,8 +134,14 @@ export class AppComponent {
   addNodo(hijo: nodo_xml, oldEntorno: entorno, n: number) {
     if (hijo.id == hijo.id2 || hijo.id2 == null) {
       let newEntorno: entorno = new entorno(oldEntorno)
+      newEntorno.agregar("id",new simbolo("id",hijo.id,tipo.STRING,hijo.linea,hijo.columna))
       if (hijo.valor != "") {
         newEntorno.agregar("valor", new simbolo(hijo.id, hijo.valor, tipo.VALOR, hijo.linea, hijo.columna))
+      }
+      if (hijo.id2 == null){
+        newEntorno.agregar("n_etiquetas", new simbolo("n_etiquetas",1,tipo.N_ETIQUETAS,hijo.linea,hijo.columna))
+      } else {
+        newEntorno.agregar("n_etiquetas", new simbolo("n_etiquetas",2,tipo.N_ETIQUETAS,hijo.linea,hijo.columna))
       }
       for (let i = 0; i < hijo.atributos.length; i++) {
         let atr = hijo.atributos[i]
@@ -151,12 +160,12 @@ export class AppComponent {
   test() {
     let entrada = this.consola
     let result: ast_xpath = xpath.parse(entrada)
-    let ent = new entorno(null)
-    let arbol = new ast();
-    result.ejecutar(ent, arbol)
-    console.log("Resultado: ")
-    console.log(ent.consola)
-    this.salida = ent.consola
+    let xpath_str
+    let arbol: ast = new ast()
+    xpath_str = result.ejecutar(this.fls[this.actual_file].ent,arbol)
+    console.log(xpath_str)
+    /*this.salida = xpath_str
+    console.log(this.salida)*/
   }
 
   reporteArbol() {
