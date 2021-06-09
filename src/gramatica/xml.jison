@@ -5,7 +5,7 @@
     const atr_xml = require('../clases/xml/atr_xml');
     const rep_error = require('../reports/ReportController')
     const gramatic = require('../reports/gramatical');
-
+    const importacion = require('../reports/ASTNodo');
     /* Reporte Gramatical */
     let reportG = new Array();
 %}
@@ -83,19 +83,37 @@ others      (\n\s*)
 
 inicio              : encoding etiqueta {
                         $$ = { "encoding": $1, "etiqueta": $2, "reportG": reportG};
-                        return $$ 
+                        $$.encoding.nuevo("inicio","");
+                        $$.encoding.cst.InsertarHijo($1.cst);
+                        $$.encoding.cst.InsertarHijo($2.cst);
+                        return $$
                     }
                     ;
 
-encoding            : INI INTERROGAC XML lista_atributos INTERROGAC FIN { 
+encoding            : INI INTERROGAC XML lista_atributos INTERROGAC FIN {
                         $$ = new nodo_xml.default("encoding",$4,"",[],@1.first_line,@1.first_column,null);
+                        $$.nuevo("encoding", "");
+                        $$.cst.InsertarUnNodo("INI",$1);
+                        $$.cst.InsertarUnNodo("INTERROGAC",$2);
+                        $$.cst.InsertarUnNodo("XML",$3);
+                        $$.cst.InsertarLista($4, "lista_atributos");
+                        $$.cst.InsertarUnNodo("INTERROGAC",$5);
+                        $$.cst.InsertarUnNodo("FIN",$6);
                         reportG.push(new gramatic.default("encoding : INI INTERROGAC XML lista_atributos INTERROGAC FIN","{ encoding.val = new nodo_xml.defaul('encoding',lista_atributos.val,'',[])}"));
                     }
                     ;
 
-etiqueta            : INI ID FIN lista_nodos INI CIERRE ID FIN EOF  { 
+etiqueta            : INI ID FIN lista_nodos INI CIERRE ID FIN EOF  {
                         $$ = new nodo_xml.default($2,[],"",$4,@1.first_line,@1.first_column,$7);
-                        console.log("SE ACTUALIZA???");
+                        $$.nuevo("etiqueta","");
+                        $$.cst.InsertarUnNodo("INI",$1);
+                        $$.cst.InsertarUnNodo("ID",$2);
+                        $$.cst.InsertarUnNodo("FIN",$3);
+                        $$.cst.InsertarLista($4, "lista_nodos");
+                        $$.cst.InsertarUnNodo("INI", $5);
+                        $$.cst.InsertarUnNodo("CIERRE", $6);
+                        $$.cst.InsertarUnNodo("ID", $7);
+                        $$.cst.InsertarUnNodo("FIN", $8);
                         reportG.push(new gramatic.default("etiqueta : INI ID FIN lista_nodos INI CIERRE ID FIN","{ etiqueta.val = new nodo_xml.defaul(ID.valLex,[],'',lista_nodos.val)}"));
                     }
                     ;
@@ -119,23 +137,67 @@ lista_nodos         : lista_nodos nodo {
 
 nodo                : INI ID FIN lista_valor INI CIERRE ID FIN {
                         $$ = new nodo_xml.default($2,[],$4,[],@1.first_line,@1.first_column,$7);
+                        $$.nuevo("nodo","");
+                        $$.cst.InsertarUnNodo("INI",$1);
+                        $$.cst.InsertarUnNodo("ID",$2);
+                        $$.cst.InsertarUnNodo("FIN",$3);
+                        $$.cst.InsertarUnNodo("lista_valor",$4);
+                        $$.cst.InsertarUnNodo("INI",$5);
+                        $$.cst.InsertarUnNodo("CIERRE",$6);
+                        $$.cst.InsertarUnNodo("ID",$7);
+                        $$.cst.InsertarUnNodo("FIN",$8);
                         reportG.push(new gramatic.default("nodo : INI ID FIN lista_valor INI CIERRE ID FIN","{ nodo.val = new nodo_xml.default(ID.valLex,[],lista_valor.val,[],ID.valLex) }"));
                     }
                     | INI ID FIN lista_nodos INI CIERRE ID FIN {
                         $$ = new nodo_xml.default($2,[],"",$4,@1.first_line,@1.first_column,$7);
+                        $$.nuevo("nodo","");
+                        $$.cst.InsertarUnNodo("INI",$1);
+                        $$.cst.InsertarUnNodo("ID",$2);
+                        $$.cst.InsertarUnNodo("FIN",$3);
+                        $$.cst.InsertarLista($4,"lista_nodos");
+                        $$.cst.InsertarUnNodo("INI",$5);
+                        $$.cst.InsertarUnNodo("CIERRE",$6);
+                        $$.cst.InsertarUnNodo("ID",$7);
+                        $$.cst.InsertarUnNodo("FIN",$8);
                         reportG.push(new gramatic.default("nodo : INI ID FIN lista_nodos INI CIERRE ID FIN","{ nodo.val = new nodo_xml.default(ID.valLex,[],'',lista_nodos.val,ID.valLex) }"));
                     }
                     | INI ID lista_atributos FIN lista_valor INI CIERRE ID FIN {
                         $$ = new nodo_xml.default($2,$3,$5,[],@1.first_line,@1.first_column,$8);
+                        $$.nuevo("nodo","");
+                        $$.cst.InsertarUnNodo("INI",$1);
+                        $$.cst.InsertarUnNodo("ID",$2);
+                        $$.cst.InsertarLista($3,"lista_atributos");
+                        $$.cst.InsertarUnNodo("FIN",$4);
+                        $$.cst.InsertarUnNodo("lista_valor",$5);
+                        $$.cst.InsertarUnNodo("INI",$6);
+                        $$.cst.InsertarUnNodo("CIERRE",$7);
+                        $$.cst.InsertarUnNodo("ID",$8);
+                        $$.cst.InsertarUnNodo("FIN",$9);
                         reportG.push(new gramatic.default("nodo : INI ID lista_atributos FIN lista_valor INI CIERRE ID FIN","{ nodo.val = new nodo_xml.default(ID.valLex,lista_atributos.val,lista_valor.val,[],ID.valLex) }"));
                     }
                     | INI ID lista_atributos FIN lista_nodos INI CIERRE ID FIN {
                         $$ = new nodo_xml.default($2,$3,"",$5,@1.first_line,@1.first_column,$8);
+                        $$.nuevo("nodo","");
+                        $$.cst.InsertarUnNodo("INI",$1);
+                        $$.cst.InsertarUnNodo("ID",$2);
+                        $$.cst.InsertarLista($3,"lista_atributos");
+                        $$.cst.InsertarUnNodo("FIN",$4);
+                        $$.cst.InsertarLista($5, "lista_nodos");
+                        $$.cst.InsertarUnNodo("INI",$6);
+                        $$.cst.InsertarUnNodo("CIERRE",$7);
+                        $$.cst.InsertarUnNodo("ID",$8);
+                        $$.cst.InsertarUnNodo("FIN",$9);
                         reportG.push(new gramatic.default("nodo : INI ID lista_atributos FIN lista_nodos INI CIERRE ID FIN","{ nodo.val = new nodo_xml.default(ID.valLex,lista_atributos.val,'',lista_nodos.val,ID.valLex) }"));
                     }
                     //| INI ID CIERRE FIN     { $$ = new nodo_xml.default($2,[],"",[]) }
                     | INI ID lista_atributos CIERRE FIN {
                         $$ = new nodo_xml.default($2,$3,"",[],@1.first_line,@1.first_column,null);
+                        $$.nuevo("nodo","");
+                        $$.cst.InsertarUnNodo("INI",$1);
+                        $$.cst.InsertarUnNodo("ID",$2);
+                        $$.cst.InsertarLista($3,"lista_atributos");
+                        $$.cst.InsertarUnNodo("CIRRE",$4);
+                        $$.cst.InsertarUnNodo("FIN",$5);
                         reportG.push(new gramatic.default("nodo : INI ID lista_atributos CIERRE FIN","{ nodo.val = new nodo_xml.default(ID.valLex,lista_atributos.val,'',[],null) }"));
                     }
                     | ERROR_SINTACTIO { $$ = new nodo_xml.default("recuparado",[],"",[]); }
@@ -155,6 +217,10 @@ lista_atributos     : lista_atributos atributos {
 
 atributos           : ID IGUAL valor  {
                         $$ = new atr_xml.default($1,$3,@1.first_line,@1.first_column);
+                        $$.nuevo("atributos","");
+                        $$.cst.InsertarUnNodo("ID",$1);
+                        $$.cst.InsertarUnNodo("IGUAL",$2);
+                        $$.cst.InsertarUnNodo("VALOR",$3);
                         reportG.push(new gramatic.default("atributos : ID IGUAL valor","{ atributos.val = new atr_xml.default(ID.valLex,valor.val) }"));
                     }
                     ;

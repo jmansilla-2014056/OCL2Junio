@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
-import nodo_xml from '../clases/xml/nodo_xml';
-import archivos from "../clases/archivos";
+import { tablaSimbolos } from 'src/reports/tablaSimbolos';
 import { entorno } from 'src/clases/ast/entorno';
 import { simbolo } from 'src/clases/ast/simbolo';
 import { tipo } from 'src/clases/ast/tipo';
 import { ast } from '../clases/ast/ast';
+import { getErrores } from '../reports/ReportController';
 import gramatical from '../reports/gramatical';
+import nodo_xml from '../clases/xml/nodo_xml';
+import archivos from "../clases/archivos";
 import xml from "../gramatica/xml";
 import xmld from "../gramatica/xml_descendente";
 
@@ -79,17 +81,16 @@ export class AppComponent {
 
     let arbol = new ast().getArbolito(result);
     localStorage.setItem('ast', 'digraph g {\n ' + arbol + '}');
-    localStorage.setItem('cst', 'digraph g { A -> B}');
+    localStorage.setItem('cst', localStorage.getItem('cst')+"}");
 
     /* reporte gramatical */
-    let gramar = new gramatical("","").getReporteG(reportG);
-    document.getElementById("TitleReportGramatical").innerHTML = "Reporte Gramatical Ascendente"
-    document.getElementById("reportG").innerHTML = gramar;
-
-
+    this.tablaReportGramatical(new gramatical("","").getReporteG(reportG),"Reporte Gramatical Ascendente");
 
     /* Entornos */
     this.createEntorno(result,encoding);
+
+    /* reporte tabla de simbolos */
+    this.tablaSimbolosReport();
   }
 
   /* Analisis descendente */
@@ -100,7 +101,7 @@ export class AppComponent {
     let result:nodo_xml = parse_result.etiqueta;
     let encoding: nodo_xml = parse_result.encoding;
     let reportG = parse_result.reportG;
-    
+
     console.log("Analisis xml (arbol descendente):")
     result.printNode("")
     console.log(result)
@@ -110,12 +111,13 @@ export class AppComponent {
     localStorage.setItem('cst', localStorage.getItem('cst')+"}");
 
     /* reporte gramatical */
-    let gramar = new gramatical("","").getReporteG(reportG);
-    document.getElementById("TitleReportGramatical").innerHTML = "Reporte Gramatical Descendente"
-    document.getElementById("reportG").innerHTML = gramar;
+    this.tablaReportGramatical(new gramatical("","").getReporteG(reportG),"Reporte Gramatical Descendente");
 
     /* Entornos */
     this.createEntorno(result,encoding);
+
+    /* reporte tabla de simbolos */
+    this.tablaSimbolosReport();
   }
 
   /*MANEJO DE ENTORNOS DE LOS NODOS*/
@@ -175,6 +177,27 @@ export class AppComponent {
       oldEntorno.agregar("hijo" + n, new simbolo(hijo.id, newEntorno, tipo.STRUCT, hijo.linea, hijo.columna))
     }
   }
+
+  /* Reporte Gramatical */
+  tablaReportGramatical(gramar:string,titles:string){
+    document.getElementById("TitleReportGramatical").innerHTML = titles;
+    document.getElementById("reportG").innerHTML = gramar;
+  }
+
+  /* Reporte para la tabla de simbolos */
+  tablaSimbolosReport(){
+    let simbolitos = new tablaSimbolos().getTableSimbolos(this.fls[this.actual_file].ent);
+    document.getElementById("TitleSimbolTable").innerHTML = "Tabla de Simbolos"
+    document.getElementById("reportS").innerHTML = simbolitos;
+  }
+
+  /* Reporte para la tabla de simbolos */
+  tablaReportError(){
+    let errores = getErrores();
+    document.getElementById("TitleErrorTable").innerHTML = "Reporte de Errores"
+    document.getElementById("reportE").innerHTML = errores;
+  }
+
   execXpath() {
     let entrada = this.consola
     let result: ast_xpath = xpath.parse(entrada)

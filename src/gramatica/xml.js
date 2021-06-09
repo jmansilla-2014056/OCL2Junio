@@ -86,19 +86,37 @@ switch (yystate) {
 case 1:
 
                         this.$ = { "encoding": $$[$0-1], "etiqueta": $$[$0], "reportG": reportG};
-                        return this.$ 
+                        this.$.encoding.nuevo("inicio","");
+                        this.$.encoding.cst.InsertarHijo($$[$0-1].cst);
+                        this.$.encoding.cst.InsertarHijo($$[$0].cst);
+                        return this.$
                     
 break;
 case 2:
- 
+
                         this.$ = new nodo_xml.default("encoding",$$[$0-2],"",[],_$[$0-5].first_line,_$[$0-5].first_column,null);
+                        this.$.nuevo("encoding", "");
+                        this.$.cst.InsertarUnNodo("INI",$$[$0-5]);
+                        this.$.cst.InsertarUnNodo("INTERROGAC",$$[$0-4]);
+                        this.$.cst.InsertarUnNodo("XML",$$[$0-3]);
+                        this.$.cst.InsertarLista($$[$0-2], "lista_atributos");
+                        this.$.cst.InsertarUnNodo("INTERROGAC",$$[$0-1]);
+                        this.$.cst.InsertarUnNodo("FIN",$$[$0]);
                         reportG.push(new gramatic.default("encoding : INI INTERROGAC XML lista_atributos INTERROGAC FIN","{ encoding.val = new nodo_xml.defaul('encoding',lista_atributos.val,'',[])}"));
                     
 break;
 case 3:
- 
+
                         this.$ = new nodo_xml.default($$[$0-7],[],"",$$[$0-5],_$[$0-8].first_line,_$[$0-8].first_column,$$[$0-2]);
-                        console.log("SE ACTUALIZA???");
+                        this.$.nuevo("etiqueta","");
+                        this.$.cst.InsertarUnNodo("INI",$$[$0-8]);
+                        this.$.cst.InsertarUnNodo("ID",$$[$0-7]);
+                        this.$.cst.InsertarUnNodo("FIN",$$[$0-6]);
+                        this.$.cst.InsertarLista($$[$0-5], "lista_nodos");
+                        this.$.cst.InsertarUnNodo("INI", $$[$0-4]);
+                        this.$.cst.InsertarUnNodo("CIERRE", $$[$0-3]);
+                        this.$.cst.InsertarUnNodo("ID", $$[$0-2]);
+                        this.$.cst.InsertarUnNodo("FIN", $$[$0-1]);
                         reportG.push(new gramatic.default("etiqueta : INI ID FIN lista_nodos INI CIERRE ID FIN","{ etiqueta.val = new nodo_xml.defaul(ID.valLex,[],'',lista_nodos.val)}"));
                     
 break;
@@ -122,30 +140,74 @@ break;
 case 9:
 
                         this.$ = new nodo_xml.default($$[$0-6],[],$$[$0-4],[],_$[$0-7].first_line,_$[$0-7].first_column,$$[$0-1]);
+                        this.$.nuevo("nodo","");
+                        this.$.cst.InsertarUnNodo("INI",$$[$0-7]);
+                        this.$.cst.InsertarUnNodo("ID",$$[$0-6]);
+                        this.$.cst.InsertarUnNodo("FIN",$$[$0-5]);
+                        this.$.cst.InsertarUnNodo("lista_valor",$$[$0-4]);
+                        this.$.cst.InsertarUnNodo("INI",$$[$0-3]);
+                        this.$.cst.InsertarUnNodo("CIERRE",$$[$0-2]);
+                        this.$.cst.InsertarUnNodo("ID",$$[$0-1]);
+                        this.$.cst.InsertarUnNodo("FIN",$$[$0]);
                         reportG.push(new gramatic.default("nodo : INI ID FIN lista_valor INI CIERRE ID FIN","{ nodo.val = new nodo_xml.default(ID.valLex,[],lista_valor.val,[],ID.valLex) }"));
                     
 break;
 case 10:
 
                         this.$ = new nodo_xml.default($$[$0-6],[],"",$$[$0-4],_$[$0-7].first_line,_$[$0-7].first_column,$$[$0-1]);
+                        this.$.nuevo("nodo","");
+                        this.$.cst.InsertarUnNodo("INI",$$[$0-7]);
+                        this.$.cst.InsertarUnNodo("ID",$$[$0-6]);
+                        this.$.cst.InsertarUnNodo("FIN",$$[$0-5]);
+                        this.$.cst.InsertarLista($$[$0-4],"lista_nodos");
+                        this.$.cst.InsertarUnNodo("INI",$$[$0-3]);
+                        this.$.cst.InsertarUnNodo("CIERRE",$$[$0-2]);
+                        this.$.cst.InsertarUnNodo("ID",$$[$0-1]);
+                        this.$.cst.InsertarUnNodo("FIN",$$[$0]);
                         reportG.push(new gramatic.default("nodo : INI ID FIN lista_nodos INI CIERRE ID FIN","{ nodo.val = new nodo_xml.default(ID.valLex,[],'',lista_nodos.val,ID.valLex) }"));
                     
 break;
 case 11:
 
                         this.$ = new nodo_xml.default($$[$0-7],$$[$0-6],$$[$0-4],[],_$[$0-8].first_line,_$[$0-8].first_column,$$[$0-1]);
+                        this.$.nuevo("nodo","");
+                        this.$.cst.InsertarUnNodo("INI",$$[$0-8]);
+                        this.$.cst.InsertarUnNodo("ID",$$[$0-7]);
+                        this.$.cst.InsertarLista($$[$0-6],"lista_atributos");
+                        this.$.cst.InsertarUnNodo("FIN",$$[$0-5]);
+                        this.$.cst.InsertarUnNodo("lista_valor",$$[$0-4]);
+                        this.$.cst.InsertarUnNodo("INI",$$[$0-3]);
+                        this.$.cst.InsertarUnNodo("CIERRE",$$[$0-2]);
+                        this.$.cst.InsertarUnNodo("ID",$$[$0-1]);
+                        this.$.cst.InsertarUnNodo("FIN",$$[$0]);
                         reportG.push(new gramatic.default("nodo : INI ID lista_atributos FIN lista_valor INI CIERRE ID FIN","{ nodo.val = new nodo_xml.default(ID.valLex,lista_atributos.val,lista_valor.val,[],ID.valLex) }"));
                     
 break;
 case 12:
 
                         this.$ = new nodo_xml.default($$[$0-7],$$[$0-6],"",$$[$0-4],_$[$0-8].first_line,_$[$0-8].first_column,$$[$0-1]);
+                        this.$.nuevo("nodo","");
+                        this.$.cst.InsertarUnNodo("INI",$$[$0-8]);
+                        this.$.cst.InsertarUnNodo("ID",$$[$0-7]);
+                        this.$.cst.InsertarLista($$[$0-6],"lista_atributos");
+                        this.$.cst.InsertarUnNodo("FIN",$$[$0-5]);
+                        this.$.cst.InsertarLista($$[$0-4], "lista_nodos");
+                        this.$.cst.InsertarUnNodo("INI",$$[$0-3]);
+                        this.$.cst.InsertarUnNodo("CIERRE",$$[$0-2]);
+                        this.$.cst.InsertarUnNodo("ID",$$[$0-1]);
+                        this.$.cst.InsertarUnNodo("FIN",$$[$0]);
                         reportG.push(new gramatic.default("nodo : INI ID lista_atributos FIN lista_nodos INI CIERRE ID FIN","{ nodo.val = new nodo_xml.default(ID.valLex,lista_atributos.val,'',lista_nodos.val,ID.valLex) }"));
                     
 break;
 case 13:
 
                         this.$ = new nodo_xml.default($$[$0-3],$$[$0-2],"",[],_$[$0-4].first_line,_$[$0-4].first_column,null);
+                        this.$.nuevo("nodo","");
+                        this.$.cst.InsertarUnNodo("INI",$$[$0-4]);
+                        this.$.cst.InsertarUnNodo("ID",$$[$0-3]);
+                        this.$.cst.InsertarLista($$[$0-2],"lista_atributos");
+                        this.$.cst.InsertarUnNodo("CIRRE",$$[$0-1]);
+                        this.$.cst.InsertarUnNodo("FIN",$$[$0]);
                         reportG.push(new gramatic.default("nodo : INI ID lista_atributos CIERRE FIN","{ nodo.val = new nodo_xml.default(ID.valLex,lista_atributos.val,'',[],null) }"));
                     
 break;
@@ -169,6 +231,10 @@ break;
 case 17:
 
                         this.$ = new atr_xml.default($$[$0-2],$$[$0],_$[$0-2].first_line,_$[$0-2].first_column);
+                        this.$.nuevo("atributos","");
+                        this.$.cst.InsertarUnNodo("ID",$$[$0-2]);
+                        this.$.cst.InsertarUnNodo("IGUAL",$$[$0-1]);
+                        this.$.cst.InsertarUnNodo("VALOR",$$[$0]);
                         reportG.push(new gramatic.default("atributos : ID IGUAL valor","{ atributos.val = new atr_xml.default(ID.valLex,valor.val) }"));
                     
 break;
@@ -477,7 +543,7 @@ _handle_error:
     const atr_xml = require('../clases/xml/atr_xml');
     const rep_error = require('../reports/ReportController')
     const gramatic = require('../reports/gramatical');
-
+    const importacion = require('../reports/ASTNodo');
     /* Reporte Gramatical */
     let reportG = new Array();
 /* generated by jison-lex 0.3.4 */
