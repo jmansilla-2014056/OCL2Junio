@@ -219,3 +219,4 @@ function abrirArchivo(evento) {
 /*window.addEventListener('load', ()=>{
   document.getElementById('file-input').addEventListener('change',abrirArchivo)
 })*/
+  execXpath() {
