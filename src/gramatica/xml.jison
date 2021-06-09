@@ -83,19 +83,12 @@ others      (\n\s*)
 
 inicio              : encoding etiqueta {
                         $$ = { "encoding": $1, "etiqueta": $2, "reportG": reportG};
-                        $$.encoding.cst.nuevo("inicio","");
-                        $$.encoding.cst.InsertarHijo($1.cst);
-                        $$.encoding.cst.InsertarHijo($2.cst);
                         return $$
                     }
                     ;
 
 encoding            : INI INTERROGAC XML lista_atributos INTERROGAC FIN {
                         $$ = new nodo_xml.default("encoding",$4,"",[],@1.first_line,@1.first_column,null);
-                        $$.cst.InsertarUnNodo("INI",$1);
-                        $$.cst.InsertarUnNodo("INTERRGAC",$1);
-                        $$.cst.InsertarHijo($2.cst);
-                        $$.cst.InsertarUnNodo("INI",$1);
                         reportG.push(new gramatic.default("encoding : INI INTERROGAC XML lista_atributos INTERROGAC FIN","{ encoding.val = new nodo_xml.defaul('encoding',lista_atributos.val,'',[])}"));
                     }
                     ;
