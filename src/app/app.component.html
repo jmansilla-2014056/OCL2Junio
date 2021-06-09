@@ -18,7 +18,7 @@
         <!--FUNCION ABRIR ARCHIVO-->
         <button type="button" class="btn btn-success" (click)="analizarXml()">Analisis Ascendente</button>
         <button type="button" class="btn btn-success" (click)="analizarXmlDesc()">Analisis Descendente</button>
-        <button type="button" class="btn btn-success" (click)="test()">test</button>
+        <button type="button" class="btn btn-success" (click)="execXpath()">Ejecutar xpath</button>
       </div>
     </div>
   </div>
@@ -60,17 +60,24 @@
       <h2>Salida:</h2>
     </div>
     <div class="col-12 mt-3">
+      <div class="form-group">
+        <ngx-codemirror id="contenido" [(ngModel)]="salida" [options]="{
+          lineNumbers: true,
+          theme: 'material',
+          mode: 'xml',
+          htmlMode: true
+          }">
+        </ngx-codemirror>
+        <!--<textarea class="form-control" name="contenido" id="contenido" [(ngModel)]="salida" rows="10"></textarea>-->
+      </div>
+    </div>
+    <div class="col-12 mt-3">
       <!--FUNCION ABRIR ARCHIVO-->
       <button type="button" class="btn btn-success" (click)="reporteArbol()">Reporte de Arboles</button>
       <button type="button" class="btn btn-success">Tabla de Simbolos</button>
       <button type="button" class="btn btn-success">Reporte de Errores</button>
       <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#ModalGramatical">Reporte
         Gramatical</button>
-    </div>
-    <div class="col-12 mt-3">
-      <div class="form-group">
-        <textarea class="form-control" name="contenido" id="contenido" [(ngModel)]="salida" rows="10"></textarea>
-      </div>
     </div>
   </div>
   <div class="row">

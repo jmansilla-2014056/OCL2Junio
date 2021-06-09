@@ -130,6 +130,7 @@ export class AppComponent {
       if (result.valor != "") {
         entornoNodo.agregar("valor", new simbolo(result.id, result.valor, tipo.VALOR, result.linea, result.columna))
       }
+      entornoNodo.agregar("n_etiquetas", new simbolo("n_etiquetas",2,tipo.N_ETIQUETAS,result.linea,result.columna))
       for (let i = 0; i < result.atributos.length; i++) {
         let atr = result.atributos[i]
         entornoNodo.agregar("atr" + i, new simbolo(atr.id, atr.valor, tipo.ATRIBUTE, atr.linea, atr.columna))
@@ -174,15 +175,14 @@ export class AppComponent {
       oldEntorno.agregar("hijo" + n, new simbolo(hijo.id, newEntorno, tipo.STRUCT, hijo.linea, hijo.columna))
     }
   }
-  test() {
+  execXpath() {
     let entrada = this.consola
     let result: ast_xpath = xpath.parse(entrada)
     let xpath_str
     let arbol: ast = new ast()
     xpath_str = result.ejecutar(this.fls[this.actual_file].ent,arbol)
-    console.log(xpath_str)
-    /*this.salida = xpath_str
-    console.log(this.salida)*/
+    this.salida = xpath_str
+    console.log(this.salida)
   }
 
   reporteArbol() {
