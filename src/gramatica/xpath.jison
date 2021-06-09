@@ -10,6 +10,8 @@
     const logica = require('../clases/expresiones/operaciones/logica')
 
     const select = require('../clases/expresiones/select')
+    const predicate = require('../clases/expresiones/predicates/predicate')
+    const last = require('../clases/expresiones/predicates/last')
 %}
 
 /* Definicion lexica */
@@ -35,6 +37,12 @@ cadena      (\"([^\"\\])*\")
 
 "("                    { return 'PARA' }
 ")"                    { return 'PARC' }
+"["                    { return 'CORA' }
+"]"                    { return 'CORC' }
+
+/* Palabras reservadas */
+"last"                 { return 'LAST' }
+"position"             { return 'POSITION' }
 
 /* Operadores Aritmeticos */
 "+"                    { return 'MAS'}
@@ -111,14 +119,17 @@ lista_select : lista_select select      { $$ = $1; $$.push($2) }
     | select                            { $$ = new Array(); $$.push($1) }
     ;
 
-select : DIV ID         { $$ = new select.default("/",$2,false,@1.first_line,@1.first_column,false) }
-    | DIV DIV ID        { $$ = new select.default("//",$3,false,@1.first_line,@1.first_column,false) }
-    | DIV ATR ID        { $$ = new select.default("/",$3,true,@1.first_line,@1.first_column,false) }
-    | DIV DIV ATR ID    { $$ = new select.default("//",$4,true,@1.first_line,@1.first_column,false) }
-    | DIV MULTI         { $$ = new select.default("/","*",false,@1.first_line,@1.first_column,false) }
-    | DIV DIV MULTI     { $$ = new select.default("//","*",false,@1.first_line,@1.first_column,false) }
-    | DIV ATR MULTI     { $$ = new select.default("/",null,true,@1.first_line,@1.first_column,false) }
-    | DIV DIV ATR MULTI { $$ = new select.default("//",null,true,@1.first_line,@1.first_column,false) }
+select : DIV ID         { $$ = new select.default("/",$2,false,@1.first_line,@1.first_column,null) }
+    | DIV DIV ID        { $$ = new select.default("//",$3,false,@1.first_line,@1.first_column,null) }
+    | DIV ATR ID        { $$ = new select.default("/",$3,true,@1.first_line,@1.first_column,null) }
+    | DIV DIV ATR ID    { $$ = new select.default("//",$4,true,@1.first_line,@1.first_column,null) }
+    | DIV MULTI         { $$ = new select.default("/","*",false,@1.first_line,@1.first_column,null) }
+    | DIV DIV MULTI     { $$ = new select.default("//","*",false,@1.first_line,@1.first_column,null) }
+    | DIV ATR MULTI     { $$ = new select.default("/",null,true,@1.first_line,@1.first_column,null) }
+    | DIV DIV ATR MULTI { $$ = new select.default("//",null,true,@1.first_line,@1.first_column,null) }
+    //select(tipe, id, atr, linea, columna, exp)
+    //predicate(slc,exp,linea,columna){
+    | DIV ID CORA e CORC { $$ = new predicate.default(new select.default("/",$2,false,@1.first_line,@1.first_column,null),$4,@1.first_line,@1.first_column) }
     ;
 
 instruccion : PRINT PARA e PARC     { $$ = new print.default($3,@1.first_line,@1.first_column) }
@@ -126,7 +137,7 @@ instruccion : PRINT PARA e PARC     { $$ = new print.default($3,@1.first_line,@1
 
 e :  NUM                       { $$ = new primitivo.default(Number($1),@1.first_line,@1.first_column) }
     | CADENA                    { $1 = $1.slice(1, $1.length-1); $$ = new primitivo.default($1,@1.first_line,@1.first_column) }
-    //| ID                        { $$ = new  }
+    | LAST PARA PARC            { $$ = new last.default(@1.first_line,@1.first_column) }
     | TRUE                      { $$ = new primitivo.default(true,@1.first_line,@1.first_column) }
     | FALSE                     { $$ = new primitivo.default(false,@1.first_line,@1.first_column) }
     | e MAS e                   { $$ = new aritmetica.default($1,"+",$3,@1.first_line,@1.first_column,false) }

@@ -3,7 +3,6 @@ import { entorno } from "../ast/entorno";
 import { simbolo } from "../ast/simbolo";
 import { tipo } from "../ast/tipo";
 import { expresion } from "../interfaces/expresion";
-import nodo_xml from "../xml/nodo_xml";
 
 export default class select implements expresion {
     public tipe: string
@@ -12,36 +11,36 @@ export default class select implements expresion {
     public linea: number
     public columna: number
     public matches: Array<entorno>
-    public ini: boolean
-    constructor(tipe, id, atr, linea, columna, ini) {
+    public exp: expresion
+    constructor(tipe, id, atr, linea, columna, exp) {
         this.tipe = tipe
         this.id = id
         this.atr = atr
         this.linea = linea
         this.columna = columna
         this.matches = new Array<entorno>()
-        this.ini = ini
+        this.exp = exp
     }
     getTipo(ent: entorno, arbol: ast) {
         return tipo.STRUCT
     }
     getValor(ent: entorno, arbol: ast) {
-        if (this.tipe == "//" && this.id != "*" && this.atr == false) {
+        if (this.tipe == "//" && this.id != "*" && this.atr == false && this.exp == null) {
             this.lookAllNodes(ent, arbol)
-        } else if (this.tipe == "/" && this.id != "*" && this.atr == false) {
+        } else if (this.tipe == "/" && this.id != "*" && this.atr == false && this.exp == null) {
             this.lookAtPath(ent, arbol)
-        } else if (this.tipe == "//" && this.id != null && this.atr == true) {
+        } else if (this.tipe == "//" && this.id != null && this.atr == true && this.exp == null) {
             this.lookAllParams(ent, arbol)
-        } else if (this.tipe == "/" && this.id != null && this.atr == true) {
+        } else if (this.tipe == "/" && this.id != null && this.atr == true && this.exp == null) {
             this.lookParamsAtPath(ent, arbol)
-        } else if (this.tipe == "//" && this.id == "*" && this.atr == false) {
+        } else if (this.tipe == "//" && this.id == "*" && this.atr == false && this.exp == null) {
             this.lookAllUnknown(ent, arbol)
-        } else if (this.tipe == "/" && this.id == "*" && this.atr == false) {
+        } else if (this.tipe == "/" && this.id == "*" && this.atr == false && this.exp == null) {
             this.lookAtUnkown(ent, arbol)
-        } else if (this.tipe == "//" && this.id == null && this.atr == true) {
+        } else if (this.tipe == "//" && this.id == null && this.atr == true && this.exp == null) {
             this.lookAllUnknownP(ent, arbol)
-        } else if (this.tipe == "/" && this.id == null && this.atr == true) {
-            this.lookAtUnknownP(ent, arbol)
+        } else {
+            console.log("NO MATCH")
         }
         return this.matches
     }
@@ -118,7 +117,21 @@ export default class select implements expresion {
         }
     }
     lookAllParams(ent, arbol: ast) {
-        if (this.ini) {
+        if (ent instanceof Array) {
+            for (let n_ent of ent) {
+                for (let key in n_ent.tabla) {
+                    if (key.startsWith("atr")) {
+                        let atr: simbolo = n_ent.tabla[key]
+                        if (atr.id == this.id) {
+                            this.matches.push(n_ent)
+                        }
+                    } else if (key.startsWith("hijo")) {
+                        let hijo = n_ent.tabla[key]
+                        this.lookAllParams(hijo.valor, arbol)
+                    }
+                }
+            }
+        } else {
             for (let key in ent.tabla) {
                 if (key.startsWith("atr")) {
                     let atr: simbolo = ent.tabla[key]
@@ -128,34 +141,6 @@ export default class select implements expresion {
                 } else if (key.startsWith("hijo")) {
                     let hijo = ent.tabla[key]
                     this.lookAllParams(hijo.valor, arbol)
-                }
-            }
-        } else {
-            if (ent instanceof Array) {
-                for (let n_ent of ent) {
-                    for (let key in n_ent.tabla) {
-                        if (key.startsWith("atr")) {
-                            let atr: simbolo = n_ent.tabla[key]
-                            if (atr.id == this.id) {
-                                this.matches.push(n_ent)
-                            }
-                        } else if (key.startsWith("hijo")) {
-                            let hijo = n_ent.tabla[key]
-                            this.lookAllParams(hijo.valor, arbol)
-                        }
-                    }
-                }
-            } else {
-                for (let key in ent.tabla) {
-                    if (key.startsWith("atr")) {
-                        let atr: simbolo = ent.tabla[key]
-                        if (atr.id == this.id) {
-                            this.matches.push(ent)
-                        }
-                    } else if (key.startsWith("hijo")) {
-                        let hijo = ent.tabla[key]
-                        this.lookAllParams(hijo.valor, arbol)
-                    }
                 }
             }
         }

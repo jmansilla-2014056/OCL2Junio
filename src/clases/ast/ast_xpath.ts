@@ -10,7 +10,6 @@ export default class ast_xpath {
         this.str_result = ""
     }
     ejecutar(ent: entorno, arbol: ast) {
-        console.log("")
         let entorno_result: Array<Array<entorno>> = new Array<Array<entorno>>()
         let entorno_temp
         for (let i = 0; i < this.lista_several.length; i++) {
