@@ -85,7 +85,9 @@ var $0 = $$.length - 1;
 switch (yystate) {
 case 1:
 
-                        this.$ = { "encoding": $$[$0-1], "etiqueta": $$[$0], "reportG": reportG};
+                        let auxReportG = reportG;
+                        reportG = [];
+                        this.$ = { "encoding": $$[$0-1], "etiqueta": $$[$0], "reportG": auxReportG};
                         this.$.encoding.nuevo("inicio","");
                         this.$.encoding.cst.InsertarHijo($$[$0-1].cst);
                         this.$.encoding.cst.InsertarHijo($$[$0].cst);

@@ -82,7 +82,9 @@ others      (\n\s*)
 %% /* Gramatica */
 
 inicio              : encoding etiqueta {
-                        $$ = { "encoding": $1, "etiqueta": $2, "reportG": reportG};
+                        let auxReportG = reportG;
+                        reportG = [];
+                        $$ = { "encoding": $1, "etiqueta": $2, "reportG": auxReportG};
                         $$.encoding.nuevo("inicio","");
                         $$.encoding.cst.InsertarHijo($1.cst);
                         $$.encoding.cst.InsertarHijo($2.cst);
