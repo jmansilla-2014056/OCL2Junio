@@ -31,6 +31,8 @@ cadena      (\"([^\"\\])*\")
 /* Simbolos del programa */
 
 /* Caracteres */
+'|'                    { return 'SEVERAL' }
+
 "("                    { return 'PARA' }
 ")"                    { return 'PARC' }
 
@@ -98,7 +100,11 @@ lista_instrucciones : lista_instrucciones instruccion    { $$ = $1; $1.push($2) 
     | instruccion                                        { $$ = new Array(); $$.push($1) }
     ;*/
 
-inicio : lista_select EOF  { $$ = new ast_xpath.default($1); return $$ }
+inicio : lista_several EOF  { $$ = new ast_xpath.default($1); return $$ }
+    ;
+
+lista_several : lista_several SEVERAL lista_select      { $$ = $1; $$.push($3) }
+    | lista_select                                      { $$ = new Array; $$.push($1) }
     ;
 
 lista_select : lista_select select      { $$ = $1; $$.push($2) }
