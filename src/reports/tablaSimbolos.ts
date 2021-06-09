@@ -32,25 +32,12 @@ export class tablaSimbolos{
                             </tr>';
         this.numeroSimbolo = 1;
         this.recorrerEntorno(simbolo.tabla.xml.getValor(simbolo,null));
-        console.log(this.simbolitos);
+        this.simbolitos += '</tbody>\n</table>\n';
 
         return this.simbolitos;
     }
 
     private recorrerEntorno(raiz:entorno){
-       /* for (let index = 0; index < Object.keys(raiz.tabla).length - 1; index++) {
-            this.numeroSimbolo++;
-            let llave = "hijo" + index.toString();
-            this.simbolitos += '<tr>\n\
-                                <th scope="row">' + this.numeroSimbolo + '</th>\n\
-                                <td>' + raiz.tabla[llave].id + '</td>\n\
-                                <td>' + tipo[raiz.tabla[llave].getTipo(raiz,null)] + '</td>\n\
-                                <td>' + raiz.tabla["id"].valor + '</td>\n\
-                                <td>' + raiz.tabla[llave].linea + '</td>\n\
-                                <td>' + raiz.tabla[llave].columna + '</td>\n\
-                            </tr>';
-            this.recorrerEntorno(raiz.tabla[llave].getValor(raiz,null));
-        }*/
         for (const key in raiz.tabla) {
             if (Object.prototype.hasOwnProperty.call(raiz.tabla, key)) {
                 if (key != "id" && key != "n_etiquetas"){

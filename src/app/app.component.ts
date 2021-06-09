@@ -4,6 +4,7 @@ import { entorno } from 'src/clases/ast/entorno';
 import { simbolo } from 'src/clases/ast/simbolo';
 import { tipo } from 'src/clases/ast/tipo';
 import { ast } from '../clases/ast/ast';
+import { getErrores } from '../reports/ReportController';
 import gramatical from '../reports/gramatical';
 import nodo_xml from '../clases/xml/nodo_xml';
 import archivos from "../clases/archivos";
@@ -190,6 +191,13 @@ export class AppComponent {
     document.getElementById("reportS").innerHTML = simbolitos;
   }
 
+  /* Reporte para la tabla de simbolos */
+  tablaReportError(){
+    let errores = getErrores();
+    document.getElementById("TitleErrorTable").innerHTML = "Reporte de Errores"
+    document.getElementById("reportE").innerHTML = errores;
+  }
+
   execXpath() {
     let entrada = this.consola
     let result: ast_xpath = xpath.parse(entrada)
@@ -234,4 +242,3 @@ function abrirArchivo(evento) {
 /*window.addEventListener('load', ()=>{
   document.getElementById('file-input').addEventListener('change',abrirArchivo)
 })*/
-  execXpath() {
