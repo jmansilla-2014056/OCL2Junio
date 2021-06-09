@@ -180,7 +180,7 @@ export class AppComponent {
     let result: ast_xpath = xpath.parse(entrada)
     let xpath_str
     let arbol: ast = new ast()
-    xpath_str = result.ejecutar(this.fls[this.actual_file].ent,arbol)
+    xpath_str = result.ejecutar(this.fls[this.actual_file].ent.tabla["xml"].valor,arbol)
     this.salida = xpath_str
     console.log(this.salida)
   }

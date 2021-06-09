@@ -1,4 +1,3 @@
-import { keyframes } from "@angular/animations";
 import { ast } from "../ast/ast";
 import { entorno } from "../ast/entorno";
 import { simbolo } from "../ast/simbolo";
@@ -27,24 +26,22 @@ export default class select implements expresion {
         return tipo.STRUCT
     }
     getValor(ent: entorno, arbol: ast) {
-        if (this.ini) {
-            if (this.tipe == "//" && this.atr == false) {
-                this.lookAllNodes(ent.tabla["xml"].valor, arbol)
-            } else if (this.tipe == "/" && this.atr == false) {
-                this.lookAtPath(ent.tabla["xml"].valor, arbol)
-            } else if (this.tipe == "//" && this.atr == true) {
-                this.lookAllParams(ent.tabla["xml"].valor, arbol)
-            }
-        } else {
-            if (this.tipe == "//" && this.atr == false) {
-                this.lookAllNodes(ent, arbol)
-            } else if (this.tipe == "/" && this.atr == false) {
-                this.lookAtPath(ent, arbol)
-            } else if (this.tipe == "//" && this.atr == true) {
-                this.lookAllParams(ent, arbol)
-            } else if (this.tipe == "/" && this.atr == true) {
-                this.lookParamsAtPath(ent, arbol)
-            }
+        if (this.tipe == "//" && this.id != "*" && this.atr == false) {
+            this.lookAllNodes(ent, arbol)
+        } else if (this.tipe == "/" && this.id != "*" && this.atr == false) {
+            this.lookAtPath(ent, arbol)
+        } else if (this.tipe == "//" && this.id != null && this.atr == true) {
+            this.lookAllParams(ent, arbol)
+        } else if (this.tipe == "/" && this.id != null && this.atr == true) {
+            this.lookParamsAtPath(ent, arbol)
+        } else if (this.tipe == "//" && this.id == "*" && this.atr == false) {
+            this.lookAllUnknown(ent, arbol)
+        } else if (this.tipe == "/" && this.id == "*" && this.atr == false) {
+            this.lookAtUnkown(ent, arbol)
+        } else if (this.tipe == "//" && this.id == null && this.atr == true) {
+            this.lookAllUnknownP(ent, arbol)
+        } else if (this.tipe == "/" && this.id == null && this.atr == true) {
+            this.lookAtUnknownP(ent, arbol)
         }
         return this.matches
     }
@@ -182,6 +179,86 @@ export default class select implements expresion {
                     if (atr.id == this.id) {
                         this.matches.push(ent)
                     }
+                }
+            }
+        }
+    }
+    lookAllUnknown(ent, arbol: ast) {
+        if (ent instanceof Array) {
+            for (let n_ent of ent) {
+                for (let key in n_ent.tabla) {
+                    let hijo: simbolo = n_ent.tabla[key]
+                    if (key.startsWith("hijo")) {
+                        this.matches.push(hijo.valor)
+                        this.lookAllUnknown(hijo.valor, arbol)
+                    }
+                }
+            }
+        } else {
+            for (let key in ent.tabla) {
+                let hijo: simbolo = ent.tabla[key]
+                if (key.startsWith("hijo")) {
+                    this.matches.push(hijo.valor)
+                    this.lookAllUnknown(hijo.valor, arbol)
+                }
+            }
+        }
+    }
+    lookAtUnkown(ent, arbol: ast) {
+        if (ent instanceof Array) {
+            for (let n_ent of ent) {
+                for (let key in n_ent.tabla) {
+                    let hijo: simbolo = n_ent.tabla[key]
+                    if (key.startsWith("hijo")) {
+                        this.matches.push(hijo.valor)
+                    }
+                }
+            }
+        } else {
+            for (let key in ent.tabla) {
+                let hijo: simbolo = ent.tabla[key]
+                if (key.startsWith("hijo")) {
+                    this.matches.push(hijo.valor)
+                }
+            }
+        }
+    }
+    lookAllUnknownP(ent, arbol: ast) {
+        if (ent instanceof Array) {
+            for (let n_ent of ent) {
+                for (let key in n_ent.tabla) {
+                    let hijo: simbolo = n_ent.tabla[key]
+                    if (key.startsWith("atr")) {
+                        this.matches.push(n_ent)
+                    } else if (key.startsWith("hijo")) {
+                        this.lookAllUnknownP(hijo.valor, arbol)
+                    }
+                }
+            }
+        } else {
+            for (let key in ent.tabla) {
+                let hijo: simbolo = ent.tabla[key]
+                if (key.startsWith("atr")) {
+                    this.matches.push(ent)
+                } else if (key.startsWith("hijo")) {
+                    this.lookAllUnknownP(hijo.valor, arbol)
+                }
+            }
+        }
+    }
+    lookAtUnknownP(ent, arbol: ast) {
+        if (ent instanceof Array) {
+            for (let n_ent of ent) {
+                for (let key in n_ent.tabla) {
+                    if (key.startsWith("atr")) {
+                        this.matches.push(n_ent)
+                    }
+                }
+            }
+        } else {
+            for (let key in ent.tabla) {
+                if (key.startsWith("atr")) {
+                    this.matches.push(ent)
                 }
             }
         }

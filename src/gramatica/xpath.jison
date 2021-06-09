@@ -102,18 +102,17 @@ inicio : lista_select EOF  { $$ = new ast_xpath.default($1); return $$ }
     ;
 
 lista_select : lista_select select      { $$ = $1; $$.push($2) }
-    | select_ini                        { $$ = new Array(); $$.push($1) }
-    ;
-
-select_ini : DIV ID         { $$ = new select.default("/",$2,false,@1.first_line,@1.first_column,true) }
-    | DIV DIV ID            { $$ = new select.default("//",$3,false,@1.first_line,@1.first_column,true) }
-    | DIV DIV ATR ID        { $$ = new select.default("//",$4,true,@1.first_line,@1.first_column,true) }
+    | select                            { $$ = new Array(); $$.push($1) }
     ;
 
 select : DIV ID         { $$ = new select.default("/",$2,false,@1.first_line,@1.first_column,false) }
     | DIV DIV ID        { $$ = new select.default("//",$3,false,@1.first_line,@1.first_column,false) }
     | DIV ATR ID        { $$ = new select.default("/",$3,true,@1.first_line,@1.first_column,false) }
     | DIV DIV ATR ID    { $$ = new select.default("//",$4,true,@1.first_line,@1.first_column,false) }
+    | DIV MULTI         { $$ = new select.default("/","*",false,@1.first_line,@1.first_column,false) }
+    | DIV DIV MULTI     { $$ = new select.default("//","*",false,@1.first_line,@1.first_column,false) }
+    | DIV ATR MULTI     { $$ = new select.default("/",null,true,@1.first_line,@1.first_column,false) }
+    | DIV DIV ATR MULTI { $$ = new select.default("//",null,true,@1.first_line,@1.first_column,false) }
     ;
 
 instruccion : PRINT PARA e PARC     { $$ = new print.default($3,@1.first_line,@1.first_column) }

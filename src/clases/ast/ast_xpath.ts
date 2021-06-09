@@ -19,10 +19,9 @@ export default class ast_xpath {
                 entorno_result = slc.getValor(entorno_result,arbol)
             }
         }
+        console.log("MATCHES")
         console.log(entorno_result)
         for (let slc of entorno_result){
-            console.log("Entorno")
-            console.log(slc)
             this.getResult(slc,"")
         }
         return this.str_result
