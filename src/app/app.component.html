@@ -74,7 +74,7 @@
     <div class="col-12 mt-3">
       <!--FUNCION ABRIR ARCHIVO-->
       <button type="button" class="btn btn-success" (click)="reporteArbol()">Reporte de Arboles</button>
-      <button type="button" class="btn btn-success">Tabla de Simbolos</button>
+      <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#ModalSimbolTable">Tabla de Simbolos</button>
       <button type="button" class="btn btn-success">Reporte de Errores</button>
       <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#ModalGramatical">Reporte
         Gramatical</button>
@@ -122,15 +122,28 @@
 </div>
 
 <div class="modal" tabindex="-1" id="ModalGramatical">
-  <div class="modal-dialog">
+  <div class="modal-dialog" style="max-width: 80%;">
     <div class="modal-content">
       <div class="modal-header">
         <h3 class="modal-title" id="TitleReportGramatical"></h3>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body table-responsive" id="reportG">
-
+      <div class="modal-body table-responsive" id="reportG"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Aceptar</button>
       </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" tabindex="-1" id="ModalSimbolTable">
+  <div class="modal-dialog" style="max-width: 80%;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="TitleSimbolTable"></h3>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body table-responsive" id="reportS"></div>
       <div class="modal-footer">
         <button type="button" class="btn btn-success" data-bs-dismiss="modal">Aceptar</button>
       </div>
