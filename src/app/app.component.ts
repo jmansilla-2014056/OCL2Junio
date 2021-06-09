@@ -81,7 +81,7 @@ export class AppComponent {
 
     let arbol = new ast().getArbolito(result);
     localStorage.setItem('ast', 'digraph g {\n ' + arbol + '}');
-    localStorage.setItem('cst', 'digraph g { A -> B}');
+    localStorage.setItem('cst', localStorage.getItem('cst')+"}");
 
     /* reporte gramatical */
     this.tablaReportGramatical(new gramatical("","").getReporteG(reportG),"Reporte Gramatical Ascendente");
@@ -101,7 +101,7 @@ export class AppComponent {
     let result:nodo_xml = parse_result.etiqueta;
     let encoding: nodo_xml = parse_result.encoding;
     let reportG = parse_result.reportG;
-    
+
     console.log("Analisis xml (arbol descendente):")
     result.printNode("")
     console.log(result)
@@ -112,7 +112,7 @@ export class AppComponent {
 
     /* reporte gramatical */
     this.tablaReportGramatical(new gramatical("","").getReporteG(reportG),"Reporte Gramatical Descendente");
-    
+
     /* Entornos */
     this.createEntorno(result,encoding);
 
