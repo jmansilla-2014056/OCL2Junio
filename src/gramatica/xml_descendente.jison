@@ -89,7 +89,9 @@ others      (\n\s*)
 
 %% /* Gramatica */
 inicio          : encoding etiqueta {
-                  $$ = { "encoding": $1, "etiqueta": $2, "reportG": reportG};
+                  let auxReportG = reportG;
+                  reportG = [];
+                  $$ = { "encoding": $1, "etiqueta": $2, "reportG": auxReportG};
                   return $$ 
                 }
                 ;
