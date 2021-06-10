@@ -11,33 +11,31 @@ export default class select implements expresion {
     public linea: number
     public columna: number
     public matches: Array<entorno>
-    public exp: expresion
-    constructor(tipe, id, atr, linea, columna, exp) {
+    constructor(tipe, id, atr, linea, columna) {
         this.tipe = tipe
         this.id = id
         this.atr = atr
         this.linea = linea
         this.columna = columna
         this.matches = new Array<entorno>()
-        this.exp = exp
     }
     getTipo(ent: entorno, arbol: ast) {
         return tipo.STRUCT
     }
     getValor(ent: entorno, arbol: ast) {
-        if (this.tipe == "//" && this.id != "*" && this.atr == false && this.exp == null) {
+        if (this.tipe == "//" && this.id != "*" && this.atr == false) {
             this.lookAllNodes(ent, arbol)
-        } else if (this.tipe == "/" && this.id != "*" && this.atr == false && this.exp == null) {
+        } else if (this.tipe == "/" && this.id != "*" && this.atr == false) {
             this.lookAtPath(ent, arbol)
-        } else if (this.tipe == "//" && this.id != null && this.atr == true && this.exp == null) {
+        } else if (this.tipe == "//" && this.id != null && this.atr == true) {
             this.lookAllParams(ent, arbol)
-        } else if (this.tipe == "/" && this.id != null && this.atr == true && this.exp == null) {
+        } else if (this.tipe == "/" && this.id != null && this.atr == true) {
             this.lookParamsAtPath(ent, arbol)
-        } else if (this.tipe == "//" && this.id == "*" && this.atr == false && this.exp == null) {
+        } else if (this.tipe == "//" && this.id == "*" && this.atr == false) {
             this.lookAllUnknown(ent, arbol)
-        } else if (this.tipe == "/" && this.id == "*" && this.atr == false && this.exp == null) {
+        } else if (this.tipe == "/" && this.id == "*" && this.atr == false) {
             this.lookAtUnkown(ent, arbol)
-        } else if (this.tipe == "//" && this.id == null && this.atr == true && this.exp == null) {
+        } else if (this.tipe == "//" && this.id == null && this.atr == true) {
             this.lookAllUnknownP(ent, arbol)
         } else {
             console.log("NO MATCH")

@@ -1,5 +1,6 @@
 import { ast } from "src/clases/ast/ast";
 import { entorno } from "src/clases/ast/entorno";
+import { simbolo } from "src/clases/ast/simbolo";
 import { tipo } from "src/clases/ast/tipo";
 import { expresion } from "src/clases/interfaces/expresion";
 
@@ -24,140 +25,116 @@ export default class relacional implements expresion {
         let val2 = this.e2.getValor(ent, arbol)
         if (val1 instanceof Array) {
             let val = val1[0]
-            let index: Array<number> = new Array<number>()
-            for (let i = 1; i <= val; i++) {
-                switch (this.operador) {
-                    case "<":
-                        if (i < val2){
-                            index.push(i)
-                        }
-                        break;
-                    case "<=":
-                        if (i <= val2){
-                            index.push(i)
-                        }
-                        break;
-                    case ">":
-                        if (i > val2){
-                            index.push(i)
-                        }
-                        break;
-                    case ">=":
-                        if (i >= val2){
-                            index.push(i)
-                        }
-                        break;
-                    case "=":
-                        if (i == val2){
-                            index.push(i)
-                        }
-                        break;
-                    default:
-                        break;
+            if (typeof val === 'number') {
+                let index: Array<number> = new Array<number>()
+                for (let i = 1; i <= val; i++) {
+                    switch (this.operador) {
+                        case "<":
+                            if (i < val2) {
+                                index.push(i)
+                            }
+                            break;
+                        case "<=":
+                            if (i <= val2) {
+                                index.push(i)
+                            }
+                            break;
+                        case ">":
+                            if (i > val2) {
+                                index.push(i)
+                            }
+                            break;
+                        case ">=":
+                            if (i >= val2) {
+                                index.push(i)
+                            }
+                            break;
+                        case "=":
+                            if (i == val2) {
+                                index.push(i)
+                            }
+                            break;
+                        case "!=":
+                            if (i != val2) {
+                                index.push(i)
+                            }
+                            break;
+                        default:
+                            break;
+                    }
                 }
-            }
-            if (index.length == 0){
-                return null
+                if (index.length == 0) {
+                    return null
+                } else {
+                    return index
+                }
+            } else if (val instanceof entorno) {
+                let res_ent: Array<entorno> = new Array<entorno>()
+                let tipe: boolean = this.e1.getTipo(ent, arbol)
+                if (!tipe) {
+                    for (let sub_ent of val1) {
+                        let simbol = sub_ent.tabla["valor"]
+                        if (this.compare(simbol.valor, val2)) {
+                            res_ent.push(sub_ent.anterior)
+                        }
+                    }
+                } else {
+                    for (let sub_ent of val1) {
+                        for (let key in sub_ent.tabla) {
+                            if (key.startsWith("atr")) {
+                                let simbol = sub_ent.tabla[key]
+                                if (this.compare(simbol.valor, val2)) {
+                                    res_ent.push(sub_ent)
+                                }
+                            }
+                        }
+                    }
+                }
+                return res_ent
             } else {
-                return index
+                console.log("NO NUMBER, NO ENTORNO")
             }
         } else {
-            switch (this.operador) {
-                case "<":
-                    if (typeof val1 === 'number' && typeof val2 === 'number') {
-                        if (val1 < val2) {
-                            return true
-                        } else {
-                            return false
-                        }
-                    } else {
-                        //Error
-                    }
-                    break;
-                case ">":
-                    if (typeof val1 === 'number' && typeof val2 === 'number') {
-                        if (val1 > val2) {
-                            return true
-                        } else {
-                            return false
-                        }
-                    } else {
-                        //Error
-                    }
-                    break;
-                case "<=":
-                    if (typeof val1 === 'number' && typeof val2 === 'number') {
-                        if (val1 <= val2) {
-                            return true
-                        } else {
-                            return false
-                        }
-                    } else {
-                        //Error
-                    }
-                    break;
-                case ">=":
-                    if (typeof val1 === 'number' && typeof val2 === 'number') {
-                        if (val1 >= val2) {
-                            return true
-                        } else {
-                            return false
-                        }
-                    } else {
-                        //Error
-                    }
-                    break;
-                case "==":
-                    if (typeof val1 === 'number' && typeof val2 === 'number') {
-                        if (val1 == val2) {
-                            return true
-                        } else {
-                            return false
-                        }
-                    } else if (typeof val1 === 'string' && typeof val2 === 'string') {
-                        if (val1 == val2) {
-                            return true
-                        } else {
-                            return false
-                        }
-                    } else if (typeof val1 === 'boolean' && typeof val2 === 'boolean') {
-                        if (val1 == val2) {
-                            return true
-                        } else {
-                            return false
-                        }
-                    } else {
-                        //Error
-                    }
-                    break;
-                case "!=":
-                    if (typeof val1 === 'number' && typeof val2 === 'number') {
-                        if (val1 != val2) {
-                            return true
-                        } else {
-                            return false
-                        }
-                    } else if (typeof val1 === 'string' && typeof val2 === 'string') {
-                        if (val1 != val2) {
-                            return true
-                        } else {
-                            return false
-                        }
-                    } else if (typeof val1 === 'boolean' && typeof val2 === 'boolean') {
-                        if (val1 != val2) {
-                            return true
-                        } else {
-                            return false
-                        }
-                    } else {
-                        //Error
-                    }
-                    break
-                default:
-                    break;
-            }
+            console.log("NO ARRAY")
         }
         return null
+    }
+    compare(val1, val2) {
+        switch (this.operador) {
+            case "<":
+                if (val1 < val2) {
+                    return true
+                }
+                break;
+            case "<=":
+                if (val1 <= val2) {
+                    return true
+                }
+                break;
+            case ">":
+                if (val1 > val2) {
+                    return true
+                }
+                break;
+            case ">=":
+                if (val1 >= val2) {
+                    return true
+                }
+                break;
+            case "=":
+                if (val1 == val2) {
+                    return true
+                }
+                break;
+            case "!=":
+                if (val1 != val2) {
+                    return true
+                }
+                break;
+            default:
+                break;
+        }
+        return false
     }
 
 }

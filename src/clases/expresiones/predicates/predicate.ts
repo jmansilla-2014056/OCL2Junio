@@ -28,11 +28,21 @@ export default class predicate implements expresion{
         console.log("RESULTADO")
         console.log(val)
         if (val instanceof Array){
-            for (let i of val){
-                this.matches.push(entornos[i-1])
+            if (typeof val[0] === 'number'){
+                for (let i of val){
+                    this.matches.push(entornos[i-1])
+                }
+            } else if (val[0] instanceof entorno){
+                for (let i of val){
+                    this.matches.push(i)
+                }
             }
         } else {
-            this.matches.push(entornos[val-1])
+            if (typeof val === 'number'){
+                this.matches.push(entornos[val-1])
+            } else if (val instanceof entorno){
+                this.matches.push(val)
+            }
         }
         return this.matches
     }

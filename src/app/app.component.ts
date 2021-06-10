@@ -30,7 +30,7 @@ export class AppComponent {
   actual_file: number
   nombre: string = "name_ini"
   contenido: string = "cont_ini"
-  consola: string = "/bookstore/book[position()<2]"
+  consola: string = '/bookstore/book[@year="1990"]'
   salida: string = ""
   openFile(input) {
     var x: File = input.files[0]
