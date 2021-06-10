@@ -132,6 +132,7 @@ select : DIV ID         { $$ = new select.default("/",$2,false,@1.first_line,@1.
     //select(tipe, id, atr, linea, columna, exp)
     //predicate(slc,exp,linea,columna){
     | DIV ID CORA e CORC { $$ = new predicate.default(new select.default("/",$2,false,@1.first_line,@1.first_column,null),$4,@1.first_line,@1.first_column) }
+    | DIV DIV ID CORA e CORC { $$ = new predicate.default(new select.default("//",$3,false,@1.first_line,@1.first_column,null),$5,@1.first_line,@1.first_column) }
     ;
 
 instruccion : PRINT PARA e PARC     { $$ = new print.default($3,@1.first_line,@1.first_column) }

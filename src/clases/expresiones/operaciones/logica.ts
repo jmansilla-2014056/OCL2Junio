@@ -34,7 +34,7 @@ export default class logica implements expresion {
         switch (this.operador) {
             case "||":
                 if (val1 instanceof Array && val2 instanceof Array) {
-                    if (val1[0] instanceof entorno && val2[0] instanceof entorno) {
+                    if (val1[0] instanceof entorno || val2[0] instanceof entorno) {
                         let res_ent: Array<entorno> = new Array<entorno>()
                         let arr1: { [id: number]: number } = this.getDictionary(val1)
                         let arr2: { [id: number]: number } = this.getDictionary(val2)
