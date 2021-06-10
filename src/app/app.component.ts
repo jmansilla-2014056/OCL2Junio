@@ -30,8 +30,9 @@ export class AppComponent {
   actual_file: number
   nombre: string = "name_ini"
   contenido: string = "cont_ini"
-  consola: string = '/bookstore/book[@year="1990"]'
+  consola: string = '/bookstore/book[price<30 or price>80]'
   salida: string = ""
+  n_node: number
   openFile(input) {
     var x: File = input.files[0]
     if (x) {
@@ -87,6 +88,7 @@ export class AppComponent {
     this.tablaReportGramatical(new gramatical("","").getReporteG(reportG),"Reporte Gramatical Ascendente");
 
     /* Entornos */
+    this.n_node = 1
     this.createEntorno(result,encoding);
 
     /* reporte tabla de simbolos */
@@ -133,6 +135,8 @@ export class AppComponent {
         entornoNodo.agregar("valor", new simbolo(result.id, result.valor, tipo.VALOR, result.linea, result.columna))
       }
       entornoNodo.agregar("n_etiquetas", new simbolo("n_etiquetas",2,tipo.N_ETIQUETAS,result.linea,result.columna))
+      entornoNodo.agregar("index", new simbolo("index",this.n_node,tipo.INT,result.linea,result.columna))
+      this.n_node++
       for (let i = 0; i < result.atributos.length; i++) {
         let atr = result.atributos[i]
         entornoNodo.agregar("atr" + i, new simbolo(atr.id, atr.valor, tipo.ATRIBUTE, atr.linea, atr.columna))
@@ -163,6 +167,8 @@ export class AppComponent {
       } else {
         newEntorno.agregar("n_etiquetas", new simbolo("n_etiquetas",2,tipo.N_ETIQUETAS,hijo.linea,hijo.columna))
       }
+      newEntorno.agregar("index", new simbolo("index",this.n_node,tipo.INT,hijo.linea,hijo.columna))
+      this.n_node++
       for (let i = 0; i < hijo.atributos.length; i++) {
         let atr = hijo.atributos[i]
         newEntorno.agregar("atr" + i, new simbolo(atr.id, atr.valor, tipo.ATRIBUTE, atr.linea, atr.columna))
@@ -219,6 +225,19 @@ export class AppComponent {
       entrada = entrada.split('> ').join('>');
     }
     return entrada;
+  }
+  test(){
+    let ar1 : {[id:number]: number} = {}
+    let ar2 :  {[id:number]: number} = {}
+    ar1[1] = 1
+    ar1[2] = 2
+    ar1[3] = 3
+    ar2[2] = 2
+    if (ar1[2] != null){
+      console.log("CONTIENE 2")
+    } else {
+      console.log("NO CONTIENE 2")
+    }
   }
 
 }

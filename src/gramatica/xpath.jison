@@ -52,7 +52,7 @@ cadena      (\"([^\"\\])*\")
 "*"                    { return 'MULTI'}
 "/"                    { return 'DIV'}
 "^"                    { return 'POTENCIA'}
-"%"                    { return 'MODULO'}
+"mod"                    { return 'MODULO'}
 
 /* Operaciones Relacionales */
 "<="                   { return 'MENORIGUAL'}
@@ -64,8 +64,8 @@ cadena      (\"([^\"\\])*\")
 "="                    { return 'IGUAL'}
 
 /* Operaciones Logicas */
-"||"                   { return 'OR'}
-"&&"                   { return 'AND'}
+"or"                   { return 'OR'}
+"and"                   { return 'AND'}
 "!"                    { return 'NOT'}
 
 /* Selecting nodes */
@@ -161,4 +161,5 @@ e :  NUM                       { $$ = new primitivo.default(Number($1),@1.first_
     | e OR e                    { $$ = new logica.default($1,"||",$3,@1.first_line,@1.first_column,false) }
     | e AND e                   { $$ = new logica.default($1,"&&",$3,@1.first_line,@1.first_column,false) }
     | NOT e                     { $$ = new logica.default($2,"!",null,@1.first_line,@1.first_column,true) }
+    | PARA e PARC               { $$ = $2 }
     ;

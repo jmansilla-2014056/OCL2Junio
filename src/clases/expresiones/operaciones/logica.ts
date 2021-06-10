@@ -33,22 +33,73 @@ export default class logica implements expresion {
         }
         switch (this.operador) {
             case "||":
-                if (typeof val1 === 'boolean' && typeof val2 === 'boolean') {
-                    if (val1 || val2) {
-                        return true
+                if (val1 instanceof Array && val2 instanceof Array) {
+                    if (val1[0] instanceof entorno && val2[0] instanceof entorno) {
+                        let res_ent: Array<entorno> = new Array<entorno>()
+                        let arr1: { [id: number]: number } = this.getDictionary(val1)
+                        let arr2: { [id: number]: number } = this.getDictionary(val2)
+                        let res: { [id: number]: number } = {}
+                        for (let i in arr1){
+                            res[i] = arr1[i]
+                        }
+                        for (let i in arr2){
+                            res[i] = arr2[i]
+                        }
+                        for (let index in res){
+                            for (let n_ent of val1){
+                                if (n_ent.tabla["index"].valor == index){
+                                    res_ent.push(n_ent)
+                                    delete res[index]
+                                }
+                            }
+                        }
+                        for (let index in res){
+                            for (let n_ent of val2){
+                                if (n_ent.tabla["index"].valor == index){
+                                    res_ent.push(n_ent)
+                                }
+                            }
+                        }
+                        return res_ent
                     } else {
-                        return false
+                        //Error
                     }
                 } else {
                     //Error
                 }
                 break;
             case "&&":
-                if (typeof val1 === 'boolean' && typeof val2 === 'boolean') {
-                    if (val1 && val2) {
-                        return true
+                if (val1 instanceof Array && val2 instanceof Array) {
+                    if (val1[0] instanceof entorno && val2[0] instanceof entorno) {
+                        let res_ent: Array<entorno> = new Array<entorno>()
+                        let arr1: { [id: number]: number } = this.getDictionary(val1)
+                        let arr2: { [id: number]: number } = this.getDictionary(val2)
+                        let res: { [id: number]: number } = {}
+                        for (let i in arr1){
+                            for (let j in arr2){
+                                if (i == j){
+                                    res[i] = arr1[i]
+                                }
+                            }
+                        }
+                        for (let index in res){
+                            for (let n_ent of val1){
+                                if (n_ent.tabla["index"].valor == index){
+                                    res_ent.push(n_ent)
+                                    delete res[index]
+                                }
+                            }
+                        }
+                        for (let index in res){
+                            for (let n_ent of val2){
+                                if (n_ent.tabla["index"].valor == index){
+                                    res_ent.push(n_ent)
+                                }
+                            }
+                        }
+                        return res_ent
                     } else {
-                        return false
+                        //Error
                     }
                 } else {
                     //Error
@@ -65,5 +116,13 @@ export default class logica implements expresion {
                 break;
         }
         return null
+    }
+    getDictionary(entornos: Array<entorno>) {
+        let arr: { [id: number]: number } = {}
+        for (let ent of entornos) {
+            let index = ent.tabla["index"]
+            arr[index.valor] = index.valor
+        }
+        return arr
     }
 }
