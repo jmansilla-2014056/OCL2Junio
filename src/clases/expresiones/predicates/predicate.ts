@@ -23,10 +23,13 @@ export default class predicate implements expresion{
     getValor(ent: entorno, arbol: ast) {
         let entornos
         entornos = this.slc.getValor(ent,arbol)
+        console.log("VER VALOR")
         let val = this.exp.getValor(entornos, arbol)
+        console.log("RESULTADO")
+        console.log(val)
         if (val instanceof Array){
             for (let i of val){
-                this.matches.push(entornos[i])
+                this.matches.push(entornos[i-1])
             }
         } else {
             this.matches.push(entornos[val-1])

@@ -12,6 +12,7 @@
     const select = require('../clases/expresiones/select')
     const predicate = require('../clases/expresiones/predicates/predicate')
     const last = require('../clases/expresiones/predicates/last')
+    const position = require('../clases/expresiones/predicates/position')
 %}
 
 /* Definicion lexica */
@@ -92,7 +93,7 @@ cadena      (\"([^\"\\])*\")
 %left 'OR'
 %left 'AND'
 %right 'NOT'
-%left 'MENORQUE' 'MAYORQUE' 'MENORIGUAL' 'MAYORIGUAL' 'IGUALIGUAL' 'DIFERENTE'
+%left 'MENORQUE' 'MAYORQUE' 'MENORIGUAL' 'MAYORIGUAL' 'IGUAL' 'IGUALIGUAL' 'DIFERENTE'
 %left 'MAS' 'MENOS'
 %left 'MULTI' 'DIV' 'MODULO'
 //%nonassoc 'POTENCIA'
@@ -138,6 +139,7 @@ instruccion : PRINT PARA e PARC     { $$ = new print.default($3,@1.first_line,@1
 e :  NUM                       { $$ = new primitivo.default(Number($1),@1.first_line,@1.first_column) }
     | CADENA                    { $1 = $1.slice(1, $1.length-1); $$ = new primitivo.default($1,@1.first_line,@1.first_column) }
     | LAST PARA PARC            { $$ = new last.default(@1.first_line,@1.first_column) }
+    | POSITION PARA PARC        { $$ = new position.default(@1.first_line,@1.first_column) }
     | TRUE                      { $$ = new primitivo.default(true,@1.first_line,@1.first_column) }
     | FALSE                     { $$ = new primitivo.default(false,@1.first_line,@1.first_column) }
     | e MAS e                   { $$ = new aritmetica.default($1,"+",$3,@1.first_line,@1.first_column,false) }
@@ -150,7 +152,8 @@ e :  NUM                       { $$ = new primitivo.default(Number($1),@1.first_
     | e MAYORQUE e              { $$ = new relacional.default($1,">",$3,@1.first_line,@1.first_column,false) }
     | e MENORIGUAL e            { $$ = new relacional.default($1,"<=",$3,@1.first_line,@1.first_column,false) }
     | e MAYORIGUAL e            { $$ = new relacional.default($1,">=",$3,@1.first_line,@1.first_column,false) }
-    | e IGUALIGUAL e            { $$ = new relacional.default($1,"==",$3,@1.first_line,@1.first_column,false) }
+    | e IGUAL e                 { $$ = new relacional.default($1,"=",$3,@1.first_line,@1.first_column,false) }
+    | e IGUALIGUAL e            { $$ = new relacional.default($1,"=",$3,@1.first_line,@1.first_column,false) }
     | e DIFERENTE e             { $$ = new relacional.default($1,"!=",$3,@1.first_line,@1.first_column,false) }
     | e OR e                    { $$ = new logica.default($1,"||",$3,@1.first_line,@1.first_column,false) }
     | e AND e                   { $$ = new logica.default($1,"&&",$3,@1.first_line,@1.first_column,false) }

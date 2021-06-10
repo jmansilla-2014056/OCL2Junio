@@ -22,99 +22,140 @@ export default class relacional implements expresion {
     getValor(ent: entorno, arbol: ast) {
         let val1 = this.e1.getValor(ent, arbol)
         let val2 = this.e2.getValor(ent, arbol)
-        switch (this.operador) {
-            case "<":
-                if (typeof val1 === 'number' && typeof val2 === 'number') {
-                    if (val1 < val2) {
-                        return true
-                    } else {
-                        return false
-                    }
-                } else {
-                    //Error
+        if (val1 instanceof Array) {
+            let val = val1[0]
+            let index: Array<number> = new Array<number>()
+            for (let i = 1; i <= val; i++) {
+                switch (this.operador) {
+                    case "<":
+                        if (i < val2){
+                            index.push(i)
+                        }
+                        break;
+                    case "<=":
+                        if (i <= val2){
+                            index.push(i)
+                        }
+                        break;
+                    case ">":
+                        if (i > val2){
+                            index.push(i)
+                        }
+                        break;
+                    case ">=":
+                        if (i >= val2){
+                            index.push(i)
+                        }
+                        break;
+                    case "=":
+                        if (i == val2){
+                            index.push(i)
+                        }
+                        break;
+                    default:
+                        break;
                 }
-                break;
-            case ">":
-                if (typeof val1 === 'number' && typeof val2 === 'number') {
-                    if (val1 > val2) {
-                        return true
+            }
+            if (index.length == 0){
+                return null
+            } else {
+                return index
+            }
+        } else {
+            switch (this.operador) {
+                case "<":
+                    if (typeof val1 === 'number' && typeof val2 === 'number') {
+                        if (val1 < val2) {
+                            return true
+                        } else {
+                            return false
+                        }
                     } else {
-                        return false
+                        //Error
                     }
-                } else {
-                    //Error
-                }
-                break;
-            case "<=":
-                if (typeof val1 === 'number' && typeof val2 === 'number') {
-                    if (val1 <= val2) {
-                        return true
+                    break;
+                case ">":
+                    if (typeof val1 === 'number' && typeof val2 === 'number') {
+                        if (val1 > val2) {
+                            return true
+                        } else {
+                            return false
+                        }
                     } else {
-                        return false
+                        //Error
                     }
-                } else {
-                    //Error
-                }
-                break;
-            case ">=":
-                if (typeof val1 === 'number' && typeof val2 === 'number') {
-                    if (val1 >= val2) {
-                        return true
+                    break;
+                case "<=":
+                    if (typeof val1 === 'number' && typeof val2 === 'number') {
+                        if (val1 <= val2) {
+                            return true
+                        } else {
+                            return false
+                        }
                     } else {
-                        return false
+                        //Error
                     }
-                } else {
-                    //Error
-                }
-                break;
-            case "==":
-                if (typeof val1 === 'number' && typeof val2 === 'number') {
-                    if (val1 == val2) {
-                        return true
+                    break;
+                case ">=":
+                    if (typeof val1 === 'number' && typeof val2 === 'number') {
+                        if (val1 >= val2) {
+                            return true
+                        } else {
+                            return false
+                        }
                     } else {
-                        return false
+                        //Error
                     }
-                } else if (typeof val1 === 'string' && typeof val2 === 'string') {
-                    if (val1 == val2) {
-                        return true
+                    break;
+                case "==":
+                    if (typeof val1 === 'number' && typeof val2 === 'number') {
+                        if (val1 == val2) {
+                            return true
+                        } else {
+                            return false
+                        }
+                    } else if (typeof val1 === 'string' && typeof val2 === 'string') {
+                        if (val1 == val2) {
+                            return true
+                        } else {
+                            return false
+                        }
+                    } else if (typeof val1 === 'boolean' && typeof val2 === 'boolean') {
+                        if (val1 == val2) {
+                            return true
+                        } else {
+                            return false
+                        }
                     } else {
-                        return false
+                        //Error
                     }
-                } else if (typeof val1 === 'boolean' && typeof val2 === 'boolean') {
-                    if (val1 == val2) {
-                        return true
+                    break;
+                case "!=":
+                    if (typeof val1 === 'number' && typeof val2 === 'number') {
+                        if (val1 != val2) {
+                            return true
+                        } else {
+                            return false
+                        }
+                    } else if (typeof val1 === 'string' && typeof val2 === 'string') {
+                        if (val1 != val2) {
+                            return true
+                        } else {
+                            return false
+                        }
+                    } else if (typeof val1 === 'boolean' && typeof val2 === 'boolean') {
+                        if (val1 != val2) {
+                            return true
+                        } else {
+                            return false
+                        }
                     } else {
-                        return false
+                        //Error
                     }
-                } else {
-                    //Error
-                }
-                break;
-            case "!=":
-                if (typeof val1 === 'number' && typeof val2 === 'number'){
-                    if (val1 != val2){
-                        return true
-                    } else {
-                        return false
-                    }
-                } else if (typeof val1 === 'string' && typeof val2 === 'string'){
-                    if (val1 != val2){
-                        return true
-                    } else {
-                        return false
-                    }
-                } else if (typeof val1 === 'boolean' && typeof val2 === 'boolean'){
-                    if (val1 != val2){
-                        return true
-                    } else {
-                        return false
-                    }
-                } else {
-                    //Error
-                }
-                break
-            default:
-                break;
+                    break
+                default:
+                    break;
+            }
         }
         return null
     }
