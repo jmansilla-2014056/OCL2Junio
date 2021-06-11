@@ -86,7 +86,6 @@ export default class filtro implements expresion {
                 }
             }
         }
-        console.log(this.matches)
         return this.matches
     }
 

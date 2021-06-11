@@ -14,6 +14,8 @@
     const last = require('../clases/expresiones/predicates/last')
     const position = require('../clases/expresiones/predicates/position')
     const filtro = require('../clases/expresiones/predicates/filtro')
+
+    const axes = require('../clases/expresiones/axes/axes')
 %}
 
 /* Definicion lexica */
@@ -41,6 +43,7 @@ cadena      (\"([^\"\\])*\")
 ")"                    { return 'PARC' }
 "["                    { return 'CORA' }
 "]"                    { return 'CORC' }
+":"                    { return 'DPTN' }
 
 /* Palabras reservadas */
 "last"                 { return 'LAST' }
@@ -133,6 +136,11 @@ select : DIV ID         { $$ = new select.default("/",$2,false,@1.first_line,@1.
     //predicate(slc,exp,linea,columna){
     | DIV ID CORA e CORC { $$ = new predicate.default(new select.default("/",$2,false,@1.first_line,@1.first_column,null),$4,@1.first_line,@1.first_column) }
     | DIV DIV ID CORA e CORC { $$ = new predicate.default(new select.default("//",$3,false,@1.first_line,@1.first_column,null),$5,@1.first_line,@1.first_column) }
+                                        //(tipe,axe,id,linea,columna){
+    | DIV ID DPTN DPTN ID   { $$ = new axes.default("/",$2,$5,@1.first_line,@1.first_column) }
+    | DIV ID DPTN DPTN MULTI   { $$ = new axes.default("/",$2,"*",@1.first_line,@1.first_column) }
+    | DIV DIV ID DPTN DPTN ID   { $$ = new axes.default("//",$3,$6,@1.first_line,@1.first_column) }
+    | DIV DIV ID DPTN DPTN MULTI   { $$ = new axes.default("//",$3,"*",@1.first_line,@1.first_column) }
     ;
 
 instruccion : PRINT PARA e PARC     { $$ = new print.default($3,@1.first_line,@1.first_column) }

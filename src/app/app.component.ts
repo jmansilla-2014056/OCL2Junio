@@ -30,7 +30,7 @@ export class AppComponent {
   actual_file: number
   nombre: string = "name_ini"
   contenido: string = "cont_ini"
-  consola: string = '//pais[idioma="Portugues"]'
+  consola: string = '/mundo/continente[@name="Europa"]/pais/descendant_or_self::nombre'
   salida: string = ""
   n_node: number
   openFile(input) {
