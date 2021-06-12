@@ -86,9 +86,9 @@ switch (yystate) {
 case 1:
 
                   let auxReportG = reportG;
-                  inicio_ = new ast_nodo.default("encoding","", "encoding etiqueta");
+                  inicio_ = new ast_nodo.default("inicio","", "encoding etiqueta");
                   inicio_.InsertarHijo(encoding_);
-                  encoding_.InsertarHijo(etiqueta_);
+                  inicio_.InsertarHijo(etiqueta_);
                   reportG = [];
                   this.$ = { "encoding": $$[$0-1], "etiqueta": $$[$0], "reportG": auxReportG};
                   return this.$
@@ -97,7 +97,7 @@ break;
 case 2:
 
                   this.$ = new nodo_xml.default("encoding",$$[$0-2],"",[],_$[$0-5].first_line,_$[$0-5].first_column,null);
-                  encoding_ = new ast_nodo.default("encoding","", "INI ID FIN lista_atributos INI CIERRE ID FIN");
+                  encoding_ = new ast_nodo.default("encoding","", "INI INTERROGAC XML lista_atributos INTERROGAC FIN");
                   encoding_.InsertarHijo(lista_atributos_);
                   lista_atributos_ = new ast_nodo.default("lista_atributos_","","");
                   reportG.push(new gramatic.default("encoding : INI INTERROGAC XML lista_atributos INTERROGAC FIN","{ encoding.val = new nodo_xml.defaul('encoding',lista_atributos.val,'',[])}"));
@@ -106,12 +106,12 @@ break;
 case 3:
 
                   this.$ = new nodo_xml.default($$[$0-7],[],"",$$[$0-5],_$[$0-8].first_line,_$[$0-8].first_column,$$[$0-2]);
-                  etiqueta_ = new ast_nodo.default("inicio","", "INI ID FIN lista_nodos INI CIERRE ID FIN");
+                  etiqueta_ = new ast_nodo.default("etiqueta","", "INI ID FIN lista_nodos INI CIERRE ID FIN");
                   etiqueta_.InsertarUnNodo("INI", $$[$0-8]);
                   etiqueta_.InsertarUnNodo("ID", $$[$0-7]);
                   etiqueta_.InsertarUnNodo("FIN", $$[$0-6]);
                   etiqueta_.InsertarHijo(lista_nodos_);
-                  lista_nodos_ = new ast_nodo.default("lista_nodos","","");
+                  // lista_nodos_ = new ast_nodo.default("lista_nodos","","");
                   etiqueta_.InsertarUnNodo("INI", $$[$0-4]);
                   etiqueta_.InsertarUnNodo("CIERRE", $$[$0-3]);
                   etiqueta_.InsertarUnNodo("ID", $$[$0-2]);
@@ -176,7 +176,9 @@ case 13:
 
                   this.$ = $$[$0];
                   cierre_nodo_ = new ast_nodo.default("cierre_nodo","", "FIN cuerpo_nodo");
+                  cierre_nodo_.InsertarUnNodo("FIN", $$[$0-1]);
                   cierre_nodo_.InsertarHijo(cuerpo_nodo_);
+
                   reportG.push(new gramatic.default("cierre_nodo : FIN cuerpo_nodo","{ cierre_nodo.val = cuerpo_nodo.val }"));
                 
 break;
