@@ -86,6 +86,9 @@ switch (yystate) {
 case 1:
 
                   let auxReportG = reportG;
+                  inicio_ = new ast_nodo.default("encoding","", "encoding etiqueta");
+                  inicio_.InsertarHijo(encoding_);
+                  encoding_.InsertarHijo(etiqueta_);
                   reportG = [];
                   this.$ = { "encoding": $$[$0-1], "etiqueta": $$[$0], "reportG": auxReportG};
                   return this.$
@@ -94,22 +97,24 @@ break;
 case 2:
 
                   this.$ = new nodo_xml.default("encoding",$$[$0-2],"",[],_$[$0-5].first_line,_$[$0-5].first_column,null);
-                  encoding_ = new ast_nodo.default("encoding","", "INI ID FIN lista_nodos INI CIERRE ID FIN");
+                  encoding_ = new ast_nodo.default("encoding","", "INI ID FIN lista_atributos INI CIERRE ID FIN");
                   encoding_.InsertarHijo(lista_atributos_);
+                  lista_atributos_ = new ast_nodo.default("lista_atributos_","","");
                   reportG.push(new gramatic.default("encoding : INI INTERROGAC XML lista_atributos INTERROGAC FIN","{ encoding.val = new nodo_xml.defaul('encoding',lista_atributos.val,'',[])}"));
                 
 break;
 case 3:
 
                   this.$ = new nodo_xml.default($$[$0-7],[],"",$$[$0-5],_$[$0-8].first_line,_$[$0-8].first_column,$$[$0-2]);
-                  var inicio_ = new ast_nodo.default("inicio","", "INI ID FIN lista_nodos INI CIERRE ID FIN");
-                  inicio_.InsertarUnNodo("INI", $$[$0-8]);
-                  inicio_.InsertarUnNodo("ID", $$[$0-7]);
-                  inicio_.InsertarUnNodo("FIN", $$[$0-6]);
-                  inicio_.InsertarHijo(lista_nodos_);
-                  inicio_.InsertarUnNodo("INI", $$[$0-4]);
-                  inicio_.InsertarUnNodo("CIERRE", $$[$0-3]);
-                  inicio_.InsertarUnNodo("ID", $$[$0-2]);
+                  etiqueta_ = new ast_nodo.default("inicio","", "INI ID FIN lista_nodos INI CIERRE ID FIN");
+                  etiqueta_.InsertarUnNodo("INI", $$[$0-8]);
+                  etiqueta_.InsertarUnNodo("ID", $$[$0-7]);
+                  etiqueta_.InsertarUnNodo("FIN", $$[$0-6]);
+                  etiqueta_.InsertarHijo(lista_nodos_);
+                  lista_nodos_ = new ast_nodo.default("lista_nodos","","");
+                  etiqueta_.InsertarUnNodo("INI", $$[$0-4]);
+                  etiqueta_.InsertarUnNodo("CIERRE", $$[$0-3]);
+                  etiqueta_.InsertarUnNodo("ID", $$[$0-2]);
                   reportG.push(new gramatic.default("etiqueta : INI ID FIN lista_nodos INI CIERRE ID FIN","{ etiqueta.val = new nodo_xml.defaul(ID.valLex,[],'',lista_nodos.val)}"));
                 
 break;
@@ -131,7 +136,7 @@ case 9:
                   this.$ = new Array();
                   this.$.push($$[$0]);
                   lista_nodos_.InsertarHijo(nodo_)
-                  let tempB = new ast_nodo.default("lista_nodos","", "lista_nodos");
+                  let tempB = new ast_nodo.default("lista_nodos","", "lista_nodos nodo");
                   tempB.InsertarHijo(lista_nodos_);
                   lista_nodos_ = tempB;
                   reportG.push(new gramatic.default("lista_nodos : nodo","{ lista_nodos.val = new Array(); \n lista_nodos.val.push(nodo)}"));
@@ -145,6 +150,7 @@ case 10:
                   nodo_.InsertarUnNodo("INI", $$[$0-2]);
                   nodo_.InsertarUnNodo("ID", $$[$0-1]);
                   nodo_.InsertarHijo(opcion_nodo_);
+
                   reportG.push(new gramatic.default("nodo : INI ID opcion_nodo","{ opcion_nodo.val.id = ID.valLex \n nodo.val = opcion_nodo.val}"));
                 
 break;
@@ -161,7 +167,7 @@ case 12:
                   $$[$0].atributos = $$[$0-1];
                   this.$ = $$[$0];
                   opcion_nodo_ = new ast_nodo.default("opcion_nodo","", "lista_atributos cierre_nodo");
-                  cierre_nodo_.InsertarHijo(lista_atributos_);
+                  opcion_nodo_.InsertarHijo(lista_atributos_);
                   opcion_nodo_.InsertarHijo(cierre_nodo_);
                   reportG.push(new gramatic.default("opcion_nodo : lista_atributos cierre_nodo","{ cierre_nodo.val.atributos = lista_atributos.val \n opcion_nodo.val = cierre_nodo.val }"));
                 
@@ -213,16 +219,6 @@ case 18:
 
                   this.$ = $$[$0];
                   this.$.push($$[$0-1]);
-
-                  atributos_ = new ast_nodo.default("atributos","", "atributos lista_atributos");
-                  atributos_.InsertarUnNodo("ID", $$[$0-1].id);
-                  atributos_.InsertarUnNodo("IGUAL", "=");
-                  atributos_.InsertarUnNodo("VALOR", $$[$0-1].valor);
-
-                  let tempD = new ast_nodo.default("lista_atributos","");
-                  tempD.InsertarHijo(atributos_);
-                  lista_atributos_.InsertarHijo(tempD);
-
                   reportG.push(new gramatic.default("lista_atributos : atributos lista_atributos","{ lista_atributos.val = lista_atributosP.val \n lista_atributos.val.push(atributos.val) }"));
                 
 break;
@@ -230,23 +226,27 @@ case 19:
 
                   this.$ = new Array();
                   this.$.push($$[$0]);
-
-                  atributos_ = new ast_nodo.default("atributos","", "atributos");
-                  atributos_.InsertarUnNodo("ID", $$[$0].id);
-                  atributos_.InsertarUnNodo("IGUAL", "=");
-                  atributos_.InsertarUnNodo("VALOR", $$[$0].valor);
-
-                  lista_atributos_.InsertarHijo(atributos_);
-                //  let tempC = new ast_nodo.default("lista_atributos","");
-                //  tempC.InsertarHijo(lista_atributos_);
-                //  lista_atributos_ = tempC;
-
+                  lista_atributos_ = cabesera1;
+                  cabesera1 = null;
                   reportG.push(new gramatic.default("lista_atributos : atributos","{ lista_atributos.val = new Array(); \n lista_atributos.val.push(atributos.val) }"));
                 
 break;
 case 20:
 
                   this.$ = new atr_xml.default($$[$0-2],$$[$0],_$[$0-2].first_line,_$[$0-2].first_column);
+                  atributos_ = new ast_nodo.default("atributo", "", "ID IGUAL valor ");
+                  atributos_.InsertarUnNodo("ID", $$[$0-2]);
+                  atributos_.InsertarUnNodo("IGUAL", $$[$0-1]);
+                  atributos_.InsertarUnNodo("VALOR", $$[$0]);
+
+                  if(cabesera1 == null){
+                   cabesera1 = lista_atributos_;
+                  }
+                  let tempX = new ast_nodo.default("lista_atributos","", "atributos lista_atributos");
+                  lista_atributos_.InsertarHijo(atributos_);
+                  lista_atributos_.InsertarHijo(tempX);
+                  lista_atributos_ = tempX;
+
                   reportG.push(new gramatic.default("atributos : ID IGUAL valor","{ atributos.val = new atr_xml.default(ID.valLex,valor.val) }"));
                 
 break;
@@ -552,15 +552,19 @@ _handle_error:
     const gramatic = require('../reports/gramatical');
 
     /* Reporte CST */
-    let lista_nodos_ = new ast_nodo.default("lista_nodos0","");
-    let nodo_ = new ast_nodo.default("nodo","");
-    let opcion_nodo_ = new ast_nodo.default("opcion_nodo","");
-    let ciere_nodo_ = new ast_nodo.default("cierre_nodo","");
-    let lista_atributos_ = new ast_nodo.default("lista_atributos","");
-    let cuerpo_nodo_ = new ast_nodo.default("cuerpo_nodo","");
-    let lista_valor_ = new ast_nodo.default("lista_valor","");
-    let atributos_ = new ast_nodo.default("atributos","");
-    let encoding_ = new ast_nodo.default("encoding","");
+    let lista_nodos_ = new ast_nodo.default("lista_nodos0","","");
+    let nodo_ = new ast_nodo.default("nodo","","");
+    let opcion_nodo_ = new ast_nodo.default("opcion_nodo","","");
+    let ciere_nodo_ = new ast_nodo.default("cierre_nodo","","");
+    let lista_atributos_ = new ast_nodo.default("lista_atributos","","");
+    let cuerpo_nodo_ = new ast_nodo.default("cuerpo_nodo","","");
+    let lista_valor_ = new ast_nodo.default("lista_valor","","");
+    let atributos_ = new ast_nodo.default("atributos","","");
+    let encoding_ = new ast_nodo.default("encoding","","");
+    let etiqueta_ = new ast_nodo.default("encoding","","");
+
+    let cabesera1 = null;
+    let cabesera2 = null;
 
     /* Reporte Gramatical */
     let reportG = new Array();

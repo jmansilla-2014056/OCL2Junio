@@ -10,7 +10,12 @@ export default  class ASTNodo {
 
   constructor(produccion:string, token?:string, regla?:string) {
     this.produccion = produccion;
-    this.token = this.escapeHtml(token);
+    if ( token != undefined){
+      this.token = this.escapeHtml(token);
+    }else{
+      this.token = ' ';
+    }
+
     this.regla = regla;
     this.id = this.generarID();
     this.listaIns = [];
@@ -56,28 +61,40 @@ export default  class ASTNodo {
   }
 
   InsertarHijo(hijo : ASTNodo){
-    if( !(hijo.produccion == 'lista_nodos' && this.produccion == 'cuerpo_nodo') ) {
-      this.listaIns.push(hijo);
-      console.log(this.id + "->" + hijo.id);
-      InsertarCst(this.id + "->" + hijo.id + ";\n");
-      console.log("---------------INSERTAR HIJO--------------------");
-      console.log(localStorage.getItem("cst"));
-      console.log("------------------------------------------------");
+    try {
+      if( !(hijo.produccion == 'lista_nodos' && this.produccion == 'cuerpo_nodo') ) {
+        this.listaIns.push(hijo);
+        console.log(this.id + "->" + hijo.id);
+        InsertarCst(this.id + "->" + hijo.id + ";\n");
+        console.log("---------------INSERTAR HIJO--------------------");
+        console.log(localStorage.getItem("cst"));
+        console.log("------------------------------------------------");
+      }
+    }catch (e) {
     }
 
+  }
+
+  InsertarEspecial(hijo : ASTNodo ) : ASTNodo{
+      this.InsertarHijo(hijo);
+      return hijo;
   }
 
   InsertarUnNodo(produccion:string, token?:string){
     const temp = new ASTNodo(produccion,token);
-    if( !(temp.produccion == 'lista_nodos' && this.produccion == 'cuerpo_nodo')){
-      this.listaIns.push(temp);
-      console.log(this.id + "->" + temp.id);
-      InsertarCst(this.id + "->" + temp.id + ";\n");
-      console.log("---------------INSERTAR NODO--------------------");
-      console.log(localStorage.getItem("cst"));
-      console.log("------------------------------------------------");
+    if(temp.produccion != undefined){
+      if( !(temp.produccion == 'lista_nodos' && this.produccion == 'cuerpo_nodo')){
+        this.listaIns.push(temp);
+        console.log(this.id + "->" + temp.id);
+        InsertarCst(this.id + "->" + temp.id + ";\n");
+        console.log("---------------INSERTAR NODO--------------------");
+        console.log(localStorage.getItem("cst"));
+        console.log("------------------------------------------------");
+      }
     }
   }
+
+
 
   generarID(): string {
     return '"'+ Math.random().toString(36).substr(2, 9) + '"';
