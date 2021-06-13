@@ -88,20 +88,20 @@ case 1:
                         let auxReportG = reportG;
                         reportG = [];
                         this.$ = { "encoding": $$[$0-1], "etiqueta": $$[$0], "reportG": auxReportG};
-                        this.$.encoding.nuevo("inicio","");
-                        this.$.encoding.cst.InsertarHijo($$[$0-1].cst);
-                        this.$.encoding.cst.InsertarHijo($$[$0].cst);
-                        return this.$
+                        let start = new ast_nodo.default("inicio","","encoding etiqueta");
+                        start.InsertarHijo($$[$0-1].cst);
+                        start.InsertarHijo($$[$0].cst);
+                        return this.$;
                     
 break;
 case 2:
 
                         this.$ = new nodo_xml.default("encoding",$$[$0-2],"",[],_$[$0-5].first_line,_$[$0-5].first_column,null);
-                        this.$.nuevo("encoding", "");
+                        this.$.nuevo("encoding", "", "INI INTERROGAC XML lista_atributos INTERROGAC FIN");
                         this.$.cst.InsertarUnNodo("INI",$$[$0-5]);
                         this.$.cst.InsertarUnNodo("INTERROGAC",$$[$0-4]);
                         this.$.cst.InsertarUnNodo("XML",$$[$0-3]);
-                        this.$.cst.InsertarLista($$[$0-2], "lista_atributos");
+                        this.$.cst.InsertarLista($$[$0-2], "lista_atributos", "lista_atributos atributos ");
                         this.$.cst.InsertarUnNodo("INTERROGAC",$$[$0-1]);
                         this.$.cst.InsertarUnNodo("FIN",$$[$0]);
                         reportG.push(new gramatic.default("encoding : INI INTERROGAC XML lista_atributos INTERROGAC FIN","{ encoding.val = new nodo_xml.defaul('encoding',lista_atributos.val,'',[])}"));
@@ -110,11 +110,11 @@ break;
 case 3:
 
                         this.$ = new nodo_xml.default($$[$0-7],[],"",$$[$0-5],_$[$0-8].first_line,_$[$0-8].first_column,$$[$0-2]);
-                        this.$.nuevo("etiqueta","");
+                        this.$.nuevo("etiqueta","", "INI ID FIN lista_nodos INI CIERRE ID FIN");
                         this.$.cst.InsertarUnNodo("INI",$$[$0-8]);
                         this.$.cst.InsertarUnNodo("ID",$$[$0-7]);
                         this.$.cst.InsertarUnNodo("FIN",$$[$0-6]);
-                        this.$.cst.InsertarLista($$[$0-5], "lista_nodos");
+                        this.$.cst.InsertarLista($$[$0-5], "lista_nodos", "lista_nodos nodo");
                         this.$.cst.InsertarUnNodo("INI", $$[$0-4]);
                         this.$.cst.InsertarUnNodo("CIERRE", $$[$0-3]);
                         this.$.cst.InsertarUnNodo("ID", $$[$0-2]);
@@ -142,7 +142,7 @@ break;
 case 9:
 
                         this.$ = new nodo_xml.default($$[$0-6],[],$$[$0-4],[],_$[$0-7].first_line,_$[$0-7].first_column,$$[$0-1]);
-                        this.$.nuevo("nodo","");
+                        this.$.nuevo("nodo","","INI ID FIN lista_valor INI CIERRE ID FIN");
                         this.$.cst.InsertarUnNodo("INI",$$[$0-7]);
                         this.$.cst.InsertarUnNodo("ID",$$[$0-6]);
                         this.$.cst.InsertarUnNodo("FIN",$$[$0-5]);
@@ -157,11 +157,11 @@ break;
 case 10:
 
                         this.$ = new nodo_xml.default($$[$0-6],[],"",$$[$0-4],_$[$0-7].first_line,_$[$0-7].first_column,$$[$0-1]);
-                        this.$.nuevo("nodo","");
+                        this.$.nuevo("nodo","", "INI ID FIN lista_nodos INI CIERRE ID FIN");
                         this.$.cst.InsertarUnNodo("INI",$$[$0-7]);
                         this.$.cst.InsertarUnNodo("ID",$$[$0-6]);
                         this.$.cst.InsertarUnNodo("FIN",$$[$0-5]);
-                        this.$.cst.InsertarLista($$[$0-4],"lista_nodos");
+                        this.$.cst.InsertarLista($$[$0-4],"lista_nodos", "lista_nodos nodo");
                         this.$.cst.InsertarUnNodo("INI",$$[$0-3]);
                         this.$.cst.InsertarUnNodo("CIERRE",$$[$0-2]);
                         this.$.cst.InsertarUnNodo("ID",$$[$0-1]);
@@ -172,10 +172,10 @@ break;
 case 11:
 
                         this.$ = new nodo_xml.default($$[$0-7],$$[$0-6],$$[$0-4],[],_$[$0-8].first_line,_$[$0-8].first_column,$$[$0-1]);
-                        this.$.nuevo("nodo","");
+                        this.$.nuevo("nodo","", "INI ID lista_atributos FIN lista_valor INI CIERRE ID FIN");
                         this.$.cst.InsertarUnNodo("INI",$$[$0-8]);
                         this.$.cst.InsertarUnNodo("ID",$$[$0-7]);
-                        this.$.cst.InsertarLista($$[$0-6],"lista_atributos");
+                        this.$.cst.InsertarLista($$[$0-6],"lista_atributos", "lista_atributos atributo");
                         this.$.cst.InsertarUnNodo("FIN",$$[$0-5]);
                         this.$.cst.InsertarUnNodo("lista_valor",$$[$0-4]);
                         this.$.cst.InsertarUnNodo("INI",$$[$0-3]);
@@ -188,12 +188,12 @@ break;
 case 12:
 
                         this.$ = new nodo_xml.default($$[$0-7],$$[$0-6],"",$$[$0-4],_$[$0-8].first_line,_$[$0-8].first_column,$$[$0-1]);
-                        this.$.nuevo("nodo","");
+                        this.$.nuevo("nodo","", "INI ID lista_atributos FIN lista_nodos INI CIERRE ID FIN");
                         this.$.cst.InsertarUnNodo("INI",$$[$0-8]);
                         this.$.cst.InsertarUnNodo("ID",$$[$0-7]);
-                        this.$.cst.InsertarLista($$[$0-6],"lista_atributos");
+                        this.$.cst.InsertarLista($$[$0-6],"lista_atributos", "lista_atributos atributo");
                         this.$.cst.InsertarUnNodo("FIN",$$[$0-5]);
-                        this.$.cst.InsertarLista($$[$0-4], "lista_nodos");
+                        this.$.cst.InsertarLista($$[$0-4], "lista_nodos", "lista_nodos nodo");
                         this.$.cst.InsertarUnNodo("INI",$$[$0-3]);
                         this.$.cst.InsertarUnNodo("CIERRE",$$[$0-2]);
                         this.$.cst.InsertarUnNodo("ID",$$[$0-1]);
@@ -204,10 +204,10 @@ break;
 case 13:
 
                         this.$ = new nodo_xml.default($$[$0-3],$$[$0-2],"",[],_$[$0-4].first_line,_$[$0-4].first_column,null);
-                        this.$.nuevo("nodo","");
+                        this.$.nuevo("nodo","", "INI ID CIERRE FIN");
                         this.$.cst.InsertarUnNodo("INI",$$[$0-4]);
                         this.$.cst.InsertarUnNodo("ID",$$[$0-3]);
-                        this.$.cst.InsertarLista($$[$0-2],"lista_atributos");
+                        this.$.cst.InsertarLista($$[$0-2],"lista_atributos", "lista_atributos atributo");
                         this.$.cst.InsertarUnNodo("CIRRE",$$[$0-1]);
                         this.$.cst.InsertarUnNodo("FIN",$$[$0]);
                         reportG.push(new gramatic.default("nodo : INI ID lista_atributos CIERRE FIN","{ nodo.val = new nodo_xml.default(ID.valLex,lista_atributos.val,'',[],null) }"));
@@ -233,7 +233,7 @@ break;
 case 17:
 
                         this.$ = new atr_xml.default($$[$0-2],$$[$0],_$[$0-2].first_line,_$[$0-2].first_column);
-                        this.$.nuevo("atributos","");
+                        this.$.nuevo("atributos","", "ID IGUAL valor");
                         this.$.cst.InsertarUnNodo("ID",$$[$0-2]);
                         this.$.cst.InsertarUnNodo("IGUAL",$$[$0-1]);
                         this.$.cst.InsertarUnNodo("VALOR",$$[$0]);
@@ -546,6 +546,7 @@ _handle_error:
     const rep_error = require('../reports/ReportController')
     const gramatic = require('../reports/gramatical');
     const importacion = require('../reports/ASTNodo');
+    const ast_nodo = require('../reports/ASTNodo');
     /* Reporte Gramatical */
     let reportG = new Array();
 /* generated by jison-lex 0.3.4 */

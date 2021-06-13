@@ -14,8 +14,8 @@ export default class atr_xml{
         this.columna = columna
     }
 
-  nuevo(produccion : string, token : string){
-    this.cst = new ASTNodo(produccion,token);
+  nuevo(produccion : string, token : string, regla :string){
+    this.cst = new ASTNodo(produccion,token, regla);
   }
 
 }

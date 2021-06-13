@@ -24,8 +24,8 @@ export default class nodo_xml{
         this.id2 = id2
     }
 
-    nuevo(produccion : string, token : string){
-      this.cst = new ASTNodo(produccion,token);
+    nuevo(produccion : string, token : string, regla :string){
+      this.cst = new ASTNodo(produccion,token, regla);
     }
 
     printNode(str){

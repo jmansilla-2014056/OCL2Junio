@@ -43,12 +43,21 @@ export default  class ASTNodo {
       '            ];\n'
   }
 
-  InsertarLista(listaNodo: any, nombre:string ){
-    let puntero = new ASTNodo(nombre, "");
-    for(let x of listaNodo){
-      puntero.InsertarHijo(x.cst);
-    }
+  InsertarLista(listaNodo: any, produccion:string, regla:string){
+    let puntero = new ASTNodo(produccion, "", regla);
     this.InsertarHijo(puntero);
+
+    for(let x of listaNodo){
+      if(listaNodo[listaNodo.length-1] == x){
+        puntero.InsertarHijo(x.cst);
+      }else{
+        let tempX = new ASTNodo(produccion,"", regla);
+        puntero.InsertarHijo(tempX);
+        puntero.InsertarHijo(x.cst);
+        puntero = tempX;
+      }
+
+    }
   }
 
   escapeHtml(unsafe) {
