@@ -1,3 +1,4 @@
+import err from '../err';
 import nodo_xml from '../xml/nodo_xml'
 
 export class ast{
@@ -5,6 +6,10 @@ export class ast{
     private arbolito:string;
     private nombreHijo:string;
     private nombreAtributo:string;
+    public lista_errores: Array<err>
+    constructor(){
+        this.lista_errores = new Array<err>()
+    }
 
     public getArbolito(arbol:nodo_xml):string{
         this.arbolito = "nodo0[label=\"" + arbol.id + "\"];\n";
@@ -31,5 +36,8 @@ export class ast{
             this.numeroNodo++;
             this.recorrerAst(this.nombreHijo,hijo);
         }
+    }
+    addErr(descripcion,linea,columna){
+        this.lista_errores.push(new err(descripcion,linea,columna))
     }
 }
