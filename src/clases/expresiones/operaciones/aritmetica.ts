@@ -43,7 +43,7 @@ export default class aritmetica implements expresion {
                         this.tipo_ = tipo.STRING
                         return val1 + val2
                     } else {
-                        arbol.addErr(`Error ${val1} + ${val2} no es valido`,this.linea,this.columna)
+                        arbol.addErr(`Error: ${val1} + ${val2} no es valido`,this.linea,this.columna)
                     }
                 } else if (typeof val1 === 'string') {
                     if (typeof val2 === 'number') {
@@ -53,7 +53,7 @@ export default class aritmetica implements expresion {
                         this.tipo_ = tipo.STRING
                         return val1 + val2
                     } else {
-                        arbol.addErr(`Error ${val1} + ${val2} no es valido`,this.linea,this.columna)
+                        arbol.addErr(`Error: ${val1} + ${val2} no es valido`,this.linea,this.columna)
                     }
                 } else {
                     //Error
@@ -64,7 +64,7 @@ export default class aritmetica implements expresion {
                     this.tipo_ = tipo.DOUBLE
                     return val1 - val2
                 } else {
-                    arbol.addErr(`Error ${val1} - ${val2} no es valido`,this.linea,this.columna)
+                    arbol.addErr(`Error: ${val1} - ${val2} no es valido`,this.linea,this.columna)
                 }
                 break;
             case "*":
@@ -72,7 +72,7 @@ export default class aritmetica implements expresion {
                     this.tipo_ = tipo.DOUBLE
                     return val1 * val2
                 } else {
-                    arbol.addErr(`Error ${val1} * ${val2} no es valido`,this.linea,this.columna)
+                    arbol.addErr(`Error: ${val1} * ${val2} no es valido`,this.linea,this.columna)
                 }
                 break;
             case "/":
@@ -80,7 +80,7 @@ export default class aritmetica implements expresion {
                     this.tipo_ = tipo.DOUBLE
                     return val1 / val2
                 } else {
-                    arbol.addErr(`Error ${val1} / ${val2} no es valido`,this.linea,this.columna)
+                    arbol.addErr(`Error: ${val1} / ${val2} no es valido`,this.linea,this.columna)
                 }
                 break;
             case "%":
@@ -88,7 +88,7 @@ export default class aritmetica implements expresion {
                     this.tipo_ = tipo.INT
                     return val1 % val2
                 } else {
-                    arbol.addErr(`Error ${val1} % ${val2} no es valido`,this.linea,this.columna)
+                    arbol.addErr(`Error: ${val1} % ${val2} no es valido`,this.linea,this.columna)
                 }
                 break;
             case "UNARIO":
@@ -96,7 +96,7 @@ export default class aritmetica implements expresion {
                     this.tipo_ = tipo.DOUBLE
                     return -valU
                 } else {
-                    arbol.addErr(`Error -${valU} no es valido`,this.linea,this.columna)
+                    arbol.addErr(`Error: -${valU} no es valido`,this.linea,this.columna)
                 }
                 break;
             default:

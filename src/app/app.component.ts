@@ -15,6 +15,7 @@ import xmld from "../gramatica/xml_descendente";
 import xpath from "../gramatica/xpath";
 import ast_xpath from "../clases/ast/ast_xpath";
 import select from 'src/clases/expresiones/select';
+import err from 'src/clases/err';
 
 @Component({
   selector: 'app-root',
@@ -34,6 +35,7 @@ export class AppComponent {
   consola: string = '/mundo/continente[@name="Europa"]/pais/descendant_or_self::nombre'
   salida: string = ""
   n_node: number
+  errs: Array<err> = new Array<err>()
   openFile(input) {
     var x: File = input.files[0]
     if (x) {
@@ -214,6 +216,7 @@ export class AppComponent {
     let arbol: ast = new ast()
     xpath_str = result.ejecutar(this.fls[this.actual_file].ent.tabla["xml"].valor,arbol)
     this.salida = xpath_str
+    this.errs = arbol.lista_errores
     console.log(this.salida)
   }
 
