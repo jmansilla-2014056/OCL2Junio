@@ -85,7 +85,7 @@ inicio              : encoding etiqueta {
                         let auxReportG = reportG;
                         reportG = [];
                         $$ = { "encoding": $1, "etiqueta": $2, "reportG": auxReportG};
-                        $$.encoding.nuevo("inicio","");
+                        $$.encoding.nuevo("inicio : ","");
                         $$.encoding.cst.InsertarHijo($1.cst);
                         $$.encoding.cst.InsertarHijo($2.cst);
                         return $$

@@ -4,6 +4,7 @@ import { entorno } from 'src/clases/ast/entorno';
 import { simbolo } from 'src/clases/ast/simbolo';
 import { tipo } from 'src/clases/ast/tipo';
 import { ast } from '../clases/ast/ast';
+import { astXpath } from '../reports/astXpath';
 import { getErrores } from '../reports/ReportController';
 import gramatical from '../reports/gramatical';
 import nodo_xml from '../clases/xml/nodo_xml';
@@ -207,6 +208,8 @@ export class AppComponent {
   execXpath() {
     let entrada = this.consola
     let result: ast_xpath = xpath.parse(entrada)
+    let arbolito = new astXpath().getArbolito(result);
+    localStorage.setItem('astx', 'digraph g {\n ' + arbolito + '}');
     let xpath_str
     let arbol: ast = new ast()
     xpath_str = result.ejecutar(this.fls[this.actual_file].ent.tabla["xml"].valor,arbol)
