@@ -2,6 +2,7 @@ import { ast } from "src/clases/ast/ast";
 import { entorno } from "src/clases/ast/entorno";
 import { tipo } from "src/clases/ast/tipo";
 import { expresion } from "src/clases/interfaces/expresion";
+import { InsertarError } from "src/reports/ReportController";
 
 export default class aritmetica implements expresion {
     public e1: expresion
@@ -43,7 +44,7 @@ export default class aritmetica implements expresion {
                         this.tipo_ = tipo.STRING
                         return val1 + val2
                     } else {
-                        arbol.addErr(`Error: ${val1} + ${val2} no es valido`,this.linea,this.columna)
+                        InsertarError("Semantico",`Error: ${val1} + ${val2} no es valido`,"xpath",this.linea,this.columna)
                     }
                 } else if (typeof val1 === 'string') {
                     if (typeof val2 === 'number') {
@@ -53,7 +54,7 @@ export default class aritmetica implements expresion {
                         this.tipo_ = tipo.STRING
                         return val1 + val2
                     } else {
-                        arbol.addErr(`Error: ${val1} + ${val2} no es valido`,this.linea,this.columna)
+                        InsertarError("Semantico",`Error: ${val1} + ${val2} no es valido`,"xpath",this.linea,this.columna)
                     }
                 } else {
                     //Error
@@ -64,7 +65,7 @@ export default class aritmetica implements expresion {
                     this.tipo_ = tipo.DOUBLE
                     return val1 - val2
                 } else {
-                    arbol.addErr(`Error: ${val1} - ${val2} no es valido`,this.linea,this.columna)
+                    InsertarError("Semantico",`Error: ${val1} - ${val2} no es valido`,"xpath",this.linea,this.columna)
                 }
                 break;
             case "*":
@@ -72,7 +73,7 @@ export default class aritmetica implements expresion {
                     this.tipo_ = tipo.DOUBLE
                     return val1 * val2
                 } else {
-                    arbol.addErr(`Error: ${val1} * ${val2} no es valido`,this.linea,this.columna)
+                    InsertarError("Semantico",`Error: ${val1} * ${val2} no es valido`,"xpath",this.linea,this.columna)
                 }
                 break;
             case "/":
@@ -80,7 +81,7 @@ export default class aritmetica implements expresion {
                     this.tipo_ = tipo.DOUBLE
                     return val1 / val2
                 } else {
-                    arbol.addErr(`Error: ${val1} / ${val2} no es valido`,this.linea,this.columna)
+                    InsertarError("Semantico",`Error: ${val1} / ${val2} no es valido`,"xpath",this.linea,this.columna)
                 }
                 break;
             case "%":
@@ -88,7 +89,7 @@ export default class aritmetica implements expresion {
                     this.tipo_ = tipo.INT
                     return val1 % val2
                 } else {
-                    arbol.addErr(`Error: ${val1} % ${val2} no es valido`,this.linea,this.columna)
+                    InsertarError("Semantico",`Error: ${val1} % ${val2} no es valido`,"xpath",this.linea,this.columna)
                 }
                 break;
             case "UNARIO":
@@ -96,7 +97,7 @@ export default class aritmetica implements expresion {
                     this.tipo_ = tipo.DOUBLE
                     return -valU
                 } else {
-                    arbol.addErr(`Error: -${valU} no es valido`,this.linea,this.columna)
+                    InsertarError("Semantico",`Error: - ${valU} no es valido`,"xpath",this.linea,this.columna)
                 }
                 break;
             default:

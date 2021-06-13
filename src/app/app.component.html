@@ -19,8 +19,6 @@
         <button type="button" class="btn btn-success" (click)="analizarXml()">Analisis Ascendente</button>
         <button type="button" class="btn btn-success" (click)="analizarXmlDesc()">Analisis Descendente</button>
         <button type="button" class="btn btn-success" (click)="execXpath()">Ejecutar xpath</button>
-        <!--<button type="button" class="btn btn-success" (click)="test()">test</button>-->
-        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#ModalErrSeman">test</button>
       </div>
     </div>
   </div>
@@ -165,39 +163,6 @@
       <div class="modal-body table-responsive" id="reportE"></div>
       <div class="modal-footer">
         <button type="button" class="btn btn-success" data-bs-dismiss="modal">Aceptar</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!--MODAL-->
-<div class="modal" tabindex="-1" id="ModalErrSeman">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Reporte errores semanticos</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <table class="table">
-          <thead class="thead-dark">
-            <tr>
-              <th scope="col">Descripcion</th>
-              <th scope="col">Linea</th>
-              <th scope="col">Columna</th>
-            </tr>
-          </thead>
-          <tbody *ngFor="let err of errs">
-            <tr>
-              <td>{{err.descripcion}}</td>
-              <td>{{err.linea}}</td>
-              <td>{{err.columna}}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
