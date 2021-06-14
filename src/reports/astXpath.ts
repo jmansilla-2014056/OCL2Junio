@@ -53,7 +53,6 @@ export class astXpath{
                 this.generaAst("::",raiz[index]["id"]);
             }
         }
-        console.log(this.arbolito);
     }
 
     /* Genera dot de instancias select */

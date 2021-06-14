@@ -13,6 +13,7 @@ import xml from "../gramatica/xml";
 import xmld from "../gramatica/xml_descendente";
 
 import xpath from "../gramatica/xpath";
+import xpathd from "../gramatica/xpath_descendente";
 import ast_xpath from "../clases/ast/ast_xpath";
 import select from 'src/clases/expresiones/select';
 import err from 'src/clases/err';
@@ -206,16 +207,37 @@ export class AppComponent {
     document.getElementById("reportE").innerHTML = errores;
   }
 
+  /* Analisis xpath ascendente */
   execXpath() {
     let entrada = this.consola
     let result: ast_xpath = xpath.parse(entrada)
-    let arbolito = new astXpath().getArbolito(result);
-    localStorage.setItem('astx', 'digraph g {\n ' + arbolito + '}');
+    
     let xpath_str
     let arbol: ast = new ast()
     xpath_str = result.ejecutar(this.fls[this.actual_file].ent.tabla["xml"].valor,arbol)
     this.salida = xpath_str
     console.log(this.salida)
+
+    /* Reporte Ast */
+    let arbolito = new astXpath().getArbolito(result);
+    localStorage.setItem('astx', 'digraph g {\n ' + arbolito + '}');
+  }
+
+  /* Analisis xpath descendente */
+  execXpathD() {
+    let entrada = this.consola
+    let result: ast_xpath = xpathd.parse(entrada)
+    result["lista_several"][0].reverse();
+    
+    let xpath_str
+    let arbol: ast = new ast()
+    xpath_str = result.ejecutar(this.fls[this.actual_file].ent.tabla["xml"].valor,arbol)
+    this.salida = xpath_str
+    console.log(this.salida)
+    
+    /* Reporte ast */
+    let arbolito = new astXpath().getArbolito(result);
+    localStorage.setItem('astx', 'digraph g {\n ' + arbolito + '}');
   }
 
   reporteArbol() {
