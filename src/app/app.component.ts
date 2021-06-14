@@ -98,6 +98,9 @@ export class AppComponent {
 
     /* reporte tabla de simbolos */
     this.tablaSimbolosReport();
+
+    /* Fin analisis */
+    alert("Analisis finalizado con exito!");
   }
 
   /* Analisis descendente */
@@ -126,6 +129,9 @@ export class AppComponent {
 
     /* reporte tabla de simbolos */
     this.tablaSimbolosReport();
+
+    /* Fin analisis */
+    alert("Analisis finalizado con exito!");
   }
 
   /*MANEJO DE ENTORNOS DE LOS NODOS*/
@@ -231,6 +237,9 @@ export class AppComponent {
 
     /* reporte gramatical */
     this.tablaReportGramatical(new gramatical("","").getReporteG(reportG),"Reporte Gramatical Xpath Ascendente","reportGX","TitleReportGramaticalX");
+
+    /* Fin analisis */
+    alert("Analisis finalizado con exito!");
   }
 
   /* Analisis xpath descendente */
@@ -255,6 +264,9 @@ export class AppComponent {
 
     /* reporte gramatical */
     this.tablaReportGramatical(new gramatical("","").getReporteG(reportG),"Reporte Gramatical Xpath Descendente","reportGX","TitleReportGramaticalX");
+
+    /* Fin analisis */
+    alert("Analisis finalizado con exito!");
   }
 
   reporteArbolA() {
