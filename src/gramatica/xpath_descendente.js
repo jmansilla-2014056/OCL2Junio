@@ -85,31 +85,45 @@ var $0 = $$.length - 1;
 switch (yystate) {
 case 1:
 
-                    this.$ = new ast_xpath.default($$[$0-1]);
+                    reportG.push(new gramatic.default("inicio : lista_several EOF","{ inicio.val = new ast_xpath.default(lista_several.val); }"));
+                    let auxReportG = reportG;
+                    reportG = [];
+                    this.$ = { "xpath": new ast_xpath.default($$[$0-1]), "reportG": auxReportG};
                     return this.$     
                 
 break;
 case 2:
 
                     this.$ = $$[$0];
-                    this.$.push($$[$0-2]);    
+                    this.$.push($$[$0-2]);
+                    reportG.push(new gramatic.default("lista_several : lista_select SEVERAL lista_several","{ lista_several.val = lista_severalP.val;\n lista_several.val.push(lista_select.val); }"));
                 
 break;
-case 3: case 5:
+case 3:
 
                     this.$ = new Array();
                     this.$.push($$[$0]);
+                    reportG.push(new gramatic.default("lista_several : lista_select","{ lista_several.val = new Array();\n lista_several.val.push(lista_select.val); }"));
                 
 break;
 case 4:
 
                     this.$ = $$[$0];
-                    this.$.push($$[$0-1]);    
+                    this.$.push($$[$0-1]);
+                    reportG.push(new gramatic.default("lista_select : select lista_select","{ lista_select.val = lista_selectP.val;\n lista_select.val.push(select.val); }"));
+                
+break;
+case 5:
+
+                    this.$ = new Array();
+                    this.$.push($$[$0]);
+                    reportG.push(new gramatic.default("lista_select : select","{ lista_select.val = new Array();\n lista_select.val.push(select.val); }"));
                 
 break;
 case 6:
 
                     this.$ = $$[$0]
+                    reportG.push(new gramatic.default("select : DIV list_op_select","{ select.val = list_op_select.val }"));
                 
 break;
 case 7:
@@ -117,9 +131,11 @@ case 7:
                     if ($$[$0].slc){
                         $$[$0].slc.tipe = "//";
                         this.$ = $$[$0];
+                        reportG.push(new gramatic.default("list_op_select : DIV opcion_select","{ opcion_select.slc.val.tipe = '//';\n list_op_select.val = opcion_select.val }"));
                     }else{
                         $$[$0].tipe = "//";
                         this.$ = $$[$0];
+                        reportG.push(new gramatic.default("list_op_select : DIV opcion_select","{ opcion_select.val.tipe = '//';\n list_op_select.val = opcion_select.val }"));
                     }
                 
 break;
@@ -128,9 +144,11 @@ case 8:
                     if ($$[$0].slc){
                         $$[$0].slc.tipe = "/";
                         this.$ = $$[$0];
+                        reportG.push(new gramatic.default("list_op_select : opcion_select","{ opcion_select.slc.val.tipe = '/';\n list_op_select.val = opcion_select.val }"));
                     }else{
                         $$[$0].tipe = "/";
                         this.$ = $$[$0];
+                        reportG.push(new gramatic.default("list_op_select : opcion_select","{ opcion_select.val.tipe = '/';\n list_op_select.val = opcion_select.val }"));
                     }
                 
 break;
@@ -139,174 +157,221 @@ case 9:
                     if ($$[$0].hasOwnProperty("axe")){
                         $$[$0].axe = $$[$0-1];
                         this.$ = $$[$0];
+                        reportG.push(new gramatic.default("opcion_select : ID otra_opcion_s","{ otra_opcion_s.val.axe = ID.valLex;\n opcion_select.val = otra_opcion_s.val }"));
                     }else if ($$[$0].slc){
                         $$[$0].slc.id = $$[$0-1];
                         this.$ = $$[$0];
+                        reportG.push(new gramatic.default("opcion_select : ID otra_opcion_s","{ otra_opcion_s.val.slc.id = ID.valLex;\n opcion_select.val = otra_opcion_s.val }"));
                     }else{
                         $$[$0].id = $$[$0-1];
                         this.$ = $$[$0];
+                        reportG.push(new gramatic.default("opcion_select : ID otra_opcion_s","{ otra_opcion_s.val.id = ID.valLex;\n opcion_select.val = otra_opcion_s.val }"));
                     }
                 
 break;
-case 10: case 13:
+case 10:
 
                     this.$ = $$[$0];
+                    reportG.push(new gramatic.default("opcion_select : ATR fin_opcion_s","{ opcion_select.val = fin_opcion_s.val}"));
                 
 break;
 case 11:
 
                     this.$ = new select.default("","*",false,_$[$0].first_line,_$[$0].first_column);
+                    reportG.push(new gramatic.default("opcion_select : MULTI","{ opcion_select.val = new select.default('','*',false) }"));
                 
 break;
 case 12:
 
                     this.$ = new predicate.default(new select.default("","",false,_$[$0-2].first_line,_$[$0-2].first_column,null),$$[$0-1],_$[$0-2].first_line,_$[$0-2].first_column);
+                    reportG.push(new gramatic.default("otra_opcion_s : CORA e CORC","{ otra_opcion_s.val = new predicate.default(new select.default('','',false,null),e.val) }"));
+                
+break;
+case 13:
+
+                    this.$ = $$[$0];
+                    reportG.push(new gramatic.default("otra_opcion_s : DPTN DPTN axes_select","{ otra_opcion_s.val = axes_select.val }"));
                 
 break;
 case 14:
 
                     this.$ = new select.default("","",false,_$[$0].first_line,_$[$0].first_column);
+                    reportG.push(new gramatic.default("otra_opcion_s : epsilon","{ otra_opcion_s.val = new select.default('','',false) }"));
                 
 break;
 case 15:
 
                     this.$ = new axes.default("","",$$[$0],_$[$0].first_line,_$[$0].first_column);
+                    reportG.push(new gramatic.default("axes_select : ID","{ axes_select.val = new axes.default('','',ID.valLex) }"));
                 
 break;
 case 16:
 
                     this.$ = new axes.default("","","*",_$[$0].first_line,_$[$0].first_column);
+                    reportG.push(new gramatic.default("axes_select : MULTI","{ axes_select.val = new axes.default('','','*') }"));
                 
 break;
 case 17:
 
                     this.$ = new select.default("",$$[$0],true,_$[$0].first_line,_$[$0].first_column);
+                    reportG.push(new gramatic.default("fin_opcion_s : ID","{ fin_opcion_s.val = new select.default('',ID.valLex,true) }"));
                 
 break;
 case 18:
 
                     this.$ = new select.default("",null,true,_$[$0].first_line,_$[$0].first_column);
+                    reportG.push(new gramatic.default("fin_opcion_s : MULTI","{ fin_opcion_s.val = new select.default('',null,true) }"));
                 
 break;
 case 19:
 
                     this.$ = new aritmetica.default($$[$0-2],"+",$$[$0],_$[$0-2].first_line,_$[$0-2].first_column,false);
+                    reportG.push(new gramatic.default("e : e MAS e","{ e.val = new aritmetica.default(e.val,'+',e.val,false) }"));
                 
 break;
 case 20:
 
                     this.$ = new aritmetica.default($$[$0-2],"-",$$[$0],_$[$0-2].first_line,_$[$0-2].first_column,false);
+                    reportG.push(new gramatic.default("e : e MENOS e","{ e.val = new aritmetica.default(e.val,'-',e.val,false) }"));
                 
 break;
 case 21:
 
                     this.$ = new aritmetica.default($$[$0-2],"*",$$[$0],_$[$0-2].first_line,_$[$0-2].first_column,false);
+                    reportG.push(new gramatic.default("e : e MULTI e","{ e.val = new aritmetica.default(e.val,'*',e.val,false) }"));
                 
 break;
 case 22:
 
                     this.$ = new aritmetica.default($$[$0-2],"/",$$[$0],_$[$0-2].first_line,_$[$0-2].first_column,false);
+                    reportG.push(new gramatic.default("e : e DIV e","{ e.val = new aritmetica.default(e.val,'/',e.val,false) }"));
                 
 break;
 case 23:
 
                     this.$ = new aritmetica.default($$[$0-2],"%",$$[$0],_$[$0-2].first_line,_$[$0-2].first_column,false);
+                    reportG.push(new gramatic.default("e : e MODULO e","{ e.val = new aritmetica.default(e.val,'%',e.val,false) }"));
                 
 break;
 case 24:
 
                     this.$ = new aritmetica.default($$[$0],"UNARIO",null,_$[$0-1].first_line,_$[$0-1].first_column,true);
+                    reportG.push(new gramatic.default("e : MENOS e","{ e.val = new aritmetica.default(e.val,'-',null,true) }"));
                 
 break;
 case 25:
 
                     this.$ = new relacional.default($$[$0-2],"<",$$[$0],_$[$0-2].first_line,_$[$0-2].first_column,false);
+                    reportG.push(new gramatic.default("e : e MENORQUE e","{ e.val = new relacional.default(e.val,'<',e.val,false) }"));
                 
 break;
 case 26:
 
                     this.$ = new relacional.default($$[$0-2],">",$$[$0],_$[$0-2].first_line,_$[$0-2].first_column,false);
+                    reportG.push(new gramatic.default("e : e MAYORQUE e","{ e.val = new relacional.default(e.val,'>',e.val,false) }"));
                 
 break;
 case 27:
 
                     this.$ = new relacional.default($$[$0-2],"<=",$$[$0],_$[$0-2].first_line,_$[$0-2].first_column,false);
+                    reportG.push(new gramatic.default("e : e MENORIGUAL e","{ e.val = new relacional.default(e.val,'<=',e.val,false) }"));
                 
 break;
 case 28:
 
                     this.$ = new relacional.default($$[$0-2],">=",$$[$0],_$[$0-2].first_line,_$[$0-2].first_column,false);
+                    eportG.push(new gramatic.default("e : e MAYORIGUAL e","{ e.val = new relacional.default(e.val,'>=',e.val,false) }"));
                 
 break;
-case 29: case 30:
+case 29:
 
                     this.$ = new relacional.default($$[$0-2],"=",$$[$0],_$[$0-2].first_line,_$[$0-2].first_column,false);
+                    reportG.push(new gramatic.default("e : e IGUAL e","{ e.val = new relacional.default(e.val,'=',e.val,false) }"));
+                
+break;
+case 30:
+
+                    this.$ = new relacional.default($$[$0-2],"=",$$[$0],_$[$0-2].first_line,_$[$0-2].first_column,false);
+                    reportG.push(new gramatic.default("e : e IGUALIGUAL e","{ e.val = new relacional.default(e.val,'=',e.val,false) }"));
                 
 break;
 case 31:
 
                     this.$ = new relacional.default($$[$0-2],"!=",$$[$0],_$[$0-2].first_line,_$[$0-2].first_column,false);
+                    reportG.push(new gramatic.default("e : e DIFERENTE e","{ e.val = new relacional.default(e.val,'!=',e.val,false) }"));
                 
 break;
 case 32:
 
                     this.$ = new logica.default($$[$0-2],"||",$$[$0],_$[$0-2].first_line,_$[$0-2].first_column,false);
+                    reportG.push(new gramatic.default("e : e OR e","{ e.val = new logica.default(e.val,'&&',e.val,false) }"));
                 
 break;
 case 33:
 
                     this.$ = new logica.default($$[$0-2],"&&",$$[$0],_$[$0-2].first_line,_$[$0-2].first_column,false);
+                    reportG.push(new gramatic.default("e : e AND e","{ e.val = new logica.default(e.val,'&&',e.val,false) }"));
                 
 break;
 case 34:
  
                     this.$ = new logica.default($$[$0],"!",null,_$[$0-1].first_line,_$[$0-1].first_column,true);
+                    reportG.push(new gramatic.default("e : NOT e","{ e.val = new logica.default(e.val,'!',null,true) }"));
                 
 break;
 case 35:
 
                     this.$ = $$[$0-1];
+                    reportG.push(new gramatic.default("e : PARA e PARC","{ e.val = NUM.valLex }"));
                 
 break;
 case 36:
 
                     this.$ = new last.default(_$[$0-2].first_line,_$[$0-2].first_column);
+                    reportG.push(new gramatic.default("e : LAST PARA PARC","{ e.val = new last.default() }"));
                 
 break;
 case 37:
 
                     this.$ = new position.default(_$[$0-2].first_line,_$[$0-2].first_column);
+                    reportG.push(new gramatic.default("e : POSITION PARA PARC","{ e.val = new position.default() }"));
                 
 break;
 case 38:
 
                     this.$ = new filtro.default($$[$0],_$[$0-1].first_line,_$[$0-1].first_column,true);
+                    reportG.push(new gramatic.default("e : ATR ID","{ e.val = new filtro.default(ID.valLex,true) }"));
                 
 break;
 case 39:
 
                     this.$ = new primitivo.default(Number($$[$0]),_$[$0].first_line,_$[$0].first_column);
+                    reportG.push(new gramatic.default("e : NUM","{ e.val = new primitivo.default(Number(NUM.valLex)) }"));
                 
 break;
 case 40:
 
                     $$[$0] = $$[$0].slice(1, $$[$0].length-1);
                     this.$ = new primitivo.default($$[$0],_$[$0].first_line,_$[$0].first_column);
+                    reportG.push(new gramatic.default("e : CADENA","{ e.val = new primitivo.default(CADENA.valLex) }"));
                 
 break;
 case 41:
 
                     this.$ = new filtro.default($$[$0],_$[$0].first_line,_$[$0].first_column,false);
+                    reportG.push(new gramatic.default("e : ID","{ e.val = new filtro.default(ID.valLex,false) }"));
                 
 break;
 case 42:
 
                     this.$ = new primitivo.default(true,_$[$0].first_line,_$[$0].first_column);
+                    reportG.push(new gramatic.default("e : TRUE","{ e.val = new primitivo.default(true) }"));
                 
 break;
 case 43:
 
                     this.$ = new primitivo.default(false,_$[$0].first_line,_$[$0].first_column);
+                    reportG.push(new gramatic.default("e : FALSE","{ e.val = new primitivo.default(false) }"));
                 
 break;
 }
@@ -477,6 +542,10 @@ parse: function parse(input) {
     const filtro = require('../clases/expresiones/predicates/filtro')
 
     const axes = require('../clases/expresiones/axes/axes')
+
+    /* Reporte Gramatical */
+    const gramatic = require('../reports/gramatical');
+    let reportG = new Array();
 /* generated by jison-lex 0.3.4 */
 var lexer = (function(){
 var lexer = ({

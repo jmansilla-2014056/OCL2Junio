@@ -88,7 +88,7 @@ export class AppComponent {
     localStorage.setItem('cst', localStorage.getItem('cst')+"}");
 
     /* reporte gramatical */
-    this.tablaReportGramatical(new gramatical("","").getReporteG(reportG),"Reporte Gramatical Ascendente");
+    this.tablaReportGramatical(new gramatical("","").getReporteG(reportG),"Reporte Gramatical Ascendente","reportG","TitleReportGramatical");
 
     /* Entornos */
     this.n_node = 1
@@ -116,7 +116,7 @@ export class AppComponent {
     localStorage.setItem('cst', localStorage.getItem('cst')+"}");
 
     /* reporte gramatical */
-    this.tablaReportGramatical(new gramatical("","").getReporteG(reportG),"Reporte Gramatical Descendente");
+    this.tablaReportGramatical(new gramatical("","").getReporteG(reportG),"Reporte Gramatical Descendente","reportG","TitleReportGramatical");
 
     /* Entornos */
     this.createEntorno(result,encoding);
@@ -188,9 +188,9 @@ export class AppComponent {
   }
 
   /* Reporte Gramatical */
-  tablaReportGramatical(gramar:string,titles:string){
-    document.getElementById("TitleReportGramatical").innerHTML = titles;
-    document.getElementById("reportG").innerHTML = gramar;
+  tablaReportGramatical(gramar:string,titles:string,idg:string,idt:string){
+    document.getElementById(idt).innerHTML = titles;
+    document.getElementById(idg).innerHTML = gramar;
   }
 
   /* Reporte para la tabla de simbolos */
@@ -210,7 +210,9 @@ export class AppComponent {
   /* Analisis xpath ascendente */
   execXpath() {
     let entrada = this.consola
-    let result: ast_xpath = xpath.parse(entrada)
+    let parse_result = xpath.parse(entrada);
+    let result: ast_xpath = parse_result.xpath;
+    let reportG = parse_result.reportG;
     
     let xpath_str
     let arbol: ast = new ast()
@@ -221,12 +223,17 @@ export class AppComponent {
     /* Reporte Ast */
     let arbolito = new astXpath().getArbolito(result);
     localStorage.setItem('astx', 'digraph g {\n ' + arbolito + '}');
+
+    /* reporte gramatical */ 
+    this.tablaReportGramatical(new gramatical("","").getReporteG(reportG),"Reporte Gramatical Xpath Ascendente","reportGX","TitleReportGramaticalX");
   }
 
   /* Analisis xpath descendente */
   execXpathD() {
     let entrada = this.consola
-    let result: ast_xpath = xpathd.parse(entrada)
+    let parse_result = xpathd.parse(entrada);
+    let result: ast_xpath = parse_result.xpath;
+    let reportG = parse_result.reportG;
     result["lista_several"][0].reverse();
     
     let xpath_str
@@ -238,6 +245,9 @@ export class AppComponent {
     /* Reporte ast */
     let arbolito = new astXpath().getArbolito(result);
     localStorage.setItem('astx', 'digraph g {\n ' + arbolito + '}');
+
+    /* reporte gramatical */ 
+    this.tablaReportGramatical(new gramatical("","").getReporteG(reportG),"Reporte Gramatical Xpath Descendente","reportGX","TitleReportGramaticalX");
   }
 
   reporteArbol() {

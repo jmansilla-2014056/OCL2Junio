@@ -81,6 +81,8 @@
         (click)="tablaReportError()">Reporte de Errores</button>
       <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#ModalGramatical">Reporte
         Gramatical</button>
+      <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#ModalGramaticalX">Reporte
+        Gramatical Xpath</button>
     </div>
   </div>
   <div class="row">
@@ -132,6 +134,21 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body table-responsive" id="reportG"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" tabindex="-1" id="ModalGramaticalX">
+  <div class="modal-dialog" style="max-width: 80%;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="TitleReportGramaticalX"></h3>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body table-responsive" id="reportGX"></div>
       <div class="modal-footer">
         <button type="button" class="btn btn-success" data-bs-dismiss="modal">Aceptar</button>
       </div>
