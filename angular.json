@@ -26,7 +26,9 @@
               "src/favicon.ico",
               "src/assets",
               { "glob": "ast.html", "input": "src/static-pages/xml/", "output": "/xml/" },
-              { "glob": "cst.html", "input": "src/static-pages/xml/", "output": "/xml/" }
+              { "glob": "cst.html", "input": "src/static-pages/xml/", "output": "/xml/" },
+              { "glob": "ast.html", "input": "src/static-pages/xpath/", "output": "/xpath/" },
+              { "glob": "cst.html", "input": "src/static-pages/xpath/", "output": "/xpath/" }
             ],
             "styles": [
               "src/styles.css"

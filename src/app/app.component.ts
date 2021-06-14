@@ -72,7 +72,9 @@ export class AppComponent {
 
   /* Analisis Ascendente */
   analizarXml() {
-    localStorage.clear();
+    localStorage.setItem('cst', " digraph L {\n" + "\n" + "  node [shape=record fontname=Arial];");
+    localStorage.setItem('actual', 'cst');
+
     let entrada = this.clearEntry(this.xcode);
     let parse_result = xml.parse(entrada);
     let result: nodo_xml = parse_result.etiqueta
@@ -100,7 +102,8 @@ export class AppComponent {
 
   /* Analisis descendente */
   analizarXmlDesc() {
-    localStorage.clear();
+    localStorage.setItem('cst', "digraph L {\n" + "\n" + "  node [shape=record fontname=Arial];");
+    localStorage.setItem('actual', 'cst');
     let entrada = this.clearEntry(this.xcode);
     let parse_result = xmld.parse(entrada);
     let result:nodo_xml = parse_result.etiqueta;
@@ -209,11 +212,13 @@ export class AppComponent {
 
   /* Analisis xpath ascendente */
   execXpath() {
+    localStorage.setItem('cstx', "digraph L {\n" + "\n" + "  node [shape=record fontname=Arial];");
+    localStorage.setItem('actual', 'cst');
     let entrada = this.consola
     let parse_result = xpath.parse(entrada);
     let result: ast_xpath = parse_result.xpath;
     let reportG = parse_result.reportG;
-    
+
     let xpath_str
     let arbol: ast = new ast()
     xpath_str = result.ejecutar(this.fls[this.actual_file].ent.tabla["xml"].valor,arbol)
@@ -224,35 +229,46 @@ export class AppComponent {
     let arbolito = new astXpath().getArbolito(result);
     localStorage.setItem('astx', 'digraph g {\n ' + arbolito + '}');
 
-    /* reporte gramatical */ 
+    /* reporte gramatical */
     this.tablaReportGramatical(new gramatical("","").getReporteG(reportG),"Reporte Gramatical Xpath Ascendente","reportGX","TitleReportGramaticalX");
   }
 
   /* Analisis xpath descendente */
   execXpathD() {
+    localStorage.setItem('cstx', "digraph L {\n" + "\n" + "  node [shape=record fontname=Arial];");
+    localStorage.setItem('actual', 'cstx');
     let entrada = this.consola
     let parse_result = xpathd.parse(entrada);
     let result: ast_xpath = parse_result.xpath;
     let reportG = parse_result.reportG;
     result["lista_several"][0].reverse();
-    
+
     let xpath_str
     let arbol: ast = new ast()
     xpath_str = result.ejecutar(this.fls[this.actual_file].ent.tabla["xml"].valor,arbol)
     this.salida = xpath_str
     console.log(this.salida)
-    
+
     /* Reporte ast */
     let arbolito = new astXpath().getArbolito(result);
     localStorage.setItem('astx', 'digraph g {\n ' + arbolito + '}');
 
-    /* reporte gramatical */ 
+    /* reporte gramatical */
     this.tablaReportGramatical(new gramatical("","").getReporteG(reportG),"Reporte Gramatical Xpath Descendente","reportGX","TitleReportGramaticalX");
   }
 
-  reporteArbol() {
-    window.open('/xml/ast.html', '_blank');
+  reporteArbolA() {
+    window.open(window.location.href + 'xml/ast.html', '_blank');
   }
+
+  reporteArbolB() {
+    window.open(window.location.href + 'xml/cst.html', '_blank');
+  }
+
+  reporteArbolC() {
+    window.open(window.location.href + 'xpath/ast.html', '_blank');
+  }
+
 
   /* Limpiar Entrada */
   clearEntry(entrada: string): string {
