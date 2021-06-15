@@ -26,13 +26,14 @@ export default class axes implements expresion {
     }
     getValor(ent: entorno, arbol: ast) {
         if (this.tipe == "/" && this.axe.toLocaleLowerCase() == "ancestor") {
-            this.getAncestor(ent, arbol, false, false)
+            this.getAncestor(ent, arbol, true, false)
         } else if (this.tipe == "//" && this.axe.toLocaleLowerCase() == "ancestor") {
             this.getAncestor(ent, arbol, true, false)
         } else if (this.tipe == "/" && this.axe.toLocaleLowerCase() == "ancestor_or_self") {
             this.getAncestor(ent, arbol, false, true)
         } else if (this.tipe == "//" && this.axe.toLocaleLowerCase() == "ancestor_or_self") {
-            this.getAncestor(ent, arbol, true, true)
+            this.getAncestor(ent, arbol, true, false)
+            this.getChildSelf(ent, arbol)
         } else if (this.tipe == "/" && this.axe.toLocaleLowerCase() == "attribute") {
             this.getAtr(ent, arbol, false)
         } else if (this.tipe == "//" && this.axe.toLocaleLowerCase() == "attribute") {
@@ -54,9 +55,37 @@ export default class axes implements expresion {
         } else if (this.tipe == "//" && this.axe.toLocaleLowerCase() == "self") {
             this.getChildSelf(ent, arbol)
         } else if (this.tipe == "/" && this.axe.toLocaleLowerCase() == "parent") {
-            this.getAncestor(ent, arbol,false,false)
+            this.getAncestor(ent, arbol, false, false)
         } else if (this.tipe == "//" && this.axe.toLocaleLowerCase() == "parent") {
-            this.getAncestor(ent, arbol,true,false)
+            this.getAncestor(ent, arbol, true, false)
+        } else if (this.tipe == "/" && this.axe.toLocaleLowerCase() == "node()") {
+            this.getChild(ent, arbol, false)
+        } else if (this.tipe == "//" && this.axe.toLocaleLowerCase() == "node()") {
+            this.getChild(ent, arbol, true)
+        } else if (this.tipe == "//" && this.axe.toLocaleLowerCase() == "..") {
+            this.getAncestor(ent, arbol, true, false)
+            this.getChildSelf(ent, arbol)
+        } else if (this.tipe == "/" && this.axe.toLocaleLowerCase() == "following_sibling") {
+            this.getFollowing(ent, arbol,false)
+        } else if (this.tipe == "//" && this.axe.toLocaleLowerCase() == "following_sibling") {
+            this.getFollowing(ent, arbol, false)
+            this.getChild(ent, arbol, true)
+        } else if (this.tipe == "/" && this.axe.toLocaleLowerCase() == "following") {
+            this.getFollowing(ent, arbol,true)
+        } else if (this.tipe == "//" && this.axe.toLocaleLowerCase() == "following") {
+            this.getFollowing(ent, arbol, true)
+            this.getChild(ent, arbol, true)
+        }//
+        else if (this.tipe == "/" && this.axe.toLocaleLowerCase() == "preciding_sibling") {
+            this.getPreciding(ent, arbol,false)
+        } else if (this.tipe == "//" && this.axe.toLocaleLowerCase() == "preciding_sibling") {
+            this.getPreciding(ent, arbol, false)
+            this.getChild(ent, arbol, true)
+        } else if (this.tipe == "/" && this.axe.toLocaleLowerCase() == "preciding") {
+            this.getPreciding(ent, arbol,true)
+        } else if (this.tipe == "//" && this.axe.toLocaleLowerCase() == "preciding") {
+            this.getPreciding(ent, arbol, true)
+            this.getChild(ent, arbol, true)
         }
         return this.matches
     }
@@ -332,13 +361,119 @@ export default class axes implements expresion {
             }
         }
     }
-    getSelf(ent, arbol: ast){
-        if (ent instanceof Array){
-            for (let n_ent of ent){
+    getSelf(ent, arbol: ast) {
+        if (ent instanceof Array) {
+            for (let n_ent of ent) {
                 this.matches.push(n_ent)
             }
         } else {
             this.matches.push(ent)
+        }
+    }
+    getFollowing(ent, arbol: ast, follow: boolean) {
+        if (ent instanceof Array) {
+            for (let n_ent of ent) {
+                let anterior = n_ent.anterior
+                if (anterior.tabla["xml"] == null) {
+                    for (let key in anterior.tabla) {
+                        if (key.startsWith("hijo")) {
+                            let hijo = anterior.tabla[key].valor
+                            if (this.id == "*") {
+                                if (hijo.tabla["index"].valor > n_ent.tabla["index"].valor) {
+                                    this.matches.push(hijo)
+                                    if (follow){
+                                        this.getChild(hijo,arbol,true)
+                                    }
+                                }
+                            } else if (this.id == hijo.tabla["id"].valor) {
+                                if (hijo.tabla["index"].valor > n_ent.tabla["index"].valor) {
+                                    this.matches.push(hijo)
+                                    if (follow){
+                                        this.getChild(hijo,arbol,true)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } else {
+            let anterior = ent.anterior
+            if (anterior.tabla["xml"] == null) {
+                for (let key in anterior.tabla) {
+                    if (key.startsWith("hijo")) {
+                        let hijo = anterior.tabla[key].valor
+                        if (this.id == "*") {
+                            if (hijo.tabla["index"].valor > ent.tabla["index"].valor) {
+                                this.matches.push(hijo)
+                                if (follow){
+                                    this.getChild(hijo,arbol,true)
+                                }
+                            }
+                        } else if (this.id == hijo.tabla["id"].valor) {
+                            if (hijo.tabla["index"].valor > ent.tabla["index"].valor) {
+                                this.matches.push(hijo)
+                                if (follow){
+                                    this.getChild(hijo,arbol,true)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    getPreciding(ent, arbol: ast, follow: boolean) {
+        if (ent instanceof Array) {
+            for (let n_ent of ent) {
+                let anterior = n_ent.anterior
+                if (anterior.tabla["xml"] == null) {
+                    for (let key in anterior.tabla) {
+                        if (key.startsWith("hijo")) {
+                            let hijo = anterior.tabla[key].valor
+                            if (this.id == "*") {
+                                if (hijo.tabla["index"].valor < n_ent.tabla["index"].valor) {
+                                    this.matches.push(hijo)
+                                    if (follow){
+                                        this.getChild(hijo,arbol,true)
+                                    }
+                                }
+                            } else if (this.id == hijo.tabla["id"].valor) {
+                                if (hijo.tabla["index"].valor < n_ent.tabla["index"].valor) {
+                                    this.matches.push(hijo)
+                                    if (follow){
+                                        this.getChild(hijo,arbol,true)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } else {
+            let anterior = ent.anterior
+            if (anterior.tabla["xml"] == null) {
+                for (let key in anterior.tabla) {
+                    if (key.startsWith("hijo")) {
+                        let hijo = anterior.tabla[key].valor
+                        if (this.id == "*") {
+                            if (hijo.tabla["index"].valor < ent.tabla["index"].valor) {
+                                this.matches.push(hijo)
+                                if (follow){
+                                    this.getChild(hijo,arbol,true)
+                                }
+                            }
+                        } else if (this.id == hijo.tabla["id"].valor) {
+                            if (hijo.tabla["index"].valor < ent.tabla["index"].valor) {
+                                this.matches.push(hijo)
+                                if (follow){
+                                    this.getChild(hijo,arbol,true)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 

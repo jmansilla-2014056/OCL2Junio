@@ -16,7 +16,6 @@ import xpath from "../gramatica/xpath";
 import xpathd from "../gramatica/xpath_descendente";
 import ast_xpath from "../clases/ast/ast_xpath";
 import select from 'src/clases/expresiones/select';
-import err from 'src/clases/err';
 
 @Component({
   selector: 'app-root',
@@ -33,7 +32,7 @@ export class AppComponent {
   actual_file: number
   nombre: string = "name_ini"
   contenido: string = "cont_ini"
-  consola: string = '/mundo/continente[@name="Europa"]/pais/descendant_or_self::nombre'
+  consola: string = '/mundo/continente[@name="Europa"]/pais[nombre="Austria"]/preciding_sibling::*'
   salida: string = ""
   n_node: number
   openFile(input) {
@@ -125,6 +124,7 @@ export class AppComponent {
     this.tablaReportGramatical(new gramatical("","").getReporteG(reportG),"Reporte Gramatical Descendente","reportG","TitleReportGramatical");
 
     /* Entornos */
+    this.n_node = 1
     this.createEntorno(result,encoding);
 
     /* reporte tabla de simbolos */

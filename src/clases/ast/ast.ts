@@ -1,4 +1,3 @@
-import err from '../err';
 import nodo_xml from '../xml/nodo_xml'
 
 export class ast{

@@ -49,6 +49,7 @@ cadena      (\"([^\"\\])*\")
 ")"                    { return 'PARC' }
 "["                    { return 'CORA' }
 "]"                    { return 'CORC' }
+"."                    { return 'PTN' }
 ":"                    { return 'DPTN' }
 
 /* Palabras reservadas */
@@ -210,6 +211,30 @@ select          : DIV ID {
                 | DIV DIV ID DPTN DPTN MULTI {
                     $$ = new axes.default("//",$3,"*",@1.first_line,@1.first_column);
                     reportG.push(new gramatic.default("select : DIV DIV ID DPTN DPTN MULTI","{ select.val = new axes.default('//',ID.valLex,'*') }"));
+                }
+                | DIV PTN {
+                    $$ = new axes.default("/","self","*",@1.first_line,@1.first_column);
+                    reportG.push(new gramatic.default("select : DIV PTN","{ select.val = new axes.default('/',ID.valLex,'*') }"));
+                }
+                | DIV DIV PTN {
+                    $$ = new axes.default("//","self","*",@1.first_line,@1.first_column);
+                    reportG.push(new gramatic.default("select : DIV DIV PTN","{ select.val = new axes.default('//',ID.valLex,'*') }"));
+                }
+                | DIV PTN PTN {
+                    $$ = new axes.default("/","parent","*",@1.first_line,@1.first_column);
+                    reportG.push(new gramatic.default("select : DIV PTN","{ select.val = new axes.default('/',ID.valLex,'*') }"));
+                }
+                | DIV DIV PTN PTN {
+                    $$ = new axes.default("//","..","*",@1.first_line,@1.first_column);
+                    reportG.push(new gramatic.default("select : DIV DIV PTN","{ select.val = new axes.default('//',ID.valLex,'*') }"));
+                }
+                | DIV ID PARA PARC {
+                    $$ = new axes.default("/",$2+"()","*",@1.first_line,@1.first_column);
+                    reportG.push(new gramatic.default("select : DIV ID PARA PARC","{ select.val = new axes.default('/',ID.valLex,'*') }"));
+                }
+                | DIV DIV ID PARA PARC {
+                    $$ = new axes.default("//",$3+"()","*",@1.first_line,@1.first_column);
+                    reportG.push(new gramatic.default("select : DIV DIV ID PARA PARC","{ select.val = new axes.default('//',ID.valLex,'*') }"));
                 }
                 ;
 
