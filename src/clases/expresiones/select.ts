@@ -24,6 +24,8 @@ export default class select implements expresion {
     }
     getValor(ent: entorno, arbol: ast) {
         if (this.tipe == "//" && this.id != "*" && this.atr == false) {
+            console.log("ENTORNO IN //")
+            console.log(ent)
             this.lookAllNodes(ent, arbol)
         } else if (this.tipe == "/" && this.id != "*" && this.atr == false) {
             this.lookAtPath(ent, arbol)
@@ -45,45 +47,42 @@ export default class select implements expresion {
     lookAllNodes(ent, arbol: ast) {
         if (ent instanceof Array) {
             for (let n_ent of ent) {
-                if (n_ent.tabla["valor"] == null) {
-                    let simbol: simbolo = n_ent.tabla["id"]
-                    if (simbol.valor == this.id) {
-                        //Encontrar valor
-                        this.matches.push(n_ent)
-                        for (let key in n_ent.tabla) {
-                            if (key.startsWith("hijo")) {
-                                let hijo = n_ent.tabla[key]
-                                this.lookAllNodes(hijo.valor, arbol)
-                            }
+                let simbol: simbolo = n_ent.tabla["id"]
+                console.log(`${this.id} vs ${simbol.valor}`)
+                if (simbol.valor == this.id) {
+                    //Encontrar valor
+                    this.matches.push(n_ent)
+                    for (let key in n_ent.tabla) {
+                        if (key.startsWith("hijo")) {
+                            let hijo = n_ent.tabla[key]
+                            this.lookAllNodes(hijo.valor, arbol)
                         }
-                    } else {
-                        for (let key in n_ent.tabla) {
-                            if (key.startsWith("hijo")) {
-                                let hijo = n_ent.tabla[key]
-                                this.lookAllNodes(hijo.valor, arbol)
-                            }
+                    }
+                } else {
+                    for (let key in n_ent.tabla) {
+                        if (key.startsWith("hijo")) {
+                            let hijo = n_ent.tabla[key]
+                            this.lookAllNodes(hijo.valor, arbol)
                         }
                     }
                 }
             }
         } else {
-            if (ent.tabla["valor"] == null) {
-                let simbol: simbolo = ent.tabla["id"]
-                if (simbol.valor == this.id) {
-                    //Encontrar valor
-                    this.matches.push(ent)
-                    for (let key in ent.tabla) {
-                        if (key.startsWith("hijo")) {
-                            let hijo = ent.tabla[key]
-                            this.lookAllNodes(hijo.valor, arbol)
-                        }
+            let simbol: simbolo = ent.tabla["id"]
+            if (simbol.valor == this.id) {
+                //Encontrar valor
+                this.matches.push(ent)
+                for (let key in ent.tabla) {
+                    if (key.startsWith("hijo")) {
+                        let hijo = ent.tabla[key]
+                        this.lookAllNodes(hijo.valor, arbol)
                     }
-                } else {
-                    for (let key in ent.tabla) {
-                        if (key.startsWith("hijo")) {
-                            let hijo = ent.tabla[key]
-                            this.lookAllNodes(hijo.valor, arbol)
-                        }
+                }
+            } else {
+                for (let key in ent.tabla) {
+                    if (key.startsWith("hijo")) {
+                        let hijo = ent.tabla[key]
+                        this.lookAllNodes(hijo.valor, arbol)
                     }
                 }
             }
@@ -92,25 +91,21 @@ export default class select implements expresion {
     lookAtPath(ent, arbol: ast) {
         if (ent instanceof Array) {
             for (let n_ent of ent) {
-                if (n_ent.tabla["valor"] == null) {
-                    for (let key in n_ent.tabla) {
-                        if (key.startsWith("hijo")) {
-                            let hijo: simbolo = n_ent.tabla[key]
-                            if (hijo.id == this.id) {
-                                //Encontrar valor
-                                this.matches.push(hijo.valor)
-                            }
+                for (let key in n_ent.tabla) {
+                    if (key.startsWith("hijo")) {
+                        let hijo: simbolo = n_ent.tabla[key]
+                        if (hijo.id == this.id) {
+                            //Encontrar valor
+                            this.matches.push(hijo.valor)
                         }
                     }
                 }
             }
         } else {
-            if (ent.tabla["valor"] == null) {
-                let simbol: simbolo = ent.tabla["id"]
-                if (simbol.valor == this.id) {
-                    //Encontrar valor
-                    this.matches.push(ent)
-                }
+            let simbol: simbolo = ent.tabla["id"]
+            if (simbol.valor == this.id) {
+                //Encontrar valor
+                this.matches.push(ent)
             }
         }
     }

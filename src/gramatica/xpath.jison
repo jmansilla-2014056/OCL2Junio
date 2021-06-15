@@ -61,6 +61,7 @@ cadena      (\"([^\"\\])*\")
 "-"                    { return 'MENOS'}
 "*"                    { return 'MULTI'}
 "/"                    { return 'DIV'}
+"div"                    { return 'DIVS'}
 "^"                    { return 'POTENCIA'}
 "mod"                  { return 'MODULO'}
 
@@ -106,7 +107,7 @@ cadena      (\"([^\"\\])*\")
 %right 'NOT'
 %left 'MENORQUE' 'MAYORQUE' 'MENORIGUAL' 'MAYORIGUAL' 'IGUAL' 'IGUALIGUAL' 'DIFERENTE'
 %left 'MAS' 'MENOS'
-%left 'MULTI' 'DIV' 'MODULO'
+%left 'MULTI' 'DIVS' 'MODULO'
 //%nonassoc 'POTENCIA'
 %right 'UNARIO'
 
@@ -184,9 +185,7 @@ select          : DIV ID {
                 | DIV DIV ATR MULTI {
                     $$ = new select.default("//",null,true,@1.first_line,@1.first_column);
                     reportG.push(new gramatic.default("select : DIV DIV ATR MULTI","{ select.val = new select.default('//',null,true) }"));
-                }
-                //select(tipe, id, atr, linea, columna, exp)
-                //predicate(slc,exp,linea,columna){
+                }//SELECT + FILTRO
                 | DIV ID CORA e CORC {
                     $$ = new predicate.default(new select.default("/",$2,false,@1.first_line,@1.first_column,null),$4,@1.first_line,@1.first_column);
                     reportG.push(new gramatic.default("select : DIV ID CORA e CORC","{ select.val = new predicate.default(new select.default('/',ID.valLex,false,null),e.val) }"));
@@ -194,8 +193,7 @@ select          : DIV ID {
                 | DIV DIV ID CORA e CORC {
                     $$ = new predicate.default(new select.default("//",$3,false,@1.first_line,@1.first_column,null),$5,@1.first_line,@1.first_column);
                     reportG.push(new gramatic.default("select : DIV DIV ID CORA e CORC","{ select.val = new predicate.default(new select.default('//',ID.valLex,false,null),e.val) }"));
-                }
-                                                    //(tipe,axe,id,linea,columna){
+                }//SELECT AXES
                 | DIV ID DPTN DPTN ID {
                     $$ = new axes.default("/",$2,$5,@1.first_line,@1.first_column);
                     reportG.push(new gramatic.default("select : DIV ID DPTN DPTN ID","{ select.val = new axes.default('/',ID.valLex,'ID.valLex') }"));
@@ -211,7 +209,15 @@ select          : DIV ID {
                 | DIV DIV ID DPTN DPTN MULTI {
                     $$ = new axes.default("//",$3,"*",@1.first_line,@1.first_column);
                     reportG.push(new gramatic.default("select : DIV DIV ID DPTN DPTN MULTI","{ select.val = new axes.default('//',ID.valLex,'*') }"));
+                }//SELECT AXES + FILTRO
+                | DIV ID DPTN DPTN ID CORA e CORC {
+                    $$ = new predicate.default(new axes.default("/",$2,"*",@1.first_line,@1.first_column),$7,@1.first_line,@1.first_column)
+                    reportG.push(new gramatic.default("select : DIV ID DPTN DPTN ID CORA e CORC","{ select.val = new axes.default('/',ID.valLex,'ID.valLex') }"));
                 }
+                | DIV DIV ID DPTN DPTN ID CORA e CORC {
+                    $$ = new predicate.default(new axes.default("//",$3,"*",@1.first_line,@1.first_column),$8,@1.first_line,@1.first_column)
+                    reportG.push(new gramatic.default("select : DIV DIV ID DPTN DPTN ID CORA e CORC","{ select.val = new axes.default('//',ID.valLex,ID.valLex) }"));
+                }//SELECTING . OR ..
                 | DIV PTN {
                     $$ = new axes.default("/","self","*",@1.first_line,@1.first_column);
                     reportG.push(new gramatic.default("select : DIV PTN","{ select.val = new axes.default('/',ID.valLex,'*') }"));
@@ -227,7 +233,7 @@ select          : DIV ID {
                 | DIV DIV PTN PTN {
                     $$ = new axes.default("//","..","*",@1.first_line,@1.first_column);
                     reportG.push(new gramatic.default("select : DIV DIV PTN","{ select.val = new axes.default('//',ID.valLex,'*') }"));
-                }
+                }//NODE
                 | DIV ID PARA PARC {
                     $$ = new axes.default("/",$2+"()","*",@1.first_line,@1.first_column);
                     reportG.push(new gramatic.default("select : DIV ID PARA PARC","{ select.val = new axes.default('/',ID.valLex,'*') }"));
@@ -286,7 +292,7 @@ e               :  NUM {
                     $$ = new aritmetica.default($1,"*",$3,@1.first_line,@1.first_column,false);
                     reportG.push(new gramatic.default("e : e MULTI e","{ e.val = new aritmetica.default(e.val,'*',e.val,false) }"));
                 }
-                | e DIV e {
+                | e DIVS e {
                     $$ = new aritmetica.default($1,"/",$3,@1.first_line,@1.first_column,false);
                     reportG.push(new gramatic.default("e : e DIV e","{ e.val = new aritmetica.default(e.val,'/',e.val,false) }"));
                 }

@@ -21,6 +21,7 @@
 num         [0-9]+("."[0-9]+)?
 id      [a-zñA-ZÑ][a-zñA-ZÑ0-9_]*
 cadena      (\"([^\"\\])*\")
+cadena2      (\'([^\'\\])*\')
 
 especiales  (
 "!"|
@@ -43,6 +44,7 @@ especiales  (
 "="|
 "~"|
 "."|
+"&"|
 [\s\r\n\t])
 others      (\n\s*)
 
@@ -67,9 +69,10 @@ others      (\n\s*)
 "xml"                 { return 'XML' }
 {num}                 { return 'NUM'}
 {id}                  { return 'ID'}
-({id}|{especiales}|{others}|{num})*{id} {console.log("SI ENTRE2"); return 'ID2'}
-({id}|{especiales}|{others}|{num})*{num} {console.log("SI ENTRE2"); return 'ID2'}
-({id}|{especiales}|{others}|{num})*{especiales} {console.log("SI ENTRE2"); return 'ID2'}
+({id}|{especiales}|{others}|{num}|{cadena2})*{id} {console.log("SI ENTRE2"); return 'ID2'}
+({id}|{especiales}|{others}|{num}|{cadena2})*{num} {console.log("SI ENTRE2"); return 'ID2'}
+({id}|{especiales}|{others}|{num}|{cadena2})*{especiales} {console.log("SI ENTRE2"); return 'ID2'}
+({id}|{especiales}|{others}|{num}|{cadena2})*{cadena2} {console.log("SI ENTRE2"); return 'ID2'}
 {cadena}              { return 'CADENA'}
 
 /* Espacios */
@@ -255,6 +258,10 @@ lista_valor         : lista_valor ID2 {
                         $$ = $1 + " " + $2;
                         reportG.push(new gramatic.default("lista_valor : lista_valor NUM","{ lista_valor.val = lista_valorP.val + ' ' + NUM.valLex }"));
                     }
+                    | lista_valor CADENA {
+                        $$ = $1 + " " + $2;
+                        reportG.push(new gramatic.default("lista_valor : lista_valor CADENA","{ lista_valor.val = lista_valorP.val + ' ' + CADENA.valLex }"));
+                    }
                     | ID  {
                         $$ = $1;
                         reportG.push(new gramatic.default("lista_valor : ID","{ lista_valor.val = ID.valLex }"));
@@ -266,5 +273,9 @@ lista_valor         : lista_valor ID2 {
                     | NUM {
                         $$ = $1;
                         reportG.push(new gramatic.default("lista_valor : NUM","{ lista_valor.val = NUM.valLex }"));
+                    }
+                    | CADENA {
+                        $$ = $1;
+                        reportG.push(new gramatic.default("lista_valor : CADENA","{ lista_valor.val = CADENA.valLex }"));
                     }
                     ;

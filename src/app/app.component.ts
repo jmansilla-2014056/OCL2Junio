@@ -32,7 +32,7 @@ export class AppComponent {
   actual_file: number
   nombre: string = "name_ini"
   contenido: string = "cont_ini"
-  consola: string = '/mundo/continente[@name="Europa"]/pais[nombre="Austria"]/preciding_sibling::*'
+  consola: string = '//ancestor_or_self::pais[nombre="Monaco"]'
   salida: string = ""
   n_node: number
   openFile(input) {
