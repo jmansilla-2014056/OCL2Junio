@@ -45,6 +45,7 @@ Para poder interacctuar con la aplicación, visite el siguiente link:
   ![imagen no disponible](./img/analisis.gif)
 
 * **Vista de reportes**
+
 Al haber realizado los análisis correspondientes, puede visualizar una serie de reportes, los cuales se encuentran despues del recuedro de salida.
   &nbsp;
   1. **Árbol ast xml:** Dar click en *AST XML*, le abrirá una nueva pestaña con el gráfico.

@@ -49,6 +49,7 @@ cadena      (\"([^\"\\])*\")
 ")"                     { return 'PARC' }
 "["                     { return 'CORA' }
 "]"                     { return 'CORC' }
+"."                     { return 'PTN'  }
 ":"                     { return 'DPTN' }
 
 /* Palabras reservadas */
@@ -156,6 +157,11 @@ list_op_select  : DIV opcion_select {
                         reportG.push(new gramatic.default("list_op_select : DIV opcion_select","{ opcion_select.slc.val.tipe = '//';\n list_op_select.val = opcion_select.val }"));
                     }else{
                         $2.tipe = "//";
+                        if ($2.hasOwnProperty("axe")){
+                            if ($2.axe === "^"){
+                                $2.axe = ".."
+                            }
+                        }
                         $$ = $2;
                         reportG.push(new gramatic.default("list_op_select : DIV opcion_select","{ opcion_select.val.tipe = '//';\n list_op_select.val = opcion_select.val }"));
                     }
@@ -167,6 +173,11 @@ list_op_select  : DIV opcion_select {
                         reportG.push(new gramatic.default("list_op_select : opcion_select","{ opcion_select.slc.val.tipe = '/';\n list_op_select.val = opcion_select.val }"));
                     }else{
                         $1.tipe = "/";
+                        if ($1.hasOwnProperty("axe")){
+                            if ($1.axe === "^"){
+                                $1.axe = "parent"
+                            }
+                        }
                         $$ = $1;
                         reportG.push(new gramatic.default("list_op_select : opcion_select","{ opcion_select.val.tipe = '/';\n list_op_select.val = opcion_select.val }"));
                     }
@@ -175,7 +186,11 @@ list_op_select  : DIV opcion_select {
 
 opcion_select   : ID otra_opcion_s {
                     if ($2.hasOwnProperty("axe")){
-                        $2.axe = $1;
+                        if ($2.axe === "@"){
+                            $2.axe = $1 + "()";
+                        }else if ($2.axe !== "^" && $2.axe !== "self"){
+                            $2.axe = $1;
+                        }
                         $$ = $2;
                         reportG.push(new gramatic.default("opcion_select : ID otra_opcion_s","{ otra_opcion_s.val.axe = ID.valLex;\n opcion_select.val = otra_opcion_s.val }"));
                     }else if ($2.slc){
@@ -196,6 +211,20 @@ opcion_select   : ID otra_opcion_s {
                     $$ = new select.default("","*",false,@1.first_line,@1.first_column);
                     reportG.push(new gramatic.default("opcion_select : MULTI","{ opcion_select.val = new select.default('','*',false) }"));
                 }
+                | PTN opcion_padre_s {
+                    $$ = $2;
+                    reportG.push(new gramatic.default("opcion_select : PTN opcion_padre_S","{ opcion_select.val = opcion_padre_s.val }"));
+                }
+                ;
+
+opcion_padre_s  : PTN {
+                    $$ = new axes.default("","^","*",@1.first_line,@1.first_column);
+                    reportG.push(new gramatic.default("opcion_padre_s : PTN","{ opcion_padre_s.val = new axes.default('','','*') }")); 
+                }
+                | {
+                    $$ = new axes.default("","self","*",@1.first_line,@1.first_column);
+                    reportG.push(new gramatic.default("opcion_padre_s : epsilon","{ opcion_padre_s.val = new axes.default('','self','*') }"));
+                }
                 ;
 
 otra_opcion_s   : CORA e CORC {
@@ -205,6 +234,10 @@ otra_opcion_s   : CORA e CORC {
                 | DPTN DPTN axes_select {
                     $$ = $3;
                     reportG.push(new gramatic.default("otra_opcion_s : DPTN DPTN axes_select","{ otra_opcion_s.val = axes_select.val }"));
+                }
+                | PARA PARC {
+                    $$ = new axes.default("","@","*",@1.first_line,@1.first_column);
+                    reportG.push(new gramatic.default("otra_opcion_s : PARA PARC","{ otra_opcion_s.val = new axes.default('','','*') }"));
                 }
                 | {
                     $$ = new select.default("","",false,@1.first_line,@1.first_column);
