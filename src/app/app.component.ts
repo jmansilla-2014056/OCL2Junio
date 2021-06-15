@@ -250,7 +250,7 @@ export class AppComponent {
     let parse_result = xpathd.parse(entrada);
     let result: ast_xpath = parse_result.xpath;
     let reportG = parse_result.reportG;
-    result["lista_several"][0].reverse();
+    this.reOrderArray(result["lista_several"]);
 
     let xpath_str
     let arbol: ast = new ast()
@@ -290,6 +290,14 @@ export class AppComponent {
     }
     return entrada;
   }
+
+  /* Reordena array Xpath descendente*/
+  reOrderArray(arreglo:Array<any>){
+    for (let index = 0; index < arreglo.length; index++) {
+      arreglo[index].reverse();
+    }
+  }
+
   test(){
     let ar1 : {[id:number]: number} = {}
     let ar2 :  {[id:number]: number} = {}

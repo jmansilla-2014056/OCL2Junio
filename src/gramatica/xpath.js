@@ -206,13 +206,13 @@ case 19:
 break;
 case 20:
 
-                    this.$ = new predicate.default(new axes.default("/",$$[$0-6],"*",_$[$0-7].first_line,_$[$0-7].first_column),$$[$0-1],_$[$0-7].first_line,_$[$0-7].first_column)
+                    this.$ = new predicate.default(new axes.default("/",$$[$0-6],$$[$0-3],_$[$0-7].first_line,_$[$0-7].first_column),$$[$0-1],_$[$0-7].first_line,_$[$0-7].first_column)
                     reportG.push(new gramatic.default("select : DIV ID DPTN DPTN ID CORA e CORC","{ select.val = new axes.default('/',ID.valLex,'ID.valLex') }"));
                 
 break;
 case 21:
 
-                    this.$ = new predicate.default(new axes.default("//",$$[$0-6],"*",_$[$0-8].first_line,_$[$0-8].first_column),$$[$0-1],_$[$0-8].first_line,_$[$0-8].first_column)
+                    this.$ = new predicate.default(new axes.default("//",$$[$0-6],$$[$0-3],_$[$0-8].first_line,_$[$0-8].first_column),$$[$0-1],_$[$0-8].first_line,_$[$0-8].first_column)
                     reportG.push(new gramatic.default("select : DIV DIV ID DPTN DPTN ID CORA e CORC","{ select.val = new axes.default('//',ID.valLex,ID.valLex) }"));
                 
 break;

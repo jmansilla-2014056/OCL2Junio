@@ -61,6 +61,7 @@ cadena      (\"([^\"\\])*\")
 "-"                     { return 'MENOS'}
 "*"                     { return 'MULTI'}
 "/"                     { return 'DIV'}
+"div"                   { return 'DIVS'}
 "^"                     { return 'POTENCIA'}
 "mod"                   { return 'MODULO'}
 
@@ -104,7 +105,7 @@ cadena      (\"([^\"\\])*\")
 %right 'NOT'
 %left 'MENORQUE' 'MAYORQUE' 'MENORIGUAL' 'MAYORIGUAL' 'IGUAL' 'IGUALIGUAL' 'DIFERENTE'
 %left 'MAS' 'MENOS'
-%left 'MULTI' 'DIV' 'MODULO'
+%left 'MULTI' 'DIVS' 'MODULO'
 %right 'UNARIO'
 
 %start inicio
@@ -194,9 +195,15 @@ opcion_select   : ID otra_opcion_s {
                         $$ = $2;
                         reportG.push(new gramatic.default("opcion_select : ID otra_opcion_s","{ otra_opcion_s.val.axe = ID.valLex;\n opcion_select.val = otra_opcion_s.val }"));
                     }else if ($2.slc){
-                        $2.slc.id = $1;
-                        $$ = $2;
-                        reportG.push(new gramatic.default("opcion_select : ID otra_opcion_s","{ otra_opcion_s.val.slc.id = ID.valLex;\n opcion_select.val = otra_opcion_s.val }"));
+                        if ($2.slc.hasOwnProperty("axe")){
+                            $2.slc.axe = $1;
+                            $$ = $2;
+                            reportG.push(new gramatic.default("opcion_select : ID otra_opcion_s","{ otra_opcion_s.val.slc.axe = ID.valLex;\n opcion_select.val = otra_opcion_s.val }"));
+                        }else{
+                            $2.slc.id = $1;
+                            $$ = $2;
+                            reportG.push(new gramatic.default("opcion_select : ID otra_opcion_s","{ otra_opcion_s.val.slc.id = ID.valLex;\n opcion_select.val = otra_opcion_s.val }"));
+                        }
                     }else{
                         $2.id = $1;
                         $$ = $2;
@@ -245,13 +252,30 @@ otra_opcion_s   : CORA e CORC {
                 }
                 ;
 
-axes_select     : ID {
-                    $$ = new axes.default("","",$1,@1.first_line,@1.first_column);
-                    reportG.push(new gramatic.default("axes_select : ID","{ axes_select.val = new axes.default('','',ID.valLex) }"));
+axes_select     : ID axes_predi_slc {
+                    if ($2.hasOwnProperty("axe")){
+                        $2.id = $1;
+                        $$ = $2;
+                        reportG.push(new gramatic.default("axes_select : ID axes_predi_slc","{ axes_predi_slc.val.axe = ID.valLex;\n axes_select.val = axes_predi_slc.val }"));
+                    }else{
+                        $2.slc.id = $1;
+                        $$ = $2;
+                        reportG.push(new gramatic.default("axes_select : ID axes_predi_slc","{ axes_select.val = axes_predi_slc.val }"));
+                    }
                 }
                 | MULTI {
                     $$ = new axes.default("","","*",@1.first_line,@1.first_column);
                     reportG.push(new gramatic.default("axes_select : MULTI","{ axes_select.val = new axes.default('','','*') }"));
+                }
+                ;
+
+axes_predi_slc  : CORA e CORC {
+                    $$ = new predicate.default(new axes.default("","","",@1.first_line,@1.first_column),$2,@1.first_line,@1.first_column);
+                    reportG.push(new gramatic.default("otra_opcion_s : CORA e CORC","{ otra_opcion_s.val = new predicate.default(new axes.default('','','*'),e.val) }"));
+                }
+                | {
+                    $$ = new axes.default("","","",@1.first_line,@1.first_column);
+                    reportG.push(new gramatic.default("axes_predi_slc : epsilon","{ axes_predi_slc.val = new axes.default('','','') }"));
                 }
                 ;
 
@@ -277,7 +301,7 @@ e               : e MAS e {
                     $$ = new aritmetica.default($1,"*",$3,@1.first_line,@1.first_column,false);
                     reportG.push(new gramatic.default("e : e MULTI e","{ e.val = new aritmetica.default(e.val,'*',e.val,false) }"));
                 }
-                | e DIV e {
+                | e DIVS e {
                     $$ = new aritmetica.default($1,"/",$3,@1.first_line,@1.first_column,false);
                     reportG.push(new gramatic.default("e : e DIV e","{ e.val = new aritmetica.default(e.val,'/',e.val,false) }"));
                 }

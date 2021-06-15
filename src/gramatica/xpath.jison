@@ -211,11 +211,11 @@ select          : DIV ID {
                     reportG.push(new gramatic.default("select : DIV DIV ID DPTN DPTN MULTI","{ select.val = new axes.default('//',ID.valLex,'*') }"));
                 }//SELECT AXES + FILTRO
                 | DIV ID DPTN DPTN ID CORA e CORC {
-                    $$ = new predicate.default(new axes.default("/",$2,"*",@1.first_line,@1.first_column),$7,@1.first_line,@1.first_column)
+                    $$ = new predicate.default(new axes.default("/",$2,$5,@1.first_line,@1.first_column),$7,@1.first_line,@1.first_column)
                     reportG.push(new gramatic.default("select : DIV ID DPTN DPTN ID CORA e CORC","{ select.val = new axes.default('/',ID.valLex,'ID.valLex') }"));
                 }
                 | DIV DIV ID DPTN DPTN ID CORA e CORC {
-                    $$ = new predicate.default(new axes.default("//",$3,"*",@1.first_line,@1.first_column),$8,@1.first_line,@1.first_column)
+                    $$ = new predicate.default(new axes.default("//",$3,$6,@1.first_line,@1.first_column),$8,@1.first_line,@1.first_column)
                     reportG.push(new gramatic.default("select : DIV DIV ID DPTN DPTN ID CORA e CORC","{ select.val = new axes.default('//',ID.valLex,ID.valLex) }"));
                 }//SELECTING . OR ..
                 | DIV PTN {

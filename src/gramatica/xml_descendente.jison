@@ -34,6 +34,7 @@
 num         [0-9]+("."[0-9]+)?
 id          [a-zñA-ZÑ][a-zñA-ZÑ0-9_]*
 cadena      (\"([^\"\\])*\")
+cadena2      (\'([^\'\\])*\')
 
 especiales  (
 "!"|
@@ -56,6 +57,7 @@ especiales  (
 "="|
 "~"|
 "."|
+"&"|
 [\s\r\n\t])
 others      (\n\s*)
 %%
@@ -79,9 +81,10 @@ others      (\n\s*)
 "xml"                                           { return 'XML' }
 {num}                                           { return 'NUM'}
 {id}                                            { return 'ID'}
-({id}|{especiales}|{others}|{num})*{id}         { return 'ID2'}
-({id}|{especiales}|{others}|{num})*{num}        { return 'ID2'}
-({id}|{especiales}|{others}|{num})*{especiales} { return 'ID2'}
+({id}|{especiales}|{others}|{num}|{cadena2})*{id} {console.log("SI ENTRE2"); return 'ID2'}
+({id}|{especiales}|{others}|{num}|{cadena2})*{num} {console.log("SI ENTRE2"); return 'ID2'}
+({id}|{especiales}|{others}|{num}|{cadena2})*{especiales} {console.log("SI ENTRE2"); return 'ID2'}
+({id}|{especiales}|{others}|{num}|{cadena2})*{cadena2} {console.log("SI ENTRE2"); return 'ID2'}
 {cadena}                                        { return 'CADENA'}
 
 /* Espacios */
@@ -291,5 +294,9 @@ tipo_valor      : ID  {
                 | NUM {
                   $$ = $1;
                   reportG.push(new gramatic.default("tipo_valor : NUM","{ tipo_valor.val = NUM.valLex }"));
+                }
+                | CADENA {
+                  $$ = $1;
+                  reportG.push(new gramatic.default("tipo_valor : CADENA","{ tipo_valor.val = CADENA.valLex }"));
                 }
                 ;
