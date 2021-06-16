@@ -95,7 +95,13 @@ export class AppComponent {
 
     /* Entornos */
     this.n_node = 1
-    this.createEntorno(result,encoding);
+    let tipo_encoding: string
+    for (let atr of encoding.atributos){
+      if (atr.id.toLocaleLowerCase() == "encoding"){
+        tipo_encoding = atr.valor
+      }
+    }
+    this.createEntorno(result,encoding,tipo_encoding);
 
     /* reporte tabla de simbolos */
     this.tablaSimbolosReport();
@@ -127,7 +133,13 @@ export class AppComponent {
 
     /* Entornos */
     this.n_node = 1
-    this.createEntorno(result,encoding);
+    let tipo_encoding: string
+    for (let atr of encoding.atributos){
+      if (atr.id.toLocaleLowerCase() == "encoding"){
+        tipo_encoding = atr.valor
+      }
+    }
+    this.createEntorno(result,encoding,tipo_encoding);
 
     /* reporte tabla de simbolos */
     this.tablaSimbolosReport();
@@ -137,7 +149,7 @@ export class AppComponent {
   }
 
   /*MANEJO DE ENTORNOS DE LOS NODOS*/
-  createEntorno(result: nodo_xml,encoding: nodo_xml) {
+  createEntorno(result: nodo_xml,encoding: nodo_xml,tipo_encoding: string) {
     let entornoGlobal: entorno = new entorno(null)
     if (result.id == result.id2) {
       for (let atr of encoding.atributos){
@@ -146,7 +158,7 @@ export class AppComponent {
       let entornoNodo: entorno = new entorno(entornoGlobal)
       entornoNodo.agregar("id",new simbolo("id",result.id,tipo.STRING,result.linea,result.columna))
       if (result.valor != "") {
-        entornoNodo.agregar("valor", new simbolo(result.id, result.valor, tipo.VALOR, result.linea, result.columna))
+        entornoNodo.agregar("valor", new simbolo(result.id, this.encoding(result.valor, tipo_encoding), tipo.VALOR, result.linea, result.columna))
       }
       entornoNodo.agregar("n_etiquetas", new simbolo("n_etiquetas",2,tipo.N_ETIQUETAS,result.linea,result.columna))
       entornoNodo.agregar("index", new simbolo("index",this.n_node,tipo.INT,result.linea,result.columna))
@@ -159,7 +171,7 @@ export class AppComponent {
       /*FUNCION RECURSIVA PARA CREAR ENTORNOS DE LOS HIJOS*/
       for (let j = 0; j < result.hijos.length; j++) {
         let hijo = result.hijos[j]
-        this.addNodo(hijo, result.entorno, j)
+        this.addNodo(hijo, result.entorno, j, tipo_encoding)
       }
       /*SE AGREGA AL ENTORNO GLOBAL*/
       entornoGlobal.agregar("xml", new simbolo(result.id, entornoNodo, tipo.STRUCT, result.linea, result.columna))
@@ -169,12 +181,12 @@ export class AppComponent {
   }
 
   /* Agregar nodo a entorno */
-  addNodo(hijo: nodo_xml, oldEntorno: entorno, n: number) {
+  addNodo(hijo: nodo_xml, oldEntorno: entorno, n: number, tipo_encoding: string) {
     if (hijo.id == hijo.id2 || hijo.id2 == null) {
       let newEntorno: entorno = new entorno(oldEntorno)
       newEntorno.agregar("id",new simbolo("id",hijo.id,tipo.STRING,hijo.linea,hijo.columna))
       if (hijo.valor != "") {
-        newEntorno.agregar("valor", new simbolo(hijo.id, hijo.valor, tipo.VALOR, hijo.linea, hijo.columna))
+        newEntorno.agregar("valor", new simbolo(hijo.id, this.encoding(hijo.valor, tipo_encoding), tipo.VALOR, hijo.linea, hijo.columna))
       }
       if (hijo.id2 == null){
         newEntorno.agregar("n_etiquetas", new simbolo("n_etiquetas",1,tipo.N_ETIQUETAS,hijo.linea,hijo.columna))
@@ -191,7 +203,7 @@ export class AppComponent {
       hijo.entorno = newEntorno
       for (let j = 0; j < hijo.hijos.length; j++) {
         let son = hijo.hijos[j]
-        this.addNodo(son, hijo.entorno, j)
+        this.addNodo(son, hijo.entorno, j,tipo_encoding)
       }
       /*SE AGREGA AL ENTORNO PADRE*/
       oldEntorno.agregar("hijo" + n, new simbolo(hijo.id, newEntorno, tipo.STRUCT, hijo.linea, hijo.columna))
@@ -300,21 +312,18 @@ export class AppComponent {
     }
   }
 
-  test(){
-    let buf1 = Buffer.from("Gámbardellä, Mátthew");
-    console.log(buf1.toString('latin1'));
-    
-    let ar1 : {[id:number]: number} = {}
-    let ar2 :  {[id:number]: number} = {}
-    ar1[1] = 1
-    ar1[2] = 2
-    ar1[3] = 3
-    ar2[2] = 2
-    if (ar1[2] != null){
-      console.log("CONTIENE 2")
-    } else {
-      console.log("NO CONTIENE 2")
+  encoding(str: string, tipe: string){
+    if (tipe.toLocaleLowerCase() == "utf8"){
+      let buf1 = Buffer.from(str);
+      return buf1.toString('utf8')
+    } else if (tipe.toLocaleLowerCase() == "ascii"){
+      let buf1 = Buffer.from(str);
+      return buf1.toString('ascii')
+    } else if (tipe.toLocaleLowerCase() == "iso-8859-1"){
+      let buf1 = Buffer.from(str);
+      return buf1.toString('latin1')
     }
+    return str
   }
 
 }
