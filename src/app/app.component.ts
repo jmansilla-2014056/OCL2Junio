@@ -17,6 +17,8 @@ import xpathd from "../gramatica/xpath_descendente";
 import ast_xpath from "../clases/ast/ast_xpath";
 import select from 'src/clases/expresiones/select';
 
+import { Buffer } from 'buffer';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -299,6 +301,9 @@ export class AppComponent {
   }
 
   test(){
+    let buf1 = Buffer.from("Gámbardellä, Mátthew");
+    console.log(buf1.toString('latin1'));
+    
     let ar1 : {[id:number]: number} = {}
     let ar2 :  {[id:number]: number} = {}
     ar1[1] = 1
