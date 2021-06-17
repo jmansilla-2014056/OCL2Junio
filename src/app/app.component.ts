@@ -43,12 +43,12 @@ export class AppComponent {
       var reader = new FileReader()
       reader.onload = function (e) {
         let contenido = e.target.result
-        //console.log(contenido)
+        
         document.getElementById('name').innerText = x.name
-        //document.getElementById('contenido').innerHTML = ''+contenido
+        
         document.getElementById('contenido2').innerHTML = '' + contenido
       }
-      //reader.readAsBinaryString(x)
+      
       reader.readAsText(x)
     } else {
       document.getElementById('contenido').innerText = "No hay archivo"
@@ -58,94 +58,108 @@ export class AppComponent {
     let newFile = new archivos(this.index_files, document.getElementById('name').textContent, document.getElementById('contenido2').textContent)
     this.fls.push(newFile)
     this.index_files++
-    //console.log(this.fls)
   }
   showFile() {
-    //console.log(this.actual_file)
-    //console.log(this.fls)
     let actual_file: archivos = this.fls[this.actual_file]
     document.getElementById('name').innerText = actual_file.nombre
-    //document.getElementById('contenido').innerHTML = actual_file.contenido
     this.xcode = actual_file.contenido
-    //this.analizarXml()
-    //console.log(actual_file)
   }
 
   /* Analisis Ascendente */
   analizarXml() {
-    localStorage.setItem('cst', " digraph L {\n" + "\n" + "  node [shape=record fontname=Arial];");
-    localStorage.setItem('actual', 'cst');
-
-    let entrada = this.clearEntry(this.xcode);
-    let parse_result = xml.parse(entrada);
-    let result: nodo_xml = parse_result.etiqueta
-    let encoding: nodo_xml = parse_result.encoding
-    let reportG = parse_result.reportG;
-    //let resultd:nodo_xml = xmld.parse(entrada);
-    console.log("Analisis xml (arbol):")
-    result.printNode("")
-    //console.log(result)
-
-    let arbol = new ast().getArbolito(result);
-    localStorage.setItem('ast', 'digraph g {\n ' + arbol + '}');
-    localStorage.setItem('cst', localStorage.getItem('cst')+"}");
-
-    /* reporte gramatical */
-    this.tablaReportGramatical(new gramatical("","").getReporteG(reportG),"Reporte Gramatical Ascendente","reportG","TitleReportGramatical");
-
-    /* Entornos */
-    this.n_node = 1
-    let tipo_encoding: string
-    for (let atr of encoding.atributos){
-      if (atr.id.toLocaleLowerCase() == "encoding"){
-        tipo_encoding = atr.valor
+    if (this.xcode !== ""){
+      localStorage.removeItem('errores');
+  
+      localStorage.setItem('cst', " digraph L {\n" + "\n" + "  node [shape=record fontname=Arial];");
+      localStorage.setItem('actual', 'cst');
+      
+      try {
+        let entrada = this.clearEntry(this.xcode);
+        let parse_result = xml.parse(entrada);
+        let result: nodo_xml = parse_result.etiqueta
+        let encoding: nodo_xml = parse_result.encoding
+        let reportG = parse_result.reportG;
+        
+        console.log("Analisis xml (arbol):")
+        result.printNode("")
+        
+    
+        let arbol = new ast().getArbolito(result);
+        localStorage.setItem('ast', 'digraph g {\n ' + arbol + '}');
+        localStorage.setItem('cst', localStorage.getItem('cst')+"}");
+    
+        /* reporte gramatical */
+        this.tablaReportGramatical(new gramatical("","").getReporteG(reportG),"Reporte Gramatical Ascendente","reportG","TitleReportGramatical");
+    
+        /* Entornos */
+        this.n_node = 1
+        let tipo_encoding: string
+        for (let atr of encoding.atributos){
+          if (atr.id.toLocaleLowerCase() == "encoding"){
+            tipo_encoding = atr.valor
+          }
+        }
+        this.createEntorno(result,encoding,tipo_encoding);
+    
+        /* reporte tabla de simbolos */
+        this.tablaSimbolosReport();
+    
+        /* Fin analisis */
+        alert("Analisis finalizado con exito!");
+      } catch (error) {
+        alert("Error, no ha sido posible recuperarse!");
       }
+    }else{
+      alert("Error, Ingrese archivo a analizar!");
     }
-    this.createEntorno(result,encoding,tipo_encoding);
-
-    /* reporte tabla de simbolos */
-    this.tablaSimbolosReport();
-
-    /* Fin analisis */
-    alert("Analisis finalizado con exito!");
   }
 
   /* Analisis descendente */
   analizarXmlDesc() {
-    localStorage.setItem('cst', "digraph L {\n" + "\n" + "  node [shape=record fontname=Arial];");
-    localStorage.setItem('actual', 'cst');
-    let entrada = this.clearEntry(this.xcode);
-    let parse_result = xmld.parse(entrada);
-    let result:nodo_xml = parse_result.etiqueta;
-    let encoding: nodo_xml = parse_result.encoding;
-    let reportG = parse_result.reportG;
-
-    console.log("Analisis xml (arbol descendente):")
-    result.printNode("")
-    console.log(result)
-
-    let arbol = new ast().getArbolito(result);
-    localStorage.setItem('ast', 'digraph g {\n ' + arbol + '}');
-    localStorage.setItem('cst', localStorage.getItem('cst')+"}");
-
-    /* reporte gramatical */
-    this.tablaReportGramatical(new gramatical("","").getReporteG(reportG),"Reporte Gramatical Descendente","reportG","TitleReportGramatical");
-
-    /* Entornos */
-    this.n_node = 1
-    let tipo_encoding: string
-    for (let atr of encoding.atributos){
-      if (atr.id.toLocaleLowerCase() == "encoding"){
-        tipo_encoding = atr.valor
+    if (this.xcode !== ""){
+      localStorage.removeItem('errores');
+  
+      localStorage.setItem('cst', "digraph L {\n" + "\n" + "  node [shape=record fontname=Arial];");
+      localStorage.setItem('actual', 'cst');
+      
+      try {
+        let entrada = this.clearEntry(this.xcode);
+        let parse_result = xmld.parse(entrada);
+        let result:nodo_xml = parse_result.etiqueta;
+        let encoding: nodo_xml = parse_result.encoding;
+        let reportG = parse_result.reportG;
+    
+        console.log("Analisis xml (arbol descendente):")
+        result.printNode("")
+    
+        let arbol = new ast().getArbolito(result);
+        localStorage.setItem('ast', 'digraph g {\n ' + arbol + '}');
+        localStorage.setItem('cst', localStorage.getItem('cst')+"}");
+    
+        /* reporte gramatical */
+        this.tablaReportGramatical(new gramatical("","").getReporteG(reportG),"Reporte Gramatical Descendente","reportG","TitleReportGramatical");
+    
+        /* Entornos */
+        this.n_node = 1
+        let tipo_encoding: string
+        for (let atr of encoding.atributos){
+          if (atr.id.toLocaleLowerCase() == "encoding"){
+            tipo_encoding = atr.valor
+          }
+        }
+        this.createEntorno(result,encoding,tipo_encoding);
+    
+        /* reporte tabla de simbolos */
+        this.tablaSimbolosReport();
+    
+        /* Fin analisis */
+        alert("Analisis finalizado con exito!");
+      } catch (error) {
+        alert("Error, no ha sido posible recuperarse!");
       }
+    }else{
+      alert("Error, Ingrese archivo a analizar!");
     }
-    this.createEntorno(result,encoding,tipo_encoding);
-
-    /* reporte tabla de simbolos */
-    this.tablaSimbolosReport();
-
-    /* Fin analisis */
-    alert("Analisis finalizado con exito!");
   }
 
   /*MANEJO DE ENTORNOS DE LOS NODOS*/
@@ -232,55 +246,73 @@ export class AppComponent {
 
   /* Analisis xpath ascendente */
   execXpath() {
-    localStorage.setItem('cstx', "digraph L {\n" + "\n" + "  node [shape=record fontname=Arial];");
-    localStorage.setItem('actual', 'cst');
-    let entrada = this.consola
-    let parse_result = xpath.parse(entrada);
-    let result: ast_xpath = parse_result.xpath;
-    let reportG = parse_result.reportG;
-
-    let xpath_str
-    let arbol: ast = new ast()
-    xpath_str = result.ejecutar(this.fls[this.actual_file].ent.tabla["xml"].valor,arbol)
-    this.salida = xpath_str
-    console.log(this.salida)
-
-    /* Reporte Ast */
-    let arbolito = new astXpath().getArbolito(result);
-    localStorage.setItem('astx', 'digraph g {\n ' + arbolito + '}');
-
-    /* reporte gramatical */
-    this.tablaReportGramatical(new gramatical("","").getReporteG(reportG),"Reporte Gramatical Xpath Ascendente","reportGX","TitleReportGramaticalX");
-
-    /* Fin analisis */
-    alert("Analisis finalizado con exito!");
+    if (this.consola !== ""){
+      localStorage.setItem('cstx', "digraph L {\n" + "\n" + "  node [shape=record fontname=Arial];");
+      localStorage.setItem('actual', 'cst');
+      
+      try {
+        let entrada = this.consola
+        let parse_result = xpath.parse(entrada);
+        let result: ast_xpath = parse_result.xpath;
+        let reportG = parse_result.reportG;
+    
+        let xpath_str
+        let arbol: ast = new ast()
+        xpath_str = result.ejecutar(this.fls[this.actual_file].ent.tabla["xml"].valor,arbol)
+        this.salida = xpath_str
+        console.log(this.salida)
+    
+        /* Reporte Ast */
+        let arbolito = new astXpath().getArbolito(result);
+        localStorage.setItem('astx', 'digraph g {\n ' + arbolito + '}');
+    
+        /* reporte gramatical */
+        this.tablaReportGramatical(new gramatical("","").getReporteG(reportG),"Reporte Gramatical Xpath Ascendente","reportGX","TitleReportGramaticalX");
+    
+        /* Fin analisis */
+        alert("Analisis finalizado con exito!");
+      } catch (error) {
+        alert("Error, no ha sido posible recuperarse!");
+      }
+    }else{
+      alert("Error, Ingrese consulta a ejecutar!");
+    }
   }
 
   /* Analisis xpath descendente */
   execXpathD() {
-    localStorage.setItem('cstx', "digraph L {\n" + "\n" + "  node [shape=record fontname=Arial];");
-    localStorage.setItem('actual', 'cstx');
-    let entrada = this.consola
-    let parse_result = xpathd.parse(entrada);
-    let result: ast_xpath = parse_result.xpath;
-    let reportG = parse_result.reportG;
-    this.reOrderArray(result["lista_several"]);
-
-    let xpath_str
-    let arbol: ast = new ast()
-    xpath_str = result.ejecutar(this.fls[this.actual_file].ent.tabla["xml"].valor,arbol)
-    this.salida = xpath_str
-    console.log(this.salida)
-
-    /* Reporte ast */
-    let arbolito = new astXpath().getArbolito(result);
-    localStorage.setItem('astx', 'digraph g {\n ' + arbolito + '}');
-
-    /* reporte gramatical */
-    this.tablaReportGramatical(new gramatical("","").getReporteG(reportG),"Reporte Gramatical Xpath Descendente","reportGX","TitleReportGramaticalX");
-
-    /* Fin analisis */
-    alert("Analisis finalizado con exito!");
+    if (this.consola !== ""){
+      localStorage.setItem('cstx', "digraph L {\n" + "\n" + "  node [shape=record fontname=Arial];");
+      localStorage.setItem('actual', 'cstx');
+      
+      try {
+        let entrada = this.consola
+        let parse_result = xpathd.parse(entrada);
+        let result: ast_xpath = parse_result.xpath;
+        let reportG = parse_result.reportG;
+        this.reOrderArray(result["lista_several"]);
+    
+        let xpath_str
+        let arbol: ast = new ast()
+        xpath_str = result.ejecutar(this.fls[this.actual_file].ent.tabla["xml"].valor,arbol)
+        this.salida = xpath_str
+        console.log(this.salida)
+    
+        /* Reporte ast */
+        let arbolito = new astXpath().getArbolito(result);
+        localStorage.setItem('astx', 'digraph g {\n ' + arbolito + '}');
+    
+        /* reporte gramatical */
+        this.tablaReportGramatical(new gramatical("","").getReporteG(reportG),"Reporte Gramatical Xpath Descendente","reportGX","TitleReportGramaticalX");
+    
+        /* Fin analisis */
+        alert("Analisis finalizado con exito!");
+      } catch (error) {
+        alert("Error, no ha sido posible recuperarse!");
+      }
+    }else{
+      alert("Error, Ingrese consulta a ejecutar!");
+    }
   }
 
   reporteArbolA() {
@@ -328,22 +360,3 @@ export class AppComponent {
 
 }
 
-function abrirArchivo(evento) {
-  let archivo = evento.target.files[0]
-  if (archivo) {
-    let reader = new FileReader()
-    reader.onload = function (e) {
-      let contenido = e.target.result
-      console.log(archivo.name)
-      console.log(contenido)
-      document.getElementById('contenido').innerText = '' + contenido
-    }
-    reader.readAsText(archivo)
-  } else {
-    document.getElementById('contenido').innerText = 'No hay archivo'
-  }
-}
-
-/*window.addEventListener('load', ()=>{
-  document.getElementById('file-input').addEventListener('change',abrirArchivo)
-})*/

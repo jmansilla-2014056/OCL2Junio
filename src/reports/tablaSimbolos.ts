@@ -40,7 +40,7 @@ export class tablaSimbolos{
     private recorrerEntorno(raiz:entorno){
         for (const key in raiz.tabla) {
             if (Object.prototype.hasOwnProperty.call(raiz.tabla, key)) {
-                if (key != "id" && key != "n_etiquetas"){
+                if (key != "id" && key != "n_etiquetas" && key != "index"){
                     this.numeroSimbolo++;
                     this.simbolitos += '<tr>\n\
                                         <th scope="row">' + this.numeroSimbolo + '</th>\n\

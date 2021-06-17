@@ -45,6 +45,8 @@ especiales  (
 "~"|
 "."|
 "&"|
+"+"|
+"'"|
 [A-Za-zäÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙ.-]|
 [\s\r\n\t])
 others      (\n\s*)
@@ -93,6 +95,7 @@ others      (\n\s*)
 %% /* Gramatica */
 
 inicio              : encoding etiqueta {
+                        reportG.push(new gramatic.default(" inicio : encoding etiqueta ","{ return inicio }"));
                         let auxReportG = reportG;
                         reportG = [];
                         $$ = { "encoding": $1, "etiqueta": $2, "reportG": auxReportG};
@@ -265,6 +268,10 @@ lista_valor         : lista_valor ID2 {
                         $$ = $1 + " " + $2;
                         reportG.push(new gramatic.default("lista_valor : lista_valor CADENA","{ lista_valor.val = lista_valorP.val + ' ' + CADENA.valLex }"));
                     }
+                    | lista_valor XML {
+                        $$ = $1 + " " + $2;
+                        reportG.push(new gramatic.default("lista_valor : lista_valor XML","{ lista_valor.val = lista_valorP.val + ' ' + XML.valLex }"));
+                    }
                     | ID  {
                         $$ = $1;
                         reportG.push(new gramatic.default("lista_valor : ID","{ lista_valor.val = ID.valLex }"));
@@ -280,5 +287,9 @@ lista_valor         : lista_valor ID2 {
                     | CADENA {
                         $$ = $1;
                         reportG.push(new gramatic.default("lista_valor : CADENA","{ lista_valor.val = CADENA.valLex }"));
+                    }
+                    | XML {
+                        $$ = $1;
+                        reportG.push(new gramatic.default("lista_valor : XML","{ lista_valor.val = XML.valLex }"));
                     }
                     ;

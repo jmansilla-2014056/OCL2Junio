@@ -58,6 +58,8 @@ especiales  (
 "~"|
 "."|
 "&"|
+"+"|
+"'"|
 [A-Za-zäÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙ.-]|
 [\s\r\n\t])
 others      (\n\s*)
@@ -102,6 +104,7 @@ others      (\n\s*)
 
 %% /* Gramatica */
 inicio          : encoding etiqueta {
+                  reportG.push(new gramatic.default(" inicio : encoding etiqueta ","{ return inicio }"));
                   let auxReportG = reportG;
                   inicio_ = new ast_nodo.default("inicio","", "encoding etiqueta");
                   inicio_.InsertarHijo(encoding_);
@@ -300,4 +303,8 @@ tipo_valor      : ID  {
                   $$ = $1;
                   reportG.push(new gramatic.default("tipo_valor : CADENA","{ tipo_valor.val = CADENA.valLex }"));
                 }
+                | XML {
+                        $$ = $1;
+                        reportG.push(new gramatic.default("lista_valor : XML","{ lista_valor.val = XML.valLex }"));
+                    }
                 ;

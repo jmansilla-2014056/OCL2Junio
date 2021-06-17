@@ -26,14 +26,28 @@ export class astXpath{
     private recorrerAst(raiz:Array<select>){
 
         for(let index = 0; index < raiz.length; index++){
-            
+            console.log(raiz[index]);
             if (raiz[index] instanceof select){
 
                 this.generaAst(raiz[index]["tipe"],raiz[index]["id"]);
 
             }else if (raiz[index] instanceof predicate){
+                
+                if (raiz[index]["slc"].hasOwnProperty("axe")){
+                    this.generaAst(raiz[index]["slc"]["tipe"],raiz[index]["slc"]["axe"]);
+                    if (raiz[index]["slc"]["axe"].toLocaleLowerCase() === "attribute" || raiz[index]["slc"]["axe"].toLocaleLowerCase() === "child"
+                        || raiz[index]["slc"]["axe"].toLocaleLowerCase() === "descendant" || raiz[index]["slc"]["axe"].toLocaleLowerCase() === "descendant_or_self"
+                        || raiz[index]["slc"]["axe"].toLocaleLowerCase() === "ancestor" || raiz[index]["slc"]["axe"].toLocaleLowerCase() === "ancestor_or_self"
+                        || raiz[index]["slc"]["axe"].toLocaleLowerCase() === "following" || raiz[index]["slc"]["axe"].toLocaleLowerCase() === "following_sibling"
+                        || raiz[index]["slc"]["axe"].toLocaleLowerCase() === "parent" || raiz[index]["slc"]["axe"].toLocaleLowerCase() === "preceding"
+                        || raiz[index]["slc"]["axe"].toLocaleLowerCase() === "self" || raiz[index]["slc"]["axe"].toLocaleLowerCase() === "preceding_sibling"){
 
-                this.generaAst(raiz[index]["slc"]["tipe"],raiz[index]["slc"]["id"]);
+                            this.generaAst("::",raiz[index]["slc"]["id"]);                            
+
+                    }
+                }else{
+                    this.generaAst(raiz[index]["slc"]["tipe"],raiz[index]["slc"]["id"]);
+                }
 
                 this.numeroNodo++;
 
@@ -50,7 +64,16 @@ export class astXpath{
 
                 this.generaAst(raiz[index]["tipe"],raiz[index]["axe"]);
 
-                this.generaAst("::",raiz[index]["id"]);
+                if (raiz[index]["axe"].toLocaleLowerCase() === "attribute" || raiz[index]["axe"].toLocaleLowerCase() === "child"
+                        || raiz[index]["axe"].toLocaleLowerCase() === "descendant" || raiz[index]["axe"].toLocaleLowerCase() === "descendant_or_self"
+                        || raiz[index]["axe"].toLocaleLowerCase() === "ancestor" || raiz[index]["axe"].toLocaleLowerCase() === "ancestor_or_self"
+                        || raiz[index]["axe"].toLocaleLowerCase() === "following" || raiz[index]["axe"].toLocaleLowerCase() === "following_sibling"
+                        || raiz[index]["axe"].toLocaleLowerCase() === "parent" || raiz[index]["axe"].toLocaleLowerCase() === "preceding"
+                        || raiz[index]["axe"].toLocaleLowerCase() === "self" || raiz[index]["axe"].toLocaleLowerCase() === "preceding_sibling"){
+
+                            this.generaAst("::",raiz[index]["id"]);                            
+
+                    }
             }
         }
     }
