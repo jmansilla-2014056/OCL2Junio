@@ -26,7 +26,7 @@ export class astXpath{
     private recorrerAst(raiz:Array<select>){
 
         for(let index = 0; index < raiz.length; index++){
-            console.log(raiz[index]);
+            
             if (raiz[index] instanceof select){
 
                 this.generaAst(raiz[index]["tipe"],raiz[index]["id"]);

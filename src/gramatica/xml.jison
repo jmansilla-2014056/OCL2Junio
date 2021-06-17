@@ -21,7 +21,7 @@
 num         [0-9]+("."[0-9]+)?
 id      [a-zñA-ZÑ][a-zñA-ZÑ0-9_]*
 cadena      (\"([^\"\\])*\")
-cadena2      (\'([^\'\\])*\')
+//cadena2      (\'([^\'\\])*\')
 
 especiales  (
 "!"|
@@ -74,10 +74,10 @@ others      (\n\s*)
 "xml"                 { return 'XML' }
 {num}                 { return 'NUM'}
 {id}                  { return 'ID'}
-({id}|{especiales}|{others}|{num}|{cadena2})*{id} {console.log("SI ENTRE2"); return 'ID2'}
-({id}|{especiales}|{others}|{num}|{cadena2})*{num} {console.log("SI ENTRE2"); return 'ID2'}
-({id}|{especiales}|{others}|{num}|{cadena2})*{especiales} {console.log("SI ENTRE2"); return 'ID2'}
-({id}|{especiales}|{others}|{num}|{cadena2})*{cadena2} {console.log("SI ENTRE2"); return 'ID2'}
+({id}|{especiales}|{others}|{num})*{id} {console.log("SI ENTRE2"); return 'ID2'}
+({id}|{especiales}|{others}|{num})*{num} {console.log("SI ENTRE2"); return 'ID2'}
+({id}|{especiales}|{others}|{num})*{especiales} {console.log("SI ENTRE2"); return 'ID2'}
+//({id}|{especiales}|{others}|{num}|{cadena2})*{cadena2} {console.log("SI ENTRE2"); return 'ID2'}
 {cadena}              { return 'CADENA'}
 
 /* Espacios */
