@@ -1,7 +1,7 @@
 # Gramática Ascendente XPATH
-Las siguientes gramaticas
 ```xml
 PRECEDENCIA
+
 %left 'OR'
 %left 'AND'
 %right 'NOT'
@@ -9,19 +9,19 @@ PRECEDENCIA
 %left 'MAS' 'MENOS'
 %left 'MULTI' 'DIVS' 'MODULO'
 
-<lista_instrucciones> : <lista_instrucciones> <instruccion>    
+<lista_instrucciones> ::= <lista_instrucciones> <instruccion>    
  		       | <instruccion>                                       
    
-<inicio>          : <lista_several> EOF
+<inicio>          ::= <lista_several> EOF
                 
 
-<lista_several> : <lista_several> <SEVERAL> <lista_select> 
+<lista_several> ::= <lista_several> <SEVERAL> <lista_select> 
                 | <lista_select>
 
-<lista_select>  : <lista_select> <select>
+<lista_select>  ::= <lista_select> <select>
                 | <select>
 
-select          : <DIV> <ID> 
+<select>        ::= <DIV> <ID> 
                 | <DIV> <DIV> <ID> 
                 | <DIV> <ATR> <ID>
                 | <DIV> <DIV> <ATR> <ID> 
@@ -44,9 +44,9 @@ select          : <DIV> <ID>
                 | <DIV> <ID> <PARA> <PARC>
                 | <DIV> <DIV> <ID> <PARA> <PARC>
 
-<instruccion>     : <PRINT> <PARA> <e> <PARC>
+<instruccion>     ::= <PRINT> <PARA> <e> <PARC>
 
-<e>             : <NUM> 
+<e>             ::= <NUM> 
                 | <CADENA> 
                 | <LAST> <PARA> <PARC> 
                 | <POSITION> <PARA> <PARC> 
@@ -72,3 +72,78 @@ select          : <DIV> <ID>
                 | <NOT> <e>
                 | <PARA> <e> <PARC>
                 ;
+```
+# Gramática Descendente XPATH
+```xml
+PRECEDENCIA
+
+%left 'OR'
+%left 'AND'
+%right 'NOT'
+%left 'MENORQUE' 'MAYORQUE' 'MENORIGUAL' 'MAYORIGUAL' 'IGUAL' 'IGUALIGUAL' 'DIFERENTE'
+%left 'MAS' 'MENOS'
+%left 'MULTI' 'DIVS' 'MODULO'
+%right 'UNARIO'
+
+
+<inicio> : <lista_several> EOF 
+
+
+<lista_several> : <lista_select> <SEVERAL> <lista_several> 
+                | <lista_select>
+
+<lista_select>  : <select> <lista_select>
+                | <select>
+                ;
+
+<select>        :  <DIV>  <list_op_select>
+
+<list_op_select>:  <DIV> <opcion_select>               
+                | <opcion_select> 
+                  
+<opcion_select> : <ID> <otra_opcion_s> 
+                | <ATR> <fin_opcion_s>
+                | <MULTI>
+                   
+
+<opcion_padre_s>: <PTN> 
+                |
+                
+                
+<otra_opcion_s> : <CORA> <e> <CORC>
+                | <DPTN> <DPTN> <axes_select> 
+                | <PARA> <PARC> 
+                | 
+
+<axes_select>   : <ID> <axes_predi_slc>
+                | <MULTI> 
+                | 
+
+<fin_opcion_s>  : <ID>
+                | <MULTI>
+                
+<e>             : <e> <MAS> <e>
+                | <e> <MENOS> <e>
+                | <e> <MULTI> <e>
+                | <e> <DIVS> <e>
+                | <e> <MODULO> <e>
+                | <MENOS> <e> %prec <UNARIO> 
+                | <e> <MENORQUE> <e>
+                | <e> <MAYORQUE> <e>
+                | <e> <MENORIGUAL> <e>
+                | <e> <MAYORIGUAL> <e>
+                | <e> <IGUAL> <e>
+                | <e> <IGUALIGUAL> <e>
+                | <e> <DIFERENTE> <e>
+                | <e> <OR> <e>
+                | <e> <AND> <e>
+                | <NOT> <e>
+                | <PARA> <e> <PARC> 
+                | <LAST> <PARA> <PARC> 
+                | <POSITION> <PARA> <PARC> 
+                | <ATR> <ID> 
+                | <NUM> 
+                | <CADENA> 
+                | <ID> 
+                | <TRUE> 
+                | <FALSE>

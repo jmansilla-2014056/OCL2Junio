@@ -1,5 +1,5 @@
 # Gramática Ascendente XML
-Las siguientes gramaticas 
+Las siguientes gramaticas moldean un XML, un XML es el acrónimo de Extensible Markup Language, es decir, es un lenguaje de marcado que define un conjunto de reglas para la codificación de documentos
 ```xml
 
 <inicio> ::=  <encoding> <etiqueta> 
