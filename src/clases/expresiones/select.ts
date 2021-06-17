@@ -24,8 +24,6 @@ export default class select implements expresion {
     }
     getValor(ent: entorno, arbol: ast) {
         if (this.tipe == "//" && this.id != "*" && this.atr == false) {
-            console.log("ENTORNO IN //")
-            console.log(ent)
             this.lookAllNodes(ent, arbol)
         } else if (this.tipe == "/" && this.id != "*" && this.atr == false) {
             this.lookAtPath(ent, arbol)
@@ -48,7 +46,6 @@ export default class select implements expresion {
         if (ent instanceof Array) {
             for (let n_ent of ent) {
                 let simbol: simbolo = n_ent.tabla["id"]
-                console.log(`${this.id} vs ${simbol.valor}`)
                 if (simbol.valor == this.id) {
                     //Encontrar valor
                     this.matches.push(n_ent)
