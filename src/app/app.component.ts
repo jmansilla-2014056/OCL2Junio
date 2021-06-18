@@ -5,17 +5,15 @@ import { simbolo } from 'src/clases/ast/simbolo';
 import { tipo } from 'src/clases/ast/tipo';
 import { ast } from '../clases/ast/ast';
 import { astXpath } from '../reports/astXpath';
-import { getErrores } from '../reports/ReportController';
+import { getErrores, InsertarError } from '../reports/ReportController';
 import gramatical from '../reports/gramatical';
 import nodo_xml from '../clases/xml/nodo_xml';
-import archivos from "../clases/archivos";
 import xml from "../gramatica/xml";
 import xmld from "../gramatica/xml_descendente";
 
 import xpath from "../gramatica/xpath";
 import xpathd from "../gramatica/xpath_descendente";
 import ast_xpath from "../clases/ast/ast_xpath";
-import select from 'src/clases/expresiones/select';
 
 import { Buffer } from 'buffer';
 
@@ -27,34 +25,32 @@ import { Buffer } from 'buffer';
 
 export class AppComponent {
   content: string = "CODEMIRROR"
-  fls = new Array<archivos>()
-  fl: archivos
   xcode: string = ""
+  /* MANEJO ARCHIVOS
+  fls = new Array<archivos>()
   index_files: number = 0
-  actual_file: number
+  actual_file: number*/
+  entornoGlobal: entorno = new entorno(null)
   nombre: string = "name_ini"
   contenido: string = "cont_ini"
   consola: string = '//ancestor_or_self::pais[nombre="Monaco"]'
   salida: string = ""
   n_node: number
-  openFile(input) {
+  /*openFile(input) {
     var x: File = input.files[0]
     if (x) {
       var reader = new FileReader()
       reader.onload = function (e) {
         let contenido = e.target.result
-        
-        document.getElementById('name').innerText = x.name
-        
+        document.getElementById('name').innerText = x.name 
         document.getElementById('contenido2').innerHTML = '' + contenido
       }
-      
       reader.readAsText(x)
     } else {
       document.getElementById('contenido').innerText = "No hay archivo"
     }
   }
-  addFile() {
+  /addFile() {
     let newFile = new archivos(this.index_files, document.getElementById('name').textContent, document.getElementById('contenido2').textContent)
     this.fls.push(newFile)
     this.index_files++
@@ -63,35 +59,29 @@ export class AppComponent {
     let actual_file: archivos = this.fls[this.actual_file]
     document.getElementById('name').innerText = actual_file.nombre
     this.xcode = actual_file.contenido
-  }
+  }*/
 
   /* Analisis Ascendente */
   analizarXml() {
     if (this.xcode !== ""){
+      this.replaceCharacters()
       localStorage.removeItem('errores');
-  
       localStorage.setItem('cst', " digraph L {\n" + "\n" + "  node [shape=record fontname=Arial];");
       localStorage.setItem('actual', 'cst');
-      
       try {
         let entrada = this.clearEntry(this.xcode);
         let parse_result = xml.parse(entrada);
         let result: nodo_xml = parse_result.etiqueta
         let encoding: nodo_xml = parse_result.encoding
         let reportG = parse_result.reportG;
-        
         console.log("Analisis xml (arbol):")
         result.printNode("")
-        
-    
         let arbol = new ast().getArbolito(result);
         localStorage.setItem('ast', 'digraph g {\n ' + arbol + '}');
         localStorage.setItem('cst', localStorage.getItem('cst')+"}");
-    
-        /* reporte gramatical */
+        // reporte gramatical
         this.tablaReportGramatical(new gramatical("","").getReporteG(reportG),"Reporte Gramatical Ascendente","reportG","TitleReportGramatical");
-    
-        /* Entornos */
+        // Entornos
         this.n_node = 1
         let tipo_encoding: string
         for (let atr of encoding.atributos){
@@ -100,11 +90,9 @@ export class AppComponent {
           }
         }
         this.createEntorno(result,encoding,tipo_encoding);
-    
-        /* reporte tabla de simbolos */
+        // reporte tabla de simbolos
         this.tablaSimbolosReport();
-    
-        /* Fin analisis */
+        // Fin analisis
         alert("Analisis finalizado con exito!");
       } catch (error) {
         alert("Error, no ha sido posible recuperarse!");
@@ -117,28 +105,23 @@ export class AppComponent {
   /* Analisis descendente */
   analizarXmlDesc() {
     if (this.xcode !== ""){
+      this.replaceCharacters()
       localStorage.removeItem('errores');
-  
       localStorage.setItem('cst', "digraph L {\n" + "\n" + "  node [shape=record fontname=Arial];");
       localStorage.setItem('actual', 'cst');
-      
       try {
         let entrada = this.clearEntry(this.xcode);
         let parse_result = xmld.parse(entrada);
         let result:nodo_xml = parse_result.etiqueta;
         let encoding: nodo_xml = parse_result.encoding;
         let reportG = parse_result.reportG;
-    
         console.log("Analisis xml (arbol descendente):")
         result.printNode("")
-    
         let arbol = new ast().getArbolito(result);
         localStorage.setItem('ast', 'digraph g {\n ' + arbol + '}');
         localStorage.setItem('cst', localStorage.getItem('cst')+"}");
-    
         /* reporte gramatical */
         this.tablaReportGramatical(new gramatical("","").getReporteG(reportG),"Reporte Gramatical Descendente","reportG","TitleReportGramatical");
-    
         /* Entornos */
         this.n_node = 1
         let tipo_encoding: string
@@ -148,10 +131,8 @@ export class AppComponent {
           }
         }
         this.createEntorno(result,encoding,tipo_encoding);
-    
         /* reporte tabla de simbolos */
         this.tablaSimbolosReport();
-    
         /* Fin analisis */
         alert("Analisis finalizado con exito!");
       } catch (error) {
@@ -164,12 +145,12 @@ export class AppComponent {
 
   /*MANEJO DE ENTORNOS DE LOS NODOS*/
   createEntorno(result: nodo_xml,encoding: nodo_xml,tipo_encoding: string) {
-    let entornoGlobal: entorno = new entorno(null)
+    this.entornoGlobal= new entorno(null)
     if (result.id == result.id2) {
       for (let atr of encoding.atributos){
-        entornoGlobal.agregar(atr.id,new simbolo(atr.id,"",tipo.ATRIBUTE,atr.linea,atr.columna))
+        this.entornoGlobal.agregar(atr.id,new simbolo(atr.id,"",tipo.ATRIBUTE,atr.linea,atr.columna))
       }
-      let entornoNodo: entorno = new entorno(entornoGlobal)
+      let entornoNodo: entorno = new entorno(this.entornoGlobal)
       entornoNodo.agregar("id",new simbolo("id",result.id,tipo.STRING,result.linea,result.columna))
       if (result.valor != "") {
         entornoNodo.agregar("valor", new simbolo(result.id, this.encoding(result.valor, tipo_encoding), tipo.VALOR, result.linea, result.columna))
@@ -188,9 +169,10 @@ export class AppComponent {
         this.addNodo(hijo, result.entorno, j, tipo_encoding)
       }
       /*SE AGREGA AL ENTORNO GLOBAL*/
-      entornoGlobal.agregar("xml", new simbolo(result.id, entornoNodo, tipo.STRUCT, result.linea, result.columna))
-      console.log(entornoGlobal)
-      this.fls[this.actual_file].ent = entornoGlobal
+      this.entornoGlobal.agregar("xml", new simbolo(result.id, entornoNodo, tipo.STRUCT, result.linea, result.columna))
+      console.log(this.entornoGlobal)
+    } else {
+      InsertarError("Semantico",`Error: etiqueta inicio ${result.id} no es igual a cierre ${result.id2}`,"xml",result.linea,result.columna)
     }
   }
 
@@ -221,6 +203,8 @@ export class AppComponent {
       }
       /*SE AGREGA AL ENTORNO PADRE*/
       oldEntorno.agregar("hijo" + n, new simbolo(hijo.id, newEntorno, tipo.STRUCT, hijo.linea, hijo.columna))
+    } else {
+      InsertarError("Semantico",`Error: etiqueta inicio ${hijo.id} no es igual a cierre ${hijo.id2}`,"xml",hijo.linea,hijo.columna)
     }
   }
 
@@ -232,7 +216,7 @@ export class AppComponent {
 
   /* Reporte para la tabla de simbolos */
   tablaSimbolosReport(){
-    let simbolitos = new tablaSimbolos().getTableSimbolos(this.fls[this.actual_file].ent);
+    let simbolitos = new tablaSimbolos().getTableSimbolos(this.entornoGlobal);
     document.getElementById("TitleSimbolTable").innerHTML = "Tabla de Simbolos"
     document.getElementById("reportS").innerHTML = simbolitos;
   }
@@ -258,7 +242,7 @@ export class AppComponent {
     
         let xpath_str
         let arbol: ast = new ast()
-        xpath_str = result.ejecutar(this.fls[this.actual_file].ent.tabla["xml"].valor,arbol)
+        xpath_str = result.ejecutar(this.entornoGlobal.tabla["xml"].valor,arbol)
         this.salida = xpath_str
         console.log(this.salida)
     
@@ -294,7 +278,7 @@ export class AppComponent {
     
         let xpath_str
         let arbol: ast = new ast()
-        xpath_str = result.ejecutar(this.fls[this.actual_file].ent.tabla["xml"].valor,arbol)
+        xpath_str = result.ejecutar(this.entornoGlobal.tabla["xml"].valor,arbol)
         this.salida = xpath_str
         console.log(this.salida)
     
@@ -358,5 +342,16 @@ export class AppComponent {
     return str
   }
 
-}
+  replaceCharacters(){
+    while(this.xcode.includes("&quot;")){
+      this.xcode = this.xcode.replace('&quot;','"')
+    }
+    while(this.xcode.includes("&amp;")){
+      this.xcode = this.xcode.replace("&amp;","&")
+    }
+    while(this.xcode.includes("&apos;")){
+      this.xcode = this.xcode.replace("&apos;","'")
+    }
+  }
 
+}

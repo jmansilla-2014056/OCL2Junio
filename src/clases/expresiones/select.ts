@@ -37,6 +37,8 @@ export default class select implements expresion {
             this.lookAtUnkown(ent, arbol)
         } else if (this.tipe == "//" && this.id == null && this.atr == true) {
             this.lookAllUnknownP(ent, arbol)
+        } else if (this.tipe == "/" && this.id == null && this.atr == true) {
+            this.lookAtUnknownP(ent, arbol)
         } else {
             console.log("NO MATCH")
         }

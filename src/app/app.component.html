@@ -1,32 +1,18 @@
 <div class="container">
   <div class="row">
     <div class="col-6 mt-3">
-      <h5>Entrada:</h5>
-      <input type="file" id="file-input" (change)="openFile($event.target)">
-      <div class="col-12 mt-3">
-        <button type="button" class="btn btn-info col-3" data-bs-toggle="modal" data-bs-target="#ModalVer">Ver</button>
-        <button type="button" class="btn btn btn-success col-3" data-bs-toggle="modal" data-bs-target="#ModalAdded"
-          (click)="addFile()">Agregar</button>
-      </div>
+      <button type="button" class="btn btn-success" (click)="analizarXml()">Analisis Ascendente</button>
+      <button type="button" class="btn btn-success" (click)="analizarXmlDesc()">Analisis Descendente</button>
     </div>
     <div class="col-6 mt-3">
-      <h5>Archivos: {{index_files}}</h5>
-      <select class="form-control" id="selectFile" name="selectFile" [(ngModel)]="actual_file" (change)="showFile()">
-        <option [value]="fl.n" *ngFor="let fl of fls">{{fl.nombre}}</option>
-      </select>
-      <div class="col-12 mt-3">
-        <!--FUNCION ABRIR ARCHIVO-->
-        <button type="button" class="btn btn-success" (click)="analizarXml()">Analisis Ascendente</button>
-        <button type="button" class="btn btn-success" (click)="analizarXmlDesc()">Analisis Descendente</button>
-        <button type="button" class="btn btn-success" (click)="execXpath()">Xpath Ascendente</button>
-        <button type="button" class="btn btn-success" (click)="execXpathD()">Xpath Descendente</button>
-      </div>
+      <button type="button" class="btn btn-success" (click)="execXpath()">Xpath Ascendente</button>
+      <button type="button" class="btn btn-success" (click)="execXpathD()">Xpath Descendente</button>
     </div>
   </div>
   <div class="row">
     <div class="col-6">
       <div class="row">
-        <div class="col-12 mt-3">
+        <div class="col-12 mt-1">
           <h2 id="name">Archivo: </h2>
         </div>
         <div class="col-12">
@@ -47,7 +33,7 @@
     </div>
     <div class="col-6">
       <div class="row">
-        <div class="col-12 mt-3">
+        <div class="col-12 mt-1">
           <h2>Consola:</h2>
         </div>
         <div class="col-12">
@@ -56,11 +42,11 @@
       </div>
     </div>
   </div>
-  <div class="row mt-3 pb-5">
-    <div class="col-12 mt-3">
+  <div class="row pb-5">
+    <div class="col-12 mt-1">
       <h2>Salida:</h2>
     </div>
-    <div class="col-12 mt-3">
+    <div class="col-12 mt-1">
       <div class="form-group">
         <ngx-codemirror id="contenido" [(ngModel)]="salida" [options]="{
           lineNumbers: true,

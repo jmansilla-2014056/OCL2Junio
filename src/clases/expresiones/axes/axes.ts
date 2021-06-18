@@ -59,9 +59,9 @@ export default class axes implements expresion {
         } else if (this.tipe == "//" && this.axe.toLocaleLowerCase() == "parent") {
             this.getAncestor(ent, arbol, true, false)
         } else if (this.tipe == "/" && this.axe.toLocaleLowerCase() == "node()") {
-            this.getChild(ent, arbol, false)
+            this.getSelf(ent, arbol)
         } else if (this.tipe == "//" && this.axe.toLocaleLowerCase() == "node()") {
-            this.getChild(ent, arbol, true)
+            this.getChildSelf(ent, arbol)
         } else if (this.tipe == "//" && this.axe.toLocaleLowerCase() == "..") {
             this.getAncestor(ent, arbol, true, false)
             this.getChildSelf(ent, arbol)

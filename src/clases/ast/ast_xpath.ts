@@ -22,23 +22,27 @@ export default class ast_xpath {
         }
         for (let n_ent of entorno_result) {
             for (let slc of n_ent) {
-                this.getResult(slc, "")
+                this.getResult(slc)
             }
         }
         return this.str_result
     }
-    getResult(ent: entorno, str: string) {
+    getResult(ent: entorno) {
         if (ent.tabla["n_etiquetas"].valor == 1) {
-            this.str_result += str + "<" + ent.tabla["id"].valor
+            this.str_result += "<" + ent.tabla["id"].valor
             this.getParams(ent)
             this.str_result += "/>\n"
         } else {
-            this.str_result += str + "<" + ent.tabla["id"].valor
+            this.str_result += "<" + ent.tabla["id"].valor
             this.getParams(ent)
-            this.str_result += ">\n"
-            this.getNodes(ent, str)
-            this.getNodeVal(ent, str)
-            this.str_result += str + "</" + ent.tabla["id"].valor + ">\n"
+            this.str_result += ">"
+            if(this.getNodeVal(ent)){
+                this.str_result += "</" + ent.tabla["id"].valor + ">\n"
+            } else {
+                this.str_result += "\n"
+                this.getNodes(ent)
+                this.str_result += "</" + ent.tabla["id"].valor + ">\n"
+            }
         }
     }
     getParams(ent: entorno) {
@@ -49,18 +53,20 @@ export default class ast_xpath {
             }
         }
     }
-    getNodes(ent: entorno, str: string) {
+    getNodes(ent: entorno) {
         for (let key in ent.tabla) {
             let hijo = ent.tabla[key]
             if (key.startsWith("hijo")) {
-                this.getResult(hijo.valor, str + "\t")
+                this.getResult(hijo.valor)
             }
         }
     }
-    getNodeVal(ent: entorno, str: string) {
+    getNodeVal(ent: entorno) {
         let val = ent.tabla["valor"]
         if (val != null) {
-            this.str_result += str + "\t" + val.valor + "\n"
+            this.str_result += val.valor
+            return true
         }
+        return false
     }
 }
