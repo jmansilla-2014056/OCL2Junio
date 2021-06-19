@@ -16,6 +16,8 @@ import xpathd from "../gramatica/xpath_descendente";
 import ast_xpath from "../clases/ast/ast_xpath";
 
 import { Buffer } from 'buffer';
+import { nodo3d } from 'src/clases/c3d/nodo3d';
+import { simbolTabla } from 'src/clases/ast/simbolTabla';
 
 @Component({
   selector: 'app-root',
@@ -33,9 +35,11 @@ export class AppComponent {
   entornoGlobal: entorno = new entorno(null)
   nombre: string = "name_ini"
   contenido: string = "cont_ini"
-  consola: string = '//ancestor_or_self::pais[nombre="Monaco"]'
+  consola: string = ''
   salida: string = ""
   n_node: number
+  c3d: nodo3d
+  ts: Array<simbolTabla>
   /*openFile(input) {
     var x: File = input.files[0]
     if (x) {
@@ -68,8 +72,8 @@ export class AppComponent {
       localStorage.removeItem('errores');
       localStorage.setItem('cst', " digraph L {\n" + "\n" + "  node [shape=record fontname=Arial];");
       localStorage.setItem('actual', 'cst');
-      try {
-        let entrada = this.clearEntry(this.xcode);
+      //TRY
+      let entrada = this.clearEntry(this.xcode);
         let parse_result = xml.parse(entrada);
         let result: nodo_xml = parse_result.etiqueta
         let encoding: nodo_xml = parse_result.encoding
@@ -94,9 +98,11 @@ export class AppComponent {
         this.tablaSimbolosReport();
         // Fin analisis
         alert("Analisis finalizado con exito!");
+      /*try {
+        
       } catch (error) {
         alert("Error, no ha sido posible recuperarse!");
-      }
+      }*/
     }else{
       alert("Error, Ingrese archivo a analizar!");
     }
@@ -216,9 +222,12 @@ export class AppComponent {
 
   /* Reporte para la tabla de simbolos */
   tablaSimbolosReport(){
-    let simbolitos = new tablaSimbolos().getTableSimbolos(this.entornoGlobal);
+    let simbolitos = new tablaSimbolos()
+    simbolitos.getTableSimbolos(this.entornoGlobal.tabla["xml"].valor)
+    this.ts = simbolitos.simbolos
+    /*let simbolitos = new tablaSimbolos().getTableSimbolos(this.entornoGlobal);
     document.getElementById("TitleSimbolTable").innerHTML = "Tabla de Simbolos"
-    document.getElementById("reportS").innerHTML = simbolitos;
+    document.getElementById("reportS").innerHTML = simbolitos;*/
   }
 
   /* Reporte para la tabla de simbolos */
@@ -351,6 +360,26 @@ export class AppComponent {
     }
     while(this.xcode.includes("&apos;")){
       this.xcode = this.xcode.replace("&apos;","'")
+    }
+  }
+  addXml(){
+    this.c3d = new nodo3d()
+    this.c3d.addRoot()
+    let ent: entorno = this.entornoGlobal.tabla["xml"].valor
+    this.addNodo3D(ent)
+    this.c3d.endCode()
+    this.salida = this.c3d.code
+  }
+  addNodo3D(ent: entorno){
+    this.c3d.addNodo(ent)
+    for (let key in ent.tabla){
+      if (key.startsWith("atr")){
+        this.c3d.addAtr(ent.tabla[key])
+      } else if (key.startsWith("hijo")){
+        this.addNodo3D(ent.tabla[key].valor)
+      } else if (key == "valor"){
+        this.c3d.addVal(ent.tabla[key])
+      }
     }
   }
 
