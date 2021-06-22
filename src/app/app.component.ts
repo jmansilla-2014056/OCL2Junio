@@ -15,6 +15,8 @@ import xpath from "../gramatica/xpath";
 import xpathd from "../gramatica/xpath_descendente";
 import ast_xpath from "../clases/ast/ast_xpath";
 
+import xquery from "../gramatica/xquery";
+
 import { Buffer } from 'buffer';
 import { nodo3d } from 'src/clases/c3d/nodo3d';
 import { simbolTabla } from 'src/clases/ast/simbolTabla';
@@ -298,6 +300,26 @@ export class AppComponent {
         /* reporte gramatical */
         this.tablaReportGramatical(new gramatical("","").getReporteG(reportG),"Reporte Gramatical Xpath Descendente","reportGX","TitleReportGramaticalX");
     
+        /* Fin analisis */
+        alert("Analisis finalizado con exito!");
+      } catch (error) {
+        alert("Error, no ha sido posible recuperarse!");
+      }
+    }else{
+      alert("Error, Ingrese consulta a ejecutar!");
+    }
+  }
+
+  /* analizdor xquery ascendente */
+  execXquery() {
+    if (this.consola !== ""){
+      
+      try {
+        let entrada = this.consola
+        let result = xquery.parse(entrada);
+        
+        console.log(result);
+        
         /* Fin analisis */
         alert("Analisis finalizado con exito!");
       } catch (error) {
