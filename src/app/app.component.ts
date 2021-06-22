@@ -9,6 +9,7 @@ import { getErrores, InsertarError } from '../reports/ReportController';
 import gramatical from '../reports/gramatical';
 import nodo_xml from '../clases/xml/nodo_xml';
 import xml from "../gramatica/xml";
+import op from "../gramatica/optimizador";
 import xmld from "../gramatica/xml_descendente";
 
 import xpath from "../gramatica/xpath";
@@ -48,7 +49,7 @@ export class AppComponent {
       var reader = new FileReader()
       reader.onload = function (e) {
         let contenido = e.target.result
-        document.getElementById('name').innerText = x.name 
+        document.getElementById('name').innerText = x.name
         document.getElementById('contenido2').innerHTML = '' + contenido
       }
       reader.readAsText(x)
@@ -66,6 +67,12 @@ export class AppComponent {
     document.getElementById('name').innerText = actual_file.nombre
     this.xcode = actual_file.contenido
   }*/
+
+  optimizar(){
+    let entrada = this.clearEntry(this.xcode);
+    let op_result = op.parse(entrada);
+
+  }
 
   /* Analisis Ascendente */
   analizarXml() {
@@ -101,7 +108,7 @@ export class AppComponent {
         // Fin analisis
         alert("Analisis finalizado con exito!");
       /*try {
-        
+
       } catch (error) {
         alert("Error, no ha sido posible recuperarse!");
       }*/
@@ -244,26 +251,26 @@ export class AppComponent {
     if (this.consola !== ""){
       localStorage.setItem('cstx', "digraph L {\n" + "\n" + "  node [shape=record fontname=Arial];");
       localStorage.setItem('actual', 'cst');
-      
+
       try {
         let entrada = this.consola
         let parse_result = xpath.parse(entrada);
         let result: ast_xpath = parse_result.xpath;
         let reportG = parse_result.reportG;
-    
+
         let xpath_str
         let arbol: ast = new ast()
         xpath_str = result.ejecutar(this.entornoGlobal.tabla["xml"].valor,arbol)
         this.salida = xpath_str
         console.log(this.salida)
-    
+
         /* Reporte Ast */
         let arbolito = new astXpath().getArbolito(result);
         localStorage.setItem('astx', 'digraph g {\n ' + arbolito + '}');
-    
+
         /* reporte gramatical */
         this.tablaReportGramatical(new gramatical("","").getReporteG(reportG),"Reporte Gramatical Xpath Ascendente","reportGX","TitleReportGramaticalX");
-    
+
         /* Fin analisis */
         alert("Analisis finalizado con exito!");
       } catch (error) {
@@ -279,27 +286,27 @@ export class AppComponent {
     if (this.consola !== ""){
       localStorage.setItem('cstx', "digraph L {\n" + "\n" + "  node [shape=record fontname=Arial];");
       localStorage.setItem('actual', 'cstx');
-      
+
       try {
         let entrada = this.consola
         let parse_result = xpathd.parse(entrada);
         let result: ast_xpath = parse_result.xpath;
         let reportG = parse_result.reportG;
         this.reOrderArray(result["lista_several"]);
-    
+
         let xpath_str
         let arbol: ast = new ast()
         xpath_str = result.ejecutar(this.entornoGlobal.tabla["xml"].valor,arbol)
         this.salida = xpath_str
         console.log(this.salida)
-    
+
         /* Reporte ast */
         let arbolito = new astXpath().getArbolito(result);
         localStorage.setItem('astx', 'digraph g {\n ' + arbolito + '}');
-    
+
         /* reporte gramatical */
         this.tablaReportGramatical(new gramatical("","").getReporteG(reportG),"Reporte Gramatical Xpath Descendente","reportGX","TitleReportGramaticalX");
-    
+
         /* Fin analisis */
         alert("Analisis finalizado con exito!");
       } catch (error) {

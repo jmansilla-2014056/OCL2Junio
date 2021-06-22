@@ -77,16 +77,16 @@ cadena  (\"([^\"\\])*\")
 
 %% /* Gramatica */
 
-inicio              : declaraciones EOF { $$ = new clase_declaraciones.default($1); console.log($$.getText()); }
+inicio              : declaraciones metodos EOF { $$ = new clase_declaraciones.default($1); console.log($$.getText()); return $$;}
                     ;
 
 declaraciones       : declaraciones declaracion { $$ = $1; $$.push($2);}
                     | declaracion { $$ = []; $$.push($1); }
                     ;
 
-declaracion         : TIPO ID COR_ABRE NUM COR_CIERRA PUNTOCOMA { $$ = new clase_declaracion.default($1, $2 + "[" + $3 + "]"); }
+declaracion         : TIPO ID COR_ABRE NUM COR_CIERRA PUNTOCOMA { $$ = new clase_declaracion.default($1, $2 + "[" + $4 + "]"); }
                     | TIPO ID PUNTOCOMA { $$ = new clase_declaracion.default($1, $2); }
-                    | TIPO ID COMA lista_comas ID PUNTOCOMA { $4 += $5; $$ = new clase_declaracion.default($1, $4); }
+                    | TIPO ID COMA lista_comas ID PUNTOCOMA { $$ = new clase_declaracion.default($1, $2 + " ," + $4 + $5);  }
                     | TIPO ID COMA ID PUNTOCOMA { $$ = new clase_declaracion.default($1, $2+$3+$4);}
                     ;
 
