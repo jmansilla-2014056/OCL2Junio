@@ -38,6 +38,7 @@ cadena  (\"([^\"\\])*\")
 "]"                   return 'COR_CIERRA';
 ","                   return 'COMA';
 
+"="                   return 'IGUAL';
 "<="                  return 'LOGICA';
 "<"                   return 'LOGICA';
 "=="                  return 'LOGICA';
@@ -93,6 +94,33 @@ declaracion         : TIPO ID COR_ABRE NUM COR_CIERRA PUNTOCOMA { $$ = new clase
 lista_comas         : lista_comas ID COMA  { $$ = $1; $$+= $2+' '+$3 }
                     | ID COMA { $$=''; $$ += $1+' '+$2 }
                     ;
+
+
+metodos             : metodos metodo
+                    | metodo
+                    ;
+
+metodo              : VOID ID PAR_ABRE PAR_CIERRA LLAVE_ABRE lista_intrucciones LLAVE_CIERRA
+                    ;
+
+lista_intrucciones  : lista_intrucciones instruccion
+                    | instruccion
+                    ;
+
+instruccion : asignacion
+            ;
+
+asignacion : ID IGUAL ID PUNTOCOMA
+           | ID IGUAL NUM PUNTOCOMA
+           | ID IGUAL ID COR_ABRE PAR_ABRE TIPO PAR_CIERRA ID COR_CIERRA PUNTOCOMA
+           | ID IGUAL ID OPERACION ID PUNTOCOMA
+           | ID IGUAL ID OPERACION NUM PUNTOCOMA
+           | ID IGUAL NUM OPERACION ID PUNTOCOMA
+           | ID IGUAL NUM OPERACION PUNTOCOMA
+           | ID COR_ABRE PAR_ABRE TIPO PAR_CIERRA ID COR_CIERRA IGUAL NUM PUNTOCOMA
+           | 
+           ;
+
 
 
 

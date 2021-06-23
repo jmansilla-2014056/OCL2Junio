@@ -21,4 +21,8 @@ export default class declaraciones implements instruccion_3d{
   ejecutar() {
   }
 
+  insertar(instruccion: instruccion_3d) {
+    this.intrucciones_3d.push(instruccion);
+  }
+
 }
