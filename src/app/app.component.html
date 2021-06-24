@@ -11,6 +11,7 @@
     <div class="col-6 mt-3">
       <button type="button" class="btn btn-success" (click)="execXpath()">Xpath Ascendente</button>
       <button type="button" class="btn btn-success" (click)="execXpathD()">Xpath Descendente</button>
+      <button type="button" class="btn btn-success" (click)="execXquery()">Xquery</button>
     </div>
   </div>
   <div class="row">
@@ -64,6 +65,7 @@
     </div>
     <div class="col-12 mt-3">
       <!--FUNCION ABRIR ARCHIVO-->
+      <button type="button" class="btn btn-success" (click)="optimizar()">Optimizador</button>
       <button type="button" class="btn btn-success" (click)="reporteArbolA()">AST XML</button>
       <button type="button" class="btn btn-success" (click)="reporteArbolB()">CST XML</button>
       <button type="button" class="btn btn-success" (click)="reporteArbolC()">AST XPATH</button>
@@ -218,7 +220,6 @@
     </div>
   </div>
 </div>
-
 <div class="modal" tabindex="-1" id="ModalHeap">
   <div class="modal-dialog" style="max-width: 80%;">
     <div class="modal-content">

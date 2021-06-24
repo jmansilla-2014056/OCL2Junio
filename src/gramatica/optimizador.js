@@ -84,7 +84,7 @@ performAction: function anonymous(yytext, yyleng, yylineno, yy, yystate /* actio
 var $0 = $$.length - 1;
 switch (yystate) {
 case 1:
- this.$ = new clase_declaraciones.default($$[$0-1]); console.log(this.$.getText()); 
+ this.$ = new clase_declaraciones.default($$[$0-1]); console.log(this.$.getText()); return this.$;
 break;
 case 2:
  this.$ = $$[$0-1]; this.$.push($$[$0]);
@@ -93,13 +93,13 @@ case 3:
  this.$ = []; this.$.push($$[$0]); 
 break;
 case 4:
- this.$ = new clase_declaracion.default($$[$0-5], $$[$0-4] + "[" + $$[$0-3] + "]"); 
+ this.$ = new clase_declaracion.default($$[$0-5], $$[$0-4] + "[" + $$[$0-2] + "]"); 
 break;
 case 5:
  this.$ = new clase_declaracion.default($$[$0-2], $$[$0-1]); 
 break;
 case 6:
- $$[$0-2] += $$[$0-1]; this.$ = new clase_declaracion.default($$[$0-5], $$[$0-2]); 
+ this.$ = new clase_declaracion.default($$[$0-5], $$[$0-4] + " ," + $$[$0-2] + $$[$0-1]);  
 break;
 case 7:
  this.$ = new clase_declaracion.default($$[$0-4], $$[$0-3]+$$[$0-2]+$$[$0-1]);

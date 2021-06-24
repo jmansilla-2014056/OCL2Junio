@@ -9,11 +9,14 @@ import { getErrores, InsertarError } from '../reports/ReportController';
 import gramatical from '../reports/gramatical';
 import nodo_xml from '../clases/xml/nodo_xml';
 import xml from "../gramatica/xml";
+import op from "../gramatica/optimizador";
 import xmld from "../gramatica/xml_descendente";
 
 import xpath from "../gramatica/xpath";
 import xpathd from "../gramatica/xpath_descendente";
 import ast_xpath from "../clases/ast/ast_xpath";
+
+import xquery from "../gramatica/xquery";
 
 import { Buffer } from 'buffer';
 import { nodo3d } from 'src/clases/c3d/nodo3d';
@@ -56,7 +59,7 @@ export class AppComponent {
       var reader = new FileReader()
       reader.onload = function (e) {
         let contenido = e.target.result
-        document.getElementById('name').innerText = x.name 
+        document.getElementById('name').innerText = x.name
         document.getElementById('contenido2').innerHTML = '' + contenido
       }
       reader.readAsText(x)
@@ -74,6 +77,12 @@ export class AppComponent {
     document.getElementById('name').innerText = actual_file.nombre
     this.xcode = actual_file.contenido
   }*/
+
+  optimizar() {
+    let entrada = this.clearEntry(this.xcode);
+    let op_result = op.parse(entrada);
+
+  }
 
   /* Analisis Ascendente */
   analizarXml() {
@@ -109,7 +118,7 @@ export class AppComponent {
       // Fin analisis
       alert("Analisis finalizado con exito!");
       /*try {
-        
+
       } catch (error) {
         alert("Error, no ha sido posible recuperarse!");
       }*/
@@ -294,6 +303,7 @@ export class AppComponent {
         this.result = parse_result.xpath;
         let reportG = parse_result.reportG;
         this.reOrderArray(this.result["lista_several"]);
+        //this.reOrderArray(result["lista_several"]); <------------- CONFLICTO
 
         let xpath_str
         let arbol: ast = new ast()
@@ -308,6 +318,25 @@ export class AppComponent {
         /* reporte gramatical */
         this.tablaReportGramatical(new gramatical("", "").getReporteG(reportG), "Reporte Gramatical Xpath Descendente", "reportGX", "TitleReportGramaticalX");
 
+        /* Fin analisis */
+        alert("Analisis finalizado con exito!");
+      } catch (error) {
+        alert("Error, no ha sido posible recuperarse!");
+      }
+    }else{
+      alert("Error, Ingrese consulta a ejecutar!");
+    }
+  }
+
+  /* analizdor xquery ascendente */
+  execXquery() {
+    if (this.consola !== ""){
+
+      try {
+        let entrada = this.consola
+        let result = xquery.parse(entrada);
+
+        console.log(result);
         /* Fin analisis */
         alert("Analisis finalizado con exito!");
       } catch (error) {
@@ -409,19 +438,19 @@ export class AppComponent {
       this.c3d.printEntorno(entorno_temp)
     }
   }
-  arrHeap(){
+  arrHeap() {
     this.heap = new Array<arreglo>()
-    for (let key in this.c3d.heap){
-      this.heap.push(new arreglo(key,this.c3d.heap[key]))
+    for (let key in this.c3d.heap) {
+      this.heap.push(new arreglo(key, this.c3d.heap[key]))
     }
   }
-  arrStack(){
+  arrStack() {
     this.stack = new Array<arreglo>()
-    for (let key in this.c3d.stack){
-      this.stack.push(new arreglo(key,this.c3d.stack[key]))
+    for (let key in this.c3d.stack) {
+      this.stack.push(new arreglo(key, this.c3d.stack[key]))
     }
   }
-  printTagIni(){
+  printTagIni() {
     //
   }
 
