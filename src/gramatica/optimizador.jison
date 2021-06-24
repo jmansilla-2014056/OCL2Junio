@@ -3,6 +3,8 @@
 %{
       const clase_declaraciones = require('../clases/optimizador/declaraciones');
       const clase_declaracion = require('../clases/optimizador/declaracion');
+      const clase_metodo = require('../clases/optimizador/metodo');
+      const clase_asignacion = require('../clases/optimizador/asignacion');
 %}
 
 
@@ -11,7 +13,7 @@
 %option yylineno
 
 /* Definicion lexica */
-num     [0-9]+("."[0-9]+)?
+num     ("-")?[0-9]+("."[0-9]+)?
 id      [a-zñA-ZÑ][a-zñA-ZÑ0-9_]*
 cadena  (\"([^\"\\])*\")
 
@@ -78,7 +80,12 @@ cadena  (\"([^\"\\])*\")
 
 %% /* Gramatica */
 
-inicio              : declaraciones metodos EOF { $$ = new clase_declaraciones.default($1); console.log($$.getText()); return $$;}
+inicio              : declaraciones metodos EOF { $$ = new clase_declaraciones.default($1); console.log($$.getText());
+                      for(let x of $2){
+                         console.log(x.getText());
+                      }
+
+                      return $$;}
                     ;
 
 declaraciones       : declaraciones declaracion { $$ = $1; $$.push($2);}
@@ -95,30 +102,36 @@ lista_comas         : lista_comas ID COMA  { $$ = $1; $$+= $2+' '+$3 }
                     | ID COMA { $$=''; $$ += $1+' '+$2 }
                     ;
 
-
-metodos             : metodos metodo
-                    | metodo
+metodos             : metodos metodo { $$ = $1 ; $$.push($2); }
+                    | metodo { $$ = []; $$.push($1); console.log($1.getText()); }
                     ;
 
 metodo              : VOID ID PAR_ABRE PAR_CIERRA LLAVE_ABRE lista_intrucciones LLAVE_CIERRA
+                      { $$ = new clase_metodo.default($2); console.log("se insertara");
+                        for(let x of $6){
+                          console.log(x.getText());
+                          $$.intrucciones_3d.push(x);
+                        }
+                      }
                     ;
 
-lista_intrucciones  : lista_intrucciones instruccion
-                    | instruccion
+lista_intrucciones  : lista_intrucciones instruccion { $$ = $1 ; $$.push($2); console.log($2.getText()); }
+                    | instruccion { $$ = []; $$.push($1); console.log($1.getText()); }
                     ;
 
-instruccion : asignacion
+instruccion : asignacion { $$ = $1; }
             ;
 
-asignacion : ID IGUAL ID PUNTOCOMA
-           | ID IGUAL NUM PUNTOCOMA
+asignacion : ID IGUAL ID PUNTOCOMA { $$ = new clase_asignacion.default( $1, $3, "","" ); }
+           | ID IGUAL NUM PUNTOCOMA { $$ = new clase_asignacion.default( $1, $3, "","" ); }
            | ID IGUAL ID COR_ABRE PAR_ABRE TIPO PAR_CIERRA ID COR_CIERRA PUNTOCOMA
-           | ID IGUAL ID OPERACION ID PUNTOCOMA
-           | ID IGUAL ID OPERACION NUM PUNTOCOMA
-           | ID IGUAL NUM OPERACION ID PUNTOCOMA
-           | ID IGUAL NUM OPERACION PUNTOCOMA
+            { $$ = new clase_asignacion.default( $1, $3+$4+$5+$6+$7+$8+$9, "","" ); }
+           | ID IGUAL ID OPERACION ID PUNTOCOMA  { $$ = new clase_asignacion.default( $1, $3, $4, $5); }
+           | ID IGUAL ID OPERACION NUM PUNTOCOMA { $$ = new clase_asignacion.default( $1, $3, $4, $5); }
+           | ID IGUAL NUM OPERACION ID PUNTOCOMA { $$ = new clase_asignacion.default( $1, $3, $4, $5); }
+           | ID IGUAL NUM OPERACION PUNTOCOMA    { $$ = new clase_asignacion.default( $1, $3, $4, $5); }
            | ID COR_ABRE PAR_ABRE TIPO PAR_CIERRA ID COR_CIERRA IGUAL NUM PUNTOCOMA
-           | 
+            { $$ = new clase_asignacion.default( $1+$2+$3+$4+$5+$6+$7, $9,"","" ); }
            ;
 
 
