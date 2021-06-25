@@ -277,7 +277,7 @@ export default class select implements expresion {
         if (this.atr == false) {//     /nombre | /*
             this.lookNodes3D(ent, c3d, pos.id)
         } else if (this.atr == true) {//     /@atr | /@*
-            this.lookParams3D(ent, c3d)
+            this.lookParams3D(ent, c3d, ret.id)
         } else {
             console.log("NO MATCH")
         }
@@ -290,8 +290,8 @@ export default class select implements expresion {
         c3d.t_res = ret.id
     }
     lookNodes3D(ent: Array<entorno>, c3d: nodo3d, pos_param: number) {
+        c3d.main += `\t/* ini look nodes */\n`
         for (let n_ent of ent) {
-            c3d.main += `\t/* ini look nodes */\n`
             let simbol: simbolo = n_ent.tabla["id"]
             let pos = { "id": pos_param, "val": c3d.temp[pos_param] }
             //la siguiente posicion disponible id xml
@@ -309,43 +309,74 @@ export default class select implements expresion {
             c3d.main += `\tmatchId();\n`
             c3d.s = c3d.s - c3d.last_stack
             c3d.main += `\tS = S - ${c3d.last_stack};\t\t//Establece posicion return\n`
-            c3d.main += `\t/* fin look nodes */\n`
-            if (this.tipe == "/") {
-                if (this.id == "*") {
-                    //HIJOS
-                    console.log("ALL")
-                    /*for (let key in n_ent.tabla) {
-                        if (key.startsWith("hijo")) {
-                            console.log("MANDA HIJO")
-                            let hijo = n_ent.tabla[key]
-                            this.traducir([hijo.valor], c3d)
-                        }
-                    }*/
-                    /*c3d.heap[c3d.h] = simbol.stack + 1
-                    c3d.h += 1*/
-                } else if (simbol.valor == this.id) {
-                    //SE GUARDA EL VALOR
-                    /*c3d.heap[c3d.h] = c3d.stack[simbol.stack+1]
-                    console.log(c3d.heap[c3d.h])*/
-                    c3d.heap[c3d.h] = simbol.stack
-                    console.log("MATCH " + c3d.heap[c3d.h])
-                    c3d.h += 1
-                }
+            if (this.id == "*") {
+                //SE GUARDA EL VALOR
+                c3d.heap[c3d.h] = simbol.stack
+                c3d.h += 1
+                //console.log("MATCH " + c3d.heap[c3d.h])
             }
-            if (this.tipe == "//") {
-                console.log("ALL")
-                /*for (let key in n_ent.tabla) {
-                    if (key.startsWith("hijo")) {
-                        console.log("MANDA HIJO")
-                        let hijo = n_ent.tabla[key]
-                        this.traducir([hijo.valor], c3d)
-                    }
-                }*/
+            if (simbol.valor == this.id) {
+                //SE GUARDA EL VALOR
+                c3d.heap[c3d.h] = simbol.stack
+                c3d.h += 1
+                //console.log("MATCH " + c3d.heap[c3d.h])
             }
         }
+        c3d.main += `\t/* fin look nodes */\n`
     }
-    lookParams3D(ent, c3d: nodo3d) {
-        c3d.main += `\t/* look params */\n`
+    lookParams3D(ent: Array<entorno>, c3d: nodo3d, pos_param: number) {
+        c3d.main += `\t/* ini look params */\n`
+        for (let n_ent of ent) {
+            let id: simbolo = n_ent.tabla["id"]
+            console.log("NODO " + id.id)
+            for (let key in n_ent.tabla) {
+                if (key.startsWith("atr")) {
+                    //retorno
+                    let ret = { "id": pos_param, "val": c3d.temp[pos_param] }
+                    //seleccion del atributo
+                    let simbol: simbolo = n_ent.tabla[key]
+                    console.log("ATR ")
+                    console.log(simbol)
+                    let pos = { "id": c3d.generateTemp(), "val": ret.val + 1 }
+                    //la siguiente posicion disponible param xml
+                    c3d.main += `\tt${pos.id} = t${ret.id} + 2;\t\t//La siguiente posicion param xml\n`
+                    //se guarda la posicion (heap) del param
+                    c3d.stack[pos.val] = simbol.stack
+                    c3d.main += `\tstack[(int)t${pos.id}] = ${simbol.stack};\t\t//guarda stack del param xml\n`
+                    //la siguiente posicion disponible id xml
+                    //pos.val = pos.val + 1
+                    pos.val += 1
+                    c3d.main += `\tt${pos.id} = t${pos.id} + 3;\t\t//La siguiente posicion id xml\n`
+                    //se guarda la posicion (heap) del param
+                    c3d.stack[pos.val] = simbol.stack
+                    c3d.main += `\tstack[(int)t${pos.id}] = ${id.stack};\t\t//guarda stack del id xml\n`
+                    c3d.temp[pos.id] = pos.val
+
+                    //se cambia de entorno
+                    c3d.s = c3d.s + c3d.last_stack
+                    c3d.main += `\tS = S + ${c3d.last_stack};\t\t//Establece posicion return\n`
+                    //llamada()
+                    c3d.main += `\tmatchAtr();\n`
+                    c3d.s = c3d.s - c3d.last_stack
+                    c3d.main += `\tS = S - ${c3d.last_stack};\t\t//Establece posicion return\n`
+                    if (this.id == "*") {
+                        //SE GUARDA EL VALOR
+                        c3d.heap[c3d.h] = simbol.stack
+                        c3d.h += 1
+                        break
+                        //console.log("MATCH " + c3d.heap[c3d.h])
+                    }
+                    if (simbol.id == this.id) {
+                        //SE GUARDA EL VALOR
+                        c3d.heap[c3d.h] = simbol.stack
+                        c3d.h += 1
+                        break
+                        //console.log("MATCH " + c3d.heap[c3d.h])
+                    }
+                }
+            }
+        }
+        c3d.main += `\t/* fin look params */\n`
     }
 
 }

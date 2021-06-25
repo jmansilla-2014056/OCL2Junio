@@ -45,7 +45,7 @@ export class AppComponent {
   entornoGlobal: entorno = new entorno(null)
   nombre: string = "name_ini"
   contenido: string = "cont_ini"
-  consola: string = '/m/n'
+  consola: string = '/mundo/continente/pais/poblacion/@year'
   salida: string = ""
   n_node: number
   c3d: nodo3d

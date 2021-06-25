@@ -24,7 +24,7 @@ double stack[30101999];
 double S;
 double H;
 char x[100] = "select nodes void";
-char xx[100] = "print result void";\n`
+char xx[100] = "select atr void";\n`
         this.main = `/*------MAIN------*/
 void main() {
 \tS = 0; H = 0;\n`
@@ -146,6 +146,7 @@ void main() {
     }
     endCode() {
         this.matchID()
+        this.matchAtr()
         /*this.printResult()
         this.addPrint()*/
         this.StrCode()
@@ -292,6 +293,65 @@ void main() {
         //fin
         this.funciones += `\tLfin:\t\t//fin de la etiqueta\n`
         this.funciones += `\tprintf("%s",x);printf("%c",(char)10);\n`
+        this.funciones += `\treturn;\n`
+        this.funciones += `\n}\n`
+    }
+    matchAtr(){
+        this.funciones += `void matchAtr(){\n`
+        this.funciones += `\tprintf("%s",xx);printf("%c",(char)10);\n`
+        let l10 = { "id": this.generateTemp(), "val": -1 }
+        let l11 = { "id": this.generateTemp(), "val": -1 }
+        let l12 = { "id": this.generateTemp(), "val": -1 }
+        let l13 = { "id": this.generateTemp(), "val": -1 }
+        let l14 = { "id": this.generateTemp(), "val": -1 }
+        let l15 = { "id": this.generateTemp(), "val": -1 }
+        let l16 = { "id": this.generateTemp(), "val": -1 }
+        let l17 = { "id": this.generateTemp(), "val": -1 }
+        let l18 = { "id": this.generateTemp(), "val": -1 }
+        //param
+        this.funciones += `\tt${l10.id} = S + 1;\t\t//parametro a buscar\n`
+        this.funciones += `\tprintf("%c",(char)83);printf("%f",(double)t${l10.id});`
+        this.funciones += `\tt${l11.id} = stack[(int)t${l10.id}];\t\t//param 1er char\n`
+        this.funciones += `\tprintf("%c",(char)86);printf("%f",(double)t${l11.id});`
+        this.funciones += `\tt${l12.id} = heap[(int)t${l11.id}];\t\t//param 1er char\n`
+        this.funciones += `\tprintf("%c",(char)72);printf("%f",(double)t${l12.id});printf("%c",(char)10);`
+        //param
+        this.funciones += `\tt${l13.id} = S + 2;\t\t//id existente\n`
+        this.funciones += `\tprintf("%c",(char)83);printf("%f",(double)t${l13.id});`
+        this.funciones += `\tt${l14.id} = stack[(int)t${l13.id}];\t\t//id existente\n`
+        this.funciones += `\tprintf("%c",(char)83);printf("%f",(double)t${l14.id});`
+        this.funciones += `\tt${l14.id} = stack[(int)t${l14.id}];\t\t//id existente\n`
+        this.funciones += `\tprintf("%c",(char)86);printf("%f",(double)t${l14.id});`
+        this.funciones += `\tt${l15.id} = heap[(int)t${l14.id}];\t\t//id existente\n`
+        this.funciones += `\tprintf("%c",(char)72);printf("%f",(double)t${l15.id});printf("%c",(char)10);`
+        this.funciones += `\tt${l16.id} = t${l14.id};\t\t//ref 1er char id\n`
+        //id
+        this.funciones += `\tt${l17.id} = S + 3;\t\t//id existente\n`
+        this.funciones += `\tt${l18.id} = stack[(int)t${l17.id}];\t\t//stack nodo\n`
+        //comparacion *
+        this.funciones += `\tif (t${l12.id} == 42) goto Lacept;\t\t//si es * acepta\n`
+        //validacion cadena
+        this.funciones += `\tLverify:\t\t//validacion de cadena\n`
+        this.funciones += `\tprintf("%c",(char)t${l15.id});\n`
+        this.funciones += `\tif (t${l12.id} == t${l15.id}) goto Llast;\t\t//iguales, verifica eos\n`
+        //no match
+        this.funciones += `\tgoto Lfin;\t\t//no hay match fin\n`
+        //validacion -1
+        this.funciones += `\tLlast:\t\t//verifica eos\n`
+        this.funciones += `\tif (t${l12.id} == -1) goto Lacept;\t\t//fin de la cadena acept\n`
+        this.funciones += `\tt${l11.id} = t${l11.id} + 1;\t\t//siguiente posicion\n`
+        this.funciones += `\tt${l14.id} = t${l14.id} + 1;\t\t//siguiente posicion\n`
+        this.funciones += `\tt${l12.id} = heap[(int)t${l11.id}];\t\t//siguiente caracter\n`
+        this.funciones += `\tt${l15.id} = heap[(int)t${l14.id}];\t\t//siguiente caracter\n`
+        this.funciones += `\tgoto Lverify;\t\t//no es eof, vuelve a verify\n`
+        //aceptacion
+        this.funciones += `\tLacept:\t\t//aceptacion de la cadena\n`
+        this.funciones += `\tprintf("%c",(char)77);printf("%f",(double)H);printf("%c",(char)32);printf("%f",(double)t${l16.id});printf("%c",(char)10);\n`
+        this.funciones += `\theap[(int)H] = t${l17.id};\t\t//posicion heap del id match\n`
+        this.funciones += `\tH = H + 1;\t\t//espacio para siguiente valor\n`
+        //fin
+        this.funciones += `\tLfin:\t\t//fin de la etiqueta\n`
+        this.funciones += `\tprintf("%s",xx);printf("%c",(char)10);\n`
         this.funciones += `\treturn;\n`
         this.funciones += `\n}\n`
     }
