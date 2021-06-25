@@ -8,11 +8,11 @@ export default class if_expresion implements instruccion_3d{
 
 
   constructor(izq, operador, der, etiqueta) {
+    this.intrucciones_3d = new Array<instruccion_3d>();
     this.izq = izq;
     this.operadorlogico = operador;
     this.der = der;
     this.etiqueta = etiqueta;
-    this.intrucciones_3d = new Array<instruccion_3d>();
   }
 
   getText(){
