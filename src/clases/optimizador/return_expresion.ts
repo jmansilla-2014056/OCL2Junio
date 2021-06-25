@@ -1,18 +1,17 @@
 import {instruccion_3d} from "./instruccion_3d";
 
-export default class goto_expresion implements instruccion_3d{
-  public goto_etiqueta : string;
+export default class return_expresion implements instruccion_3d{
+  public _return : string;
+  intrucciones_3d: Array<instruccion_3d>;
 
-  constructor(goto_etiqueta : string ) {
-    this.goto_etiqueta = goto_etiqueta;
+  constructor(_return : string ) {
     this.intrucciones_3d = new Array<instruccion_3d>();
+    this._return = _return;
   }
 
   getText(){
-    return 'goto ' + this.goto_etiqueta + ';';
+    return 'return ' + this._return + ';';
   }
-
-  intrucciones_3d: Array<instruccion_3d>;
 
   ejecutar() {
   }
