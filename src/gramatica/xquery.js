@@ -72,21 +72,877 @@
   }
 */
 var xquery = (function(){
-var o=function(k,v,o,l){for(o=o||{},l=k.length;l--;o[k[l]]=v);return o},$V0=[1,31],$V1=[1,20],$V2=[1,35],$V3=[1,25],$V4=[1,21],$V5=[1,14],$V6=[1,30],$V7=[1,28],$V8=[1,33],$V9=[1,34],$Va=[1,12],$Vb=[1,24],$Vc=[1,26],$Vd=[1,17],$Ve=[1,13],$Vf=[1,15],$Vg=[1,16],$Vh=[1,18],$Vi=[1,19],$Vj=[1,22],$Vk=[1,23],$Vl=[5,18,19,21,24,25,26,30,33,45,54,55,56,64,66,67,71,91,92,93,94,95,96,97],$Vm=[1,44],$Vn=[1,45],$Vo=[1,48],$Vp=[1,40],$Vq=[1,41],$Vr=[1,39],$Vs=[1,42],$Vt=[1,43],$Vu=[1,46],$Vv=[1,47],$Vw=[1,49],$Vx=[1,50],$Vy=[1,51],$Vz=[1,52],$VA=[1,53],$VB=[1,54],$VC=[1,55],$VD=[1,56],$VE=[1,57],$VF=[1,58],$VG=[1,64],$VH=[1,65],$VI=[1,63],$VJ=[5,18,19,20,21,23,24,25,26,28,30,31,32,33,35,38,39,41,44,45,54,55,56,64,66,67,71,72,74,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97],$VK=[2,151],$VL=[5,18,19,23,24,25,26,30,32,33,35,38,39,41,44,45,54,55,56,64,66,67,71,91,92,93,94,95,96,97],$VM=[1,84],$VN=[1,85],$VO=[5,18,19,21,23,24,25,26,30,32,33,35,38,39,41,44,45,54,55,56,64,66,67,71,91,92,93,94,95,96,97],$VP=[1,126],$VQ=[1,123],$VR=[1,121],$VS=[1,122],$VT=[1,124],$VU=[5,18,19,20,21,23,24,25,26,28,30,31,32,33,35,38,39,41,44,45,54,55,56,64,66,67,71,72,74,76,77,78,79,80,81,82,89,90,91,92,93,94,95,96,97],$VV=[2,155],$VW=[5,19,21,23,24,25,26,30,31,32,33,35,38,39,41,44,45,54,55,64,66,67,71,74,89,90,91,92,93,94,95,96,97],$VX=[1,134],$VY=[2,148],$VZ=[1,137],$V_=[25,38,39,41],$V$=[1,142],$V01=[1,148],$V11=[5,18,19,21,23,24,25,26,32,33,35,38,39,41,44,45,54,55,56,64,66,67,71,91,92,93,94,95,96,97],$V21=[5,18,19,20,21,23,24,25,26,28,30,31,32,33,35,38,39,41,44,45,54,55,56,64,66,67,71,74,76,79,80,81,82,89,90,91,92,93,94,95,96,97],$V31=[5,18,19,20,21,23,24,25,26,28,30,31,32,33,35,38,39,41,44,45,54,55,64,66,67,71,74,79,80,81,82,89,90,91,92,93,94,95,96,97],$V41=[5,19,21,23,24,25,26,30,31,32,33,35,38,39,41,44,45,54,55,64,66,67,71,74,91,92,93,94,95,96,97],$V51=[5,18,19,21,23,24,25,26,30,33,44,45,54,55,56,64,66,67,71,91,92,93,94,95,96,97],$V61=[1,171],$V71=[39,41],$V81=[1,191],$V91=[32,35],$Va1=[25,35,38,39,41],$Vb1=[18,19],$Vc1=[5,18,19,21,24,25,26,30,33,38,39,41,45,54,55,56,64,66,67,71,91,92,93,94,95,96,97],$Vd1=[1,273],$Ve1=[1,292],$Vf1=[1,333],$Vg1=[1,334],$Vh1=[1,335],$Vi1=[1,336],$Vj1=[1,337],$Vk1=[23,32,35];
+var o=function(k,v,o,l){for(o=o||{},l=k.length;l--;o[k[l]]=v);return o},$V0=[1,13],$V1=[1,25],$V2=[1,24],$V3=[1,29],$V4=[1,30],$V5=[1,31],$V6=[1,32],$V7=[1,27],$V8=[1,18],$V9=[1,22],$Va=[1,33],$Vb=[1,35],$Vc=[1,19],$Vd=[1,14],$Ve=[1,15],$Vf=[1,16],$Vg=[1,17],$Vh=[1,20],$Vi=[1,21],$Vj=[1,23],$Vk=[5,16,17,21,24,29,30,32,35,36,37,38,40,48,55,57,61,62,67,68,69,70,71,72,90],$Vl=[5,16,17,21,24,29,30,32,35,36,37,38,40,55,57,61,62,67,68,69,70,71,72,90],$Vm=[1,47],$Vn=[1,39],$Vo=[1,40],$Vp=[1,38],$Vq=[1,41],$Vr=[1,42],$Vs=[1,43],$Vt=[1,44],$Vu=[1,45],$Vv=[1,46],$Vw=[1,48],$Vx=[1,49],$Vy=[1,50],$Vz=[1,51],$VA=[1,52],$VB=[1,53],$VC=[1,54],$VD=[1,55],$VE=[1,56],$VF=[1,57],$VG=[1,58],$VH=[5,16,17,19,21,24,29,30,32,35,36,37,38,40,48,55,57,61,62,63,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90],$VI=[5,16,17,19,21,24,29,30,32,35,36,37,38,40,48,55,57,62,63,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90],$VJ=[2,108],$VK=[5,16,17,19,21,22,23,24,26,29,30,32,35,36,37,38,40,48,55,57,58,61,62,63,65,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90],$VL=[2,113],$VM=[1,64],$VN=[1,67],$VO=[5,16,17,21,23,24,26,29,30,32,35,36,37,38,40,48,55,57,58,62,67,68,69,70,71,72,90],$VP=[1,75],$VQ=[1,80],$VR=[1,82],$VS=[1,83],$VT=[1,84],$VU=[5,16,17,21,23,24,26,29,30,32,35,36,37,38,40,48,55,57,58,61,62,67,68,69,70,71,72,90],$VV=[1,116],$VW=[1,119],$VX=[2,114],$VY=[5,16,17,19,21,22,23,24,26,29,30,32,35,36,37,38,40,48,55,57,58,61,62,63,65,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,88,89,90],$VZ=[2,140],$V_=[5,16,17,21,22,23,24,26,29,30,32,35,36,37,38,40,55,57,58,61,62,65,67,68,69,70,71,72,88,89,90],$V$=[1,121],$V01=[1,125],$V11=[5,16,17,21,24,29,30,32,35,36,37,38,40,48,55,57,62,67,68,69,70,71,72,90],$V21=[5,16,17,23,24,26,29,30,32,35,36,37,38,40,55,57,58,61,62,67,68,69,70,71,72,90],$V31=[5,16,17,21,23,24,26,29,30,32,35,36,37,38,40,55,57,58,61,62,67,68,69,70,71,72,90],$V41=[5,16,17,19,21,22,23,24,26,29,30,32,35,36,37,38,40,48,55,57,58,61,62,65,67,68,69,70,71,72,73,76,77,78,79,80,81,88,89,90],$V51=[5,16,17,19,21,22,23,24,26,29,30,32,35,36,37,38,40,55,57,58,61,62,65,67,68,69,70,71,72,76,77,78,79,80,81,88,89,90],$V61=[5,16,17,21,22,23,24,26,29,30,32,35,36,37,38,40,55,57,58,61,62,65,67,68,69,70,71,72,90],$V71=[1,152],$V81=[23,26],$V91=[5,35,36,37,57],$Va1=[16,17,21,24,26,29,30,32,38,40,48,55,61,62,67,68,69,70,71,72,90],$Vb1=[16,17,21,24,26,29,30,32,38,40,48,55,62,67,68,69,70,71,72,90],$Vc1=[1,232],$Vd1=[1,246],$Ve1=[1,282],$Vf1=[1,283],$Vg1=[1,284],$Vh1=[1,285],$Vi1=[1,286],$Vj1=[23,26,35];
 var parser = {trace: function trace () { },
 yy: {},
-symbols_: {"error":2,"inicio":3,"lista_xquery":4,"EOF":5,"opcion_xquery":6,"lista_nodos":7,"e":8,"opcion_if":9,"opcion_let":10,"opcion_xpath":11,"opcion_function":12,"opcion_return":13,"opcion_for":14,"opcion_where":15,"opcion_order":16,"nodo":17,"MENORQUE":18,"ID":19,"MAYORQUE":20,"DIV":21,"lista_valor":22,"LLAVEA":23,"LLAVEC":24,"LET":25,"VAR":26,"DPTN":27,"IGUAL":28,"range_let":29,"PARA":30,"TO":31,"PARC":32,"FOR":33,"range_for":34,"COMA":35,"IN":36,"AT":37,"WHERE":38,"ORDER":39,"BY":40,"RETURN":41,"sub_return":42,"range_return":43,"DATA":44,"DECLARE":45,"FUNCTION":46,"range_function":47,"AS":48,"XS":49,"types":50,"PTCOMA":51,"parametros":52,"function_nativa":53,"SUBSTR":54,"UPPER":55,"MENOS":56,"CASE":57,"STRING":58,"QUESTION":59,"INTEGER":60,"DECIMAL":61,"DOUBLE":62,"BOOLEAN":63,"IF":64,"THEN":65,"ELSE":66,"lista_several":67,"SEVERAL":68,"lista_select":69,"select":70,"ATR":71,"MULTI":72,"CORA":73,"CORC":74,"PTN":75,"MAS":76,"DIVS":77,"MODULO":78,"MENORIGUAL":79,"MAYORIGUAL":80,"IGUALIGUAL":81,"DIFERENTE":82,"IGUALU":83,"DIFERENTEU":84,"MENORQUEIU":85,"MENORQUEU":86,"MAYORQUEIU":87,"MAYORQUEU":88,"OR":89,"AND":90,"NOT":91,"LAST":92,"POSITION":93,"NUM":94,"CADENA":95,"TRUE":96,"FALSE":97,"$accept":0,"$end":1},
-terminals_: {2:"error",5:"EOF",18:"MENORQUE",19:"ID",20:"MAYORQUE",21:"DIV",23:"LLAVEA",24:"LLAVEC",25:"LET",26:"VAR",27:"DPTN",28:"IGUAL",30:"PARA",31:"TO",32:"PARC",33:"FOR",35:"COMA",36:"IN",37:"AT",38:"WHERE",39:"ORDER",40:"BY",41:"RETURN",44:"DATA",45:"DECLARE",46:"FUNCTION",48:"AS",49:"XS",51:"PTCOMA",54:"SUBSTR",55:"UPPER",56:"MENOS",57:"CASE",58:"STRING",59:"QUESTION",60:"INTEGER",61:"DECIMAL",62:"DOUBLE",63:"BOOLEAN",64:"IF",65:"THEN",66:"ELSE",67:"lista_several",68:"SEVERAL",71:"ATR",72:"MULTI",73:"CORA",74:"CORC",75:"PTN",76:"MAS",77:"DIVS",78:"MODULO",79:"MENORIGUAL",80:"MAYORIGUAL",81:"IGUALIGUAL",82:"DIFERENTE",83:"IGUALU",84:"DIFERENTEU",85:"MENORQUEIU",86:"MENORQUEU",87:"MAYORQUEIU",88:"MAYORQUEU",89:"OR",90:"AND",91:"NOT",92:"LAST",93:"POSITION",94:"NUM",95:"CADENA",96:"TRUE",97:"FALSE"},
-productions_: [0,[3,2],[4,2],[4,1],[6,1],[6,1],[6,1],[6,1],[6,1],[6,1],[6,2],[6,2],[6,3],[6,3],[6,3],[6,3],[6,3],[6,3],[6,4],[6,4],[6,4],[6,4],[6,5],[6,5],[7,2],[7,1],[17,8],[17,8],[17,10],[10,5],[29,5],[29,1],[29,3],[14,2],[34,3],[34,3],[34,3],[34,4],[34,5],[34,5],[34,6],[34,7],[34,7],[34,9],[34,9],[15,3],[15,2],[16,4],[16,3],[13,2],[42,2],[42,1],[43,1],[43,2],[43,3],[43,3],[43,3],[43,4],[43,4],[43,4],[43,5],[43,5],[43,6],[43,7],[43,7],[43,8],[43,8],[12,16],[12,12],[12,15],[12,11],[12,6],[12,1],[47,3],[47,5],[53,4],[53,6],[52,3],[52,1],[52,1],[52,2],[50,2],[50,2],[50,2],[50,2],[50,2],[50,1],[50,1],[50,1],[50,1],[50,1],[22,2],[22,1],[9,6],[9,8],[9,8],[11,3],[11,1],[69,2],[69,1],[70,2],[70,3],[70,3],[70,4],[70,2],[70,3],[70,3],[70,4],[70,5],[70,2],[70,6],[70,5],[70,5],[70,6],[70,6],[70,8],[70,9],[70,2],[70,3],[70,3],[70,4],[70,4],[70,5],[8,3],[8,3],[8,3],[8,3],[8,3],[8,2],[8,3],[8,3],[8,3],[8,3],[8,3],[8,3],[8,3],[8,3],[8,3],[8,3],[8,3],[8,3],[8,3],[8,3],[8,3],[8,2],[8,3],[8,3],[8,3],[8,2],[8,1],[8,1],[8,1],[8,1],[8,1],[8,1],[8,1]],
+symbols_: {"error":2,"inicio":3,"lista_xquery":4,"EOF":5,"opcion_xquery":6,"e":7,"opcion_let":8,"opcion_xpath":9,"opcion_function":10,"opcion_for":11,"opcion_where":12,"opcion_order":13,"opcion_return":14,"opcion_if":15,"VAR":16,"LET":17,"DPTN":18,"IGUAL":19,"range_let":20,"PARA":21,"TO":22,"PARC":23,"FOR":24,"range_for":25,"COMA":26,"IN":27,"AT":28,"WHERE":29,"ORDER":30,"BY":31,"RETURN":32,"sub_return":33,"range_return":34,"LLAVEA":35,"LLAVEC":36,"DATA":37,"DECLARE":38,"FUNCTION":39,"ID":40,"range_function":41,"AS":42,"XS":43,"types":44,"PTCOMA":45,"parametros":46,"function_nativa":47,"MENOS":48,"STRING":49,"QUESTION":50,"INTEGER":51,"DECIMAL":52,"DOUBLE":53,"BOOLEAN":54,"IF":55,"THEN":56,"ELSE":57,"SEVERAL":58,"lista_select":59,"select":60,"DIV":61,"ATR":62,"MULTI":63,"CORA":64,"CORC":65,"PTN":66,"NUM":67,"CADENA":68,"LAST":69,"POSITION":70,"TRUE":71,"FALSE":72,"MAS":73,"DIVS":74,"MODULO":75,"MENORQUE":76,"MAYORQUE":77,"MENORIGUAL":78,"MAYORIGUAL":79,"IGUALIGUAL":80,"DIFERENTE":81,"IGUALU":82,"DIFERENTEU":83,"MENORQUEIU":84,"MENORQUEU":85,"MAYORQUEIU":86,"MAYORQUEU":87,"OR":88,"AND":89,"NOT":90,"$accept":0,"$end":1},
+terminals_: {2:"error",5:"EOF",16:"VAR",17:"LET",18:"DPTN",19:"IGUAL",21:"PARA",22:"TO",23:"PARC",24:"FOR",26:"COMA",27:"IN",28:"AT",29:"WHERE",30:"ORDER",31:"BY",32:"RETURN",35:"LLAVEA",36:"LLAVEC",37:"DATA",38:"DECLARE",39:"FUNCTION",40:"ID",42:"AS",43:"XS",45:"PTCOMA",48:"MENOS",49:"STRING",50:"QUESTION",51:"INTEGER",52:"DECIMAL",53:"DOUBLE",54:"BOOLEAN",55:"IF",56:"THEN",57:"ELSE",58:"SEVERAL",61:"DIV",62:"ATR",63:"MULTI",64:"CORA",65:"CORC",66:"PTN",67:"NUM",68:"CADENA",69:"LAST",70:"POSITION",71:"TRUE",72:"FALSE",73:"MAS",74:"DIVS",75:"MODULO",76:"MENORQUE",77:"MAYORQUE",78:"MENORIGUAL",79:"MAYORIGUAL",80:"IGUALIGUAL",81:"DIFERENTE",82:"IGUALU",83:"DIFERENTEU",84:"MENORQUEIU",85:"MENORQUEU",86:"MAYORQUEIU",87:"MAYORQUEU",88:"OR",89:"AND",90:"NOT"},
+productions_: [0,[3,2],[4,2],[4,1],[6,1],[6,1],[6,1],[6,1],[6,1],[6,1],[6,1],[6,1],[6,1],[6,2],[8,5],[8,6],[20,1],[20,5],[20,3],[20,3],[11,3],[25,3],[25,3],[25,3],[25,4],[25,5],[25,5],[25,6],[25,7],[25,7],[25,9],[25,9],[12,3],[12,2],[13,4],[13,3],[14,2],[33,2],[33,1],[34,1],[34,1],[34,2],[34,3],[34,3],[34,3],[34,4],[34,4],[34,4],[34,5],[34,5],[34,6],[34,7],[34,7],[34,8],[10,16],[10,12],[10,15],[10,11],[10,6],[10,1],[41,3],[41,5],[47,4],[47,6],[46,3],[46,1],[46,2],[44,2],[44,2],[44,2],[44,2],[44,2],[44,1],[44,1],[44,1],[44,1],[44,1],[15,6],[15,8],[15,8],[9,3],[9,1],[59,2],[59,1],[60,2],[60,3],[60,3],[60,4],[60,2],[60,3],[60,3],[60,4],[60,5],[60,6],[60,2],[60,3],[60,5],[60,5],[60,6],[60,6],[60,8],[60,9],[60,2],[60,3],[60,3],[60,4],[60,4],[60,5],[7,1],[7,1],[7,1],[7,3],[7,3],[7,1],[7,2],[7,1],[7,1],[7,3],[7,3],[7,3],[7,3],[7,3],[7,2],[7,3],[7,3],[7,3],[7,3],[7,3],[7,3],[7,3],[7,3],[7,3],[7,3],[7,3],[7,3],[7,3],[7,3],[7,3],[7,2],[7,3],[7,1]],
 performAction: function anonymous(yytext, yyleng, yylineno, yy, yystate /* action[1] */, $$ /* vstack */, _$ /* lstack */) {
 /* this == yyval */
 
 var $0 = $$.length - 1;
 switch (yystate) {
+case 1:
+
+                    reportG.push(new gramatic.default("inicio : lista_xquery EOF","{ inicio.val = lista_xquery.val; }"));
+                    let auxReportG = reportG;
+                    reportG = [];
+                    this.$ = { "xquery": $$[$0-1], "reportG": auxReportG };
+                    return this.$;    
+                
+break;
+case 2:
+
+                    this.$ = $$[$0-1];
+                    this.$.push($$[$0]);
+                    reportG.push(new gramatic.default("lista_xquery : lista_xquery opcion_xquery","{ lista_xquery.val = lista_xqueryP.val;\n lista_xquery.val.push(opcion_xquery.val); }"));
+                
+break;
+case 3:
+
+                    this.$ = [$$[$0]];
+                    reportG.push(new gramatic.default("lista_xquery : opcion_xquery","{ lista_xquery.val = [opcion_xquery.val]; }"));
+                
+break;
+case 4:
+
+                    this.$ = $$[$0];
+                    reportG.push(new gramatic.default("opcion_xquery : e","{ opcion_xquery.val = e.val; }"));
+                
+break;
+case 5:
+
+                    this.$ = $$[$0];
+                    reportG.push(new gramatic.default("opcion_xquery : opcion_let","{ opcion_xquery.val = opcion_let.val; }"));
+                
+break;
+case 6:
+
+                    this.$ = $$[$0];
+                    reportG.push(new gramatic.default("opcion_xquery : opcion_xpath","{ opcion_xquery.val = opcion_xpath.val; }"));
+                
+break;
+case 7:
+
+                    this.$ = $$[$0];
+                    reportG.push(new gramatic.default("opcion_xquery : opcion_function","{ opcion_xquery.val = opcion_function.val; }"));
+                
+break;
+case 8:
+
+                    this.$ = $$[$0];
+                    reportG.push(new gramatic.default("opcion_xquery : opcion_for","{ opcion_xquery.val = opcion_for.val; }"));
+                
+break;
+case 9:
+
+                    this.$ = $$[$0];
+                    reportG.push(new gramatic.default("opcion_xquery : opcion_where","{ opcion_xquery.val = opcion_where.val; }"));
+                
+break;
+case 10:
+
+                    this.$ = $$[$0];
+                    reportG.push(new gramatic.default("opcion_xquery : opcion_order","{ opcion_xquery.val = opcion_order.val; }"));
+                
+break;
+case 11:
+
+                    this.$ = $$[$0];
+                    reportG.push(new gramatic.default("opcion_xquery : opcion_return","{ opcion_xquery.val = opcion_return.val; }"));
+                
+break;
+case 12:
+
+                    this.$ = $$[$0];
+                    reportG.push(new gramatic.default("opcion_xquery : opcion_if","{ opcion_xquery.val = opcion_if.val; }"));
+                
+break;
+case 13:
+
+                    this.$ = new variable_query.default($$[$0-1],$$[$0],_$[$0-1].first_line,_$[$0-1].first_column);
+                    reportG.push(new gramatic.default("opcion_xquery : VAR opcion_xpath","{ opcion_xquery.val = new variable_query.default(VAR.valLex,opcion_xpath.val); }"));
+                
+break;
+case 14:
+
+                    $$[$0].identificador.id = $$[$0-3];
+                    $$[$0].return = null;
+                    this.$ = $$[$0];
+                    reportG.push(new gramatic.default("opcion_let : LET VAR DPTN IGUAL range_let","{ range_let.val.identificador.id = VAR.valLex;\n opcion_let.val = range_let.val; }"));
+                
+break;
+case 15:
+
+                    $$[$0-1].identificador.id = $$[$0-4];
+                    $$[$0-1].return = $$[$0];
+                    this.$ = $$[$0-1];
+                    reportG.push(new gramatic.default("opcion_let : LET VAR DPTN IGUAL range_let opcion_return","{ range_let.val.identificador.id = VAR.valLex;\n opcion_let.val = range_let.val; }"));
+                
+break;
+case 16:
+
+                    this.$ = new let_query.default(new variable_query.default('',[],_$[$0].first_line,_$[$0].first_column),$$[$01],_$[$0].first_line,_$[$0].first_column);
+                    reportG.push(new gramatic.default("range_let : e","{ range_let.val = new let_query.default(new variable_query.default('',[]),e.val); }"));
+                
+break;
+case 17:
+
+                    this.$ = new let_query.default(new variable_query.default('',[],_$[$0-4].first_line,_$[$0-4].first_column),["to",$$[$0-3],$$[$0-1]],_$[$0-4].first_line,_$[$0-4].first_column);
+                    reportG.push(new gramatic.default("range_let : PARA e TO e PARC","{ range_let.val = new let_query.default(new variable_query.default('',[]),['to',e.val,e.val]); }"));
+                
+break;
+case 18:
+
+                    this.$ = new let_query.default(new variable_query.default('',$$[$0-1],_$[$0-2].first_line,_$[$0-2].first_column),null,_$[$0-2].first_line,_$[$0-2].first_column);
+                    reportG.push(new gramatic.default("range_let : PARA opcion_xpath PARC","{ range_let.val = new let_query.default(new variable_query.default('',opcion_xpath.val),null); }"));
+                
+break;
+case 19:
+
+                    this.$ = new let_query.default(new variable_query.default('',[],_$[$0-2].first_line,_$[$0-2].first_column),$$[$0-1],_$[$0-2].first_line,_$[$0-2].first_column);
+                    reportG.push(new gramatic.default("range_let : PARA opcion_function PARC","{ range_let.val = new let_query.default(new variable_query.default('',[]),opcion_function.val); }"));
+                
+break;
+case 20:
+
+                    for (let i = 0; i < $$[$0-1].length; i++){
+                        $$[$0-1][i].contenido = $$[$0];
+                    }
+                    this.$ = $$[$0-1];
+                    reportG.push(new gramatic.default("opcion_for : FOR range_for","{ opcion_for.val = range_for.val; }"));
+                
+break;
+case 21:
+
+                    this.$ = $$[$0-2].concat($$[$0]);
+                    reportG.push(new gramatic.default("range_for : range_for COMA range_for","{ range_for.val = range_forP.val.concat(range_forP.val); }"));
+                
+break;
+case 22:
+
+                    this.$ = [new for_query.default($$[$0-2],'',new variable_query.default('',$$[$0],_$[$0-2].first_line,_$[$0-2].first_column),false,[],_$[$0-2].first_line,_$[$0-2].first_column)];
+                    reportG.push(new gramatic.default("range_for : VAR IN opcion_xpath","{ range_for.val = new for_query.default(VAR.valLex,'',new variable_query.default('',opcion_xpath.val),false); }")); 
+                
+break;
+case 23:
+
+                    this.$ = [new for_query.default($$[$0-2],'',new variable_query.default($$[$0],[],_$[$0-2].first_line,_$[$0-2].first_column),false,[],_$[$0-2].first_line,_$[$0-2].first_column)];
+                    reportG.push(new gramatic.default("range_for : VAR IN VAR","{ range_for.val = new for_query.default(VAR.valLex,'',new variable_query.default(VAR.valLex,[]),false); }")); 
+                
+break;
+case 24:
+
+                    this.$ = [new for_query.default($$[$0-3],'',new variable_query.default($$[$0-1],$$[$0],_$[$0-3].first_line,_$[$0-3].first_column),false,[],_$[$0-3].first_line,_$[$0-3].first_column)];
+                    reportG.push(new gramatic.default("range_for : VAR IN VAR opcion_xpath","{ range_for.val = new for_query.default(VAR.valLex,'',new variable_query.default(VAR.valLex,opcion_xpath.val),false); }")); 
+                
+break;
+case 25:
+
+                    this.$ = [new for_query.default($$[$0-4],$$[$0-2],new variable_query.default('',$$[$0],_$[$0-4].first_line,_$[$0-4].first_column),true,[],_$[$0-4].first_line,_$[$0-4].first_column)];
+                    reportG.push(new gramatic.default("range_for : VAR AT VAR IN opcion_xpath","{ range_for.val = new for_query.default(VAR.valLex,VAR.valLex,new variable_query.default('',opcion_xpath.val),true); }"));
+                
+break;
+case 26:
+
+                    this.$ = [new for_query.default($$[$0-4],$$[$0-2],new variable_query.default($$[$0],[],_$[$0-4].first_line,_$[$0-4].first_column),true,[],_$[$0-4].first_line,_$[$0-4].first_column)];
+                    reportG.push(new gramatic.default("range_for : VAR AT VAR IN VAR","{ range_for.val = new for_query.default(VAR.valLex,VAR.valLex,new variable_query.default(VAR.val,[]),true); }"));
+                
+break;
+case 27:
+
+                    this.$ = [new for_query.default($$[$0-5],$$[$0-3],new variable_query.default($$[$0-1],$$[$0],_$[$0-5].first_line,_$[$0-5].first_column),true,[],_$[$0-5].first_line,_$[$0-5].first_column)];
+                    reportG.push(new gramatic.default("range_for : VAR AT VAR IN VAR opcion_xpath","{ range_for.val = new for_query.default(VAR.valLex,VAR.valLex,new variable_query.default(VAR.val,opcion_xpath.val),true); }"));
+                
+break;
+case 28:
+
+                    this.$ = [new for_query.default($$[$0-6],'',[",",$$[$0-3],$$[$0-1]],false,[],_$[$0-6].first_line,_$[$0-6].first_column)];
+                    reportG.push(new gramatic.default("range_for : VAR IN PARA e COMA e PARC","{ range_for.val = new for_query.default(VAR.valLex,'',[',',e.val,e.val],false); }"));
+                
+break;
+case 29:
+
+                    this.$ = [new for_query.default($$[$0-6],'',["to",$$[$0-3],$$[$0-1]],false,[],_$[$0-6].first_line,_$[$0-6].first_column)];
+                    reportG.push(new gramatic.default("range_for : VAR IN PARA e TO e PARC","{ range_for.val = new for_query.default(VAR.valLex,'',['to',e.val,e.val],false); }"));
+                
+break;
+case 30:
+
+                    this.$ = [new for_query.default($$[$0-8],$$[$0-6],[",",$$[$0-3],$$[$0-1]],true,[],_$[$0-8].first_line,_$[$0-8].first_column)];
+                    reportG.push(new gramatic.default("range_for : VAR AT VAR IN PARA e COMA e PARC","{ range_for.val = new for_query.default(VAR.valLex,VAR.valLex,[',',e.val,e.val],true); }"));
+                
+break;
+case 31:
+
+                    this.$ = [new for_query.default($$[$0-8],$$[$0-6],["to",$$[$0-3],$$[$0-1]],true,[],_$[$0-8].first_line,_$[$0-8].first_column)];
+                    reportG.push(new gramatic.default("range_for : VAR AT VAR IN PARA e TO e PARC","{ range_for.val = new for_query.default(VAR.valLex,VAR.valLex,['to',e.val,e.val],true); }"));
+                
+break;
+case 32:
+
+                    this.$ = new where_query.default(new variable_query.default($$[$0-1],$$[$0],_$[$0-2].first_line,_$[$0-2].first_column),_$[$0-2].first_line,_$[$0-2].first_column);
+                    reportG.push(new gramatic.default("opcion_where : WHERE VAR opcion_xpath","{ opcion_where.val = new where_query.default(new variable_query.default(VAR.valLex,opcion_xpath.val)); }")); 
+                
+break;
+case 33:
+
+                    this.$ = new where_query.default(new variable_query.default($$[$0],[],_$[$0-1].first_line,_$[$0-1].first_column),_$[$0-1].first_line,_$[$0-1].first_column);
+                    reportG.push(new gramatic.default("opcion_where : WHERE VAR opcion_xpath","{ opcion_where.val = new where_query.default(new variable_query.default(VAR.valLex,[])); }")); 
+                
+break;
+case 34:
+
+                    this.$ = new order_query.default(new variable_query.default($$[$0-2],$$[$0-1],_$[$0-3].first_line,_$[$0-3].first_column),_$[$0-3].first_line,_$[$0-3].first_column);
+                    reportG.push(new gramatic.default("opcion_order : ORDER BY VAR opcion_xpath","{ opcion_order.val = new order_query.default(new variable_query.default(VAR.valLex,opcion_xpath.val)); }")); 
+                
+break;
+case 35:
+
+                    this.$ = new where_query.default(new variable_query.default($$[$0-1],[],_$[$0-2].first_line,_$[$0-2].first_column),_$[$0-2].first_line,_$[$0-2].first_column);
+                    reportG.push(new gramatic.default("opcion_order : ORDER BY VAR","{ opcion_order.val = new order_query.default(new variable_query.default(VAR.valLex,[])); }")); 
+                
+break;
+case 36:
+
+                    this.$ = new return_query.default($$[$0],_$[$0-1].first_line,_$[$0-1].first_column);
+                    reportG.push(new gramatic.default("opcion_return : RETURN sub_return","{ opcion_return.val = new return_xquery(sub_return.val); }")); 
+                
+break;
+case 37:
+
+                    this.$ = $$[$0-1];
+                    this.$.push($$[$0]);
+                    reportG.push(new gramatic.default("sub_return : sub_return range_return","{ sub_return.val = range_return.val;\n sub_return.val.push(range_return.val); }")); 
+                
+break;
+case 38:
+
+                    this.$ = [$$[$0]]
+                    reportG.push(new gramatic.default("sub_return : range_return","{ sub_return.val = [range_return.val]; }")); 
+                
+break;
+case 39:
+
+                    this.$ = new subReturn_query.default(new variable_query.default($$[$0],[],_$[$0].first_line,_$[$0].first_column),null,null,null);
+                    reportG.push(new gramatic.default("range_return : VAR","{ range_return.val = subReturn_query.default(new variable_query.default(VAR.valLex,[]),null,null,null); }")); 
+                
+break;
+case 40:
+
+                    this.$ = new subReturn_query.default(null,null,null,$$[$0]);
+                    reportG.push(new gramatic.default("range_return : opcion_if","{ range_return.val = subReturn_query.default(null,null,null,opcion_if.val); }")); 
+                
+break;
+case 41:
+
+                    this.$ = new subReturn_query.default(new variable_query.default($$[$0-1],$$[$0],_$[$0-1].first_line,_$[$0-1].first_column),null,null,null);
+                    reportG.push(new gramatic.default("range_return : VAR opcion_xpath","{ range_return.val = subReturn_query.default(new variable_query.default(VAR.valLex,opcion_xpath.val),null,null,null); }"));
+                
+break;
+case 42:
+
+                    this.$ = new subReturn_query.default(null,$$[$0-1],null,null);
+                    reportG.push(new gramatic.default("range_return : PARA e PARC","{ range_return.val = subReturn_query.default(null,e.val,null,null); }"));
+                
+break;
+case 43:
+
+                    this.$ = new subReturn_query.default(null,null,$$[$0-1],null);
+                    reportG.push(new gramatic.default("range_return : PARA opcion_function PARC","{ range_return.val = subReturn_query.default(null,null,opcion_function.val,null); }"));
+                
+break;
+case 44:
+
+                    this.$ = new subReturn_query.default(new variable_query.default($$[$0-1],[],_$[$0-2].first_line,_$[$0-2].first_column),null,null,null);
+                    reportG.push(new gramatic.default("range_return : LLAVEA VAR LLAVEC","{ range_return.val = subReturn_query.default(new variable_query.default(VAR.valLex,[]),null,null,null); }"));
+                
+break;
+case 45:
+
+                    this.$ = new subReturn_query.default(null,null,new nativa_query.default($$[$0-3],new variable_query.default($$[$0-2],[],_$[$0-3].first_line,_$[$0-3].first_column),_$[$0-3].first_line,_$[$0-3].first_column),null);
+                    reportG.push(new gramatic.default("range_return : DATA PARA VAR PARC","{ range_return.val = subReturn_query.default(null,null,new nativa_query.default(DATA.valLex,new variable_query.default(VAR.valLex,[])),null); }"));
+                
+break;
+case 46:
+
+                    this.$ = new subReturn_query.default(new variable_query.default($$[$0-2],[],_$[$0-3].first_line,_$[$0-3].first_column),$$[$0-3],null,null);
+                    reportG.push(new gramatic.default("range_return : e LLAVEA VAR LLAVEC","{ range_return.val = subReturn_query.default(new variable_query.default(VAR.valLex,[]),e.val,null,null); }"));
+                
+break;
+case 47:
+
+                    this.$ = new subReturn_query.default(new variable_query.default($$[$0-2],$$[$0-1],_$[$0-3].first_line,_$[$0-3].first_column),null,null,null);
+                    reportG.push(new gramatic.default("range_return : LLAVEA VAR opcion_xpath LLAVEC","{ range_return.val = subReturn_query.default(new variable_query.default(VAR.valLex,opcion_xpath.val),null,null,null); }"));
+                
+break;
+case 48:
+
+                    this.$ = new subReturn_query.default(null,null,new nativa_query.default($$[$0-4],new variable_query.default($$[$0-2],$$[$0-1],_$[$0-4].first_line,_$[$0-4].first_column),_$[$0-4].first_line,_$[$0-4].first_column),null);
+                    reportG.push(new gramatic.default("range_return : DATA PARA VAR opcion_xpath PARC","{ range_return.val = subReturn_query.default(null,null,new nativa_query.default(DATA.valLex,new variable_query.default(VAR.valLex,opcion_xpath.val)),null); }"));
+                
+break;
+case 49:
+
+                    this.$ = new subReturn_query.default(new variable_query.default($$[$0-2],$$[$0-1],_$[$0-4].first_line,_$[$0-4].first_column),$$[$0-4],null,null);
+                    reportG.push(new gramatic.default("range_return : e LLAVEA VAR opcion_xpath LLAVEC","{ range_return.val = subReturn_query.default(new variable_query.default(VAR.valLex,opcion_xpath),e.val,null,null); }"));
+                
+break;
+case 50:
+
+                    this.$ = new subReturn_query.default(null,null,new nativa_query.default($$[$0-4],new variable_query.default($$[$0-2],[],_$[$0-5].first_line,_$[$0-5].first_column),_$[$0-5].first_line,_$[$0-5].first_column),null);
+                    reportG.push(new gramatic.default("range_return : LLAVEA DATA PARA VAR PARC LLAVEC","{ range_return.val = subReturn_query.default(null,null,new nativa_query.default(DATA.valLex,new variable_query.default(VAR.valLex,[])),null); }"));
+                
+break;
+case 51:
+
+                    this.$ = new subReturn_query.default(null,$$[$0-6],new nativa_query.default($$[$0-4],new variable_query.default($$[$0-2],[],_$[$0-6].first_line,_$[$0-6].first_column),_$[$0-6].first_line,_$[$0-6].first_column),null);
+                    reportG.push(new gramatic.default("range_return : e LLAVEA DATA PARA VAR PARC LLAVEC","{ range_return.val = subReturn_query.default(null,e.val,new nativa_query.default(DATA.valLex,new variable_query.default(VAR.valLex,[])),null); }"));
+                
+break;
+case 52:
+
+                    this.$ = new subReturn_query.default(null,null,new nativa_query.default($$[$0-5],new variable_query.default($$[$0-3],$$[$0-2],_$[$0-6].first_line,_$[$0-6].first_column),_$[$0-6].first_line,_$[$0-6].first_column),null);
+                    reportG.push(new gramatic.default("range_return : LLAVEA DATA PARA VAR opcion_xpath PARC LLAVEC","{ range_return.val = subReturn_query.default(null,null,new nativa_query.default(DATA.valLex,new variable_query.default(VAR.valLex,opcion_xpath.val)),null); }"));
+                
+break;
+case 53:
+
+                    this.$ = new subReturn_query.default(null,$$[$0-7],new nativa_query.default($$[$0-5],new variable_query.default($$[$0-3],$$[$0-2],_$[$0-7].first_line,_$[$0-7].first_column),_$[$0-7].first_line,_$[$0-7].first_column),null);
+                    reportG.push(new gramatic.default("range_return : e LLAVEA DATA PARA VAR opcion_xpath PARC LLAVEC","{ range_return.val = subReturn_query.default(null,e.val,new nativa_query.default(DATA.valLex,new variable_query.default(VAR.valLex,opcion_xpath.val)),null); }"));
+                
+break;
+case 54:
+
+                    this.$ = new function_query.default($$[$0-13],$$[$0-11],$$[$0-9],$$[$0-4],$$[$0-2],false,_$[$0-15].first_line,_$[$0-15].first_column);
+                    reportG.push(new gramatic.default("opcion_function : DECLARE FUNCTION ID DPTN ID PARA range_function PARC AS XS DPTN types LLAVEA lista_xquery LLAVEC PTCOMA","{ opcion_function.val = new function_query.default(ID.valLex,ID.valLex,range_function.val,types.val,lista_xquery.val,false); }"));
+                
+break;
+case 55:
+
+                    this.$ = new function_query.default($$[$0-9],$$[$0-7],$$[$0-5],'',$$[$0-2],false,_$[$0-11].first_line,_$[$0-11].first_column);
+                    reportG.push(new gramatic.default("opcion_function : DECLARE FUNCTION ID DPTN ID PARA range_function PARC LLAVEA lista_xquery LLAVEC PTCOMA","{ opcion_function.val = new function_query.default(ID.valLex,ID.valLex,range_function.val,'',lista_xquery.val,false); }"));
+                
+break;
+case 56:
+
+                    this.$ = new function_query.default($$[$0-12],$$[$0-10],[],$$[$0-4],$$[$0-2],false,_$[$0-14].first_line,_$[$0-14].first_column);
+                    reportG.push(new gramatic.default("opcion_function : DECLARE FUNCTION ID DPTN ID PARA PARC AS XS DPTN types LLAVEA lista_xquery LLAVEC PTCOMA","{ opcion_function.val = new function_query.default(ID.valLex,ID.valLex,[],types.val,lista_xquery.val,false); }"));
+                
+break;
+case 57:
+
+                    this.$ = new function_query.default($$[$0-8],$$[$0-6],[],'',$$[$0-2],false,_$[$0-10].first_line,_$[$0-10].first_column);
+                    reportG.push(new gramatic.default("opcion_function : DECLARE FUNCTION ID DPTN ID PARA PARC LLAVEA lista_xquery LLAVEC PTCOMA","{ opcion_function.val = new function_query.default(ID.valLex,ID.valLex,[],'',lista_xquery.val,false); }"));
+                
+break;
+case 58:
+
+                    this.$ = new function_query.default($$[$0-5],$$[$0-3],$$[$0-1],'',[],true,_$[$0-5].first_line,_$[$0-5].first_column);
+                    reportG.push(new gramatic.default("opcion_function : ID DPTN ID PARA parametros PARC","{ opcion_function.val = new function_query.default(ID.valLex,ID.valLex,parametros.val,'',[],true); }"));
+                
+break;
+case 59:
+
+                    this.$ = $$[$0];
+                    reportG.push(new gramatic.default("opcion_function : function_nativa","{ opcion_function.val = function_nativa.val; }"));  
+                
+break;
+case 60:
+
+                    this.$ = $$[$0-2].concat($$[$0]);
+                    reportG.push(new gramatic.default("range_function : range_function COMA range_function","{ range_function.val = range_functionP.val.concat(range_functioP.val); }"));  
+                
+break;
+case 61:
+
+                    this.$ = [[$$[$0-4],$$[$0]]];
+                    reportG.push(new gramatic.default("range_function : VAR AS XS DPTN types","{ range_function.val = [[VAR.valLex,types.val]]; }"));  
+                
+break;
+case 62:
+
+                    this.$ = new nativa_query.default($$[$0-3],$$[$0-1],_$[$0-3].first_line,_$[$0-3].first_column);
+                    reportG.push(new gramatic.default("function_nativa : ID PARA parametros PARC","{ function_nativa.val = new nativa_query.default(ID.valLex,parametros.val); }"));  
+                
+break;
+case 63:
+
+                    let id = $$[$0-5] + "-" + $$[$0-3];
+                    this.$ = new nativa_query.default(id,$$[$0-1],_$[$0-5].first_line,_$[$0-5].first_column);
+                    reportG.push(new gramatic.default("function_nativa : ID MENOS ID PARA parametros PARC","{ let id = ID.valLex + '-' + ID.valLex;\n function_nativa.val = new nativa_query.default(id,parametros.val); }")); 
+                
+break;
+case 64:
+
+                    this.$ = $$[$0-2].concat($$[$0]);
+                    reportG.push(new gramatic.default("parametros : parametros COMA parametros","{ parametros.val = prametrosP.val.concat(parametrosP.val); }"));
+                
+break;
+case 65:
+
+                    this.$ = [$$[$0]];
+                    reportG.push(new gramatic.default("parametros : e","{ parametros.val = [e.val]; }"));
+                
+break;
+case 66:
+
+                    this.$ = [new variable_query.default($$[$0-1],$$[$0],_$[$0-1].first_line,_$[$0-1].first_column)];
+                    reportG.push(new gramatic.default("parametros : VAR opcion_xpath","{ parametros.val = [new variable_query.default(VAR.valLex,opcion_xpath.val)]; }"));
+                
+break;
+case 67:
+
+                    this.$ = $$[$0-1];
+                    reportG.push(new gramatic.default("types : STRING QUESTION","{ types.val = BOOLEAN.valLex; }"));
+                
+break;
+case 68:
+
+                    this.$ = $$[$0-1];
+                    reportG.push(new gramatic.default("types : INTEGER QUESTION","{ types.val = INTEGER.valLex; }"));
+                
+break;
+case 69:
+
+                    this.$ = $$[$0-1];
+                    reportG.push(new gramatic.default("types : DECIMAL QUESTION","{ types.val = DECIMAL.valLex; }"));
+                
+break;
+case 70:
+
+                    this.$ = $$[$0-1];
+                    reportG.push(new gramatic.default("types : DOUBLE QUESTION","{ types.val = DOUBLE.valLex; }"));
+                
+break;
+case 71:
+
+                    this.$ = $$[$0-1];
+                    reportG.push(new gramatic.default("types : BOOLEAN QUESTION","{ types.val = BOOLEAN.valLex; }"));
+                
+break;
+case 72:
+
+                    this.$ = $$[$0];
+                    reportG.push(new gramatic.default("types : STRING","{ types.val = STRING.valLex; }"));
+                
+break;
+case 73:
+
+                    this.$ = $$[$0];
+                    reportG.push(new gramatic.default("types : INTEGER","{ types.val = INTEGER.valLex; }"));
+                
+break;
+case 74:
+
+                    this.$ = $$[$0];
+                    reportG.push(new gramatic.default("types : DECIMAL","{ types.val = DECIMAL.valLex; }"));
+                
+break;
+case 75:
+
+                    this.$ = $$[$0];
+                    reportG.push(new gramatic.default("types : DOUBLE","{ types.val = DOUBLE.valLex; }"));
+                
+break;
+case 76:
+
+                    this.$ = $$[$0];
+                    reportG.push(new gramatic.default("types : BOOLEAN","{ types.val = BOOLEAN.valLex; }"));
+                
+break;
+case 77:
+
+                    this.$ = new if_query.default($$[$0-3],$$[$0],[],_$[$0-5].first_line,_$[$0-5].first_column);
+                    reportG.push(new gramatic.default("opcion_if : IF PARA e PARC THEN lista_xquery","{ opcion_if.val = new if_query.default(e.val,lista_xquery.val,[]); }"));
+                
+break;
+case 78:
+
+                    this.$ = new if_query.default($$[$0-5],$$[$0-2],$$[$0],_$[$0-7].first_line,_$[$0-7].first_column);
+                    reportG.push(new gramatic.default("opcion_if : IF PARA e PARC THEN lista_xquery ELSE lista_xquery","{ opcion_if.val = new if_query.default(e.val,lista_xquery.val,lista_xquery.val); }"));
+                
+break;
+case 79:
+
+                    this.$ = new if_query.default($$[$0-5],$$[$0-2],[$$[$0]],_$[$0-7].first_line,_$[$0-7].first_column);
+                    reportG.push(new gramatic.default("opcion_if : IF PARA e PARC THEN lista_xquery ELSE opcion_if","{ opcion_if.val = new if_query.default(e.val,lista_xquery.val,[opcion_if.val]); }"));
+                
+break;
+case 80:
+
+                    this.$ = $$[$0-2];
+                    this.$.push($$[$0]);
+                    reportG.push(new gramatic.default("opcion_xpath : opcion_xpath SEVERAL lista_select","{ opcion_xpath.val = opcion_xpathP.val;\n opcion_xpath.val.push(lista_select.val); }"));
+                
+break;
+case 81:
+
+                    this.$ = [$$[$0]];
+                    reportG.push(new gramatic.default("opcion_xpath : lista_select","{ opcion_xpath.val = new Array();\n opcion_xpath.val.push(lista_select.val); }"));
+                
+break;
+case 82:
+ 
+                    this.$ = $$[$0-1];
+                    this.$.push($$[$0]);
+                    reportG.push(new gramatic.default("lista_select : lista_select select","{ lista_select.val = lista_selectP.val;\n lista_select.val.push(select.val); }"));
+                
+break;
+case 83:
+
+                    this.$ = [$$[$0]];
+                    reportG.push(new gramatic.default("lista_select : select","{ lista_select.val = new Array();\n lista_select.val.push(select.val); }"));
+                
+break;
+case 84:
+
+                    this.$ = new select.default("/",$$[$0],false,_$[$0-1].first_line,_$[$0-1].first_column);
+                    reportG.push(new gramatic.default("select : DIV ID","{ select.val = new select.default('/',ID.valLex,false) }"));
+                
+break;
+case 85:
+
+                    this.$ = new select.default("//",$$[$0],false,_$[$0-2].first_line,_$[$0-2].first_column);
+                    reportG.push(new gramatic.default("select : DIV DIV ID","{ select.val = new select.default('//',ID.valLex,false) }"));
+                
+break;
+case 86:
+
+                    this.$ = new select.default("/",$$[$0],true,_$[$0-2].first_line,_$[$0-2].first_column);
+                    reportG.push(new gramatic.default("select : DIV ATR ID","{ select.val = new select.default('/',ID.valLex,true) }"));
+                
+break;
+case 87:
+
+                    this.$ = new select.default("//",$$[$0],true,_$[$0-3].first_line,_$[$0-3].first_column);
+                    reportG.push(new gramatic.default("select : DIV DIV ATR ID","{ select.val = new select.default('//',ID.valLex,true) }"));
+                
+break;
+case 88:
+
+                    this.$ = new select.default("/","*",false,_$[$0-1].first_line,_$[$0-1].first_column);
+                    reportG.push(new gramatic.default("select : DIV MULTI","{ select.val = new select.default('/',*,false) }"));
+                
+break;
+case 89:
+
+                    this.$ = new select.default("//","*",false,_$[$0-2].first_line,_$[$0-2].first_column);
+                    reportG.push(new gramatic.default("select : DIV DIV ATR MULTI","{ select.val = new select.default('//','*',false) }"));
+                
+break;
+case 90:
+
+                    this.$ = new select.default("/",null,true,_$[$0-2].first_line,_$[$0-2].first_column);
+                    reportG.push(new gramatic.default("select : DIV ATR MULTI","{ select.val = new select.default('/',null,true) }"));
+                
+break;
+case 91:
+
+                    this.$ = new select.default("//",null,true,_$[$0-3].first_line,_$[$0-3].first_column);
+                    reportG.push(new gramatic.default("select : DIV DIV ATR MULTI","{ select.val = new select.default('//',null,true) }"));
+                
+break;
+case 92:
+
+                    this.$ = new predicate.default(new select.default("/",$$[$0-3],false,_$[$0-4].first_line,_$[$0-4].first_column,null),$$[$0-1],_$[$0-4].first_line,_$[$0-4].first_column);
+                    reportG.push(new gramatic.default("select : DIV ID CORA e CORC","{ select.val = new predicate.default(new select.default('/',ID.valLex,false,null),e.val) }"));
+                
+break;
+case 93:
+
+                    this.$ = new predicate.default(new select.default("//",$$[$0-3],false,_$[$0-5].first_line,_$[$0-5].first_column,null),$$[$0-1],_$[$0-5].first_line,_$[$0-5].first_column);
+                    reportG.push(new gramatic.default("select : DIV DIV ID CORA e CORC","{ select.val = new predicate.default(new select.default('//',ID.valLex,false,null),e.val) }"));
+                
+break;
+case 94:
+
+                    this.$ = new predicate.default(null,$$[$0],_$[$0-1].first_line,_$[$0-1].first_column);
+                    reportG.push(new gramatic.default("select : DIV e","{ select.val = new predicate.default(null,e.val) }"));
+                
+break;
+case 95:
+
+                    this.$ = new predicate.default(null,$$[$0],_$[$0-2].first_line,_$[$0-2].first_column);
+                    reportG.push(new gramatic.default("select : DIV DIV e","{ select.val = new predicate.default(null,e.val) }"));
+                
+break;
+case 96:
+
+                    this.$ = new axes.default("/",$$[$0-3],$$[$0],_$[$0-4].first_line,_$[$0-4].first_column);
+                    reportG.push(new gramatic.default("select : DIV ID DPTN DPTN ID","{ select.val = new axes.default('/',ID.valLex,'ID.valLex') }"));
+                
+break;
+case 97:
+
+                    this.$ = new axes.default("/",$$[$0-3],"*",_$[$0-4].first_line,_$[$0-4].first_column);
+                    reportG.push(new gramatic.default("select : DIV ID DPTN DPTN MULTI","{ select.val = new axes.default('/',ID.valLex,'*') }"));
+                
+break;
+case 98:
+
+                    this.$ = new axes.default("//",$$[$0-3],$$[$0],_$[$0-5].first_line,_$[$0-5].first_column);
+                    reportG.push(new gramatic.default("select : DIV DIV ID DPTN DPTN ID","{ select.val = new axes.default('//',ID.valLex,ID.valLex) }"));
+                
+break;
+case 99:
+
+                    this.$ = new axes.default("//",$$[$0-3],"*",_$[$0-5].first_line,_$[$0-5].first_column);
+                    reportG.push(new gramatic.default("select : DIV DIV ID DPTN DPTN MULTI","{ select.val = new axes.default('//',ID.valLex,'*') }"));
+                
+break;
+case 100:
+
+                    this.$ = new predicate.default(new axes.default("/",$$[$0-6],$$[$0-3],_$[$0-7].first_line,_$[$0-7].first_column),$$[$0-1],_$[$0-7].first_line,_$[$0-7].first_column)
+                    reportG.push(new gramatic.default("select : DIV ID DPTN DPTN ID CORA e CORC","{ select.val = new axes.default('/',ID.valLex,'ID.valLex') }"));
+                
+break;
+case 101:
+
+                    this.$ = new predicate.default(new axes.default("//",$$[$0-6],$$[$0-3],_$[$0-8].first_line,_$[$0-8].first_column),$$[$0-1],_$[$0-8].first_line,_$[$0-8].first_column)
+                    reportG.push(new gramatic.default("select : DIV DIV ID DPTN DPTN ID CORA e CORC","{ select.val = new axes.default('//',ID.valLex,ID.valLex) }"));
+                
+break;
+case 102:
+
+                    this.$ = new axes.default("/","self","*",_$[$0-1].first_line,_$[$0-1].first_column);
+                    reportG.push(new gramatic.default("select : DIV PTN","{ select.val = new axes.default('/',ID.valLex,'*') }"));
+                
+break;
+case 103:
+
+                    this.$ = new axes.default("//","self","*",_$[$0-2].first_line,_$[$0-2].first_column);
+                    reportG.push(new gramatic.default("select : DIV DIV PTN","{ select.val = new axes.default('//',ID.valLex,'*') }"));
+                
+break;
+case 104:
+
+                    this.$ = new axes.default("/","parent","*",_$[$0-2].first_line,_$[$0-2].first_column);
+                    reportG.push(new gramatic.default("select : DIV PTN","{ select.val = new axes.default('/',ID.valLex,'*') }"));
+                
+break;
+case 105:
+
+                    this.$ = new axes.default("//","..","*",_$[$0-3].first_line,_$[$0-3].first_column);
+                    reportG.push(new gramatic.default("select : DIV DIV PTN","{ select.val = new axes.default('//',ID.valLex,'*') }"));
+                
+break;
+case 106:
+
+                    this.$ = new axes.default("/",$$[$0-2]+"()","*",_$[$0-3].first_line,_$[$0-3].first_column);
+                    reportG.push(new gramatic.default("select : DIV ID PARA PARC","{ select.val = new axes.default('/',ID.valLex,'*') }"));
+                
+break;
+case 107:
+
+                    this.$ = new axes.default("//",$$[$0-2]+"()","*",_$[$0-4].first_line,_$[$0-4].first_column);
+                    reportG.push(new gramatic.default("select : DIV DIV ID PARA PARC","{ select.val = new axes.default('//',ID.valLex,'*') }"));
+                
+break;
+case 108:
+
+                    this.$ = new variable_query.default($$[$0],[],_$[$0].first_line,_$[$0].first_column);
+                    reportG.push(new gramatic.default("e : VAR","{ e.val = new variable_query.default(VAR.valLex,[]); }"));
+                
+break;
+case 109:
+
+                    this.$ = new primitivo.default(Number($$[$0]),_$[$0].first_line,_$[$0].first_column);
+                    reportG.push(new gramatic.default("e : NUM","{ e.val = new primitivo.default(Number(NUM.valLex)) }"));
+                
+break;
+case 110:
+
+                    $$[$0] = $$[$0].slice(1, $$[$0].length-1);
+                    this.$ = new primitivo.default($$[$0],_$[$0].first_line,_$[$0].first_column);
+                    reportG.push(new gramatic.default("e : CADENA","{ e.val = new primitivo.default(CADENA.valLex) }"));
+                
+break;
+case 111:
+
+                    this.$ = new last.default(_$[$0-2].first_line,_$[$0-2].first_column);
+                    reportG.push(new gramatic.default("e : LAST PARA PARC","{ e.val = new last.default() }"));
+                
+break;
+case 112:
+
+                    this.$ = new position.default(_$[$0-2].first_line,_$[$0-2].first_column);
+                    reportG.push(new gramatic.default("e : POSITION PARA PARC","{ e.val = new position.default() }"));
+                
+break;
+case 113:
+
+                    this.$ = new filtro.default($$[$0],_$[$0].first_line,_$[$0].first_column,false);
+                    reportG.push(new gramatic.default("e : ID","{ e.val = new filtro.default(ID.valLex,false) }"));
+                
+break;
+case 114:
+
+                    this.$ = new filtro.default($$[$0],_$[$0-1].first_line,_$[$0-1].first_column,true);
+                    reportG.push(new gramatic.default("e : ATR ID","{ e.val = new filtro.default(ID.valLex,true) }"));
+                
+break;
+case 115:
+
+                    this.$ = new primitivo.default(true,_$[$0].first_line,_$[$0].first_column);
+                    reportG.push(new gramatic.default("e : TRUE","{ e.val = new primitivo.default(true) }"));
+                
+break;
+case 116:
+
+                    this.$ = new primitivo.default(false,_$[$0].first_line,_$[$0].first_column);
+                    reportG.push(new gramatic.default("e : FALSE","{ e.val = new primitivo.default(false) }"));
+                
+break;
+case 117:
+
+                    this.$ = new aritmetica.default($$[$0-2],"+",$$[$0],_$[$0-2].first_line,_$[$0-2].first_column,false);
+                    reportG.push(new gramatic.default("e : e MAS e","{ e.val = new aritmetica.default(e.val,'+',e.val,false) }"));
+                
+break;
+case 118:
+
+                    this.$ = new aritmetica.default($$[$0-2],"-",$$[$0],_$[$0-2].first_line,_$[$0-2].first_column,false);
+                    reportG.push(new gramatic.default("e : e MENOS e","{ e.val = new aritmetica.default(e.val,'-',e.val,false) }"));
+                
+break;
+case 119:
+
+                    this.$ = new aritmetica.default($$[$0-2],"*",$$[$0],_$[$0-2].first_line,_$[$0-2].first_column,false);
+                    reportG.push(new gramatic.default("e : e MULTI e","{ e.val = new aritmetica.default(e.val,'*',e.val,false) }"));
+                
+break;
+case 120:
+
+                    this.$ = new aritmetica.default($$[$0-2],"/",$$[$0],_$[$0-2].first_line,_$[$0-2].first_column,false);
+                    reportG.push(new gramatic.default("e : e DIV e","{ e.val = new aritmetica.default(e.val,'/',e.val,false) }"));
+                
+break;
+case 121:
+
+                    this.$ = new aritmetica.default($$[$0-2],"%",$$[$0],_$[$0-2].first_line,_$[$0-2].first_column,false);
+                    reportG.push(new gramatic.default("e : e MODULO e","{ e.val = new aritmetica.default(e.val,'%',e.val,false) }"));
+                
+break;
+case 122:
+
+                    this.$ = new aritmetica.default($$[$0],"UNARIO",null,_$[$0-1].first_line,_$[$0-1].first_column,true);
+                    reportG.push(new gramatic.default("e : MENOS e","{ e.val = new aritmetica.default(e.val,'-',null,true) }"));
+                
+break;
+case 123:
+
+                    this.$ = new relacional.default($$[$0-2],"<",$$[$0],_$[$0-2].first_line,_$[$0-2].first_column,false);
+                    reportG.push(new gramatic.default("e : e MENORQUE e","{ e.val = new relacional.default(e.val,'<',e.val,false) }"));
+                
+break;
+case 124:
+
+                    this.$ = new relacional.default($$[$0-2],">",$$[$0],_$[$0-2].first_line,_$[$0-2].first_column,false);
+                    reportG.push(new gramatic.default("e : e MAYORQUE e","{ e.val = new relacional.default(e.val,'>',e.val,false) }"));
+                
+break;
+case 125:
+
+                    this.$ = new relacional.default($$[$0-2],"<=",$$[$0],_$[$0-2].first_line,_$[$0-2].first_column,false);
+                    reportG.push(new gramatic.default("e : e MENORIGUAL e","{ e.val = new relacional.default(e.val,'<=',e.val,false) }"));
+                
+break;
+case 126:
+
+                    this.$ = new relacional.default($$[$0-2],">=",$$[$0],_$[$0-2].first_line,_$[$0-2].first_column,false);
+                    reportG.push(new gramatic.default("e : e MAYORIGUAL e","{ e.val = new relacional.default(e.val,'>=',e.val,false) }"));
+                
+break;
+case 127:
+ 
+                    this.$ = new relacional.default($$[$0-2],"=",$$[$0],_$[$0-2].first_line,_$[$0-2].first_column,false);
+                    reportG.push(new gramatic.default("e : e IGUAL e","{ e.val = new relacional.default(e.val,'=',e.val,false) }"));
+                
+break;
+case 128:
+
+                    this.$ = new relacional.default($$[$0-2],"=",$$[$0],_$[$0-2].first_line,_$[$0-2].first_column,false);
+                    reportG.push(new gramatic.default("e : e IGUALIGUAL e","{ e.val = new relacional.default(e.val,'=',e.val,false) }"));
+                
+break;
+case 129:
+
+                    this.$ = new relacional.default($$[$0-2],"!=",$$[$0],_$[$0-2].first_line,_$[$0-2].first_column,false);
+                    reportG.push(new gramatic.default("e : e DIFERENTE e","{ e.val = new relacional.default(e.val,'!=',e.val,false) }"));
+                
+break;
+case 130:
+
+                    this.$ = new relacional.default($$[$0-2],"eq",$$[$0],_$[$0-2].first_line,_$[$0-2].first_column,false);
+                    reportG.push(new gramatic.default("e : e IGUALU e","{ e.val = new relacional.default(e.val,'eq',e.val,false) }"));
+                
+break;
+case 131:
+
+                    this.$ = new relacional.default($$[$0-2],"ne",$$[$0],_$[$0-2].first_line,_$[$0-2].first_column,false);
+                    reportG.push(new gramatic.default("e : e DIFERENTEU e","{ e.val = new relacional.default(e.val,'ne',e.val,false) }"));
+                
+break;
+case 132:
+
+                    this.$ = new relacional.default($$[$0-2],"le",$$[$0],_$[$0-2].first_line,_$[$0-2].first_column,false);
+                    reportG.push(new gramatic.default("e : e MENORQUEIU e","{ e.val = new relacional.default(e.val,'le',e.val,false) }"));
+                
+break;
+case 133:
+
+                    this.$ = new relacional.default($$[$0-2],"lt",$$[$0],_$[$0-2].first_line,_$[$0-2].first_column,false);
+                    reportG.push(new gramatic.default("e : e MENORQUEU e","{ e.val = new relacional.default(e.val,'lt',e.val,false) }"));
+                
+break;
+case 134:
+
+                    this.$ = new relacional.default($$[$0-2],"ge",$$[$0],_$[$0-2].first_line,_$[$0-2].first_column,false);
+                    reportG.push(new gramatic.default("e : e MAYORQUEIU e","{ e.val = new relacional.default(e.val,'ge',e.val,false) }"));
+                
+break;
+case 135:
+
+                    this.$ = new relacional.default($$[$0-2],"gt",$$[$0],_$[$0-2].first_line,_$[$0-2].first_column,false);
+                    reportG.push(new gramatic.default("e : e MAYORQUEU e","{ e.val = new relacional.default(e.val,'gt',e.val,false) }"));
+                
+break;
+case 136:
+
+                    this.$ = new logica.default($$[$0-2],"||",$$[$0],_$[$0-2].first_line,_$[$0-2].first_column,false);
+                    reportG.push(new gramatic.default("e : e OR e","{ e.val = new logica.default(e.val,'&&',e.val,false) }"));
+                
+break;
+case 137:
+
+                    this.$ = new logica.default($$[$0-2],"&&",$$[$0],_$[$0-2].first_line,_$[$0-2].first_column,false);
+                    reportG.push(new gramatic.default("e : e AND e","{ e.val = new logica.default(e.val,'&&',e.val,false) }"));
+                
+break;
+case 138:
+
+                    this.$ = new logica.default($$[$0],"!",null,_$[$0-1].first_line,_$[$0-1].first_column,true);
+                    reportG.push(new gramatic.default("e : NOT e","{ e.val = new logica.default(e.val,'!',null,true) }"));
+                
+break;
+case 139:
+
+                    this.$ = $$[$0-1];
+                    reportG.push(new gramatic.default("e : PARA e PARC","{ e.val = NUM.valLex }"));
+                
+break;
+case 140:
+
+                    this.$ = $$[$0];
+                    reportG.push(new gramatic.default("e : opcion_function","{ e.val = opcion_function.val; }"));
+                
+break;
 }
 },
-table: [{3:1,4:2,6:3,7:4,8:5,9:6,10:7,11:8,12:9,14:10,17:11,18:$V0,19:$V1,21:$V2,25:$V3,26:$V4,30:$V5,33:$V6,45:$V7,53:29,54:$V8,55:$V9,56:$Va,64:$Vb,67:$Vc,69:27,70:32,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},{1:[3]},{5:[1,36],6:37,7:4,8:5,9:6,10:7,11:8,12:9,14:10,17:11,18:$V0,19:$V1,21:$V2,25:$V3,26:$V4,30:$V5,33:$V6,45:$V7,53:29,54:$V8,55:$V9,56:$Va,64:$Vb,67:$Vc,69:27,70:32,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},o($Vl,[2,3]),o([5,19,21,24,25,26,30,33,45,54,55,56,64,66,67,71,91,92,93,94,95,96,97],[2,4],{17:38,18:$V0}),o([5,19,21,24,25,26,30,33,45,54,55,64,66,67,71,91,92,93,94,95,96,97],[2,5],{18:$Vm,20:$Vn,28:$Vo,56:$Vp,72:$Vq,76:$Vr,77:$Vs,78:$Vt,79:$Vu,80:$Vv,81:$Vw,82:$Vx,83:$Vy,84:$Vz,85:$VA,86:$VB,87:$VC,88:$VD,89:$VE,90:$VF}),o($Vl,[2,6]),o([5,18,19,21,24,25,26,30,45,54,55,56,64,66,67,71,91,92,93,94,95,96,97],[2,7],{13:59,14:60,15:61,16:62,33:$V6,38:$VG,39:$VH,41:$VI}),o($Vl,[2,8]),o([5,18,19,20,21,24,25,26,28,30,33,45,54,55,56,64,66,67,71,72,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97],[2,9]),{10:67,13:66,15:68,16:69,25:$V3,38:$VG,39:$VH,41:$VI},o($Vl,[2,25]),{8:70,12:71,19:$V1,26:$V4,30:$V5,45:$V7,53:29,54:$V8,55:$V9,56:$Va,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},{8:72,12:71,19:$V1,26:$V4,30:$V5,45:$V7,53:29,54:$V8,55:$V9,56:$Va,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},{8:73,12:71,19:$V1,26:$V4,30:$V5,45:$V7,53:29,54:$V8,55:$V9,56:$Va,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},{30:[1,74]},{30:[1,75]},{19:[1,76]},o($VJ,[2,149]),o($VJ,[2,150]),o($VJ,$VK,{27:[1,77]}),o($VJ,[2,152]),o($VJ,[2,153]),o($VJ,[2,154]),{30:[1,78]},{26:[1,79]},{68:[1,80]},o($VL,[2,97],{70:81,21:$V2}),{46:[1,82]},o($VJ,[2,72]),{26:$VM,34:83},{19:$VN},o($VO,[2,99]),{30:[1,86]},{56:[1,87]},{8:92,12:71,19:[1,88],21:[1,89],26:$V4,30:$V5,45:$V7,53:29,54:$V8,55:$V9,56:$Va,71:[1,90],72:[1,91],75:[1,93],91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},{1:[2,1]},o($Vl,[2,2]),o($Vl,[2,24]),{8:94,12:71,19:$V1,26:$V4,30:$V5,45:$V7,53:29,54:$V8,55:$V9,56:$Va,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},{8:95,12:71,19:$V1,26:$V4,30:$V5,45:$V7,53:29,54:$V8,55:$V9,56:$Va,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},{8:96,12:71,19:$V1,26:$V4,30:$V5,45:$V7,53:29,54:$V8,55:$V9,56:$Va,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},{8:97,12:71,19:$V1,26:$V4,30:$V5,45:$V7,53:29,54:$V8,55:$V9,56:$Va,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},{8:98,12:71,19:$V1,26:$V4,30:$V5,45:$V7,53:29,54:$V8,55:$V9,56:$Va,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},{8:99,12:71,19:$V1,26:$V4,30:$V5,45:$V7,53:29,54:$V8,55:$V9,56:$Va,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},{8:100,12:71,19:$V1,26:$V4,30:$V5,45:$V7,53:29,54:$V8,55:$V9,56:$Va,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},{8:101,12:71,19:$V1,26:$V4,30:$V5,45:$V7,53:29,54:$V8,55:$V9,56:$Va,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},{8:102,12:71,19:$V1,26:$V4,30:$V5,45:$V7,53:29,54:$V8,55:$V9,56:$Va,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},{8:103,12:71,19:$V1,26:$V4,30:$V5,45:$V7,53:29,54:$V8,55:$V9,56:$Va,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},{8:104,12:71,19:$V1,26:$V4,30:$V5,45:$V7,53:29,54:$V8,55:$V9,56:$Va,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},{8:105,12:71,19:$V1,26:$V4,30:$V5,45:$V7,53:29,54:$V8,55:$V9,56:$Va,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},{8:106,12:71,19:$V1,26:$V4,30:$V5,45:$V7,53:29,54:$V8,55:$V9,56:$Va,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},{8:107,12:71,19:$V1,26:$V4,30:$V5,45:$V7,53:29,54:$V8,55:$V9,56:$Va,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},{8:108,12:71,19:$V1,26:$V4,30:$V5,45:$V7,53:29,54:$V8,55:$V9,56:$Va,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},{8:109,12:71,19:$V1,26:$V4,30:$V5,45:$V7,53:29,54:$V8,55:$V9,56:$Va,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},{8:110,12:71,19:$V1,26:$V4,30:$V5,45:$V7,53:29,54:$V8,55:$V9,56:$Va,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},{8:111,12:71,19:$V1,26:$V4,30:$V5,45:$V7,53:29,54:$V8,55:$V9,56:$Va,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},{8:112,12:71,19:$V1,26:$V4,30:$V5,45:$V7,53:29,54:$V8,55:$V9,56:$Va,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},{8:113,12:71,19:$V1,26:$V4,30:$V5,45:$V7,53:29,54:$V8,55:$V9,56:$Va,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},o($Vl,[2,10]),{13:114,15:115,38:$VG,41:$VI},{13:116,16:117,39:$VH,41:$VI},{13:118,41:$VI},{8:125,12:71,18:$VP,19:$V1,23:$VQ,26:$VR,30:$VS,42:119,43:120,44:$VT,45:$V7,53:29,54:$V8,55:$V9,56:$Va,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},{26:[1,127]},{40:[1,128]},o($Vl,[2,11]),{13:129,15:130,38:$VG,41:$VI},{13:131,16:132,39:$VH,41:$VI},{13:133,41:$VI},o($VU,[2,128],{83:$Vy,84:$Vz,85:$VA,86:$VB,87:$VC,88:$VD}),o($VJ,$VV),o($VW,[2,144],{18:$Vm,20:$Vn,28:$Vo,56:$Vp,72:$Vq,76:$Vr,77:$Vs,78:$Vt,79:$Vu,80:$Vv,81:$Vw,82:$Vx,83:$Vy,84:$Vz,85:$VA,86:$VB,87:$VC,88:$VD}),{18:$Vm,20:$Vn,28:$Vo,32:$VX,56:$Vp,72:$Vq,76:$Vr,77:$Vs,78:$Vt,79:$Vu,80:$Vv,81:$Vw,82:$Vx,83:$Vy,84:$Vz,85:$VA,86:$VB,87:$VC,88:$VD,89:$VE,90:$VF},{32:[1,135]},{32:[1,136]},o($VJ,$VY),{19:$VZ},{8:138,12:71,19:$V1,26:$V4,30:$V5,45:$V7,53:29,54:$V8,55:$V9,56:$Va,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},{27:[1,139]},{21:$V2,69:140,70:32},o($VO,[2,98]),{19:[1,141]},o($V_,[2,33],{35:$V$}),{36:[1,143],37:[1,144]},{20:[1,145]},{8:147,12:71,19:$V1,26:$V01,30:$V5,45:$V7,52:146,53:29,54:$V8,55:$V9,56:$Va,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},{57:[1,149]},o($V11,[2,100],{20:$VK,28:$VK,72:$VK,76:$VK,77:$VK,78:$VK,79:$VK,80:$VK,81:$VK,82:$VK,83:$VK,84:$VK,85:$VK,86:$VK,87:$VK,88:$VK,89:$VK,90:$VK,27:[1,151],30:[1,152],73:[1,150]}),{19:[1,153],71:[1,154],72:[1,155],75:[1,156]},{19:[1,157],72:[1,158]},o($VO,[2,104]),o([5,19,21,23,24,25,26,30,32,33,35,38,39,41,44,45,54,55,64,66,67,71,91,92,93,94,95,96,97],[2,109],{18:$Vm,20:$Vn,28:$Vo,56:$Vp,72:$Vq,76:$Vr,77:$Vs,78:$Vt,79:$Vu,80:$Vv,81:$Vw,82:$Vx,83:$Vy,84:$Vz,85:$VA,86:$VB,87:$VC,88:$VD,89:$VE,90:$VF}),o($VO,[2,117],{75:[1,159]}),o($V21,[2,123],{72:$Vq,77:$Vs,78:$Vt,83:$Vy,84:$Vz,85:$VA,86:$VB,87:$VC,88:$VD}),o($V21,[2,124],{72:$Vq,77:$Vs,78:$Vt,83:$Vy,84:$Vz,85:$VA,86:$VB,87:$VC,88:$VD}),o($VU,[2,125],{83:$Vy,84:$Vz,85:$VA,86:$VB,87:$VC,88:$VD}),o($VU,[2,126],{83:$Vy,84:$Vz,85:$VA,86:$VB,87:$VC,88:$VD}),o($VU,[2,127],{83:$Vy,84:$Vz,85:$VA,86:$VB,87:$VC,88:$VD}),o($V31,[2,129],{56:$Vp,72:$Vq,76:$Vr,77:$Vs,78:$Vt,83:$Vy,84:$Vz,85:$VA,86:$VB,87:$VC,88:$VD}),o($V31,[2,130],{56:$Vp,72:$Vq,76:$Vr,77:$Vs,78:$Vt,83:$Vy,84:$Vz,85:$VA,86:$VB,87:$VC,88:$VD}),o($V31,[2,131],{56:$Vp,72:$Vq,76:$Vr,77:$Vs,78:$Vt,83:$Vy,84:$Vz,85:$VA,86:$VB,87:$VC,88:$VD}),o($V31,[2,132],{56:$Vp,72:$Vq,76:$Vr,77:$Vs,78:$Vt,83:$Vy,84:$Vz,85:$VA,86:$VB,87:$VC,88:$VD}),o($V31,[2,133],{56:$Vp,72:$Vq,76:$Vr,77:$Vs,78:$Vt,83:$Vy,84:$Vz,85:$VA,86:$VB,87:$VC,88:$VD}),o($V31,[2,134],{56:$Vp,72:$Vq,76:$Vr,77:$Vs,78:$Vt,83:$Vy,84:$Vz,85:$VA,86:$VB,87:$VC,88:$VD}),o($V31,[2,135],{56:$Vp,72:$Vq,76:$Vr,77:$Vs,78:$Vt,83:$Vy,84:$Vz,85:$VA,86:$VB,87:$VC,88:$VD}),o($V41,[2,136],{18:$Vm,20:$Vn,28:$Vo,56:$Vp,72:$Vq,76:$Vr,77:$Vs,78:$Vt,79:$Vu,80:$Vv,81:$Vw,82:$Vx,83:$Vy,84:$Vz,85:$VA,86:$VB,87:$VC,88:$VD,89:$VE,90:$VF}),o($V41,[2,137],{18:$Vm,20:$Vn,28:$Vo,56:$Vp,72:$Vq,76:$Vr,77:$Vs,78:$Vt,79:$Vu,80:$Vv,81:$Vw,82:$Vx,83:$Vy,84:$Vz,85:$VA,86:$VB,87:$VC,88:$VD,89:$VE,90:$VF}),o($V41,[2,138],{18:$Vm,20:$Vn,28:$Vo,56:$Vp,72:$Vq,76:$Vr,77:$Vs,78:$Vt,79:$Vu,80:$Vv,81:$Vw,82:$Vx,83:$Vy,84:$Vz,85:$VA,86:$VB,87:$VC,88:$VD,89:$VE,90:$VF}),o($V41,[2,139],{18:$Vm,20:$Vn,28:$Vo,56:$Vp,72:$Vq,76:$Vr,77:$Vs,78:$Vt,79:$Vu,80:$Vv,81:$Vw,82:$Vx,83:$Vy,84:$Vz,85:$VA,86:$VB,87:$VC,88:$VD,89:$VE,90:$VF}),o($V41,[2,140],{18:$Vm,20:$Vn,28:$Vo,56:$Vp,72:$Vq,76:$Vr,77:$Vs,78:$Vt,79:$Vu,80:$Vv,81:$Vw,82:$Vx,83:$Vy,84:$Vz,85:$VA,86:$VB,87:$VC,88:$VD,89:$VE,90:$VF}),o($V41,[2,141],{18:$Vm,20:$Vn,28:$Vo,56:$Vp,72:$Vq,76:$Vr,77:$Vs,78:$Vt,79:$Vu,80:$Vv,81:$Vw,82:$Vx,83:$Vy,84:$Vz,85:$VA,86:$VB,87:$VC,88:$VD,89:$VE,90:$VF}),o([5,19,21,23,24,25,26,30,31,32,33,35,38,39,41,44,45,54,55,64,66,67,71,74,89,91,92,93,94,95,96,97],[2,142],{18:$Vm,20:$Vn,28:$Vo,56:$Vp,72:$Vq,76:$Vr,77:$Vs,78:$Vt,79:$Vu,80:$Vv,81:$Vw,82:$Vx,83:$Vy,84:$Vz,85:$VA,86:$VB,87:$VC,88:$VD,90:$VF}),o($VW,[2,143],{18:$Vm,20:$Vn,28:$Vo,56:$Vp,72:$Vq,76:$Vr,77:$Vs,78:$Vt,79:$Vu,80:$Vv,81:$Vw,82:$Vx,83:$Vy,84:$Vz,85:$VA,86:$VB,87:$VC,88:$VD}),o($Vl,[2,12]),{13:160,16:161,39:$VH,41:$VI},o($Vl,[2,13]),{13:162,41:$VI},o($Vl,[2,14]),o([5,21,24,25,33,64,66,67],[2,49],{53:29,12:71,8:125,43:163,18:$VP,19:$V1,23:$VQ,26:$VR,30:$VS,44:$VT,45:$V7,54:$V8,55:$V9,56:$Va,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk}),o($V51,[2,51]),o([5,18,19,20,23,24,25,26,28,30,33,44,45,54,55,56,64,66,71,72,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97],[2,52],{69:27,70:32,11:164,21:$V2,67:$Vc}),{8:165,12:166,19:$V1,26:$V4,30:$V5,45:$V7,53:29,54:$V8,55:$V9,56:$Va,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},{26:[1,167],44:[1,168]},{30:[1,169]},{18:$Vm,20:$Vn,23:[1,170],28:$Vo,56:$Vp,72:$Vq,76:$Vr,77:$Vs,78:$Vt,79:$Vu,80:$Vv,81:$Vw,82:$Vx,83:$Vy,84:$Vz,85:$VA,86:$VB,87:$VC,88:$VD,89:$VE,90:$VF},{19:$V61},o($V71,[2,46],{69:27,70:32,11:172,21:$V2,67:$Vc}),{26:[1,173]},o($Vl,[2,15]),{13:174,16:175,39:$VH,41:$VI},o($Vl,[2,16]),{13:176,41:$VI},o($Vl,[2,17]),o($VJ,[2,145]),o($VJ,[2,146]),o($VJ,[2,147]),{30:[1,177]},{18:$Vm,20:$Vn,28:$Vo,32:[1,178],56:$Vp,72:$Vq,76:$Vr,77:$Vs,78:$Vt,79:$Vu,80:$Vv,81:$Vw,82:$Vx,83:$Vy,84:$Vz,85:$VA,86:$VB,87:$VC,88:$VD,89:$VE,90:$VF},{28:[1,179]},o($VL,[2,96],{70:81,21:$V2}),{27:[1,180]},{26:$VM,34:181},{11:182,21:$V2,26:[1,183],30:[1,184],67:$Vc,69:27,70:32},{26:[1,185]},{7:186,17:11,18:$V0,19:[1,189],22:187,23:[1,188]},{32:[1,190],35:$V81},o($V91,[2,78],{18:$Vm,20:$Vn,28:$Vo,56:$Vp,72:$Vq,76:$Vr,77:$Vs,78:$Vt,79:$Vu,80:$Vv,81:$Vw,82:$Vx,83:$Vy,84:$Vz,85:$VA,86:$VB,87:$VC,88:$VD,89:$VE,90:$VF}),o([18,20,28,32,35,56,72,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90],[2,79],{69:27,70:32,11:192,21:$V2,67:$Vc}),{30:[1,193]},{8:194,12:71,19:$V1,26:$V4,30:$V5,45:$V7,53:29,54:$V8,55:$V9,56:$Va,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},{19:$VZ,27:[1,195]},{32:[1,196]},o($V11,[2,101],{27:[1,198],30:[1,199],73:[1,197]}),{19:[1,200],72:[1,201]},o($VO,[2,105]),o($VO,[2,118],{75:[1,202]}),o($VO,[2,102],{20:$VY,28:$VY,72:$VY,76:$VY,77:$VY,78:$VY,79:$VY,80:$VY,81:$VY,82:$VY,83:$VY,84:$VY,85:$VY,86:$VY,87:$VY,88:$VY,89:$VY,90:$VY}),o($VO,[2,106]),o($VO,[2,119]),o($Vl,[2,18]),{13:203,41:$VI},o($Vl,[2,19]),o($V51,[2,50]),o($V51,[2,53]),{18:$Vm,20:$Vn,28:$Vo,32:[1,204],56:$Vp,72:$Vq,76:$Vr,77:$Vs,78:$Vt,79:$Vu,80:$Vv,81:$Vw,82:$Vx,83:$Vy,84:$Vz,85:$VA,86:$VB,87:$VC,88:$VD,89:$VE,90:$VF},o([18,20,28,56,72,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90],$VV,{32:[1,205]}),{11:207,21:$V2,24:[1,206],67:$Vc,69:27,70:32},{30:[1,208]},{26:[1,209]},{26:[1,210],44:[1,211]},{20:[1,212]},o($V71,[2,45]),{11:213,21:$V2,41:[2,48],67:$Vc,69:27,70:32},o($Vl,[2,20]),{13:214,41:$VI},o($Vl,[2,21]),{8:147,12:71,19:$V1,26:$V01,30:$V5,45:$V7,52:215,53:29,54:$V8,55:$V9,56:$Va,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},{65:[1,216]},{8:219,12:71,19:$V1,26:$V4,29:217,30:[1,218],45:$V7,53:29,54:$V8,55:$V9,56:$Va,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},{19:[1,220]},o($V_,[2,34],{35:$V$}),o($Va1,[2,35]),o($Va1,[2,36],{69:27,70:32,11:221,21:$V2,67:$Vc}),{8:222,12:71,19:$V1,26:$V4,30:$V5,45:$V7,53:29,54:$V8,55:$V9,56:$Va,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},{36:[1,223]},{17:38,18:[1,224]},{18:[1,225],19:[1,226]},{4:227,6:3,7:4,8:5,9:6,10:7,11:8,12:9,14:10,17:11,18:$V0,19:$V1,21:$V2,25:$V3,26:$V4,30:$V5,33:$V6,45:$V7,53:29,54:$V8,55:$V9,56:$Va,64:$Vb,67:$Vc,69:27,70:32,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},o($Vb1,[2,92]),o($VJ,[2,75]),{8:147,12:71,19:$V1,26:$V01,30:$V5,45:$V7,52:228,53:29,54:$V8,55:$V9,56:$Va,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},o($V91,[2,80]),{8:147,12:71,19:$V1,26:$V01,30:$V5,45:$V7,52:229,53:29,54:$V8,55:$V9,56:$Va,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},{18:$Vm,20:$Vn,28:$Vo,56:$Vp,72:$Vq,74:[1,230],76:$Vr,77:$Vs,78:$Vt,79:$Vu,80:$Vv,81:$Vw,82:$Vx,83:$Vy,84:$Vz,85:$VA,86:$VB,87:$VC,88:$VD,89:$VE,90:$VF},{19:[1,231],72:[1,232]},o($VO,[2,121]),{8:233,12:71,19:$V1,26:$V4,30:$V5,45:$V7,53:29,54:$V8,55:$V9,56:$Va,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},{27:[1,234]},{32:[1,235]},o($VO,[2,103]),o($VO,[2,107]),o($VO,[2,120]),o($Vl,[2,22]),o([5,18,19,20,21,23,24,25,26,28,30,33,44,45,54,55,56,64,66,67,71,72,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97],[2,54]),o($V51,[2,55]),o($V51,[2,56]),{24:[1,236]},{26:[1,237]},{11:239,21:$V2,32:[1,238],67:$Vc,69:27,70:32},{11:241,21:$V2,24:[1,240],67:$Vc,69:27,70:32},{30:[1,242]},{8:125,12:71,18:$VP,19:$V1,23:$VQ,26:$VR,30:$VS,42:243,43:120,44:$VT,45:$V7,53:29,54:$V8,55:$V9,56:$Va,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},{41:[2,47]},o($Vl,[2,23]),{32:[1,244],35:$V81},{4:245,6:3,7:4,8:5,9:6,10:7,11:8,12:9,14:10,17:11,18:$V0,19:$V1,21:$V2,25:$V3,26:$V4,30:$V5,33:$V6,45:$V7,53:29,54:$V8,55:$V9,56:$Va,64:$Vb,67:$Vc,69:27,70:32,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},o($Vc1,[2,29]),{8:246,12:247,19:$V1,26:$V4,30:$V5,45:$V7,53:29,54:$V8,55:$V9,56:$Va,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},o([5,19,21,24,25,26,30,33,38,39,41,45,54,55,64,66,67,71,91,92,93,94,95,96,97],[2,31],{18:$Vm,20:$Vn,28:$Vo,56:$Vp,72:$Vq,76:$Vr,77:$Vs,78:$Vt,79:$Vu,80:$Vv,81:$Vw,82:$Vx,83:$Vy,84:$Vz,85:$VA,86:$VB,87:$VC,88:$VD,89:$VE,90:$VF}),{30:[1,248]},o($Va1,[2,37]),{18:$Vm,20:$Vn,28:$Vo,31:[1,250],35:[1,249],56:$Vp,72:$Vq,76:$Vr,77:$Vs,78:$Vt,79:$Vu,80:$Vv,81:$Vw,82:$Vx,83:$Vy,84:$Vz,85:$VA,86:$VB,87:$VC,88:$VD,89:$VE,90:$VF},{11:251,21:$V2,26:[1,252],30:[1,253],67:$Vc,69:27,70:32},{19:$VN,21:[1,254]},{21:[1,255]},o($Vb1,[2,91]),{6:37,7:4,8:5,9:6,10:7,11:8,12:9,14:10,17:11,18:$V0,19:$V1,21:$V2,24:[1,256],25:$V3,26:$V4,30:$V5,33:$V6,45:$V7,53:29,54:$V8,55:$V9,56:$Va,64:$Vb,67:$Vc,69:27,70:32,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},{32:[2,77],35:$V81},{32:[1,257],35:$V81},o($VO,[2,108]),o($VO,[2,111],{73:[1,258]}),o($VO,[2,112]),{18:$Vm,20:$Vn,28:$Vo,56:$Vp,72:$Vq,74:[1,259],76:$Vr,77:$Vs,78:$Vt,79:$Vu,80:$Vv,81:$Vw,82:$Vx,83:$Vy,84:$Vz,85:$VA,86:$VB,87:$VC,88:$VD,89:$VE,90:$VF},{19:[1,260],72:[1,261]},o($VO,[2,122]),o($V51,[2,59]),{11:263,21:$V2,32:[1,262],67:$Vc,69:27,70:32},o($V51,[2,57]),{32:[1,264]},o($V51,[2,58]),{24:[1,265]},{26:[1,266]},{8:125,12:71,18:[1,267],19:$V1,23:$VQ,26:$VR,30:$VS,43:163,44:$VT,45:$V7,53:29,54:$V8,55:$V9,56:$Va,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},o($VJ,[2,71]),o([5,24],[2,93],{7:4,8:5,9:6,10:7,11:8,12:9,14:10,17:11,69:27,53:29,70:32,6:37,18:$V0,19:$V1,21:$V2,25:$V3,26:$V4,30:$V5,33:$V6,45:$V7,54:$V8,55:$V9,56:$Va,64:$Vb,66:[1,268],67:$Vc,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk}),{18:$Vm,20:$Vn,28:$Vo,31:[1,269],32:$VX,56:$Vp,72:$Vq,76:$Vr,77:$Vs,78:$Vt,79:$Vu,80:$Vv,81:$Vw,82:$Vx,83:$Vy,84:$Vz,85:$VA,86:$VB,87:$VC,88:$VD,89:$VE,90:$VF},o([18,20,28,31,56,72,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90],$VV,{32:[1,270]}),{26:$Vd1,32:[1,272],47:271},{8:274,12:71,19:$V1,26:$V4,30:$V5,45:$V7,53:29,54:$V8,55:$V9,56:$Va,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},{8:275,12:71,19:$V1,26:$V4,30:$V5,45:$V7,53:29,54:$V8,55:$V9,56:$Va,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},o($Va1,[2,38]),o($Va1,[2,39],{69:27,70:32,11:276,21:$V2,67:$Vc}),{8:277,12:71,19:$V1,26:$V4,30:$V5,45:$V7,53:29,54:$V8,55:$V9,56:$Va,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},{19:[1,278]},{19:[1,279]},{18:[1,280]},o($VJ,[2,76]),{8:281,12:71,19:$V1,26:$V4,30:$V5,45:$V7,53:29,54:$V8,55:$V9,56:$Va,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},o($VO,[2,110]),o($VO,[2,113],{73:[1,282]}),o($VO,[2,114]),{24:[1,283]},{32:[1,284]},o($V51,[2,60]),o($V51,[2,61]),{11:286,21:$V2,32:[1,285],67:$Vc,69:27,70:32},{19:$V61,21:[1,287]},{4:288,6:3,7:4,8:5,9:289,10:7,11:8,12:9,14:10,17:11,18:$V0,19:$V1,21:$V2,25:$V3,26:$V4,30:$V5,33:$V6,45:$V7,53:29,54:$V8,55:$V9,56:$Va,64:$Vb,67:$Vc,69:27,70:32,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},{8:290,12:71,19:$V1,26:$V4,30:$V5,45:$V7,53:29,54:$V8,55:$V9,56:$Va,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},o($Vc1,[2,32]),{32:[1,291],35:$Ve1},{23:[1,294],48:[1,293]},{48:[1,295]},{18:$Vm,20:$Vn,28:$Vo,32:[1,296],56:$Vp,72:$Vq,76:$Vr,77:$Vs,78:$Vt,79:$Vu,80:$Vv,81:$Vw,82:$Vx,83:$Vy,84:$Vz,85:$VA,86:$VB,87:$VC,88:$VD,89:$VE,90:$VF},{18:$Vm,20:$Vn,28:$Vo,32:[1,297],56:$Vp,72:$Vq,76:$Vr,77:$Vs,78:$Vt,79:$Vu,80:$Vv,81:$Vw,82:$Vx,83:$Vy,84:$Vz,85:$VA,86:$VB,87:$VC,88:$VD,89:$VE,90:$VF},o($Va1,[2,40]),{18:$Vm,20:$Vn,28:$Vo,31:[1,299],35:[1,298],56:$Vp,72:$Vq,76:$Vr,77:$Vs,78:$Vt,79:$Vu,80:$Vv,81:$Vw,82:$Vx,83:$Vy,84:$Vz,85:$VA,86:$VB,87:$VC,88:$VD,89:$VE,90:$VF},{20:[1,300]},{20:[1,301]},{21:[1,302]},{18:$Vm,20:$Vn,28:$Vo,56:$Vp,72:$Vq,74:[1,303],76:$Vr,77:$Vs,78:$Vt,79:$Vu,80:$Vv,81:$Vw,82:$Vx,83:$Vy,84:$Vz,85:$VA,86:$VB,87:$VC,88:$VD,89:$VE,90:$VF},{8:304,12:71,19:$V1,26:$V4,30:$V5,45:$V7,53:29,54:$V8,55:$V9,56:$Va,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},o($V51,[2,62]),{24:[1,305]},{24:[1,306]},{32:[1,307]},{19:[1,308]},o([5,24,66],[2,94],{7:4,8:5,9:6,10:7,11:8,12:9,14:10,17:11,69:27,53:29,70:32,6:37,18:$V0,19:$V1,21:$V2,25:$V3,26:$V4,30:$V5,33:$V6,45:$V7,54:$V8,55:$V9,56:$Va,64:$Vb,67:$Vc,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk}),o($Vl,[2,95]),{18:$Vm,20:$Vn,28:$Vo,32:[1,309],56:$Vp,72:$Vq,76:$Vr,77:$Vs,78:$Vt,79:$Vu,80:$Vv,81:$Vw,82:$Vx,83:$Vy,84:$Vz,85:$VA,86:$VB,87:$VC,88:$VD,89:$VE,90:$VF},{23:[1,311],48:[1,310]},{26:$Vd1,47:312},{49:[1,313]},{4:314,6:3,7:4,8:5,9:6,10:7,11:8,12:9,14:10,17:11,18:$V0,19:$V1,21:$V2,25:$V3,26:$V4,30:$V5,33:$V6,45:$V7,53:29,54:$V8,55:$V9,56:$Va,64:$Vb,67:$Vc,69:27,70:32,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},{49:[1,315]},o($Va1,[2,41]),o($Va1,[2,42]),{8:316,12:71,19:$V1,26:$V4,30:$V5,45:$V7,53:29,54:$V8,55:$V9,56:$Va,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},{8:317,12:71,19:$V1,26:$V4,30:$V5,45:$V7,53:29,54:$V8,55:$V9,56:$Va,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},o($Vl,[2,26]),o($Vl,[2,27]),{19:[1,318]},o($VO,[2,115]),{18:$Vm,20:$Vn,28:$Vo,56:$Vp,72:$Vq,74:[1,319],76:$Vr,77:$Vs,78:$Vt,79:$Vu,80:$Vv,81:$Vw,82:$Vx,83:$Vy,84:$Vz,85:$VA,86:$VB,87:$VC,88:$VD,89:$VE,90:$VF},o($V51,[2,64]),o($V51,[2,63]),{24:[1,320]},{20:[1,321]},o($Vc1,[2,30]),{49:[1,322]},{4:323,6:3,7:4,8:5,9:6,10:7,11:8,12:9,14:10,17:11,18:$V0,19:$V1,21:$V2,25:$V3,26:$V4,30:$V5,33:$V6,45:$V7,53:29,54:$V8,55:$V9,56:$Va,64:$Vb,67:$Vc,69:27,70:32,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},{32:[2,73],35:$Ve1},{27:[1,324]},{6:37,7:4,8:5,9:6,10:7,11:8,12:9,14:10,17:11,18:$V0,19:$V1,21:$V2,24:[1,325],25:$V3,26:$V4,30:$V5,33:$V6,45:$V7,53:29,54:$V8,55:$V9,56:$Va,64:$Vb,67:$Vc,69:27,70:32,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},{27:[1,326]},{18:$Vm,20:$Vn,28:$Vo,32:[1,327],56:$Vp,72:$Vq,76:$Vr,77:$Vs,78:$Vt,79:$Vu,80:$Vv,81:$Vw,82:$Vx,83:$Vy,84:$Vz,85:$VA,86:$VB,87:$VC,88:$VD,89:$VE,90:$VF},{18:$Vm,20:$Vn,28:$Vo,32:[1,328],56:$Vp,72:$Vq,76:$Vr,77:$Vs,78:$Vt,79:$Vu,80:$Vv,81:$Vw,82:$Vx,83:$Vy,84:$Vz,85:$VA,86:$VB,87:$VC,88:$VD,89:$VE,90:$VF},{20:[1,329]},o($VO,[2,116]),o($V51,[2,65]),o($V51,[2,66]),{27:[1,330]},{6:37,7:4,8:5,9:6,10:7,11:8,12:9,14:10,17:11,18:$V0,19:$V1,21:$V2,24:[1,331],25:$V3,26:$V4,30:$V5,33:$V6,45:$V7,53:29,54:$V8,55:$V9,56:$Va,64:$Vb,67:$Vc,69:27,70:32,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},{50:332,58:$Vf1,60:$Vg1,61:$Vh1,62:$Vi1,63:$Vj1},{51:[1,338]},{50:339,58:$Vf1,60:$Vg1,61:$Vh1,62:$Vi1,63:$Vj1},o($Va1,[2,43]),o($Va1,[2,44]),o($Vl,[2,28]),{50:340,58:$Vf1,60:$Vg1,61:$Vh1,62:$Vi1,63:$Vj1},{51:[1,341]},{23:[1,342]},o($Vk1,[2,86],{59:[1,343]}),o($Vk1,[2,87],{59:[1,344]}),o($Vk1,[2,88],{59:[1,345]}),o($Vk1,[2,89],{59:[1,346]}),o($Vk1,[2,90],{59:[1,347]}),o($VJ,[2,70]),o($V91,[2,74]),{23:[1,348]},o($VJ,[2,68]),{4:349,6:3,7:4,8:5,9:6,10:7,11:8,12:9,14:10,17:11,18:$V0,19:$V1,21:$V2,25:$V3,26:$V4,30:$V5,33:$V6,45:$V7,53:29,54:$V8,55:$V9,56:$Va,64:$Vb,67:$Vc,69:27,70:32,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},o($Vk1,[2,81]),o($Vk1,[2,82]),o($Vk1,[2,83]),o($Vk1,[2,84]),o($Vk1,[2,85]),{4:350,6:3,7:4,8:5,9:6,10:7,11:8,12:9,14:10,17:11,18:$V0,19:$V1,21:$V2,25:$V3,26:$V4,30:$V5,33:$V6,45:$V7,53:29,54:$V8,55:$V9,56:$Va,64:$Vb,67:$Vc,69:27,70:32,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},{6:37,7:4,8:5,9:6,10:7,11:8,12:9,14:10,17:11,18:$V0,19:$V1,21:$V2,24:[1,351],25:$V3,26:$V4,30:$V5,33:$V6,45:$V7,53:29,54:$V8,55:$V9,56:$Va,64:$Vb,67:$Vc,69:27,70:32,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},{6:37,7:4,8:5,9:6,10:7,11:8,12:9,14:10,17:11,18:$V0,19:$V1,21:$V2,24:[1,352],25:$V3,26:$V4,30:$V5,33:$V6,45:$V7,53:29,54:$V8,55:$V9,56:$Va,64:$Vb,67:$Vc,69:27,70:32,71:$Vd,91:$Ve,92:$Vf,93:$Vg,94:$Vh,95:$Vi,96:$Vj,97:$Vk},{51:[1,353]},{51:[1,354]},o($VJ,[2,69]),o($VJ,[2,67])],
-defaultActions: {36:[2,1],213:[2,47]},
+table: [{3:1,4:2,6:3,7:4,8:5,9:6,10:7,11:8,12:9,13:10,14:11,15:12,16:$V0,17:$V1,21:$V2,24:$V3,29:$V4,30:$V5,32:$V6,38:$V7,40:$V8,47:28,48:$V9,55:$Va,59:26,60:34,61:$Vb,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},{1:[3]},{5:[1,36],6:37,7:4,8:5,9:6,10:7,11:8,12:9,13:10,14:11,15:12,16:$V0,17:$V1,21:$V2,24:$V3,29:$V4,30:$V5,32:$V6,38:$V7,40:$V8,47:28,48:$V9,55:$Va,59:26,60:34,61:$Vb,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},o($Vk,[2,3]),o($Vl,[2,4],{19:$Vm,48:$Vn,63:$Vo,73:$Vp,74:$Vq,75:$Vr,76:$Vs,77:$Vt,78:$Vu,79:$Vv,80:$Vw,81:$Vx,82:$Vy,83:$Vz,84:$VA,85:$VB,86:$VC,87:$VD,88:$VE,89:$VF}),o($Vk,[2,5]),o($Vk,[2,6],{58:$VG}),o($VH,[2,7]),o($Vk,[2,8]),o($Vk,[2,9]),o($Vk,[2,10]),o($Vk,[2,11]),o($Vk,[2,12]),o($VI,$VJ,{59:26,60:34,9:59,61:$Vb}),o($VK,[2,109]),o($VK,[2,110]),{21:[1,60]},{21:[1,61]},o([5,16,17,19,22,23,24,26,29,30,32,35,36,37,38,40,55,57,58,61,62,63,65,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90],$VL,{18:[1,62],21:[1,63],48:$VM}),{40:[1,65]},o($VK,[2,115]),o($VK,[2,116]),{7:66,10:68,16:$VN,21:$V2,38:$V7,40:$V8,47:28,48:$V9,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},{7:69,10:68,16:$VN,21:$V2,38:$V7,40:$V8,47:28,48:$V9,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},{7:70,10:68,16:$VN,21:$V2,38:$V7,40:$V8,47:28,48:$V9,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},{16:[1,71]},o($VO,[2,81],{60:72,61:$Vb}),{39:[1,73]},o($VK,[2,59]),{16:$VP,25:74},{16:[1,76]},{31:[1,77]},{7:85,10:68,15:81,16:$VQ,21:$VR,33:78,34:79,35:$VS,37:$VT,38:$V7,40:$V8,47:28,48:$V9,55:$Va,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},{21:[1,86]},o($VU,[2,83]),{7:91,10:68,16:$VN,21:$V2,38:$V7,40:[1,87],47:28,48:$V9,61:[1,88],62:[1,89],63:[1,90],66:[1,92],67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},{1:[2,1]},o($Vk,[2,2]),{7:93,10:68,16:$VN,21:$V2,38:$V7,40:$V8,47:28,48:$V9,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},{7:94,10:68,16:$VN,21:$V2,38:$V7,40:$V8,47:28,48:$V9,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},{7:95,10:68,16:$VN,21:$V2,38:$V7,40:$V8,47:28,48:$V9,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},{7:96,10:68,16:$VN,21:$V2,38:$V7,40:$V8,47:28,48:$V9,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},{7:97,10:68,16:$VN,21:$V2,38:$V7,40:$V8,47:28,48:$V9,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},{7:98,10:68,16:$VN,21:$V2,38:$V7,40:$V8,47:28,48:$V9,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},{7:99,10:68,16:$VN,21:$V2,38:$V7,40:$V8,47:28,48:$V9,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},{7:100,10:68,16:$VN,21:$V2,38:$V7,40:$V8,47:28,48:$V9,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},{7:101,10:68,16:$VN,21:$V2,38:$V7,40:$V8,47:28,48:$V9,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},{7:102,10:68,16:$VN,21:$V2,38:$V7,40:$V8,47:28,48:$V9,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},{7:103,10:68,16:$VN,21:$V2,38:$V7,40:$V8,47:28,48:$V9,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},{7:104,10:68,16:$VN,21:$V2,38:$V7,40:$V8,47:28,48:$V9,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},{7:105,10:68,16:$VN,21:$V2,38:$V7,40:$V8,47:28,48:$V9,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},{7:106,10:68,16:$VN,21:$V2,38:$V7,40:$V8,47:28,48:$V9,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},{7:107,10:68,16:$VN,21:$V2,38:$V7,40:$V8,47:28,48:$V9,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},{7:108,10:68,16:$VN,21:$V2,38:$V7,40:$V8,47:28,48:$V9,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},{7:109,10:68,16:$VN,21:$V2,38:$V7,40:$V8,47:28,48:$V9,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},{7:110,10:68,16:$VN,21:$V2,38:$V7,40:$V8,47:28,48:$V9,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},{7:111,10:68,16:$VN,21:$V2,38:$V7,40:$V8,47:28,48:$V9,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},{7:112,10:68,16:$VN,21:$V2,38:$V7,40:$V8,47:28,48:$V9,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},{59:113,60:34,61:$Vb},o($Vk,[2,13],{58:$VG}),{23:[1,114]},{23:[1,115]},{40:$VV},{7:118,10:68,16:$VW,21:$V2,38:$V7,40:$V8,46:117,47:28,48:$V9,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},{40:[1,120]},o($VK,$VX),o($VY,[2,122],{82:$Vy,83:$Vz,84:$VA,85:$VB,86:$VC,87:$VD}),o($VK,$VJ),o($VK,$VZ),o($V_,[2,138],{19:$Vm,48:$Vn,63:$Vo,73:$Vp,74:$Vq,75:$Vr,76:$Vs,77:$Vt,78:$Vu,79:$Vv,80:$Vw,81:$Vx,82:$Vy,83:$Vz,84:$VA,85:$VB,86:$VC,87:$VD}),{19:$Vm,23:$V$,48:$Vn,63:$Vo,73:$Vp,74:$Vq,75:$Vr,76:$Vs,77:$Vt,78:$Vu,79:$Vv,80:$Vw,81:$Vx,82:$Vy,83:$Vz,84:$VA,85:$VB,86:$VC,87:$VD,88:$VE,89:$VF},{18:[1,122]},o($VU,[2,82]),{40:[1,123]},{4:124,6:3,7:4,8:5,9:6,10:7,11:8,12:9,13:10,14:11,15:12,16:$V0,17:$V1,21:$V2,24:$V3,26:$V01,29:$V4,30:$V5,32:$V6,38:$V7,40:$V8,47:28,48:$V9,55:$Va,59:26,60:34,61:$Vb,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},{27:[1,126],28:[1,127]},o($V11,[2,33],{59:26,60:34,9:128,61:$Vb}),{16:[1,129]},o([5,17,24,29,30,32,36,57,61],[2,36],{47:28,10:68,15:81,7:85,34:130,16:$VQ,21:$VR,35:$VS,37:$VT,38:$V7,40:$V8,48:$V9,55:$Va,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj}),o($Vk,[2,38]),o($VI,[2,39],{59:26,60:34,9:131,61:$Vb}),o($Vk,[2,40]),{7:132,10:133,16:$VN,21:$V2,38:$V7,40:$V8,47:28,48:$V9,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},{16:[1,134],37:[1,135]},{21:[1,136]},{19:$Vm,35:[1,137],48:$Vn,63:$Vo,73:$Vp,74:$Vq,75:$Vr,76:$Vs,77:$Vt,78:$Vu,79:$Vv,80:$Vw,81:$Vx,82:$Vy,83:$Vz,84:$VA,85:$VB,86:$VC,87:$VD,88:$VE,89:$VF},{7:138,10:68,16:$VN,21:$V2,38:$V7,40:$V8,47:28,48:$V9,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},o($V21,[2,84],{18:[1,140],19:$VL,63:$VL,73:$VL,74:$VL,75:$VL,76:$VL,77:$VL,78:$VL,79:$VL,80:$VL,81:$VL,82:$VL,83:$VL,84:$VL,85:$VL,86:$VL,87:$VL,88:$VL,89:$VL,21:[1,141],48:$VM,64:[1,139]}),{7:145,10:68,16:$VN,21:$V2,38:$V7,40:[1,142],47:28,48:$V9,62:[1,143],63:[1,144],66:[1,146],67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},{40:[1,147],63:[1,148]},o($VU,[2,88]),o($V31,[2,94],{19:$Vm,48:$Vn,63:$Vo,73:$Vp,74:$Vq,75:$Vr,76:$Vs,77:$Vt,78:$Vu,79:$Vv,80:$Vw,81:$Vx,82:$Vy,83:$Vz,84:$VA,85:$VB,86:$VC,87:$VD,88:$VE,89:$VF}),o($VU,[2,102],{66:[1,149]}),o($V41,[2,117],{63:$Vo,74:$Vq,75:$Vr,82:$Vy,83:$Vz,84:$VA,85:$VB,86:$VC,87:$VD}),o($V41,[2,118],{63:$Vo,74:$Vq,75:$Vr,82:$Vy,83:$Vz,84:$VA,85:$VB,86:$VC,87:$VD}),o($VY,[2,119],{82:$Vy,83:$Vz,84:$VA,85:$VB,86:$VC,87:$VD}),o($VY,[2,120],{82:$Vy,83:$Vz,84:$VA,85:$VB,86:$VC,87:$VD}),o($VY,[2,121],{82:$Vy,83:$Vz,84:$VA,85:$VB,86:$VC,87:$VD}),o($V51,[2,123],{48:$Vn,63:$Vo,73:$Vp,74:$Vq,75:$Vr,82:$Vy,83:$Vz,84:$VA,85:$VB,86:$VC,87:$VD}),o($V51,[2,124],{48:$Vn,63:$Vo,73:$Vp,74:$Vq,75:$Vr,82:$Vy,83:$Vz,84:$VA,85:$VB,86:$VC,87:$VD}),o($V51,[2,125],{48:$Vn,63:$Vo,73:$Vp,74:$Vq,75:$Vr,82:$Vy,83:$Vz,84:$VA,85:$VB,86:$VC,87:$VD}),o($V51,[2,126],{48:$Vn,63:$Vo,73:$Vp,74:$Vq,75:$Vr,82:$Vy,83:$Vz,84:$VA,85:$VB,86:$VC,87:$VD}),o($V51,[2,127],{48:$Vn,63:$Vo,73:$Vp,74:$Vq,75:$Vr,82:$Vy,83:$Vz,84:$VA,85:$VB,86:$VC,87:$VD}),o($V51,[2,128],{48:$Vn,63:$Vo,73:$Vp,74:$Vq,75:$Vr,82:$Vy,83:$Vz,84:$VA,85:$VB,86:$VC,87:$VD}),o($V51,[2,129],{48:$Vn,63:$Vo,73:$Vp,74:$Vq,75:$Vr,82:$Vy,83:$Vz,84:$VA,85:$VB,86:$VC,87:$VD}),o($V61,[2,130],{19:$Vm,48:$Vn,63:$Vo,73:$Vp,74:$Vq,75:$Vr,76:$Vs,77:$Vt,78:$Vu,79:$Vv,80:$Vw,81:$Vx,82:$Vy,83:$Vz,84:$VA,85:$VB,86:$VC,87:$VD,88:$VE,89:$VF}),o($V61,[2,131],{19:$Vm,48:$Vn,63:$Vo,73:$Vp,74:$Vq,75:$Vr,76:$Vs,77:$Vt,78:$Vu,79:$Vv,80:$Vw,81:$Vx,82:$Vy,83:$Vz,84:$VA,85:$VB,86:$VC,87:$VD,88:$VE,89:$VF}),o($V61,[2,132],{19:$Vm,48:$Vn,63:$Vo,73:$Vp,74:$Vq,75:$Vr,76:$Vs,77:$Vt,78:$Vu,79:$Vv,80:$Vw,81:$Vx,82:$Vy,83:$Vz,84:$VA,85:$VB,86:$VC,87:$VD,88:$VE,89:$VF}),o($V61,[2,133],{19:$Vm,48:$Vn,63:$Vo,73:$Vp,74:$Vq,75:$Vr,76:$Vs,77:$Vt,78:$Vu,79:$Vv,80:$Vw,81:$Vx,82:$Vy,83:$Vz,84:$VA,85:$VB,86:$VC,87:$VD,88:$VE,89:$VF}),o($V61,[2,134],{19:$Vm,48:$Vn,63:$Vo,73:$Vp,74:$Vq,75:$Vr,76:$Vs,77:$Vt,78:$Vu,79:$Vv,80:$Vw,81:$Vx,82:$Vy,83:$Vz,84:$VA,85:$VB,86:$VC,87:$VD,88:$VE,89:$VF}),o($V61,[2,135],{19:$Vm,48:$Vn,63:$Vo,73:$Vp,74:$Vq,75:$Vr,76:$Vs,77:$Vt,78:$Vu,79:$Vv,80:$Vw,81:$Vx,82:$Vy,83:$Vz,84:$VA,85:$VB,86:$VC,87:$VD,88:$VE,89:$VF}),o([5,16,17,21,22,23,24,26,29,30,32,35,36,37,38,40,55,57,58,61,62,65,67,68,69,70,71,72,88,90],[2,136],{19:$Vm,48:$Vn,63:$Vo,73:$Vp,74:$Vq,75:$Vr,76:$Vs,77:$Vt,78:$Vu,79:$Vv,80:$Vw,81:$Vx,82:$Vy,83:$Vz,84:$VA,85:$VB,86:$VC,87:$VD,89:$VF}),o($V_,[2,137],{19:$Vm,48:$Vn,63:$Vo,73:$Vp,74:$Vq,75:$Vr,76:$Vs,77:$Vt,78:$Vu,79:$Vv,80:$Vw,81:$Vx,82:$Vy,83:$Vz,84:$VA,85:$VB,86:$VC,87:$VD}),o($VO,[2,80],{60:72,61:$Vb}),o($VK,[2,111]),o($VK,[2,112]),{21:[1,150]},{23:[1,151],26:$V71},o($V81,[2,65],{19:$Vm,48:$Vn,63:$Vo,73:$Vp,74:$Vq,75:$Vr,76:$Vs,77:$Vt,78:$Vu,79:$Vv,80:$Vw,81:$Vx,82:$Vy,83:$Vz,84:$VA,85:$VB,86:$VC,87:$VD,88:$VE,89:$VF}),o([19,23,26,48,63,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89],$VJ,{59:26,60:34,9:153,61:$Vb}),{21:[1,154]},o($VK,[2,139]),{19:[1,155]},{18:[1,156]},o($V91,[2,20],{7:4,8:5,9:6,10:7,11:8,12:9,13:10,14:11,15:12,59:26,47:28,60:34,6:37,16:$V0,17:$V1,21:$V2,24:$V3,29:$V4,30:$V5,32:$V6,38:$V7,40:$V8,48:$V9,55:$Va,61:$Vb,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj}),{16:$VP,25:157},{9:158,16:[1,159],21:[1,160],59:26,60:34,61:$Vb},{16:[1,161]},o($Vk,[2,32],{58:$VG}),o($V11,[2,35],{59:26,60:34,9:162,61:$Vb}),o($Vk,[2,37]),o($Vk,[2,41],{58:$VG}),{19:$Vm,23:[1,163],48:$Vn,63:$Vo,73:$Vp,74:$Vq,75:$Vr,76:$Vs,77:$Vt,78:$Vu,79:$Vv,80:$Vw,81:$Vx,82:$Vy,83:$Vz,84:$VA,85:$VB,86:$VC,87:$VD,88:$VE,89:$VF},o([19,48,63,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89],$VZ,{23:[1,164]}),{9:166,36:[1,165],59:26,60:34,61:$Vb},{21:[1,167]},{16:[1,168]},{16:[1,169],37:[1,170]},{19:$Vm,23:[1,171],48:$Vn,63:$Vo,73:$Vp,74:$Vq,75:$Vr,76:$Vs,77:$Vt,78:$Vu,79:$Vv,80:$Vw,81:$Vx,82:$Vy,83:$Vz,84:$VA,85:$VB,86:$VC,87:$VD,88:$VE,89:$VF},{7:172,10:68,16:$VN,21:$V2,38:$V7,40:$V8,47:28,48:$V9,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},{18:[1,173],40:$VV},{7:118,10:68,16:$VW,21:$V2,23:[1,174],38:$V7,40:$V8,46:117,47:28,48:$V9,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},o($V21,[2,85],{18:[1,176],19:$VL,63:$VL,73:$VL,74:$VL,75:$VL,76:$VL,77:$VL,78:$VL,79:$VL,80:$VL,81:$VL,82:$VL,83:$VL,84:$VL,85:$VL,86:$VL,87:$VL,88:$VL,89:$VL,21:[1,177],48:$VM,64:[1,175]}),{40:[1,178],63:[1,179]},o($VU,[2,89]),o($V31,[2,95],{19:$Vm,48:$Vn,63:$Vo,73:$Vp,74:$Vq,75:$Vr,76:$Vs,77:$Vt,78:$Vu,79:$Vv,80:$Vw,81:$Vx,82:$Vy,83:$Vz,84:$VA,85:$VB,86:$VC,87:$VD,88:$VE,89:$VF}),o($VU,[2,103],{66:[1,180]}),o($VU,[2,86],{19:$VX,63:$VX,73:$VX,74:$VX,75:$VX,76:$VX,77:$VX,78:$VX,79:$VX,80:$VX,81:$VX,82:$VX,83:$VX,84:$VX,85:$VX,86:$VX,87:$VX,88:$VX,89:$VX}),o($VU,[2,90]),o($VU,[2,104]),{7:118,10:68,16:$VW,21:$V2,38:$V7,40:$V8,46:181,47:28,48:$V9,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},o($VK,[2,62]),{7:118,10:68,16:$VW,21:$V2,38:$V7,40:$V8,46:182,47:28,48:$V9,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},o($V81,[2,66],{58:$VG}),{7:118,10:68,16:$VW,21:$V2,38:$V7,40:$V8,46:183,47:28,48:$V9,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},{7:185,10:68,16:$VN,20:184,21:[1,186],38:$V7,40:$V8,47:28,48:$V9,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},{40:[1,187]},o([16,17,21,24,29,30,32,38,40,48,55,61,62,67,68,69,70,71,72,90],[2,21],{26:$V01}),o($Va1,[2,22],{58:$VG}),o($Vb1,[2,23],{59:26,60:34,9:188,61:$Vb}),{7:189,10:68,16:$VN,21:$V2,38:$V7,40:$V8,47:28,48:$V9,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},{27:[1,190]},o($Vk,[2,34],{58:$VG}),o($VH,[2,42]),o($Vk,[2,43]),o($Vk,[2,44]),{36:[1,191],58:$VG},{16:[1,192]},{9:194,23:[1,193],59:26,60:34,61:$Vb},{9:196,36:[1,195],59:26,60:34,61:$Vb},{21:[1,197]},{56:[1,198]},{19:$Vm,48:$Vn,63:$Vo,65:[1,199],73:$Vp,74:$Vq,75:$Vr,76:$Vs,77:$Vt,78:$Vu,79:$Vv,80:$Vw,81:$Vx,82:$Vy,83:$Vz,84:$VA,85:$VB,86:$VC,87:$VD,88:$VE,89:$VF},{40:[1,200],63:[1,201]},o($VU,[2,106]),{7:202,10:68,16:$VN,21:$V2,38:$V7,40:$V8,47:28,48:$V9,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},{18:[1,203],40:$VV},{7:118,10:68,16:$VW,21:$V2,23:[1,204],38:$V7,40:$V8,46:117,47:28,48:$V9,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},o($VU,[2,87],{19:$VX,63:$VX,73:$VX,74:$VX,75:$VX,76:$VX,77:$VX,78:$VX,79:$VX,80:$VX,81:$VX,82:$VX,83:$VX,84:$VX,85:$VX,86:$VX,87:$VX,88:$VX,89:$VX}),o($VU,[2,91]),o($VU,[2,105]),{23:[1,205],26:$V71},{23:[2,64],26:$V71},{23:[1,206],26:$V71},o([5,16,17,21,24,29,30,35,36,37,38,40,48,55,57,61,62,67,68,69,70,71,72,90],[2,14],{14:207,32:$V6}),o($Vl,[2,16],{19:$Vm,48:$Vn,63:$Vo,73:$Vp,74:$Vq,75:$Vr,76:$Vs,77:$Vt,78:$Vu,79:$Vv,80:$Vw,81:$Vx,82:$Vy,83:$Vz,84:$VA,85:$VB,86:$VC,87:$VD,88:$VE,89:$VF}),{7:208,9:209,10:210,16:$VN,21:$V2,38:$V7,40:$V8,47:28,48:$V9,59:26,60:34,61:$Vb,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},{21:[1,211]},o($Va1,[2,24],{58:$VG}),{19:$Vm,22:[1,213],26:[1,212],48:$Vn,63:$Vo,73:$Vp,74:$Vq,75:$Vr,76:$Vs,77:$Vt,78:$Vu,79:$Vv,80:$Vw,81:$Vx,82:$Vy,83:$Vz,84:$VA,85:$VB,86:$VC,87:$VD,88:$VE,89:$VF},{9:214,16:[1,215],21:[1,216],59:26,60:34,61:$Vb},o($Vk,[2,47]),{9:218,23:[1,217],59:26,60:34,61:$Vb},o($Vk,[2,45]),{23:[1,219],58:$VG},o($Vk,[2,46]),{36:[1,220],58:$VG},{16:[1,221]},{4:222,6:3,7:4,8:5,9:6,10:7,11:8,12:9,13:10,14:11,15:12,16:$V0,17:$V1,21:$V2,24:$V3,29:$V4,30:$V5,32:$V6,38:$V7,40:$V8,47:28,48:$V9,55:$Va,59:26,60:34,61:$Vb,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},o($VU,[2,92]),o($VU,[2,96],{64:[1,223]}),o($VU,[2,97]),{19:$Vm,48:$Vn,63:$Vo,65:[1,224],73:$Vp,74:$Vq,75:$Vr,76:$Vs,77:$Vt,78:$Vu,79:$Vv,80:$Vw,81:$Vx,82:$Vy,83:$Vz,84:$VA,85:$VB,86:$VC,87:$VD,88:$VE,89:$VF},{40:[1,225],63:[1,226]},o($VU,[2,107]),o($VK,[2,58]),o($VK,[2,63]),o($Vk,[2,15]),{19:$Vm,22:[1,227],23:$V$,48:$Vn,63:$Vo,73:$Vp,74:$Vq,75:$Vr,76:$Vs,77:$Vt,78:$Vu,79:$Vv,80:$Vw,81:$Vx,82:$Vy,83:$Vz,84:$VA,85:$VB,86:$VC,87:$VD,88:$VE,89:$VF},{23:[1,228],58:$VG},o([19,22,48,63,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89],$VZ,{23:[1,229]}),{16:$Vc1,23:[1,231],41:230},{7:233,10:68,16:$VN,21:$V2,38:$V7,40:$V8,47:28,48:$V9,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},{7:234,10:68,16:$VN,21:$V2,38:$V7,40:$V8,47:28,48:$V9,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},o($Va1,[2,25],{58:$VG}),o($Vb1,[2,26],{59:26,60:34,9:235,61:$Vb}),{7:236,10:68,16:$VN,21:$V2,38:$V7,40:$V8,47:28,48:$V9,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},{36:[1,237]},{23:[1,238],58:$VG},o($Vk,[2,48]),o($Vk,[2,49]),{9:240,23:[1,239],59:26,60:34,61:$Vb},o([5,35,36,37],[2,77],{7:4,8:5,9:6,10:7,11:8,12:9,13:10,14:11,15:12,59:26,47:28,60:34,6:37,16:$V0,17:$V1,21:$V2,24:$V3,29:$V4,30:$V5,32:$V6,38:$V7,40:$V8,48:$V9,55:$Va,57:[1,241],61:$Vb,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj}),{7:242,10:68,16:$VN,21:$V2,38:$V7,40:$V8,47:28,48:$V9,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},o($VU,[2,93]),o($VU,[2,98],{64:[1,243]}),o($VU,[2,99]),{7:244,10:68,16:$VN,21:$V2,38:$V7,40:$V8,47:28,48:$V9,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},o($Vk,[2,18]),o($Vk,[2,19]),{23:[1,245],26:$Vd1},{35:[1,248],42:[1,247]},{42:[1,249]},{19:$Vm,23:[1,250],48:$Vn,63:$Vo,73:$Vp,74:$Vq,75:$Vr,76:$Vs,77:$Vt,78:$Vu,79:$Vv,80:$Vw,81:$Vx,82:$Vy,83:$Vz,84:$VA,85:$VB,86:$VC,87:$VD,88:$VE,89:$VF},{19:$Vm,23:[1,251],48:$Vn,63:$Vo,73:$Vp,74:$Vq,75:$Vr,76:$Vs,77:$Vt,78:$Vu,79:$Vv,80:$Vw,81:$Vx,82:$Vy,83:$Vz,84:$VA,85:$VB,86:$VC,87:$VD,88:$VE,89:$VF},o($Va1,[2,27],{58:$VG}),{19:$Vm,22:[1,253],26:[1,252],48:$Vn,63:$Vo,73:$Vp,74:$Vq,75:$Vr,76:$Vs,77:$Vt,78:$Vu,79:$Vv,80:$Vw,81:$Vx,82:$Vy,83:$Vz,84:$VA,85:$VB,86:$VC,87:$VD,88:$VE,89:$VF},o($Vk,[2,50]),{36:[1,254]},{36:[1,255]},{23:[1,256],58:$VG},{4:257,6:3,7:4,8:5,9:6,10:7,11:8,12:9,13:10,14:11,15:258,16:$V0,17:$V1,21:$V2,24:$V3,29:$V4,30:$V5,32:$V6,38:$V7,40:$V8,47:28,48:$V9,55:$Va,59:26,60:34,61:$Vb,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},{19:$Vm,48:$Vn,63:$Vo,65:[1,259],73:$Vp,74:$Vq,75:$Vr,76:$Vs,77:$Vt,78:$Vu,79:$Vv,80:$Vw,81:$Vx,82:$Vy,83:$Vz,84:$VA,85:$VB,86:$VC,87:$VD,88:$VE,89:$VF},{7:260,10:68,16:$VN,21:$V2,38:$V7,40:$V8,47:28,48:$V9,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},{19:$Vm,23:[1,261],48:$Vn,63:$Vo,73:$Vp,74:$Vq,75:$Vr,76:$Vs,77:$Vt,78:$Vu,79:$Vv,80:$Vw,81:$Vx,82:$Vy,83:$Vz,84:$VA,85:$VB,86:$VC,87:$VD,88:$VE,89:$VF},{35:[1,263],42:[1,262]},{16:$Vc1,41:264},{43:[1,265]},{4:266,6:3,7:4,8:5,9:6,10:7,11:8,12:9,13:10,14:11,15:12,16:$V0,17:$V1,21:$V2,24:$V3,29:$V4,30:$V5,32:$V6,38:$V7,40:$V8,47:28,48:$V9,55:$Va,59:26,60:34,61:$Vb,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},{43:[1,267]},o($Va1,[2,28]),o($Va1,[2,29]),{7:268,10:68,16:$VN,21:$V2,38:$V7,40:$V8,47:28,48:$V9,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},{7:269,10:68,16:$VN,21:$V2,38:$V7,40:$V8,47:28,48:$V9,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},o($Vk,[2,52]),o($Vk,[2,51]),{36:[1,270]},o($V91,[2,78],{7:4,8:5,9:6,10:7,11:8,12:9,13:10,14:11,15:12,59:26,47:28,60:34,6:37,16:$V0,17:$V1,21:$V2,24:$V3,29:$V4,30:$V5,32:$V6,38:$V7,40:$V8,48:$V9,55:$Va,61:$Vb,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj}),o($Vk,[2,79]),o($VU,[2,100]),{19:$Vm,48:$Vn,63:$Vo,65:[1,271],73:$Vp,74:$Vq,75:$Vr,76:$Vs,77:$Vt,78:$Vu,79:$Vv,80:$Vw,81:$Vx,82:$Vy,83:$Vz,84:$VA,85:$VB,86:$VC,87:$VD,88:$VE,89:$VF},o($Vk,[2,17]),{43:[1,272]},{4:273,6:3,7:4,8:5,9:6,10:7,11:8,12:9,13:10,14:11,15:12,16:$V0,17:$V1,21:$V2,24:$V3,29:$V4,30:$V5,32:$V6,38:$V7,40:$V8,47:28,48:$V9,55:$Va,59:26,60:34,61:$Vb,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},{23:[2,60],26:$Vd1},{18:[1,274]},{6:37,7:4,8:5,9:6,10:7,11:8,12:9,13:10,14:11,15:12,16:$V0,17:$V1,21:$V2,24:$V3,29:$V4,30:$V5,32:$V6,36:[1,275],38:$V7,40:$V8,47:28,48:$V9,55:$Va,59:26,60:34,61:$Vb,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},{18:[1,276]},{19:$Vm,23:[1,277],48:$Vn,63:$Vo,73:$Vp,74:$Vq,75:$Vr,76:$Vs,77:$Vt,78:$Vu,79:$Vv,80:$Vw,81:$Vx,82:$Vy,83:$Vz,84:$VA,85:$VB,86:$VC,87:$VD,88:$VE,89:$VF},{19:$Vm,23:[1,278],48:$Vn,63:$Vo,73:$Vp,74:$Vq,75:$Vr,76:$Vs,77:$Vt,78:$Vu,79:$Vv,80:$Vw,81:$Vx,82:$Vy,83:$Vz,84:$VA,85:$VB,86:$VC,87:$VD,88:$VE,89:$VF},o($Vk,[2,53]),o($VU,[2,101]),{18:[1,279]},{6:37,7:4,8:5,9:6,10:7,11:8,12:9,13:10,14:11,15:12,16:$V0,17:$V1,21:$V2,24:$V3,29:$V4,30:$V5,32:$V6,36:[1,280],38:$V7,40:$V8,47:28,48:$V9,55:$Va,59:26,60:34,61:$Vb,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},{44:281,49:$Ve1,51:$Vf1,52:$Vg1,53:$Vh1,54:$Vi1},{45:[1,287]},{44:288,49:$Ve1,51:$Vf1,52:$Vg1,53:$Vh1,54:$Vi1},o($Va1,[2,30]),o($Va1,[2,31]),{44:289,49:$Ve1,51:$Vf1,52:$Vg1,53:$Vh1,54:$Vi1},{45:[1,290]},{35:[1,291]},o($Vj1,[2,72],{50:[1,292]}),o($Vj1,[2,73],{50:[1,293]}),o($Vj1,[2,74],{50:[1,294]}),o($Vj1,[2,75],{50:[1,295]}),o($Vj1,[2,76],{50:[1,296]}),o($VK,[2,57]),o($V81,[2,61]),{35:[1,297]},o($VK,[2,55]),{4:298,6:3,7:4,8:5,9:6,10:7,11:8,12:9,13:10,14:11,15:12,16:$V0,17:$V1,21:$V2,24:$V3,29:$V4,30:$V5,32:$V6,38:$V7,40:$V8,47:28,48:$V9,55:$Va,59:26,60:34,61:$Vb,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},o($Vj1,[2,67]),o($Vj1,[2,68]),o($Vj1,[2,69]),o($Vj1,[2,70]),o($Vj1,[2,71]),{4:299,6:3,7:4,8:5,9:6,10:7,11:8,12:9,13:10,14:11,15:12,16:$V0,17:$V1,21:$V2,24:$V3,29:$V4,30:$V5,32:$V6,38:$V7,40:$V8,47:28,48:$V9,55:$Va,59:26,60:34,61:$Vb,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},{6:37,7:4,8:5,9:6,10:7,11:8,12:9,13:10,14:11,15:12,16:$V0,17:$V1,21:$V2,24:$V3,29:$V4,30:$V5,32:$V6,36:[1,300],38:$V7,40:$V8,47:28,48:$V9,55:$Va,59:26,60:34,61:$Vb,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},{6:37,7:4,8:5,9:6,10:7,11:8,12:9,13:10,14:11,15:12,16:$V0,17:$V1,21:$V2,24:$V3,29:$V4,30:$V5,32:$V6,36:[1,301],38:$V7,40:$V8,47:28,48:$V9,55:$Va,59:26,60:34,61:$Vb,62:$Vc,67:$Vd,68:$Ve,69:$Vf,70:$Vg,71:$Vh,72:$Vi,90:$Vj},{45:[1,302]},{45:[1,303]},o($VK,[2,56]),o($VK,[2,54])],
+defaultActions: {36:[2,1]},
 parseError: function parseError (str, hash) {
     if (hash.recoverable) {
         this.trace(str);
@@ -234,7 +1090,41 @@ parse: function parse(input) {
     return true;
 }};
 
+    /* Xpath */
+    const ast_xpath = require('../clases/ast/ast_xpath')
+    const select = require('../clases/expresiones/select')
+    const predicate = require('../clases/expresiones/predicates/predicate')
+    const last = require('../clases/expresiones/predicates/last')
+    const position = require('../clases/expresiones/predicates/position')
+    const filtro = require('../clases/expresiones/predicates/filtro')
+    const axes = require('../clases/expresiones/axes/axes')
 
+    /* Xquery */
+    const if_query = require('../clases/instrucciones/xquery/if')
+    const for_query = require('../clases/instrucciones/xquery/for')
+    const let_query = require('../clases/instrucciones/xquery/let')
+    const order_query = require('../clases/instrucciones/xquery/order')
+    const where_query = require('../clases/instrucciones/xquery/where')
+    const nativa_query = require('../clases/instrucciones/xquery/nativa')
+    const return_query = require('../clases/instrucciones/xquery/return')
+    const variable_query = require('../clases/instrucciones/xquery/variable')
+    const function_query = require('../clases/instrucciones/xquery/function')
+    const subReturn_query = require('../clases/instrucciones/xquery/subReturn')
+
+    /* Operaciones */
+    const aritmetica = require('../clases/expresiones/operaciones/aritmetica')
+    const relacional = require('../clases/expresiones/operaciones/relacional')
+    const logica = require('../clases/expresiones/operaciones/logica')
+
+    /* Primitivos */
+    const primitivo = require('../clases/expresiones/primitivo')
+
+    /* Reporte erroes */
+    const rep_error = require('../reports/ReportController');
+
+    /* Reporte Gramatical */
+    const gramatic = require('../reports/gramatical');
+    let reportG = new Array();
 /* generated by jison-lex 0.3.4 */
 var lexer = (function(){
 var lexer = ({
@@ -565,156 +1455,150 @@ var YYSTATE=YY_START;
 switch($avoiding_name_collisions) {
 case 0:/*skip comments*/
 break;
-case 1: return 68 
+case 1: return 58 
 break;
-case 2: return 30 
+case 2: return 21 
 break;
-case 3: return 32 
+case 3: return 23 
 break;
-case 4: return 73 
+case 4: return 64 
 break;
-case 5: return 74 
+case 5: return 65 
 break;
-case 6: return 23 
+case 6: return 35 
 break;
-case 7: return 24 
+case 7: return 36 
 break;
-case 8: return 75 
+case 8: return 66 
 break;
-case 9: return 27 
+case 9: return 18 
 break;
-case 10: return 35 
+case 10: return 26 
 break;
-case 11: return 51 
+case 11: return 45 
 break;
-case 12: return 92 
+case 12: return 69 
 break;
-case 13: return 93 
+case 13: return 70 
 break;
-case 14: return 33 
+case 14: return 24 
 break;
-case 15: return 25 
+case 15: return 17 
 break;
-case 16: return 38 
+case 16: return 29 
 break;
-case 17: return 39
+case 17: return 30
 break;
-case 18: return 40 
+case 18: return 31 
 break;
-case 19: return 41 
+case 19: return 32 
 break;
-case 20: return 64 
+case 20: return 55 
 break;
-case 21: return 65 
+case 21: return 56 
 break;
-case 22: return 66 
+case 22: return 57 
 break;
-case 23: return 37 
+case 23: return 28 
 break;
-case 24: return 31 
+case 24: return 22 
 break;
-case 25: return 36 
+case 25: return 27 
 break;
-case 26: return 44 
+case 26: return 37 
 break;
-case 27: return 45 
+case 27: return 38 
 break;
-case 28: return 46 
+case 28: return 39 
 break;
-case 29: return 55 
+case 29: return 43 
 break;
-case 30: return 57 
+case 30: return 42 
 break;
-case 31: return 54 
+case 31: return 73 
 break;
-case 32: return 49 
+case 32: return 48 
 break;
-case 33: return 48 
+case 33: return 63 
 break;
-case 34: return 76 
+case 34: return 61 
 break;
-case 35: return 56 
+case 35: return 74 
 break;
-case 36: return 72 
+case 36: return 'POTENCIA' 
 break;
-case 37: return 21 
+case 37: return 75 
 break;
-case 38: return 77 
+case 38: return 50 
 break;
-case 39: return 'POTENCIA' 
+case 39: return 78
 break;
-case 40: return 78 
+case 40: return 79
 break;
-case 41: return 59 
+case 41: return 76
 break;
-case 42: return 79
+case 42: return 77
 break;
-case 43: return 80
+case 43: return 81
 break;
-case 44: return 18
+case 44: return 80
 break;
-case 45: return 20
+case 45: return 19
 break;
 case 46: return 82
 break;
-case 47: return 81
+case 47: return 83
 break;
-case 48: return 28
+case 48: return 85
 break;
-case 49: return 83
+case 49: return 84
 break;
-case 50: return 84
+case 50: return 87
 break;
 case 51: return 86
 break;
-case 52: return 85
+case 52: return 88
 break;
-case 53: return 88
+case 53: return 89
 break;
-case 54: return 87
+case 54: return 90
 break;
-case 55: return 89
+case 55: return 62 
 break;
-case 56: return 90
+case 56: return 49 
 break;
-case 57: return 91
+case 57: return 51 
 break;
-case 58: return 71 
+case 58: return 52 
 break;
-case 59: return 58 
+case 59: return 53 
 break;
-case 60: return 60 
+case 60: return 54 
 break;
-case 61: return 61 
+case 61: return 71
 break;
-case 62: return 62 
+case 62: return 72
 break;
-case 63: return 63 
+case 63: return 'PRINT' 
 break;
-case 64: return 96
+case 64: return 67
 break;
-case 65: return 97
+case 65: return 40
 break;
-case 66: return 'PRINT' 
+case 66: return 68
 break;
-case 67: return 94
+case 67: return 16 
 break;
-case 68: return 19
+case 68:/* skip whitespace */
 break;
-case 69: return 95
+case 69:return 5
 break;
-case 70: return 26 
-break;
-case 71:/* skip whitespace */
-break;
-case 72:return 5
-break;
-case 73: console.log("error lexico",yy_.yylineno); 
+case 70: rep_error.InsertarError("lexico", yy_.yytext, "xquery", yy_.yylloc.first_line, yy_.yylloc.first_column); 
 break;
 }
 },
-rules: [/^(?:[(][:][^:()]*[:][)])/i,/^(?:\|)/i,/^(?:\()/i,/^(?:\))/i,/^(?:\[)/i,/^(?:\])/i,/^(?:\{)/i,/^(?:\})/i,/^(?:\.)/i,/^(?::)/i,/^(?:,)/i,/^(?:;)/i,/^(?:last\b)/i,/^(?:position\b)/i,/^(?:for\b)/i,/^(?:let\b)/i,/^(?:where\b)/i,/^(?:order\b)/i,/^(?:by\b)/i,/^(?:return\b)/i,/^(?:if\b)/i,/^(?:then\b)/i,/^(?:else\b)/i,/^(?:at\b)/i,/^(?:to\b)/i,/^(?:in\b)/i,/^(?:data\b)/i,/^(?:declare\b)/i,/^(?:function\b)/i,/^(?:upper\b)/i,/^(?:case\b)/i,/^(?:substring\b)/i,/^(?:xs\b)/i,/^(?:as\b)/i,/^(?:\+)/i,/^(?:-)/i,/^(?:\*)/i,/^(?:\/)/i,/^(?:div\b)/i,/^(?:\^)/i,/^(?:mod\b)/i,/^(?:\?)/i,/^(?:<=)/i,/^(?:>=)/i,/^(?:<)/i,/^(?:>)/i,/^(?:!=)/i,/^(?:==)/i,/^(?:=)/i,/^(?:eq\b)/i,/^(?:ne\b)/i,/^(?:lt\b)/i,/^(?:le\b)/i,/^(?:gt\b)/i,/^(?:ge\b)/i,/^(?:or\b)/i,/^(?:and\b)/i,/^(?:!)/i,/^(?:@)/i,/^(?:string\b)/i,/^(?:integer\b)/i,/^(?:decimal\b)/i,/^(?:double\b)/i,/^(?:boolean\b)/i,/^(?:true\b)/i,/^(?:false\b)/i,/^(?:print\b)/i,/^(?:([0-9]+(\.[0-9]+)?))/i,/^(?:([a-zñA-ZÑ][a-zñA-ZÑ0-9_]*))/i,/^(?:(("([^\"\\])*")))/i,/^(?:([$][a-zñA-ZÑ0-9]+))/i,/^(?:[\s\r\n\t])/i,/^(?:$)/i,/^(?:.)/i],
-conditions: {"INITIAL":{"rules":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73],"inclusive":true}}
+rules: [/^(?:[(][:][^:()]*[:][)])/i,/^(?:\|)/i,/^(?:\()/i,/^(?:\))/i,/^(?:\[)/i,/^(?:\])/i,/^(?:\{)/i,/^(?:\})/i,/^(?:\.)/i,/^(?::)/i,/^(?:,)/i,/^(?:;)/i,/^(?:last\b)/i,/^(?:position\b)/i,/^(?:for\b)/i,/^(?:let\b)/i,/^(?:where\b)/i,/^(?:order\b)/i,/^(?:by\b)/i,/^(?:return\b)/i,/^(?:if\b)/i,/^(?:then\b)/i,/^(?:else\b)/i,/^(?:at\b)/i,/^(?:to\b)/i,/^(?:in\b)/i,/^(?:data\b)/i,/^(?:declare\b)/i,/^(?:function\b)/i,/^(?:xs\b)/i,/^(?:as\b)/i,/^(?:\+)/i,/^(?:-)/i,/^(?:\*)/i,/^(?:\/)/i,/^(?:div\b)/i,/^(?:\^)/i,/^(?:mod\b)/i,/^(?:\?)/i,/^(?:<=)/i,/^(?:>=)/i,/^(?:<)/i,/^(?:>)/i,/^(?:!=)/i,/^(?:==)/i,/^(?:=)/i,/^(?:eq\b)/i,/^(?:ne\b)/i,/^(?:lt\b)/i,/^(?:le\b)/i,/^(?:gt\b)/i,/^(?:ge\b)/i,/^(?:or\b)/i,/^(?:and\b)/i,/^(?:!)/i,/^(?:@)/i,/^(?:string\b)/i,/^(?:integer\b)/i,/^(?:decimal\b)/i,/^(?:double\b)/i,/^(?:boolean\b)/i,/^(?:true\b)/i,/^(?:false\b)/i,/^(?:print\b)/i,/^(?:([0-9]+(\.[0-9]+)?))/i,/^(?:([a-zñA-ZÑ][a-zñA-ZÑ0-9_]*))/i,/^(?:(("([^\"\\])*")))/i,/^(?:([$][a-zñA-ZÑ0-9]+))/i,/^(?:[\s\r\n\t])/i,/^(?:$)/i,/^(?:.)/i],
+conditions: {"INITIAL":{"rules":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70],"inclusive":true}}
 });
 return lexer;
 })();
