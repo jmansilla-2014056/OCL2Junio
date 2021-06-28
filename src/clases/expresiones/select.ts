@@ -293,11 +293,10 @@ export default class select implements expresion {
         c3d.main += `\t/* ini look nodes */\n`
         for (let n_ent of ent) {
             let simbol: simbolo = n_ent.tabla["id"]
-            let pos = { "id": pos_param, "val": c3d.temp[pos_param] }
+            let ret = { "id": pos_param, "val": c3d.temp[pos_param] }
             //la siguiente posicion disponible id xml
-            //pos.val = pos.val + 1
-            pos.val += 1
-            c3d.main += `\tt${pos.id} = t${pos.id} + 1;\t\t//La siguiente posicion id xml\n`
+            let pos = { "id": c3d.generateTemp(), "val": ret.val + 2 }
+            c3d.main += `\tt${pos.id} = t${ret.id} + 2;\t\t//La siguiente posicion id xml\n`
             //se guarda la posicion (heap) del id
             c3d.stack[pos.val] = simbol.stack + 1
             c3d.main += `\tstack[(int)t${pos.id}] = ${simbol.stack} + 1;\t\t//guarda stack del id xml\n`
@@ -337,7 +336,7 @@ export default class select implements expresion {
                     let simbol: simbolo = n_ent.tabla[key]
                     console.log("ATR ")
                     console.log(simbol)
-                    let pos = { "id": c3d.generateTemp(), "val": ret.val + 1 }
+                    let pos = { "id": c3d.generateTemp(), "val": ret.val + 2 }
                     //la siguiente posicion disponible param xml
                     c3d.main += `\tt${pos.id} = t${ret.id} + 2;\t\t//La siguiente posicion param xml\n`
                     //se guarda la posicion (heap) del param
