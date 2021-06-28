@@ -334,9 +334,11 @@ export class AppComponent {
 
       try {
         let entrada = this.consola
-        let result = xquery.parse(entrada);
-
-        console.log(result);
+        let result_parser = xquery.parse(entrada);
+        let reportG = result_parser['reportG'];
+        console.log(result_parser);
+        /* reporte gramatical */
+        this.tablaReportGramatical(new gramatical("", "").getReporteG(reportG), "Reporte Gramatical Xquery", "reportGQ", "TitleReportGramaticalQ");
         /* Fin analisis */
         alert("Analisis finalizado con exito!");
       } catch (error) {

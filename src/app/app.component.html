@@ -12,6 +12,7 @@
       <button type="button" class="btn btn-success" (click)="execXpath()">Xpath Ascendente</button>
       <button type="button" class="btn btn-success" (click)="execXpathD()">Xpath Descendente</button>
       <button type="button" class="btn btn-success" (click)="execXquery()">Xquery</button>
+      <button type="button" class="btn btn-success" (click)="optimizar()">Optimizador</button>
     </div>
   </div>
   <div class="row">
@@ -65,7 +66,6 @@
     </div>
     <div class="col-12 mt-3">
       <!--FUNCION ABRIR ARCHIVO-->
-      <button type="button" class="btn btn-success" (click)="optimizar()">Optimizador</button>
       <button type="button" class="btn btn-success" (click)="reporteArbolA()">AST XML</button>
       <button type="button" class="btn btn-success" (click)="reporteArbolB()">CST XML</button>
       <button type="button" class="btn btn-success" (click)="reporteArbolC()">AST XPATH</button>
@@ -73,8 +73,9 @@
         Simbolos</button>
       <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#ModalErrorTable"
         (click)="tablaReportError()">Reporte de Errores</button>
-      <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#ModalGramatical">Reporte Gramatical</button>
-      <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#ModalGramaticalX">Reporte Gramatical Xpath</button>
+      <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#ModalGramatical">Gramatical XML</button>
+      <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#ModalGramaticalX">Gramatical Xpath</button>
+      <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#ModalGramaticalQ">Gramatical Xquery</button>
       <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#ModalHeap" (click)="arrHeap()">Heap</button>
       <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#ModalStack" (click)="arrStack()">Stack</button>
     </div>
@@ -150,6 +151,20 @@
   </div>
 </div>
 
+<div class="modal" tabindex="-1" id="ModalGramaticalQ">
+  <div class="modal-dialog" style="max-width: 80%;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="TitleReportGramaticalQ"></h3>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body table-responsive" id="reportGQ"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="modal" tabindex="-1" id="ModalSimbolTable">
   <div class="modal-dialog" style="max-width: 80%;">

@@ -4,8 +4,8 @@ export default class goto_expresion implements instruccion_3d{
   public goto_etiqueta : string;
 
   constructor(goto_etiqueta : string ) {
-    this.goto_etiqueta = goto_etiqueta;
     this.intrucciones_3d = new Array<instruccion_3d>();
+    this.goto_etiqueta = goto_etiqueta;
   }
 
   getText(){

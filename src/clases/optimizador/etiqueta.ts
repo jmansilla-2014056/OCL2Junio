@@ -4,8 +4,8 @@ export default class entiqueta implements instruccion_3d{
   public etiqueta: string
 
   constructor(etiqueta : string) {
-    this.etiqueta = etiqueta;
     this.intrucciones_3d = new Array<instruccion_3d>();
+    this.etiqueta = etiqueta;
   }
 
   getText(){
