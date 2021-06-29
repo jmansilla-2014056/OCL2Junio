@@ -7,6 +7,7 @@ export default class variable implements expresion{
     public xpath:Array<any>;
     public linea:number;
     public columna: number;
+    public valor: any = null;
 
     constructor(id,xpath,linea,columna){
         this.id = id;

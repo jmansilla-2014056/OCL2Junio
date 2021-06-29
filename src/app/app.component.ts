@@ -23,6 +23,7 @@ import { nodo3d } from 'src/clases/c3d/nodo3d';
 import { simbolTabla } from 'src/clases/ast/simbolTabla';
 import select from 'src/clases/expresiones/select';
 import { arreglo } from 'src/clases/arreglo';
+import ast_xquery from 'src/clases/ast/ast_xquery';
 
 @Component({
   selector: 'app-root',
@@ -50,6 +51,7 @@ export class AppComponent {
   n_node: number
   c3d: nodo3d
   ts: Array<simbolTabla>
+  tsx: Array<simbolTabla>
   result: ast_xpath
   heap: Array<arreglo>
   stack: Array<arreglo>
@@ -244,6 +246,11 @@ export class AppComponent {
     let simbolitos = new tablaSimbolos()
     simbolitos.getTableSimbolos(this.entornoGlobal.tabla["xml"].valor)
     this.ts = simbolitos.simbolos
+    if (this.tsx !== undefined && this.ts !== undefined){
+      this.ts = this.ts.concat(this.tsx);
+    }else if(this.tsx !== undefined){
+      this.ts = this.tsx;
+    }
     /*let simbolitos = new tablaSimbolos().getTableSimbolos(this.entornoGlobal);
     document.getElementById("TitleSimbolTable").innerHTML = "Tabla de Simbolos"
     document.getElementById("reportS").innerHTML = simbolitos;*/
@@ -335,14 +342,26 @@ export class AppComponent {
       try {
         let entrada = this.consola
         let result_parser = xquery.parse(entrada);
+        let result = result_parser['xquery'];
         let reportG = result_parser['reportG'];
-        console.log(result_parser);
+        
+        if (Array.isArray(result[0])){
+          result = result[0]
+        }
+
+        let entXquery = new ast_xquery;
+        entXquery.creaEntornoXquery(this.entornoGlobal,result);
+        entXquery.getSimbolitos(this.entornoGlobal.tabla["xquery"].valor)
+        this.tsx = entXquery.simbolos;
+
         /* reporte gramatical */
         this.tablaReportGramatical(new gramatical("", "").getReporteG(reportG), "Reporte Gramatical Xquery", "reportGQ", "TitleReportGramaticalQ");
+        
         /* Fin analisis */
         alert("Analisis finalizado con exito!");
       } catch (error) {
         alert("Error, no ha sido posible recuperarse!");
+        console.log(error);
       }
     } else {
       alert("Error, Ingrese consulta a ejecutar!");

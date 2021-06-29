@@ -183,7 +183,7 @@ case 15:
 break;
 case 16:
 
-                    this.$ = new let_query.default(new variable_query.default('',[],_$[$0].first_line,_$[$0].first_column),$$[$01],_$[$0].first_line,_$[$0].first_column);
+                    this.$ = new let_query.default(new variable_query.default('',[],_$[$0].first_line,_$[$0].first_column),$$[$0],_$[$0].first_line,_$[$0].first_column);
                     reportG.push(new gramatic.default("range_let : e","{ range_let.val = new let_query.default(new variable_query.default('',[]),e.val); }"));
                 
 break;
@@ -222,61 +222,61 @@ case 21:
 break;
 case 22:
 
-                    this.$ = [new for_query.default($$[$0-2],'',new variable_query.default('',$$[$0],_$[$0-2].first_line,_$[$0-2].first_column),false,[],_$[$0-2].first_line,_$[$0-2].first_column)];
+                    this.$ = [new for_query.default(new variable_query.default($$[$0-2],[],_$[$0-2].first_line,_$[$0-2].first_column),'',new variable_query.default('',$$[$0],_$[$0-2].first_line,_$[$0-2].first_column),false,[],_$[$0-2].first_line,_$[$0-2].first_column)];
                     reportG.push(new gramatic.default("range_for : VAR IN opcion_xpath","{ range_for.val = new for_query.default(VAR.valLex,'',new variable_query.default('',opcion_xpath.val),false); }")); 
                 
 break;
 case 23:
 
-                    this.$ = [new for_query.default($$[$0-2],'',new variable_query.default($$[$0],[],_$[$0-2].first_line,_$[$0-2].first_column),false,[],_$[$0-2].first_line,_$[$0-2].first_column)];
+                    this.$ = [new for_query.default(new variable_query.default($$[$0-2],[],_$[$0-2].first_line,_$[$0-2].first_column),'',new variable_query.default($$[$0],[],_$[$0-2].first_line,_$[$0-2].first_column),false,[],_$[$0-2].first_line,_$[$0-2].first_column)];
                     reportG.push(new gramatic.default("range_for : VAR IN VAR","{ range_for.val = new for_query.default(VAR.valLex,'',new variable_query.default(VAR.valLex,[]),false); }")); 
                 
 break;
 case 24:
 
-                    this.$ = [new for_query.default($$[$0-3],'',new variable_query.default($$[$0-1],$$[$0],_$[$0-3].first_line,_$[$0-3].first_column),false,[],_$[$0-3].first_line,_$[$0-3].first_column)];
+                    this.$ = [new for_query.default(new variable_query.default($$[$0-3],[],_$[$0-3].first_line,_$[$0-3].first_column),'',new variable_query.default($$[$0-1],$$[$0],_$[$0-3].first_line,_$[$0-3].first_column),false,[],_$[$0-3].first_line,_$[$0-3].first_column)];
                     reportG.push(new gramatic.default("range_for : VAR IN VAR opcion_xpath","{ range_for.val = new for_query.default(VAR.valLex,'',new variable_query.default(VAR.valLex,opcion_xpath.val),false); }")); 
                 
 break;
 case 25:
 
-                    this.$ = [new for_query.default($$[$0-4],$$[$0-2],new variable_query.default('',$$[$0],_$[$0-4].first_line,_$[$0-4].first_column),true,[],_$[$0-4].first_line,_$[$0-4].first_column)];
+                    this.$ = [new for_query.default(new variable_query.default($$[$0-4],[],_$[$0-4].first_line,_$[$0-4].first_column),$$[$0-2],new variable_query.default('',$$[$0],_$[$0-4].first_line,_$[$0-4].first_column),true,[],_$[$0-4].first_line,_$[$0-4].first_column)];
                     reportG.push(new gramatic.default("range_for : VAR AT VAR IN opcion_xpath","{ range_for.val = new for_query.default(VAR.valLex,VAR.valLex,new variable_query.default('',opcion_xpath.val),true); }"));
                 
 break;
 case 26:
 
-                    this.$ = [new for_query.default($$[$0-4],$$[$0-2],new variable_query.default($$[$0],[],_$[$0-4].first_line,_$[$0-4].first_column),true,[],_$[$0-4].first_line,_$[$0-4].first_column)];
+                    this.$ = [new for_query.default(new variable_query.default($$[$0-4],[],_$[$0-4].first_line,_$[$0-4].first_column),$$[$0-2],new variable_query.default($$[$0],[],_$[$0-4].first_line,_$[$0-4].first_column),true,[],_$[$0-4].first_line,_$[$0-4].first_column)];
                     reportG.push(new gramatic.default("range_for : VAR AT VAR IN VAR","{ range_for.val = new for_query.default(VAR.valLex,VAR.valLex,new variable_query.default(VAR.val,[]),true); }"));
                 
 break;
 case 27:
 
-                    this.$ = [new for_query.default($$[$0-5],$$[$0-3],new variable_query.default($$[$0-1],$$[$0],_$[$0-5].first_line,_$[$0-5].first_column),true,[],_$[$0-5].first_line,_$[$0-5].first_column)];
+                    this.$ = [new for_query.default(new variable_query.default($$[$0-5],[],_$[$0-5].first_line,_$[$0-5].first_column),$$[$0-3],new variable_query.default($$[$0-1],$$[$0],_$[$0-5].first_line,_$[$0-5].first_column),true,[],_$[$0-5].first_line,_$[$0-5].first_column)];
                     reportG.push(new gramatic.default("range_for : VAR AT VAR IN VAR opcion_xpath","{ range_for.val = new for_query.default(VAR.valLex,VAR.valLex,new variable_query.default(VAR.val,opcion_xpath.val),true); }"));
                 
 break;
 case 28:
 
-                    this.$ = [new for_query.default($$[$0-6],'',[",",$$[$0-3],$$[$0-1]],false,[],_$[$0-6].first_line,_$[$0-6].first_column)];
+                    this.$ = [new for_query.default(new variable_query.default($$[$0-6],[],_$[$0-6].first_line,_$[$0-6].first_column),'',[",",$$[$0-3],$$[$0-1]],false,[],_$[$0-6].first_line,_$[$0-6].first_column)];
                     reportG.push(new gramatic.default("range_for : VAR IN PARA e COMA e PARC","{ range_for.val = new for_query.default(VAR.valLex,'',[',',e.val,e.val],false); }"));
                 
 break;
 case 29:
 
-                    this.$ = [new for_query.default($$[$0-6],'',["to",$$[$0-3],$$[$0-1]],false,[],_$[$0-6].first_line,_$[$0-6].first_column)];
+                    this.$ = [new for_query.default(new variable_query.default($$[$0-6],[],_$[$0-6].first_line,_$[$0-6].first_column),'',["to",$$[$0-3],$$[$0-1]],false,[],_$[$0-6].first_line,_$[$0-6].first_column)];
                     reportG.push(new gramatic.default("range_for : VAR IN PARA e TO e PARC","{ range_for.val = new for_query.default(VAR.valLex,'',['to',e.val,e.val],false); }"));
                 
 break;
 case 30:
 
-                    this.$ = [new for_query.default($$[$0-8],$$[$0-6],[",",$$[$0-3],$$[$0-1]],true,[],_$[$0-8].first_line,_$[$0-8].first_column)];
+                    this.$ = [new for_query.default(new variable_query.default($$[$0-8],[],_$[$0-8].first_line,_$[$0-8].first_column),$$[$0-6],[",",$$[$0-3],$$[$0-1]],true,[],_$[$0-8].first_line,_$[$0-8].first_column)];
                     reportG.push(new gramatic.default("range_for : VAR AT VAR IN PARA e COMA e PARC","{ range_for.val = new for_query.default(VAR.valLex,VAR.valLex,[',',e.val,e.val],true); }"));
                 
 break;
 case 31:
 
-                    this.$ = [new for_query.default($$[$0-8],$$[$0-6],["to",$$[$0-3],$$[$0-1]],true,[],_$[$0-8].first_line,_$[$0-8].first_column)];
+                    this.$ = [new for_query.default(new variable_query.default($$[$0-8],[],_$[$0-8].first_line,_$[$0-8].first_column),$$[$0-6],["to",$$[$0-3],$$[$0-1]],true,[],_$[$0-8].first_line,_$[$0-8].first_column)];
                     reportG.push(new gramatic.default("range_for : VAR AT VAR IN PARA e TO e PARC","{ range_for.val = new for_query.default(VAR.valLex,VAR.valLex,['to',e.val,e.val],true); }"));
                 
 break;
@@ -361,13 +361,13 @@ case 44:
 break;
 case 45:
 
-                    this.$ = new subReturn_query.default(null,null,new nativa_query.default($$[$0-3],new variable_query.default($$[$0-2],[],_$[$0-3].first_line,_$[$0-3].first_column),_$[$0-3].first_line,_$[$0-3].first_column),null);
+                    this.$ = new subReturn_query.default(null,null,new nativa_query.default($$[$0-3],new variable_query.default($$[$0-1],[],_$[$0-3].first_line,_$[$0-3].first_column),_$[$0-3].first_line,_$[$0-3].first_column),null);
                     reportG.push(new gramatic.default("range_return : DATA PARA VAR PARC","{ range_return.val = subReturn_query.default(null,null,new nativa_query.default(DATA.valLex,new variable_query.default(VAR.valLex,[])),null); }"));
                 
 break;
 case 46:
 
-                    this.$ = new subReturn_query.default(new variable_query.default($$[$0-2],[],_$[$0-3].first_line,_$[$0-3].first_column),$$[$0-3],null,null);
+                    this.$ = new subReturn_query.default(new variable_query.default($$[$0-1],[],_$[$0-3].first_line,_$[$0-3].first_column),$$[$0-3],null,null);
                     reportG.push(new gramatic.default("range_return : e LLAVEA VAR LLAVEC","{ range_return.val = subReturn_query.default(new variable_query.default(VAR.valLex,[]),e.val,null,null); }"));
                 
 break;
@@ -457,7 +457,7 @@ case 60:
 break;
 case 61:
 
-                    this.$ = [[$$[$0-4],$$[$0]]];
+                    this.$ = [[new variable_query.default($$[$0-4],[],_$[$0-4].first_line,_$[$0-4].first_column),$$[$0]]];
                     reportG.push(new gramatic.default("range_function : VAR AS XS DPTN types","{ range_function.val = [[VAR.valLex,types.val]]; }"));  
                 
 break;

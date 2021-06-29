@@ -8,5 +8,7 @@ export enum tipo{
     ATRIBUTE,
     VALOR,
     ARRAY,
-    N_ETIQUETAS
+    N_ETIQUETAS,
+    FUNCTION,
+    PARAMETRO
 }

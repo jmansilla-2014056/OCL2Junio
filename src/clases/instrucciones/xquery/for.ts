@@ -1,9 +1,10 @@
 import { ast } from "src/clases/ast/ast";
 import { entorno } from "src/clases/ast/entorno";
 import { instruccion } from "src/clases/interfaces/instruccion";
+import variable from "./variable";
 
 export default class FOR implements instruccion{
-    public id:string;
+    public id:variable;
     public idat:string;
     public condicion:any
     public at:boolean;
