@@ -117,6 +117,10 @@ export default class ast_xquery{
 
     /* Ejecuta instrucciones */
     ejecutar(entorno:entorno,arbol:ast){
-        
+        let resultado:any = "";
+        for (let i = 0; i < this.listXquery.length; i++){
+            resultado = this.listXquery[i].ejecutar(entorno,arbol);
+        }
+        return resultado;
     }
 }
