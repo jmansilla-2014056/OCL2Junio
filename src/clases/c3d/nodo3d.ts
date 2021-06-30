@@ -152,6 +152,7 @@ void main() {
         this.matchSelf()
         this.matchFollowing()
         this.matchPreceding()
+        this.expInt()
         /*this.printResult()
         this.addPrint()*/
         this.StrCode()
@@ -967,5 +968,30 @@ void main() {
         this.funciones += `\tLfin:\t\t//\n`
         //fin
         this.funciones += `\treturn;\n}\n`
+    }
+    expInt(){
+        this.funciones += `void expInt(){\n`
+        let slc_ref = { "id": this.generateTemp(), "val": -1 }
+        let num_ref = { "id": this.generateTemp(), "val": -1 }
+        let slc_heap = { "id": this.generateTemp(), "val": -1 }
+        let ent = { "id": this.generateTemp(), "val": -1 }
+        let num = { "id": this.generateTemp(), "val": -1 }
+        let i = { "id": this.generateTemp(), "val": 0 }
+        this.funciones += `\tt${slc_ref.id} = S + 1;\n`
+        this.funciones += `\tt${num_ref.id} = S + 2;\n`
+        this.funciones += `\tt${slc_heap.id} = stack[(int)t${slc_ref.id}];\n`
+        this.funciones += `\tt${num.id} = stack[(int)t${num_ref.id}];\t\t//valor index\n`
+        this.funciones += `\tt${ent.id} = heap[(int)t${slc_heap.id}];\t\t//posicion slc\n`
+        this.funciones += `\tt${i.id} = 0;\n`
+        this.funciones += `\tLindex:\n`
+        this.funciones += `\tif (t${i.id} == t${num.id}) goto Lmatch;\n`
+        this.funciones += `\tt${i.id} = t${i.id} + 1;\n`
+        this.funciones += `\tt${slc_heap.id} = t${slc_heap.id} + 1;\n`
+        this.funciones += `\tt${ent.id} = heap[(int)t${slc_heap.id}];\n`
+        this.funciones += `\tgoto Lindex;\n`
+        this.funciones += `\tLmatch:\n`
+        this.funciones += `\theap[(int)H] = t${ent.id};\n`
+        this.funciones += `\treturn;\n`
+        this.funciones += `\n}\n`
     }
 }

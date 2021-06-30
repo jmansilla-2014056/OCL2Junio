@@ -1,5 +1,6 @@
 import { ast } from "src/clases/ast/ast";
 import { entorno } from "src/clases/ast/entorno";
+import { nodo3d } from "src/clases/c3d/nodo3d";
 import { expresion } from "src/clases/interfaces/expresion";
 
 export default class variable implements expresion{
@@ -14,6 +15,9 @@ export default class variable implements expresion{
         this.xpath = xpath;
         this.linea = linea;
         this.columna = columna;
+    }
+    traducir(ent: entorno[], c3d: nodo3d) {
+        throw new Error("Method not implemented.");
     }
     getTipo(ent: entorno, arbol: ast) {
         throw new Error("Method not implemented.");

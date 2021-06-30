@@ -242,7 +242,7 @@ export default class select implements expresion {
         }
     }
     traducir(ent: Array<entorno>, c3d: nodo3d) {
-        c3d.main += `\t/* inicia select */\n`
+        c3d.main += `\t/* ini select */\n`
         //posiciones parametros tipe
         let ret = { "id": c3d.generateTemp(), "val": c3d.s + c3d.last_stack }
         c3d.main += `\tt${ret.id} = S + ${c3d.last_stack};\t\t//posicion return\n`
@@ -265,17 +265,17 @@ export default class select implements expresion {
         c3d.main += `\tH = H + 1;\n`
         //se guarda la referencia al heap en el stack
         c3d.stack[pos.val] = ini.val
-        c3d.main += `\tstack[(int)t${pos.id}] = t${ini.id};\t\t//se guarda la referencia al heap en el stack\n`
+        c3d.main += `\tstack[(int)t${pos.id}] = t${ini.id};\t\t//se guarda la referencia al heap en el stack: stack[${pos.val}] = ${ini.val}\n`
         c3d.temp[ini.id] = ini.val
         c3d.temp[pos.id] = pos.val
         c3d.temp[ret.id] = ret.val
         //end cadena
         //c3d.addStr(this.id, pos.val)
         c3d.stack[ret.val] = c3d.h
-        c3d.main += `\tstack[(int)t${ret.id}] = H;\t\t//posicion del retorno\n`
+        c3d.main += `\tstack[(int)t${ret.id}] = H;\t\t//posicion del retorno stack[${ret.val}]\n`
         //traduccion select
         if (this.atr == false) {//     /nombre | /*
-            this.lookNodes3D(ent, c3d, pos.id)
+            this.lookNodes3D(ent, c3d, ret.id)
         } else if (this.atr == true) {//     /@atr | /@*
             this.lookParams3D(ent, c3d, ret.id)
         } else {
@@ -299,7 +299,7 @@ export default class select implements expresion {
             c3d.main += `\tt${pos.id} = t${ret.id} + 2;\t\t//La siguiente posicion id xml\n`
             //se guarda la posicion (heap) del id
             c3d.stack[pos.val] = simbol.stack + 1
-            c3d.main += `\tstack[(int)t${pos.id}] = ${simbol.stack} + 1;\t\t//guarda stack del id xml\n`
+            c3d.main += `\tstack[(int)t${pos.id}] = ${simbol.stack} + 1;\t\t//guarda stack del id xml: stack[${pos.val}] = ${simbol.stack} + 1\n`
             c3d.temp[pos.id] = pos.val
             //se cambia de entorno
             c3d.s = c3d.s + c3d.last_stack
@@ -341,14 +341,14 @@ export default class select implements expresion {
                     c3d.main += `\tt${pos.id} = t${ret.id} + 2;\t\t//La siguiente posicion param xml\n`
                     //se guarda la posicion (heap) del param
                     c3d.stack[pos.val] = simbol.stack
-                    c3d.main += `\tstack[(int)t${pos.id}] = ${simbol.stack};\t\t//guarda stack del param xml\n`
+                    c3d.main += `\tstack[(int)t${pos.id}] = ${simbol.stack};\t\t//guarda stack del param xml: stack[${pos.val}] = ${simbol.stack} \n`
                     //la siguiente posicion disponible id xml
                     //pos.val = pos.val + 1
                     pos.val += 1
                     c3d.main += `\tt${pos.id} = t${pos.id} + 3;\t\t//La siguiente posicion id xml\n`
                     //se guarda la posicion (heap) del param
                     c3d.stack[pos.val] = simbol.stack
-                    c3d.main += `\tstack[(int)t${pos.id}] = ${id.stack};\t\t//guarda stack del id xml\n`
+                    c3d.main += `\tstack[(int)t${pos.id}] = ${id.stack};\t\t//guarda stack del id xml: stack[${pos.val}] = ${id.stack} \n`
                     c3d.temp[pos.id] = pos.val
 
                     //se cambia de entorno

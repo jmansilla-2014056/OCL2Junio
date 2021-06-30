@@ -46,7 +46,7 @@ export class AppComponent {
   entornoGlobal: entorno = new entorno(null)
   nombre: string = "name_ini"
   contenido: string = "cont_ini"
-  consola: string = '/mundo/continente/pais/poblacion/@year'
+  consola: string = '/mundo/continente/pais/poblacion[2]'
   salida: string = ""
   n_node: number
   c3d: nodo3d
@@ -470,9 +470,6 @@ export class AppComponent {
     for (let key in this.c3d.stack) {
       this.stack.push(new arreglo(key, this.c3d.stack[key]))
     }
-  }
-  printTagIni() {
-    //
   }
 
 }

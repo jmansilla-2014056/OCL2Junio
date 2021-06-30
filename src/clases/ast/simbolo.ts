@@ -1,3 +1,4 @@
+import { nodo3d } from "../c3d/nodo3d";
 import { expresion } from "../interfaces/expresion";
 import { ast } from "./ast";
 import { entorno } from "./entorno";
@@ -17,6 +18,9 @@ export class simbolo implements expresion{
         this.linea = linea
         this.columna = columna
         this.stack = null
+    }
+    traducir(ent: entorno[], c3d: nodo3d) {
+        throw new Error("Method not implemented.");
     }
     getTipo(ent: entorno, arbol: ast) {
         return this.tipo

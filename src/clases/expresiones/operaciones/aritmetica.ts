@@ -1,6 +1,7 @@
 import { ast } from "src/clases/ast/ast";
 import { entorno } from "src/clases/ast/entorno";
 import { tipo } from "src/clases/ast/tipo";
+import { nodo3d } from "src/clases/c3d/nodo3d";
 import { expresion } from "src/clases/interfaces/expresion";
 import { InsertarError } from "src/reports/ReportController";
 
@@ -20,6 +21,9 @@ export default class aritmetica implements expresion {
         this.linea = linea
         this.columna = columna
         this.expU = expU
+    }
+    traducir(ent: entorno[], c3d: nodo3d) {
+        throw new Error("Method not implemented.");
     }
     getTipo(ent: entorno, arbol: ast) {
         return this.tipo_

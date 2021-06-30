@@ -364,10 +364,16 @@ export default class axes implements expresion {
     getSelf(ent, arbol: ast) {
         if (ent instanceof Array) {
             for (let n_ent of ent) {
-                this.matches.push(n_ent)
+                let simbol: simbolo = n_ent.tabla["id"]
+                if (simbol.valor == this.id) {
+                    this.matches.push(n_ent)
+                }
             }
         } else {
-            this.matches.push(ent)
+            let simbol: simbolo = ent.tabla["id"]
+            if (simbol.valor == this.id) {
+                this.matches.push(ent)
+            }
         }
     }
     getFollowing(ent, arbol: ast, follow: boolean) {
@@ -586,15 +592,12 @@ export default class axes implements expresion {
         c3d.main += `\t/* ini axe atr */\n`
         for (let n_ent of ent) {
             let id: simbolo = n_ent.tabla["id"]
-            console.log("NODO " + id.id)
             for (let key in n_ent.tabla) {
                 if (key.startsWith("atr")) {
                     //retorno
                     let ret = { "id": pos_param, "val": c3d.temp[pos_param] }
                     //seleccion del atributo
                     let simbol: simbolo = n_ent.tabla[key]
-                    console.log("ATR ")
-                    console.log(simbol)
                     let pos = { "id": c3d.generateTemp(), "val": ret.val + 2 }
                     //la siguiente posicion disponible param xml
                     c3d.main += `\tt${pos.id} = t${ret.id} + 2;\t\t//La siguiente posicion param xml\n`
@@ -675,35 +678,30 @@ export default class axes implements expresion {
     self3D(ent: Array<entorno>, c3d: nodo3d, pos_param: number) {
         c3d.main += `\t/* ini axe self */\n`
         for (let n_ent of ent) {
-            for (let key in n_ent.tabla) {
-                if (key.startsWith("hijo")) {
-                    let hijo: entorno = n_ent.tabla[key].valor
-                    let simbol: simbolo = hijo.tabla["id"]
-                    let ret = { "id": pos_param, "val": c3d.temp[pos_param] }
-                    //la siguiente posicion disponible id xml
-                    let pos = { "id": c3d.generateTemp(), "val": ret.val + 2 }
-                    c3d.main += `\tt${pos.id} = t${ret.id} + 2;\t\t//La siguiente posicion id xml\n`
-                    //se guarda la posicion (heap) del id
-                    c3d.stack[pos.val] = simbol.stack + 1
-                    c3d.main += `\tstack[(int)t${pos.id}] = ${simbol.stack} + 1;\t\t//guarda stack del id xml\n`
-                    c3d.temp[pos.id] = pos.val
-                    //se cambia de entorno
-                    c3d.s = c3d.s + c3d.last_stack
-                    c3d.main += `\tS = S + ${c3d.last_stack};\t\t//Establece posicion return\n`
-                    //llamada()
-                    c3d.main += `\tmatchSelf();\n`
-                    c3d.s = c3d.s - c3d.last_stack
-                    c3d.main += `\tS = S - ${c3d.last_stack};\t\t//Establece posicion return\n`
-                    if (this.id == "*") {
-                        //encuentra valor
-                        c3d.heap[c3d.h] = simbol.stack
-                        c3d.h += 1
-                    } else if (simbol.id == this.id) {
-                        //encuentra valor
-                        c3d.heap[c3d.h] = simbol.stack
-                        c3d.h += 1
-                    }
-                }
+            let simbol: simbolo = n_ent.tabla["id"]
+            let ret = { "id": pos_param, "val": c3d.temp[pos_param] }
+            //la siguiente posicion disponible id xml
+            let pos = { "id": c3d.generateTemp(), "val": ret.val + 2 }
+            c3d.main += `\tt${pos.id} = t${ret.id} + 2;\t\t//La siguiente posicion id xml\n`
+            //se guarda la posicion (heap) del id
+            c3d.stack[pos.val] = simbol.stack + 1
+            c3d.main += `\tstack[(int)t${pos.id}] = ${simbol.stack} + 1;\t\t//guarda stack del id xml\n`
+            c3d.temp[pos.id] = pos.val
+            //se cambia de entorno
+            c3d.s = c3d.s + c3d.last_stack
+            c3d.main += `\tS = S + ${c3d.last_stack};\t\t//Establece posicion return\n`
+            //llamada()
+            c3d.main += `\tmatchSelf();\n`
+            c3d.s = c3d.s - c3d.last_stack
+            c3d.main += `\tS = S - ${c3d.last_stack};\t\t//Establece posicion return\n`
+            if (this.id == "*") {
+                //encuentra valor
+                c3d.heap[c3d.h] = simbol.stack
+                c3d.h += 1
+            } else if (simbol.valor == this.id) {
+                //encuentra valor
+                c3d.heap[c3d.h] = simbol.stack
+                c3d.h += 1
             }
         }
         c3d.main += `\t/* fin axe self */\n`
@@ -711,35 +709,30 @@ export default class axes implements expresion {
     following3D(ent: Array<entorno>, c3d: nodo3d, pos_param: number) {
         c3d.main += `\t/* ini axe following */\n`
         for (let n_ent of ent) {
-            for (let key in n_ent.tabla) {
-                if (key.startsWith("hijo")) {
-                    let hijo: entorno = n_ent.tabla[key].valor
-                    let simbol: simbolo = hijo.tabla["id"]
-                    let ret = { "id": pos_param, "val": c3d.temp[pos_param] }
-                    //la siguiente posicion disponible id xml
-                    let pos = { "id": c3d.generateTemp(), "val": ret.val + 2 }
-                    c3d.main += `\tt${pos.id} = t${ret.id} + 2;\t\t//La siguiente posicion id xml\n`
-                    //se guarda la posicion (heap) del id
-                    c3d.stack[pos.val] = simbol.stack + 1
-                    c3d.main += `\tstack[(int)t${pos.id}] = ${simbol.stack} + 1;\t\t//guarda stack del id xml\n`
-                    c3d.temp[pos.id] = pos.val
-                    //se cambia de entorno
-                    c3d.s = c3d.s + c3d.last_stack
-                    c3d.main += `\tS = S + ${c3d.last_stack};\t\t//Establece posicion return\n`
-                    //llamada()
-                    c3d.main += `\tmatchFollowing();\n`
-                    c3d.s = c3d.s - c3d.last_stack
-                    c3d.main += `\tS = S - ${c3d.last_stack};\t\t//Establece posicion return\n`
-                    if (this.id == "*") {
-                        //encuentra valor
-                        c3d.heap[c3d.h] = simbol.stack
-                        c3d.h += 1
-                    } else if (simbol.id == this.id) {
-                        //encuentra valor
-                        c3d.heap[c3d.h] = simbol.stack
-                        c3d.h += 1
-                    }
-                }
+            let simbol: simbolo = n_ent.tabla["id"]
+            let ret = { "id": pos_param, "val": c3d.temp[pos_param] }
+            //la siguiente posicion disponible id xml
+            let pos = { "id": c3d.generateTemp(), "val": ret.val + 2 }
+            c3d.main += `\tt${pos.id} = t${ret.id} + 2;\t\t//La siguiente posicion id xml\n`
+            //se guarda la posicion (heap) del id
+            c3d.stack[pos.val] = simbol.stack + 1
+            c3d.main += `\tstack[(int)t${pos.id}] = ${simbol.stack} + 1;\t\t//guarda stack del id xml\n`
+            c3d.temp[pos.id] = pos.val
+            //se cambia de entorno
+            c3d.s = c3d.s + c3d.last_stack
+            c3d.main += `\tS = S + ${c3d.last_stack};\t\t//Establece posicion return\n`
+            //llamada()
+            c3d.main += `\tmatchFollowing();\n`
+            c3d.s = c3d.s - c3d.last_stack
+            c3d.main += `\tS = S - ${c3d.last_stack};\t\t//Establece posicion return\n`
+            if (this.id == "*") {
+                //encuentra valor
+                c3d.heap[c3d.h] = simbol.stack
+                c3d.h += 1
+            } else if (simbol.valor == this.id) {
+                //encuentra valor
+                c3d.heap[c3d.h] = simbol.stack
+                c3d.h += 1
             }
         }
         c3d.main += `\t/* fin axe following */\n`
@@ -747,35 +740,30 @@ export default class axes implements expresion {
     preciding3D(ent: Array<entorno>, c3d: nodo3d, pos_param: number) {
         c3d.main += `\t/* ini axe preceding */\n`
         for (let n_ent of ent) {
-            for (let key in n_ent.tabla) {
-                if (key.startsWith("hijo")) {
-                    let hijo: entorno = n_ent.tabla[key].valor
-                    let simbol: simbolo = hijo.tabla["id"]
-                    let ret = { "id": pos_param, "val": c3d.temp[pos_param] }
-                    //la siguiente posicion disponible id xml
-                    let pos = { "id": c3d.generateTemp(), "val": ret.val + 2 }
-                    c3d.main += `\tt${pos.id} = t${ret.id} + 2;\t\t//La siguiente posicion id xml\n`
-                    //se guarda la posicion (heap) del id
-                    c3d.stack[pos.val] = simbol.stack + 1
-                    c3d.main += `\tstack[(int)t${pos.id}] = ${simbol.stack} + 1;\t\t//guarda stack del id xml\n`
-                    c3d.temp[pos.id] = pos.val
-                    //se cambia de entorno
-                    c3d.s = c3d.s + c3d.last_stack
-                    c3d.main += `\tS = S + ${c3d.last_stack};\t\t//Establece posicion return\n`
-                    //llamada()
-                    c3d.main += `\tmatchPreceding();\n`
-                    c3d.s = c3d.s - c3d.last_stack
-                    c3d.main += `\tS = S - ${c3d.last_stack};\t\t//Establece posicion return\n`
-                    if (this.id == "*") {
-                        //encuentra valor
-                        c3d.heap[c3d.h] = simbol.stack
-                        c3d.h += 1
-                    } else if (simbol.id == this.id) {
-                        //encuentra valor
-                        c3d.heap[c3d.h] = simbol.stack
-                        c3d.h += 1
-                    }
-                }
+            let simbol: simbolo = n_ent.tabla["id"]
+            let ret = { "id": pos_param, "val": c3d.temp[pos_param] }
+            //la siguiente posicion disponible id xml
+            let pos = { "id": c3d.generateTemp(), "val": ret.val + 2 }
+            c3d.main += `\tt${pos.id} = t${ret.id} + 2;\t\t//La siguiente posicion id xml\n`
+            //se guarda la posicion (heap) del id
+            c3d.stack[pos.val] = simbol.stack + 1
+            c3d.main += `\tstack[(int)t${pos.id}] = ${simbol.stack} + 1;\t\t//guarda stack del id xml\n`
+            c3d.temp[pos.id] = pos.val
+            //se cambia de entorno
+            c3d.s = c3d.s + c3d.last_stack
+            c3d.main += `\tS = S + ${c3d.last_stack};\t\t//Establece posicion return\n`
+            //llamada()
+            c3d.main += `\tmatchPreceding();\n`
+            c3d.s = c3d.s - c3d.last_stack
+            c3d.main += `\tS = S - ${c3d.last_stack};\t\t//Establece posicion return\n`
+            if (this.id == "*") {
+                //encuentra valor
+                c3d.heap[c3d.h] = simbol.stack
+                c3d.h += 1
+            } else if (simbol.valor == this.id) {
+                //encuentra valor
+                c3d.heap[c3d.h] = simbol.stack
+                c3d.h += 1
             }
         }
         c3d.main += `\t/* fin axe preceding */\n`
