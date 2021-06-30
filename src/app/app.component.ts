@@ -354,6 +354,12 @@ export class AppComponent {
         entXquery.getSimbolitos(this.entornoGlobal.tabla["xquery"].valor)
         this.tsx = entXquery.simbolos;
 
+        /* Ejecuta xquery */
+        let result_str
+        let arbol = new ast();
+        result_str = entXquery.ejecutar(this.entornoGlobal,arbol);
+        this.salida = result_str
+
         /* reporte gramatical */
         this.tablaReportGramatical(new gramatical("", "").getReporteG(reportG), "Reporte Gramatical Xquery", "reportGQ", "TitleReportGramaticalQ");
         
