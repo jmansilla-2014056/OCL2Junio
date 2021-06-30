@@ -46,7 +46,7 @@ export class AppComponent {
   entornoGlobal: entorno = new entorno(null)
   nombre: string = "name_ini"
   contenido: string = "cont_ini"
-  consola: string = '/mundo/continente/pais/poblacion[2]'
+  consola: string = '/mundo/continente/pais/poblacion[1+1]'
   salida: string = ""
   n_node: number
   c3d: nodo3d
@@ -456,7 +456,7 @@ export class AppComponent {
       //entorno final
       console.log("entorno final")
       console.log(entorno_temp)
-      this.c3d.printEntorno(entorno_temp)
+      //this.c3d.printEntorno(entorno_temp)
     }
   }
   arrHeap() {

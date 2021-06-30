@@ -22,9 +22,6 @@ export default class aritmetica implements expresion {
         this.columna = columna
         this.expU = expU
     }
-    traducir(ent: entorno[], c3d: nodo3d) {
-        throw new Error("Method not implemented.");
-    }
     getTipo(ent: entorno, arbol: ast) {
         return this.tipo_
     }
@@ -48,7 +45,7 @@ export default class aritmetica implements expresion {
                         this.tipo_ = tipo.STRING
                         return val1 + val2
                     } else {
-                        InsertarError("Semantico",`Error: ${val1} + ${val2} no es valido`,"xpath",this.linea,this.columna)
+                        InsertarError("Semantico", `Error: ${val1} + ${val2} no es valido`, "xpath", this.linea, this.columna)
                     }
                 } else if (typeof val1 === 'string') {
                     if (typeof val2 === 'number') {
@@ -58,7 +55,7 @@ export default class aritmetica implements expresion {
                         this.tipo_ = tipo.STRING
                         return val1 + val2
                     } else {
-                        InsertarError("Semantico",`Error: ${val1} + ${val2} no es valido`,"xpath",this.linea,this.columna)
+                        InsertarError("Semantico", `Error: ${val1} + ${val2} no es valido`, "xpath", this.linea, this.columna)
                     }
                 } else {
                     //Error
@@ -69,7 +66,7 @@ export default class aritmetica implements expresion {
                     this.tipo_ = tipo.DOUBLE
                     return val1 - val2
                 } else {
-                    InsertarError("Semantico",`Error: ${val1} - ${val2} no es valido`,"xpath",this.linea,this.columna)
+                    InsertarError("Semantico", `Error: ${val1} - ${val2} no es valido`, "xpath", this.linea, this.columna)
                 }
                 break;
             case "*":
@@ -77,7 +74,7 @@ export default class aritmetica implements expresion {
                     this.tipo_ = tipo.DOUBLE
                     return val1 * val2
                 } else {
-                    InsertarError("Semantico",`Error: ${val1} * ${val2} no es valido`,"xpath",this.linea,this.columna)
+                    InsertarError("Semantico", `Error: ${val1} * ${val2} no es valido`, "xpath", this.linea, this.columna)
                 }
                 break;
             case "/":
@@ -85,7 +82,7 @@ export default class aritmetica implements expresion {
                     this.tipo_ = tipo.DOUBLE
                     return val1 / val2
                 } else {
-                    InsertarError("Semantico",`Error: ${val1} / ${val2} no es valido`,"xpath",this.linea,this.columna)
+                    InsertarError("Semantico", `Error: ${val1} / ${val2} no es valido`, "xpath", this.linea, this.columna)
                 }
                 break;
             case "%":
@@ -93,7 +90,7 @@ export default class aritmetica implements expresion {
                     this.tipo_ = tipo.INT
                     return val1 % val2
                 } else {
-                    InsertarError("Semantico",`Error: ${val1} % ${val2} no es valido`,"xpath",this.linea,this.columna)
+                    InsertarError("Semantico", `Error: ${val1} % ${val2} no es valido`, "xpath", this.linea, this.columna)
                 }
                 break;
             case "UNARIO":
@@ -101,7 +98,7 @@ export default class aritmetica implements expresion {
                     this.tipo_ = tipo.DOUBLE
                     return -valU
                 } else {
-                    InsertarError("Semantico",`Error: - ${valU} no es valido`,"xpath",this.linea,this.columna)
+                    InsertarError("Semantico", `Error: - ${valU} no es valido`, "xpath", this.linea, this.columna)
                 }
                 break;
             default:
@@ -109,5 +106,43 @@ export default class aritmetica implements expresion {
         }
         return null
     }
-
+    traducir(ent: entorno[], c3d: nodo3d) {
+        console.log("ARITMETICA")
+        console.log(this.operador)
+        let result = { "id": -1, "val": -1 }
+        let t1 = this.e1.traducir(ent, c3d)
+        let t2 = this.e2.traducir(ent, c3d)
+        let v1 = { "id": t1, "val": c3d.temp[t1.id] }
+        let v2 = { "id": t2, "val": c3d.temp[t2.id] }
+        switch (this.operador) {
+            case "UNARIO":
+                result = { "id": c3d.generateTemp(), "val": -v1.val }
+                c3d.main += `\tt${result.id} = -t${t1};\n`
+                break;
+            case "+":
+                result = { "id": c3d.generateTemp(), "val": v1.val + v2.val }
+                c3d.main += `\tt${result.id} = t${t1} + t${t2};\n`
+                break;
+            case "-":
+                result = { "id": c3d.generateTemp(), "val": v1.val + v2.val }
+                c3d.main += `\tt${result.id} = t${t1} - t${t2};\n`
+                break;
+            case "*":
+                result = { "id": c3d.generateTemp(), "val": v1.val * v2.val }
+                c3d.main += `\tt${result.id} = t${t1} * t${t2};\n`
+                break;
+            case "/":
+                result = { "id": c3d.generateTemp(), "val": v1.val / v2.val }
+                c3d.main += `\tt${result.id} = t${t1} / t${t2};\n`
+                break;
+            case "%":
+                result = { "id": c3d.generateTemp(), "val": v1.val % v2.val }
+                c3d.main += `\tt${result.id} = t${t1} % t${t2};\n`
+                break;
+            default:
+                break;
+        }
+        c3d.temp[result.id] = result.val
+        return result.id
+    }
 }
