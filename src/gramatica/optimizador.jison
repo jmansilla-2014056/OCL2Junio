@@ -89,11 +89,9 @@ cadena  (\"([^\"\\])*\")
 
 %% /* Gramatica */
 
-inicio              : declaraciones metodos EOF { $$ = new clase_declaraciones.default($1); console.log($$.getText());
-                      for(let x of $2){
-                         console.log(x.getText());
-                      }
-                      return $$;}
+inicio              : declaraciones metodos EOF { let X = new clase_declaraciones.default($1);
+                      let Y = $2;
+                      return [X, Y];}
                     ;
 
 declaraciones       : declaraciones declaracion { $$ = $1; $$.push($2);}
@@ -113,15 +111,17 @@ lista_comas         : lista_comas ID COMA  { $$ = $1; $$+= $2+' '+$3 }
                     ;
 
 metodos             : metodos metodo { $$ = $1 ; $$.push($2); }
-                    | metodo { $$ = []; $$.push($1); console.log($1.getText()); }
+                    | metodo { $$ = []; $$.push($1); }
                     ;
 
 metodo              : VOID ID PAR_ABRE PAR_CIERRA LLAVE_ABRE lista_intrucciones LLAVE_CIERRA
-                      { $$ = new clase_metodo.default($2); $$.insertar_lista($6); }
+                      { $$ = new clase_metodo.default($1, $2); $$.insertar_lista($6); }
+                    | TIPO ID PAR_ABRE PAR_CIERRA LLAVE_ABRE lista_intrucciones LLAVE_CIERRA
+                    { $$ = new clase_metodo.default($1, $2); $$.insertar_lista($6); }
                     ;
 
-lista_intrucciones  : lista_intrucciones instruccion { $$ = $1 ; $$.push($2); console.log($2.getText()); }
-                    | instruccion { $$ = []; $$.push($1); console.log($1.getText()); }
+lista_intrucciones  : lista_intrucciones instruccion { $$ = $1 ; $$.push($2); }
+                    | instruccion { $$ = []; $$.push($1); }
                     ;
 
 instruccion : asignacion { $$ = $1; }
@@ -147,6 +147,8 @@ asignacion : ID IGUAL stack PUNTOCOMA { $$ = new clase_asignacion.default( $1, $
            ;
 
 stack : ID COR_ABRE PAR_ABRE TIPO PAR_CIERRA ID COR_CIERRA { $$ =  $1+$2+$3+$4+$5+$6+$7; }
+      | ID COR_ABRE ID COR_CIERRA {  $$ =  $1+$2+$3+$4; }
+      | ID COR_ABRE NUM COR_CIERRA {  $$ =  $1+$2+$3+$4; }
       ;
 
 llamada_funcion : ID PAR_ABRE PAR_CIERRA PUNTOCOMA { $$ = new clase_llamada_funcion.default($1+$2+$3); }
@@ -175,7 +177,7 @@ if_estado : IF PAR_ABRE ID LOGICA ID PAR_CIERRA GOTO ID PUNTOCOMA { $$ = new cla
 salto_etiqueta : GOTO ID PUNTOCOMA { $$ = new clase_goto.default($2); }
                ;
 
-instruccion : ID DOS_PUNTOS { $$ = new clase_etiqueta.default($2); }
+instruccion : ID DOS_PUNTOS { $$ = new clase_etiqueta.default($1); }
             ;
 
 retorno : RETURN ID PUNTCOMA { $$ = new clase_return.default($2); }
