@@ -209,7 +209,50 @@ export default class relacional implements expresion {
             c3d.h += 1
             c3d.main += `\tH = H + 1;\n`
             if (this.atr) {
-                console.log("ATRS")
+                //return
+                let ret = { "id": c3d.generateTemp(), "val": c3d.s + c3d.last_stack }
+                c3d.main += `\tt${ret.id} = S + ${c3d.last_stack};\t\t//posicion de retorno\n`
+                //posicion return
+                c3d.stack[ret.val] = c3d.h
+                c3d.main += `\tstack[(int)t${ret.id}] = H;\t\t//H = ${c3d.h}\n`
+                for (let n_ent of this.res_ent) {
+                    let nodo: simbolo = n_ent.tabla["id"]
+                    for (let key in n_ent.tabla) {
+                        if (key.startsWith("atr")) {
+                            let atr: simbolo = n_ent.tabla[key]
+                            //posiciones y parametros: ret[ret] tipo_rel[ret+1] id[ret+2] param[ret + 3] id[ret + 4]
+                            let tipo = { "id": c3d.generateTemp(), "val": ret.val + 1 }
+                            c3d.main += `\tt${tipo.id} = t${ret.id} + 1;\t\t//posicion de tipo relacional\n`
+                            let param = { "id": c3d.generateTemp(), "val": ret.val + 2 }
+                            c3d.main += `\tt${param.id} = t${ret.id} + 2;\t\t//posicion de val\n`
+                            let i = { "id": c3d.generateTemp(), "val": ret.val + 3 }
+                            c3d.main += `\tt${i.id} = t${ret.id} + 3;\t\t//posicion de val compare\n`
+                            let id = { "id": c3d.generateTemp(), "val": ret.val + 4 }
+                            c3d.main += `\tt${id.id} = t${ret.id} + 4;\t\t//posicion de id\n`
+                            //guarda valores
+                            c3d.stack[tipo.val] = this.getNum()
+                            c3d.main += `\tstack[(int)t${tipo.id}] = ${this.getNum()};\t\t\n`
+                            c3d.stack[param.val] = atr.stack + 1
+                            c3d.main += `\tstack[(int)t${param.id}] = ${atr.stack} + 1;\n`
+                            c3d.stack[i.val] = ini.val
+                            c3d.main += `\tstack[(int)t${i.id}] = t${ini.id};\n`
+                            c3d.stack[id.val] = nodo.stack
+                            c3d.main += `\tstack[(int)t${id.id}] = ${nodo.stack};\n`
+                            //cambio de entorno
+                            c3d.s = c3d.s + c3d.last_stack
+                            c3d.main += `\tS = S + ${c3d.last_stack};\n`
+                            c3d.main += `\texpRel2();\n`
+                            c3d.s = c3d.s - c3d.last_stack
+                            c3d.main += `\tS = S - ${c3d.last_stack};\n`
+                            //actualizacion retorno
+                            if (this.compare(atr.valor, this.val2.toString())) {
+                                c3d.heap[c3d.h] = nodo.stack
+                                c3d.h += 1
+                            }
+                        }
+                    }
+                }
+                c3d.t_res = ret.id
             } else {
                 //return
                 let ret = { "id": c3d.generateTemp(), "val": c3d.s + c3d.last_stack }
@@ -247,8 +290,6 @@ export default class relacional implements expresion {
                         c3d.main += `\tS = S - ${c3d.last_stack};\n`
                         //actualizacion retorno
                         if (this.compare(simbol.valor, this.val2.toString())) {
-                            console.log("AGREGA")
-                            console.log(simbol)
                             c3d.heap[c3d.h] = anterior.tabla["id"].stack
                             c3d.h += 1
                         }
@@ -257,7 +298,7 @@ export default class relacional implements expresion {
                 c3d.t_res = ret.id
             }
         }
-        c3d.last_stack += 5
+        c3d.last_stack += 4
         c3d.heap[c3d.h] = -1
         c3d.h += 1
     }

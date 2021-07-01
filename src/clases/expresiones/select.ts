@@ -281,11 +281,6 @@ export default class select implements expresion {
         } else {
             console.log("NO MATCH")
         }
-        c3d.heap[c3d.h] = -1
-        c3d.h += 1
-        c3d.main += `\theap[(int)H] = -1;\t\t//fin del select\n`
-        c3d.main += `\tH = H + 1;\t\t//siguiente espacio en heap\n`
-        c3d.last_stack += 3
         c3d.main += `\t/* fin select */\n`
         c3d.t_res = ret.id
     }
@@ -321,6 +316,11 @@ export default class select implements expresion {
                 //console.log("MATCH " + c3d.heap[c3d.h])
             }
         }
+        c3d.heap[c3d.h] = -1
+        c3d.h += 1
+        c3d.main += `\theap[(int)H] = -1;\t\t//fin del select\n`
+        c3d.main += `\tH = H + 1;\t\t//siguiente espacio en heap\n`
+        c3d.last_stack += 3
         c3d.main += `\t/* fin look nodes */\n`
     }
     lookParams3D(ent: Array<entorno>, c3d: nodo3d, pos_param: number) {
@@ -372,6 +372,11 @@ export default class select implements expresion {
                 }
             }
         }
+        c3d.heap[c3d.h] = -1
+        c3d.h += 1
+        c3d.main += `\theap[(int)H] = -1;\t\t//fin del select\n`
+        c3d.main += `\tH = H + 1;\t\t//siguiente espacio en heap\n`
+        c3d.last_stack += 4
         c3d.main += `\t/* fin look params */\n`
     }
 
