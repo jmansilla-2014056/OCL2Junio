@@ -154,7 +154,8 @@ void main() {
         this.matchFollowing()
         this.matchPreceding()
         this.expInt()
-        this.expRel()
+        this.expRel1()
+        this.expRel2()
         /*this.printResult()
         this.addPrint()*/
         this.StrCode()
@@ -996,13 +997,15 @@ void main() {
         this.funciones += `\treturn;\n`
         this.funciones += `\n}\n`
     }
-    expRel(){
-        this.funciones += `void expRel(){\n`
+    expRel1(){
+        this.funciones += `void expRel1(){\n`
         this.funciones += `\tprintf("%s",xxx);printf("%c",(char)10);\n`
+        //ref
         let r_tipo = { "id": this.generateTemp(), "val": -1 }
         let r_x = { "id": this.generateTemp(), "val": -1 }
         let r_val = { "id": this.generateTemp(), "val": -1 }
         let r_id = { "id": this.generateTemp(), "val": -1 }
+        //val
         let tipo = { "id": this.generateTemp(), "val": -1 }
         let x = { "id": this.generateTemp(), "val": -1 }
         let val = { "id": this.generateTemp(), "val": -1 }
@@ -1032,7 +1035,7 @@ void main() {
         this.funciones += `\tif (t${tipo.id} == 3) goto Lmayor;\n`
         this.funciones += `\tif (t${tipo.id} == 4) goto Lmayor_igual;\n`
         this.funciones += `\tif (t${tipo.id} == 5) goto Ligual;\n`
-        this.funciones += `\tif (t${tipo.id} == 5) goto Ldif;\n`
+        this.funciones += `\tif (t${tipo.id} == 6) goto Ldif;\n`
         this.funciones += `\tgoto Lfin;\n`
         //1
         this.funciones += `\tLmenor:\n`
@@ -1062,6 +1065,90 @@ void main() {
         this.funciones += `\tLacept:\n`
         this.funciones += `\tprintf("%c",(char)89);printf("%c",(char)10);\n`
         this.funciones += `\theap[(int)H] = t${id.id};\n`
+        this.funciones += `\tH = H + 1;\n`
+        this.funciones += `\t;\n`
+        //fin
+        this.funciones += `\tLfin:\n`
+        this.funciones += `\tprintf("%s",xxx);printf("%c",(char)10);\n`
+        this.funciones += `\treturn;\n`
+        this.funciones += `\n}\n`
+    }
+    expRel2(){
+        this.funciones += `void expRel2(){\n`
+        this.funciones += `\tprintf("%s",xxx);printf("%c",(char)10);\n`
+        //ref
+        let r_tipo = { "id": this.generateTemp(), "val": -1 }
+        let r_val = { "id": this.generateTemp(), "val": -1 }
+        let r_compare = { "id": this.generateTemp(), "val": -1 }
+        let r_id = { "id": this.generateTemp(), "val": -1 }
+        //val
+        let tipo = { "id": this.generateTemp(), "val": -1 }
+        let val = { "id": this.generateTemp(), "val": -1 }
+        let compare = { "id": this.generateTemp(), "val": -1 }
+        let id = { "id": this.generateTemp(), "val": -1 }
+        //ref val
+        let sr_val = { "id": this.generateTemp(), "val": -1 }
+        let h_val = { "id": this.generateTemp(), "val": -1 }
+        let h_compare = { "id": this.generateTemp(), "val": -1 }
+        //referencia
+        this.funciones += `\tt${r_tipo.id} = S + 1;\n`
+        this.funciones += `\tt${r_val.id} = S + 2;\n`
+        this.funciones += `\tt${r_compare.id} = S + 3;\n`
+        this.funciones += `\tt${r_id.id} = S + 4;\n`
+        //valor
+        this.funciones += `\tt${tipo.id} = stack[(int)t${r_tipo.id}];\n`//#
+        this.funciones += `\tt${val.id} = stack[(int)t${r_val.id}];\n`//pos stack
+        this.funciones += `\tt${compare.id} = stack[(int)t${r_compare.id}];\n`//pos heap
+        this.funciones += `\tt${id.id} = stack[(int)t${r_id.id}];\n`//pos stack
+        //ref val
+        this.funciones += `\tt${sr_val.id} = stack[(int)t${val.id}];\n`
+        this.funciones += `\tt${h_val.id} = heap[(int)t${sr_val.id}];\n`
+        this.funciones += `\tt${h_compare.id} = heap[(int)t${compare.id}];\n`
+        //heap val
+        this.funciones += `\tprintf("%f",(double)t${r_tipo.id});printf("%c",(char)10);\n`
+        this.funciones += `\tprintf("%f",(double)t${r_val.id});printf("%c",(char)10);\n`
+        this.funciones += `\tprintf("%f",(double)t${r_compare.id});printf("%c",(char)10);\n`
+        this.funciones += `\tprintf("%f",(double)t${r_id.id});printf("%c",(char)10);\n`
+        this.funciones += `\tprintf("%c",(char)10);\n`
+        this.funciones += `\tprintf("%f",(double)t${tipo.id});printf("%c",(char)10);\n`
+        this.funciones += `\tprintf("%f",(double)t${sr_val.id});printf("%c",(char)10);\n`
+        this.funciones += `\tprintf("%f",(double)t${compare.id});printf("%c",(char)10);\n`
+        this.funciones += `\tprintf("%f",(double)t${id.id});printf("%c",(char)10);\n`
+        this.funciones += `\tprintf("%c",(char)10);\n`
+        this.funciones += `\tprintf("%f",(double)t${h_val.id});printf("%c",(char)10);\n`
+        this.funciones += `\tprintf("%f",(double)t${h_compare.id});printf("%c",(char)10);\n`
+        //ini
+        this.funciones += `\tLini:\n`
+        this.funciones += `\tprintf("%c",(char)t${h_val.id});\n`
+        this.funciones += `\tprintf("%c",(char)t${h_compare.id});\n`
+        this.funciones += `\tprintf("%f",(double)t${h_val.id});\n`
+        this.funciones += `\tprintf("%f",(double)t${h_compare.id});\n`
+        this.funciones += `\tprintf("%c",(char)32);\n`
+        //tipo
+        this.funciones += `\tif (t${tipo.id} == 5) goto Ligual;\n`
+        this.funciones += `\tif (t${tipo.id} == 6) goto Ldif;\n`
+        this.funciones += `\tgoto Lfin;\n`
+        //5
+        this.funciones += `\tLigual:\n`
+        this.funciones += `\tif (t${h_val.id} == t${h_compare.id}) goto Lnext;\n`
+        this.funciones += `\tgoto Lfin;\n`
+        //6
+        this.funciones += `\tLdif:\n`
+        this.funciones += `\tif (t${h_val.id} != t${h_compare.id}) goto Lacept;\n`
+        this.funciones += `\tgoto Lnext;\n`
+        //next
+        this.funciones += `\tLnext:\n`
+        this.funciones += `\tif (t${h_val.id} == -1) goto Lacept;\n`
+        this.funciones += `\tt${sr_val.id} = t${sr_val.id} + 1;\n`
+        this.funciones += `\tt${compare.id} = t${compare.id} + 1;\n`
+        this.funciones += `\tt${h_val.id} = heap[(int)t${sr_val.id}];\n`
+        this.funciones += `\tt${h_compare.id} = heap[(int)t${compare.id}];\n`
+        this.funciones += `\tgoto Lini;\n`
+        //acept
+        this.funciones += `\tLacept:\n`
+        this.funciones += `\tprintf("%c",(char)89);printf("%c",(char)10);\n`
+        this.funciones += `\theap[(int)H] = t${id.id};\n`
+        this.funciones += `\tprintf("%f",(double)t${id.id});\n`
         this.funciones += `\tH = H + 1;\n`
         this.funciones += `\t;\n`
         //fin

@@ -15,6 +15,7 @@ export default class relacional implements expresion {
     public res_ent: Array<entorno>
     public val2: number
     public atr: boolean
+    public entornos
     constructor(e1, operador, e2, linea, columna) {
         this.e1 = e1
         this.operador = operador
@@ -147,7 +148,6 @@ export default class relacional implements expresion {
     traducir(ent: entorno[], c3d: nodo3d) {
         if (this.index != null) {
             let x: number = 1
-            console.log("INDEX")
             //return
             let ret = { "id": c3d.generateTemp(), "val": c3d.s + c3d.last_stack }
             c3d.main += `\tt${ret.id} = S + ${c3d.last_stack};\t\t//posicion de retorno\n`
@@ -183,22 +183,81 @@ export default class relacional implements expresion {
                     c3d.heap[c3d.h] = simbol.stack
                     c3d.h += 1
                 }
-                c3d.main += `\texpRel();\n`
+                c3d.main += `\texpRel1();\n`
                 c3d.s = c3d.s - c3d.last_stack
                 c3d.main += `\tS = S - ${c3d.last_stack};\n`
                 //actualizacion retorno
-                c3d.t_res = ret.id
                 //
                 x += 1
             }
+            c3d.t_res = ret.id
             c3d.last_stack += 5
         } else if (this.res_ent != null) {
+            //cadena
+            let ini = { "id": c3d.generateTemp(), "val": c3d.h }
+            c3d.main += `\tt${ini.id} = H;\t\t//posicion inicio cadena\n`
+            let val2: string = this.val2.toString()
+            for (let i = 0; i < val2.length; i++) {
+                c3d.heap[c3d.h] = val2.charCodeAt(i)
+                c3d.main += `\theap[(int)H] = ${val2.charCodeAt(i)};\t\t//se agrega el caracter H[${c3d.h}] ${val2.charAt(i)}\n`
+                c3d.h += 1
+                c3d.main += `\tH = H + 1;\n`
+            }
+            //se guarda el fin de la cadena
+            c3d.heap[c3d.h] = -1
+            c3d.main += `\theap[(int)H] = -1;\t\t//se agrega el caracter eos H[${c3d.h}] -1\n`
+            c3d.h += 1
+            c3d.main += `\tH = H + 1;\n`
             if (this.atr) {
                 console.log("ATRS")
             } else {
-                console.log("VAL")
+                //return
+                let ret = { "id": c3d.generateTemp(), "val": c3d.s + c3d.last_stack }
+                c3d.main += `\tt${ret.id} = S + ${c3d.last_stack};\t\t//posicion de retorno\n`
+                //posicion return
+                c3d.stack[ret.val] = c3d.h
+                c3d.main += `\tstack[(int)t${ret.id}] = H;\t\t//H = ${c3d.h}\n`
+                for (let n_ent of this.res_ent) {
+                    let anterior: entorno = n_ent.anterior
+                    let simbol: simbolo = n_ent.tabla["valor"]
+                    if (simbol != null) {
+                        //posiciones y parametros: ret[ret] tipo_rel[ret+1] id[ret+2] param[ret + 3] id[ret + 4]
+                        let tipo = { "id": c3d.generateTemp(), "val": ret.val + 1 }
+                        c3d.main += `\tt${tipo.id} = t${ret.id} + 1;\t\t//posicion de tipo relacional\n`
+                        let param = { "id": c3d.generateTemp(), "val": ret.val + 2 }
+                        c3d.main += `\tt${param.id} = t${ret.id} + 2;\t\t//posicion de val\n`
+                        let i = { "id": c3d.generateTemp(), "val": ret.val + 3 }
+                        c3d.main += `\tt${i.id} = t${ret.id} + 3;\t\t//posicion de val compare\n`
+                        let id = { "id": c3d.generateTemp(), "val": ret.val + 4 }
+                        c3d.main += `\tt${id.id} = t${ret.id} + 4;\t\t//posicion de id\n`
+                        //guarda valores
+                        c3d.stack[tipo.val] = this.getNum()
+                        c3d.main += `\tstack[(int)t${tipo.id}] = ${this.getNum()};\t\t\n`
+                        c3d.stack[param.val] = simbol.stack
+                        c3d.main += `\tstack[(int)t${param.id}] = ${simbol.stack};\n`
+                        c3d.stack[i.val] = ini.val
+                        c3d.main += `\tstack[(int)t${i.id}] = t${ini.id};\n`
+                        c3d.stack[id.val] = anterior.tabla["id"].stack
+                        c3d.main += `\tstack[(int)t${id.id}] = ${anterior.tabla["id"].stack};\n`
+                        //cambio de entorno
+                        c3d.s = c3d.s + c3d.last_stack
+                        c3d.main += `\tS = S + ${c3d.last_stack};\n`
+                        c3d.main += `\texpRel2();\n`
+                        c3d.s = c3d.s - c3d.last_stack
+                        c3d.main += `\tS = S - ${c3d.last_stack};\n`
+                        //actualizacion retorno
+                        if (this.compare(simbol.valor, this.val2.toString())) {
+                            console.log("AGREGA")
+                            console.log(simbol)
+                            c3d.heap[c3d.h] = anterior.tabla["id"].stack
+                            c3d.h += 1
+                        }
+                    }
+                }
+                c3d.t_res = ret.id
             }
         }
+        c3d.last_stack += 5
         c3d.heap[c3d.h] = -1
         c3d.h += 1
     }
