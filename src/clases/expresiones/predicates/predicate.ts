@@ -13,6 +13,7 @@ export default class predicate implements expresion {
     public columna: number
     public matches: Array<entorno>
     public val
+    public entornos
     constructor(slc, exp, linea, columna) {
         this.slc = slc
         this.exp = exp
@@ -24,13 +25,12 @@ export default class predicate implements expresion {
         return tipo.STRUCT
     }
     getValor(ent: entorno, arbol: ast) {
-        let entornos
-        entornos = this.slc.getValor(ent, arbol)
-        this.val = this.exp.getValor(entornos, arbol)
+        this.entornos = this.slc.getValor(ent, arbol)
+        this.val = this.exp.getValor(this.entornos, arbol)
         if (this.val instanceof Array) {
             if (typeof this.val[0] === 'number') {
                 for (let i of this.val) {
-                    this.matches.push(entornos[i - 1])
+                    this.matches.push(this.entornos[i - 1])
                 }
             } else if (this.val[0] instanceof entorno) {
                 for (let i of this.val) {
@@ -39,7 +39,7 @@ export default class predicate implements expresion {
             }
         } else {
             if (typeof this.val === 'number') {
-                this.matches.push(entornos[this.val - 1])
+                this.matches.push(this.entornos[this.val - 1])
             } else if (this.val instanceof entorno) {
                 this.matches.push(this.val)
             }
@@ -52,11 +52,9 @@ export default class predicate implements expresion {
         c3d.main += `\t/* ini exp */\n`
         console.log("EXP")
         console.log(this.exp)
-        let t = this.exp.traducir(this.matches, c3d)
+        let t = this.exp.traducir(this.entornos, c3d)
         if (typeof t === 'number') {
             this.num(ent, t, c3d)
-        } else if (false) {
-            //
         }
         c3d.main += `\t/* fin exp */\n`
         c3d.main += `\t/* fin predicate */\n`
@@ -80,17 +78,18 @@ export default class predicate implements expresion {
         //cambio de entorno
         c3d.s = c3d.s + c3d.last_stack
         c3d.main += `\tS = S + ${c3d.last_stack};\n`
-        c3d.s = c3d.s - c3d.last_stack
         let n_ent: entorno = ent[0]
         let simbol: simbolo = n_ent.tabla["id"]
         c3d.heap[c3d.h] = simbol.stack
         c3d.h += 1
         c3d.main += `\texpInt();\n`
+        c3d.s = c3d.s - c3d.last_stack
         c3d.main += `\tS = S - ${c3d.last_stack};\n`
         //actualizacion retorno
         c3d.t_res = ret.id
         c3d.heap[c3d.h] = -1
         c3d.h += 1
+        c3d.last_stack += 3
     }
 
 }

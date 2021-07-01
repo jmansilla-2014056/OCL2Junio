@@ -46,7 +46,7 @@ export class AppComponent {
   entornoGlobal: entorno = new entorno(null)
   nombre: string = "name_ini"
   contenido: string = "cont_ini"
-  consola: string = '/mundo/continente/pais/poblacion[1+1]'
+  consola: string = '/mundo/continente/pais/poblacion[position()<4]'
   salida: string = ""
   n_node: number
   c3d: nodo3d
@@ -269,7 +269,27 @@ export class AppComponent {
       localStorage.setItem('cstx', "digraph L {\n" + "\n" + "  node [shape=record fontname=Arial];");
       localStorage.setItem('actual', 'cst');
 
-      try {
+      let entrada = this.consola
+        let parse_result = xpath.parse(entrada);
+        this.result = parse_result.xpath;
+        let reportG = parse_result.reportG;
+
+        let xpath_str
+        let arbol: ast = new ast()
+        xpath_str = this.result.ejecutar(this.entornoGlobal.tabla["xml"].valor, arbol)
+        this.salida = xpath_str
+        console.log(this.salida)
+
+        //Reporte Ast
+        let arbolito = new astXpath().getArbolito(this.result);
+        localStorage.setItem('astx', 'digraph g {\n ' + arbolito + '}');
+
+        //reporte gramatical
+        this.tablaReportGramatical(new gramatical("", "").getReporteG(reportG), "Reporte Gramatical Xpath Ascendente", "reportGX", "TitleReportGramaticalX");
+
+        //Fin analisis
+        alert("Analisis finalizado con exito!");
+      /*try {
         let entrada = this.consola
         let parse_result = xpath.parse(entrada);
         this.result = parse_result.xpath;
@@ -281,18 +301,18 @@ export class AppComponent {
         this.salida = xpath_str
         console.log(this.salida)
 
-        /* Reporte Ast */
+        //Reporte Ast
         let arbolito = new astXpath().getArbolito(this.result);
         localStorage.setItem('astx', 'digraph g {\n ' + arbolito + '}');
 
-        /* reporte gramatical */
+        //reporte gramatical
         this.tablaReportGramatical(new gramatical("", "").getReporteG(reportG), "Reporte Gramatical Xpath Ascendente", "reportGX", "TitleReportGramaticalX");
 
-        /* Fin analisis */
+        //Fin analisis
         alert("Analisis finalizado con exito!");
       } catch (error) {
         alert("Error, no ha sido posible recuperarse!");
-      }
+      }*/
     } else {
       alert("Error, Ingrese consulta a ejecutar!");
     }

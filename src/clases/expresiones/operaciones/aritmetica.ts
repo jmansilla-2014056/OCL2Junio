@@ -107,13 +107,11 @@ export default class aritmetica implements expresion {
         return null
     }
     traducir(ent: entorno[], c3d: nodo3d) {
-        console.log("ARITMETICA")
-        console.log(this.operador)
         let result = { "id": -1, "val": -1 }
         let t1 = this.e1.traducir(ent, c3d)
         let t2 = this.e2.traducir(ent, c3d)
-        let v1 = { "id": t1, "val": c3d.temp[t1.id] }
-        let v2 = { "id": t2, "val": c3d.temp[t2.id] }
+        let v1 = { "id": t1, "val": c3d.temp[t1] }
+        let v2 = { "id": t2, "val": c3d.temp[t2] }
         switch (this.operador) {
             case "UNARIO":
                 result = { "id": c3d.generateTemp(), "val": -v1.val }
@@ -124,7 +122,7 @@ export default class aritmetica implements expresion {
                 c3d.main += `\tt${result.id} = t${t1} + t${t2};\n`
                 break;
             case "-":
-                result = { "id": c3d.generateTemp(), "val": v1.val + v2.val }
+                result = { "id": c3d.generateTemp(), "val": v1.val - v2.val }
                 c3d.main += `\tt${result.id} = t${t1} - t${t2};\n`
                 break;
             case "*":

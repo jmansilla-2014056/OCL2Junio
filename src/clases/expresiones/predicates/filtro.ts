@@ -27,18 +27,10 @@ export default class filtro implements expresion {
         return false
     }
     getValor(ent: entorno, arbol: ast) {
-        if (this.atr == false) {//[nodo]
+        if (this.atr == false) {
             this.slc = new select("/", this.id, this.atr, this.linea, this.columna)
             let entornos = this.slc.getValor(ent, arbol)
-            for (let n_ent of entornos) {
-                let val = n_ent.tabla["valor"]
-                if (val instanceof simbolo) {
-                    if (val.id == this.id) {
-                        this.matches.push(n_ent)
-                    }
-                }
-            }
-            /*if (ent instanceof Array) {
+            if (ent instanceof Array) {
                 for (let n_ent of entornos) {
                     let val = n_ent.tabla["valor"]
                     if (val instanceof simbolo) {
@@ -54,77 +46,56 @@ export default class filtro implements expresion {
                         this.matches.push(ent)
                     }
                 }
-            }*/
-        } else {//EDIT: [@atr]
-            if (ent instanceof Array) {
-                for (let n_ent of ent) {
-                    for (let key in n_ent.tabla) {
-                        if (key.startsWith("atr")) {
-                            let simbol = n_ent.tabla[key]
-                            if (simbol.id == this.id) {
+            }
+        } else {
+            if (this.id == null) {
+                if (ent instanceof Array) {
+                    for (let n_ent of ent) {
+                        for (let key in n_ent.tabla) {
+                            if (key.startsWith("atr")) {
                                 this.matches.push(n_ent)
                             }
                         }
                     }
+                } else {
+                    for (let key in ent.tabla) {
+                        if (key.startsWith("atr")) {
+                            this.matches.push(ent)
+                        }
+                    }
                 }
             } else {
-                for (let key in ent.tabla) {
-                    if (key.startsWith("atr")) {
-                        let simbol = ent.tabla[key]
-                        if (simbol.id == this.id) {
-                            this.matches.push(ent)
+                if (ent instanceof Array) {
+                    for (let n_ent of ent) {
+                        for (let key in n_ent.tabla) {
+                            if (key.startsWith("atr")) {
+                                let simbol = n_ent.tabla[key]
+                                if (simbol.id == this.id) {
+                                    this.matches.push(n_ent)
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    for (let key in ent.tabla) {
+                        if (key.startsWith("atr")) {
+                            let simbol = ent.tabla[key]
+                            if (simbol.id == this.id) {
+                                this.matches.push(ent)
+                            }
                         }
                     }
                 }
             }
         }
-        //
-        /* else if (this.id == null) {
-            if (ent instanceof Array) {
-                for (let n_ent of ent) {
-                    for (let key in n_ent.tabla) {
-                        if (key.startsWith("atr")) {
-                            this.matches.push(n_ent)
-                        }
-                    }
-                }
-            } else {
-                for (let key in ent.tabla) {
-                    if (key.startsWith("atr")) {
-                        this.matches.push(ent)
-                    }
-                }
-            }
-        } else {
-            if (ent instanceof Array) {
-                for (let n_ent of ent) {
-                    for (let key in n_ent.tabla) {
-                        if (key.startsWith("atr")) {
-                            let simbol = n_ent.tabla[key]
-                            if (simbol.id == this.id) {
-                                this.matches.push(n_ent)
-                            }
-                        }
-                    }
-                }
-            } else {
-                for (let key in ent.tabla) {
-                    if (key.startsWith("atr")) {
-                        let simbol = ent.tabla[key]
-                        if (simbol.id == this.id) {
-                            this.matches.push(ent)
-                        }
-                    }
-                }
-            }
-        }*/
         return this.matches
     }
     traducir(ent: Array<entorno>, c3d: nodo3d) {
-        if (this.atr == false){
+        if (this.atr == false) {
             this.slc.traducir(this.slc.matches, c3d)
         } else {
-            //
+            this.slc = new select("/", this.id, this.atr, this.linea, this.columna)
+            this.slc.traducir(this.matches, c3d)
         }
     }
 

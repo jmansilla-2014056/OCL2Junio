@@ -24,7 +24,8 @@ double stack[30101999];
 double S;
 double H;
 char x[100] = "select nodes void";
-char xx[100] = "select atr void";\n`
+char xx[100] = "select atr void";
+char xxx[100] = "exp relacional";\n`
         this.main = `/*------MAIN------*/
 void main() {
 \tS = 0; H = 0;\n`
@@ -153,6 +154,7 @@ void main() {
         this.matchFollowing()
         this.matchPreceding()
         this.expInt()
+        this.expRel()
         /*this.printResult()
         this.addPrint()*/
         this.StrCode()
@@ -991,6 +993,80 @@ void main() {
         this.funciones += `\tgoto Lindex;\n`
         this.funciones += `\tLmatch:\n`
         this.funciones += `\theap[(int)H] = t${ent.id};\n`
+        this.funciones += `\treturn;\n`
+        this.funciones += `\n}\n`
+    }
+    expRel(){
+        this.funciones += `void expRel(){\n`
+        this.funciones += `\tprintf("%s",xxx);printf("%c",(char)10);\n`
+        let r_tipo = { "id": this.generateTemp(), "val": -1 }
+        let r_x = { "id": this.generateTemp(), "val": -1 }
+        let r_val = { "id": this.generateTemp(), "val": -1 }
+        let r_id = { "id": this.generateTemp(), "val": -1 }
+        let tipo = { "id": this.generateTemp(), "val": -1 }
+        let x = { "id": this.generateTemp(), "val": -1 }
+        let val = { "id": this.generateTemp(), "val": -1 }
+        let id = { "id": this.generateTemp(), "val": -1 }
+        //referencia
+        this.funciones += `\tt${r_tipo.id} = S + 1;\n`
+        this.funciones += `\tt${r_x.id} = S + 2;\n`
+        this.funciones += `\tt${r_val.id} = S + 3;\n`
+        this.funciones += `\tt${r_id.id} = S + 4;\n`
+        //valor
+        this.funciones += `\tt${tipo.id} = stack[(int)t${r_tipo.id}];\n`
+        this.funciones += `\tt${x.id} = stack[(int)t${r_x.id}];\n`
+        this.funciones += `\tt${val.id} = stack[(int)t${r_val.id}];\n`
+        this.funciones += `\tt${id.id} = stack[(int)t${r_id.id}];\n`
+        this.funciones += `\tprintf("%f",(double)t${r_tipo.id});printf("%c",(char)10);\n`
+        this.funciones += `\tprintf("%f",(double)t${r_x.id});printf("%c",(char)10);\n`
+        this.funciones += `\tprintf("%f",(double)t${r_val.id});printf("%c",(char)10);\n`
+        this.funciones += `\tprintf("%f",(double)t${r_id.id});printf("%c",(char)10);\n`
+        this.funciones += `\tprintf("%c",(char)10);\n`
+        this.funciones += `\tprintf("%f",(double)t${tipo.id});printf("%c",(char)10);\n`
+        this.funciones += `\tprintf("%f",(double)t${x.id});printf("%c",(char)10);\n`
+        this.funciones += `\tprintf("%f",(double)t${val.id});printf("%c",(char)10);\n`
+        this.funciones += `\tprintf("%f",(double)t${id.id});printf("%c",(char)10);\n`
+        //tipo
+        this.funciones += `\tif (t${tipo.id} == 1) goto Lmenor;\n`
+        this.funciones += `\tif (t${tipo.id} == 2) goto Lmenor_igual;\n`
+        this.funciones += `\tif (t${tipo.id} == 3) goto Lmayor;\n`
+        this.funciones += `\tif (t${tipo.id} == 4) goto Lmayor_igual;\n`
+        this.funciones += `\tif (t${tipo.id} == 5) goto Ligual;\n`
+        this.funciones += `\tif (t${tipo.id} == 5) goto Ldif;\n`
+        this.funciones += `\tgoto Lfin;\n`
+        //1
+        this.funciones += `\tLmenor:\n`
+        this.funciones += `\tif (t${x.id} < t${val.id}) goto Lacept;\n`
+        this.funciones += `\tgoto Lfin;\n`
+        //2
+        this.funciones += `\tLmenor_igual:\n`
+        this.funciones += `\tif (t${x.id} <= t${val.id}) goto Lacept;\n`
+        this.funciones += `\tgoto Lfin;\n`
+        //3
+        this.funciones += `\tLmayor:\n`
+        this.funciones += `\tif (t${x.id} > t${val.id}) goto Lacept;\n`
+        this.funciones += `\tgoto Lfin;\n`
+        //4
+        this.funciones += `\tLmayor_igual:\n`
+        this.funciones += `\tif (t${x.id} >= t${val.id}) goto Lacept;\n`
+        this.funciones += `\tgoto Lfin;\n`
+        //5
+        this.funciones += `\tLigual:\n`
+        this.funciones += `\tif (t${x.id} == t${val.id}) goto Lacept;\n`
+        this.funciones += `\tgoto Lfin;\n`
+        //6
+        this.funciones += `\tLdif:\n`
+        this.funciones += `\tif (t${x.id} != t${val.id}) goto Lacept;\n`
+        this.funciones += `\tgoto Lfin;\n`
+        //acept
+        this.funciones += `\tLacept:\n`
+        this.funciones += `\tprintf("%c",(char)89);printf("%c",(char)10);\n`
+        this.funciones += `\theap[(int)H] = t${id.id};\n`
+        this.funciones += `\tH = H + 1;\n`
+        this.funciones += `\t;\n`
+        //fin
+        this.funciones += `\tLfin:\n`
+        this.funciones += `\tprintf("%s",xxx);printf("%c",(char)10);\n`
         this.funciones += `\treturn;\n`
         this.funciones += `\n}\n`
     }

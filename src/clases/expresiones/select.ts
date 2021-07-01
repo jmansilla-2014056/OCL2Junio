@@ -327,15 +327,12 @@ export default class select implements expresion {
         c3d.main += `\t/* ini look params */\n`
         for (let n_ent of ent) {
             let id: simbolo = n_ent.tabla["id"]
-            console.log("NODO " + id.id)
             for (let key in n_ent.tabla) {
                 if (key.startsWith("atr")) {
                     //retorno
                     let ret = { "id": pos_param, "val": c3d.temp[pos_param] }
                     //seleccion del atributo
                     let simbol: simbolo = n_ent.tabla[key]
-                    console.log("ATR ")
-                    console.log(simbol)
                     let pos = { "id": c3d.generateTemp(), "val": ret.val + 2 }
                     //la siguiente posicion disponible param xml
                     c3d.main += `\tt${pos.id} = t${ret.id} + 2;\t\t//La siguiente posicion param xml\n`
