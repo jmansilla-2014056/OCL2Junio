@@ -24,6 +24,8 @@ import { simbolTabla } from 'src/clases/ast/simbolTabla';
 import select from 'src/clases/expresiones/select';
 import { arreglo } from 'src/clases/arreglo';
 import ast_xquery from 'src/clases/ast/ast_xquery';
+import declaraciones from "../clases/optimizador/declaraciones";
+import metodo from "../clases/optimizador/metodo";
 
 @Component({
   selector: 'app-root',
@@ -83,7 +85,18 @@ export class AppComponent {
   optimizar() {
     let entrada = this.clearEntry(this.xcode);
     let op_result = op.parse(entrada);
-
+    let salida = "";
+    if(op_result[0] instanceof declaraciones){
+      salida += op_result[0].getText();
+    }
+    if(op_result[1] instanceof Array){
+      for( let m of op_result[1]){
+       if(m instanceof  metodo){
+         salida += m.getText();
+       }
+      }
+    }
+    console.log(salida);
   }
 
   /* Analisis Ascendente */

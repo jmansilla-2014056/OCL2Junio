@@ -1,15 +1,14 @@
 import {instruccion_3d} from "./instruccion_3d";
 
-export default class etiqueta implements instruccion_3d{
+export default class eliminado implements instruccion_3d{
   public tag: string
 
-  constructor(tag : string) {
+  constructor() {
     this.intrucciones_3d = new Array<instruccion_3d>();
-    this.tag = tag;
   }
 
   getText(){
-    return this.tag + ":";
+    return "";
   }
 
   intrucciones_3d: Array<instruccion_3d>;
