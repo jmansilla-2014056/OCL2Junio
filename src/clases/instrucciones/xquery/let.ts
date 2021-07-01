@@ -69,13 +69,6 @@ export default class LET implements instruccion{
         }
 
         if (this.return !== null && this.return !== undefined){
-            for (let i = 0; i < this.return.retu.length;  i++){
-                if (this.return.retu[i]["variable"].id === this.identificador.id){
-                    this.return.retu[i]["variable"].valor = result
-                }else{
-                    InsertarError("Semantico",`Error, la variable de asignacion ${this.identificador.id} no es igual a la de retorno ${this.return.retu[i]["variable"].id}`,"xquery",this.return.retu[i]["variable"].linea,this.return.retu[i]["variable"].columna);
-                }
-            }
             result = this.return.ejecutar(ent,arbol);
             return result;
         }

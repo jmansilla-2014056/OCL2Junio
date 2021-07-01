@@ -279,6 +279,7 @@ export class AppComponent {
   /* Analisis xpath ascendente */
   execXpath() {
     if (this.consola !== "") {
+      localStorage.removeItem('errores');
       localStorage.setItem('cstx', "digraph L {\n" + "\n" + "  node [shape=record fontname=Arial];");
       localStorage.setItem('actual', 'cst');
 
@@ -325,6 +326,7 @@ export class AppComponent {
         alert("Analisis finalizado con exito!");
       } catch (error) {
         alert("Error, no ha sido posible recuperarse!");
+        console.log(error);
       }*/
     } else {
       alert("Error, Ingrese consulta a ejecutar!");
@@ -334,6 +336,7 @@ export class AppComponent {
   /* Analisis xpath descendente */
   execXpathD() {
     if (this.consola !== "") {
+      localStorage.removeItem('errores');
       localStorage.setItem('cstx', "digraph L {\n" + "\n" + "  node [shape=record fontname=Arial];");
       localStorage.setItem('actual', 'cstx');
 
@@ -371,7 +374,7 @@ export class AppComponent {
   /* analizdor xquery ascendente */
   execXquery() {
     if (this.consola !== ""){
-
+      localStorage.removeItem('errores');
       try {
         let entrada = this.consola
         let result_parser = xquery.parse(entrada);
