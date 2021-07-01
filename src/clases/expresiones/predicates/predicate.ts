@@ -14,6 +14,8 @@ export default class predicate implements expresion {
     public matches: Array<entorno>
     public val
     public entornos
+    public xq:boolean = false;
+    public slcxq:Array<entorno>;
     constructor(slc, exp, linea, columna) {
         this.slc = slc
         this.exp = exp
@@ -25,7 +27,8 @@ export default class predicate implements expresion {
         return tipo.STRUCT
     }
     getValor(ent: entorno, arbol: ast) {
-        this.entornos = this.slc.getValor(ent, arbol)
+        (this.xq)?this.entornos = this.slcxq : this.entornos = this.slc.getValor(ent, arbol);
+        //this.entornos = this.slc.getValor(ent, arbol)
         this.val = this.exp.getValor(this.entornos, arbol)
         if (this.val instanceof Array) {
             if (typeof this.val[0] === 'number') {

@@ -30,11 +30,13 @@ export default class ast_xquery{
         
         for (let i = 0; i < result.length; i++){
             if (result[i] instanceof LET) {
-                ent.agregar("var" + lets.toString(),new simbolo(result[i].identificador.id,null,tipo.ATRIBUTE,result[i].identificador.linea,result[i].identificador.columna));
+                ent.agregar("var" + lets.toString(),new simbolo(result[i].identificador.id,result[i].identificador,tipo.ATRIBUTE,result[i].identificador.linea,result[i].identificador.columna));
                 lets++;
             }else if (result[i] instanceof FOR){
-                ent.agregar("var" + fors.toString(),new simbolo(result[i].id.id,null,tipo.STRUCT,result[i].id.linea,result[i].id.columna));
-                fors++;
+                for(let j = 0; j < result[i].id.length; j++){
+                    ent.agregar("var" + fors.toString(),new simbolo(result[i].id[j].id,result[i].id[j],tipo.STRUCT,result[i].id[j].linea,result[i].id[j].columna));
+                    fors++;
+                }
             }else if(result[i] instanceof IF){
                 let res = [];
                 if (result[i].ifList.length > 0){
