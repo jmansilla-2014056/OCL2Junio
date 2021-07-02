@@ -1,4 +1,5 @@
 import {Errors} from './Errors';
+import {Optimizado} from './Optimizado';
 
 export function InsertarError(tipo: string, desc: string, analis:string, linea: number, columna: number){
   let error = new Errors(tipo,desc,analis,linea,columna);
@@ -16,6 +17,24 @@ export function InsertarError(tipo: string, desc: string, analis:string, linea: 
   console.log(listaerrores);
 
 }
+
+export function InsertarOptimizacion(regla: string, desc: string){
+  let opt = new Optimizado(regla , desc);
+  let lista = [];
+  let listaopt;
+  if(localStorage.getItem('reglas') === null){
+    localStorage.setItem('reglas', JSON.stringify(lista));
+    listaopt = JSON.parse(localStorage.getItem('reglas'));
+  }else{
+    listaopt= JSON.parse(localStorage.getItem('reglas'));
+  }
+
+  listaopt.push(opt);
+  localStorage.setItem('reglas', JSON.stringify(listaopt));
+  console.log(listaopt);
+
+}
+
 
 export function getErrores():string{
   let errorcitos = '';
@@ -60,6 +79,5 @@ export function InsertarCst(nodoS: string){
     inicializar = inicializar + nodoS;
     localStorage.setItem('cstx', inicializar);
   }
-
 }
 

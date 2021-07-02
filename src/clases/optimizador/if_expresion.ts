@@ -15,6 +15,10 @@ export default class if_expresion implements instruccion_3d{
     this.etiqueta = etiqueta;
   }
 
+  getLogica(){
+    return this.izq + this.operadorlogico + this.der;
+  }
+
   getText(){
     return 'if('+ this.izq + this.operadorlogico + this.der + ') goto ' + this.etiqueta + ';'
   }

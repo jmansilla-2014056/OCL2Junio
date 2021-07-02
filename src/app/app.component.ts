@@ -83,6 +83,7 @@ export class AppComponent {
   }*/
 
   optimizar() {
+    localStorage.clear();
     let entrada = this.clearEntry(this.xcode);
     let op_result = op.parse(entrada);
     let salida = "";
@@ -92,6 +93,13 @@ export class AppComponent {
     if(op_result[1] instanceof Array){
       for( let m of op_result[1]){
        if(m instanceof  metodo){
+         m.optimizarCaso1();
+         m.optimizarCaso3();
+         m.optimizarCaso4();
+         m.optimizarCaso5();
+         m.optimizarCaso6();
+         m.optimizarCaso7();
+         m.optimizarCaso8();
          salida += m.getText();
        }
       }
@@ -380,7 +388,7 @@ export class AppComponent {
         let result_parser = xquery.parse(entrada);
         let result = result_parser['xquery'];
         let reportG = result_parser['reportG'];
-        
+
         if (Array.isArray(result[0])){
           result = result[0]
         }
@@ -398,7 +406,7 @@ export class AppComponent {
 
         /* reporte gramatical */
         this.tablaReportGramatical(new gramatical("", "").getReporteG(reportG), "Reporte Gramatical Xquery", "reportGQ", "TitleReportGramaticalQ");
-        
+
         /* Fin analisis */
         alert("Analisis finalizado con exito!");
       } catch (error) {

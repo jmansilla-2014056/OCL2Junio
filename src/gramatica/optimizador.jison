@@ -10,6 +10,7 @@
       const clase_goto = require('../clases/optimizador/goto_expresion');
       const clase_etiqueta = require('../clases/optimizador/etiqueta');
       const clase_return = require('../clases/optimizador/return_expresion');
+      const clase_print = require('../clases/optimizador/print_expresion')
 %}
 
 
@@ -153,15 +154,15 @@ stack : ID COR_ABRE PAR_ABRE TIPO PAR_CIERRA ID COR_CIERRA { $$ =  $1+$2+$3+$4+$
 
 llamada_funcion : ID PAR_ABRE PAR_CIERRA PUNTOCOMA { $$ = new clase_llamada_funcion.default($1+$2+$3); }
                 | ID PAR_ABRE CADENA COMA PAR_ABRE TIPO PAR_CIERRA NUM PAR_CIERRA PUNTOCOMA
-                { $$ = new clase_llamada_funcion.default($1+$2+$3+$4+$5+$6+$7+$8+$9);  }
+                { $$ = new clase_print.default($1+$2+$3+$4+$5+$6+$7+$8+$9);  }
                 | ID PAR_ABRE CADENA COMA PAR_ABRE TIPO PAR_CIERRA ID PAR_CIERRA PUNTOCOMA
-                { $$ = new clase_llamada_funcion.default($1+$2+$3+$4+$5+$6+$7+$8+$9);  }
+                { $$ = new clase_print.default($1+$2+$3+$4+$5+$6+$7+$8+$9);  }
                 | ID PAR_ABRE ID COMA NUM COMA CADENA COMA ID PAR_CIERRA PUNTOCOMA
-                { $$ = new clase_llamada_funcion.default($1+$2+$3+$4+$5+$6+$7+$8+$9+$10+$11);}
+                { $$ = new clase_print.default($1+$2+$3+$4+$5+$6+$7+$8+$9+$10+$11);}
                 | ID PAR_ABRE CADENA PAR_CIERRA PUNTOCOMA
-                { $$ = new clase_llamada_funcion.default($1+$2+$3+$4);}
+                { $$ = new clase_print.default($1+$2+$3+$4);}
                 | ID PAR_ABRE CADENA COMA ID PAR_CIERRA PUNTOCOMA
-                { $$ = new clase_llamada_funcion.default($1+$2+$3+$4+$5+$6);}
+                { $$ = new clase_print.default($1+$2+$3+$4+$5+$6);}
                 ;
 
 if_estado : IF PAR_ABRE ID LOGICA ID PAR_CIERRA GOTO ID PUNTOCOMA { $$ = new clase_if.default($3, $4, $5, $8); }

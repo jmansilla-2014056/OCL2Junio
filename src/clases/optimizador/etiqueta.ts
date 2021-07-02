@@ -2,6 +2,7 @@ import {instruccion_3d} from "./instruccion_3d";
 
 export default class etiqueta implements instruccion_3d{
   public tag: string
+  etiqueta : string;
 
   constructor(tag : string) {
     this.intrucciones_3d = new Array<instruccion_3d>();
@@ -26,5 +27,10 @@ export default class etiqueta implements instruccion_3d{
       this.intrucciones_3d.push(x);
     }
   }
+
+  getLogica(): string {
+    return '';
+  }
+
 
 }
