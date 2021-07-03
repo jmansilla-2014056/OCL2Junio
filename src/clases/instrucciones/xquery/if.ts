@@ -1,6 +1,7 @@
 import { ast } from "src/clases/ast/ast";
 import { entorno } from "src/clases/ast/entorno";
 import { tipo } from "src/clases/ast/tipo";
+import { nodo3d } from "src/clases/c3d/nodo3d";
 import { expresion } from "src/clases/interfaces/expresion";
 import { instruccion } from "src/clases/interfaces/instruccion"
 import { InsertarError } from "src/reports/ReportController";
@@ -19,7 +20,6 @@ export default class IF implements instruccion {
         this.linea = linea;
         this.columna = columna;
     }
-
     ejecutar(ent: entorno, arbol: ast) {
         if (this.condicion.getTipo(ent,arbol) === tipo.BOOL){
             let result = this.condicion.getValor(ent,arbol);
@@ -35,5 +35,8 @@ export default class IF implements instruccion {
         }else{
             InsertarError("Semantico","Error, condición no valida","xquery",this.linea,this.columna);
         }
-    }   
+    }
+    traducir(ent: entorno[], c3d: nodo3d, ambito: entorno) {
+        throw new Error("Method not implemented.");
+    }
 }

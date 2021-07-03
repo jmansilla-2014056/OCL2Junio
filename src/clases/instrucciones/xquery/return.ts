@@ -2,6 +2,7 @@ import { ValueConverter } from "@angular/compiler/src/render3/view/template";
 import { ast } from "src/clases/ast/ast";
 import ast_xpath from "src/clases/ast/ast_xpath";
 import { entorno } from "src/clases/ast/entorno";
+import { nodo3d } from "src/clases/c3d/nodo3d";
 import { instruccion } from "src/clases/interfaces/instruccion";
 import { InsertarError } from "src/reports/ReportController";
 import variable from "./variable";
@@ -16,7 +17,6 @@ export default class Return implements instruccion{
         this.linea = linea;
         this.columna = columna;
     }
-
     ejecutar(ent: entorno, arbol: ast) {
         let ret: any = "";
         for(let i = 0; i < this.retu.length; i++){
@@ -79,5 +79,7 @@ export default class Return implements instruccion{
             }
         }
     }
-
+    traducir(ent: entorno[], c3d: nodo3d, ambito: entorno) {
+        throw new Error("Method not implemented.");
+    }
 }

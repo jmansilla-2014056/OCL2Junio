@@ -1,5 +1,6 @@
 import { ast } from "src/clases/ast/ast";
 import { entorno } from "src/clases/ast/entorno";
+import { nodo3d } from "src/clases/c3d/nodo3d";
 import primitivo from "src/clases/expresiones/primitivo";
 import select from "src/clases/expresiones/select";
 import { instruccion } from "src/clases/interfaces/instruccion";
@@ -26,7 +27,6 @@ export default class FOR implements instruccion{
         this.linea = linea;
         this.columna = columna;
     }
-
     ejecutar(ent: entorno, arbol: ast) {
         let result:any = ""; let entXml:any = null;
         if(Object.prototype.hasOwnProperty.call(ent.tabla,"xml")){
@@ -79,5 +79,7 @@ export default class FOR implements instruccion{
             InsertarError("Semantico",`Error, la cantidad de variables ${this.id.length} no es igual a la cantidad de condiciones ${this.condicion.length}`,"xquery",this.linea[this.linea.length - 1],this.columna[this.columna.length - 1]);
         }
     }
-    
+    traducir(ent: entorno[], c3d: nodo3d, ambito: entorno) {
+        throw new Error("Method not implemented.");
+    }
 }

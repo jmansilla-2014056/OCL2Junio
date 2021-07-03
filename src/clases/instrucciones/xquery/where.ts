@@ -1,6 +1,7 @@
 import { ast } from "src/clases/ast/ast";
 import { entorno } from "src/clases/ast/entorno";
 import { simbolo } from "src/clases/ast/simbolo";
+import { nodo3d } from "src/clases/c3d/nodo3d";
 import predicate from "src/clases/expresiones/predicates/predicate";
 import { instruccion } from "src/clases/interfaces/instruccion";
 import { InsertarError } from "src/reports/ReportController";
@@ -18,7 +19,6 @@ export default class where implements instruccion{
         this.linea = linea;
         this.columna = columna;
     }
-
     ejecutar(ent: entorno, arbol: ast) {
         let ret: any;
         let xp = this.accion.xpath
@@ -52,5 +52,8 @@ export default class where implements instruccion{
                 InsertarError("Semantico",`Error, la variable de comparacion ${this.accion.id} no esta definida`,"xquery",this.accion.linea,this.accion.columna);
             }
         }
+    }
+    traducir(ent: entorno[], c3d: nodo3d, ambito: entorno) {
+        throw new Error("Method not implemented.");
     }
 }

@@ -75,7 +75,7 @@ void main() {
         this.last_stack += 1
     }
     addAtr(simbol: simbolo) {
-            //id
+        //id
         this.main += `\t//se añade el atributo ${simbol.id}\n`
         let ini = { "id": this.generateTemp(), "val": this.h }
         this.main += `\tt${ini.id} = H;\n`
@@ -98,7 +98,7 @@ void main() {
         simbol.stack = this.last_stack
         this.last_stack += 1
         this.temp[ini.id] = ini.val
-            //valor
+        //valor
         this.main += `\t//se añade el atributo ${simbol.id} = ${simbol.valor}\n`
         ini = { "id": this.generateTemp(), "val": this.h }
         this.main += `\tt${ini.id} = H;\n`
@@ -161,6 +161,7 @@ void main() {
         this.StrCode()
         this.AtrCode()
         this.ValCode()
+        this.ValCode2()
         //this.TagFinCode()
         this.declareTemps()
         this.code = this.header
@@ -305,7 +306,7 @@ void main() {
         this.funciones += `\treturn;\n`
         this.funciones += `\n}\n`
     }
-    matchAtr(){
+    matchAtr() {
         this.funciones += `void matchAtr(){\n`
         this.funciones += `\tprintf("%s",xx);printf("%c",(char)10);\n`
         let l10 = { "id": this.generateTemp(), "val": -1 }
@@ -417,7 +418,7 @@ void main() {
         this.funciones += `\treturn;\n`
         this.funciones += `\n}\n`
     }
-    matchChild(){
+    matchChild() {
         this.funciones += `void matchChild(){\n`
         this.funciones += `\tprintf("%s",x);printf("%c",(char)10);\n`
         let l10 = { "id": this.generateTemp(), "val": -1 }
@@ -470,7 +471,7 @@ void main() {
         this.funciones += `\treturn;\n`
         this.funciones += `\n}\n`
     }
-    matchSelf(){
+    matchSelf() {
         this.funciones += `void matchSelf(){\n`
         this.funciones += `\tprintf("%s",x);printf("%c",(char)10);\n`
         let l10 = { "id": this.generateTemp(), "val": -1 }
@@ -523,7 +524,7 @@ void main() {
         this.funciones += `\treturn;\n`
         this.funciones += `\n}\n`
     }
-    matchFollowing(){
+    matchFollowing() {
         this.funciones += `void matchFollowing(){\n`
         this.funciones += `\tprintf("%s",x);printf("%c",(char)10);\n`
         let l10 = { "id": this.generateTemp(), "val": -1 }
@@ -576,7 +577,7 @@ void main() {
         this.funciones += `\treturn;\n`
         this.funciones += `\n}\n`
     }
-    matchPreceding(){
+    matchPreceding() {
         this.funciones += `void matchPreceding(){\n`
         this.funciones += `\tprintf("%s",x);printf("%c",(char)10);\n`
         let l10 = { "id": this.generateTemp(), "val": -1 }
@@ -635,7 +636,47 @@ void main() {
             console.log(n_ent)*/
             this.main += `\tprintf("%c",(char)10);\n`
             let nTag = n_ent.tabla["n_etiquetas"].valor
-            if (nTag == 1) {
+            if (nTag == 0) {
+                let xquery: entorno = ent[0]
+                console.log("XQUERY RESULT")
+                console.log(xquery)
+                //cadena result
+                let simbol: simbolo = xquery.tabla["valor"]
+                let ini = { "id": this.generateTemp(), "val": this.h }
+                this.main += `\tt${ini.id} = H;\n`
+                //se guarda caracter por caracter
+                for (let i = 0; i < simbol.valor.length; i++) {
+                    this.heap[this.h] = simbol.valor.charCodeAt(i)
+                    this.main += `\theap[(int)H] = ${simbol.valor.charCodeAt(i)};\t\t//se agrega el caracter H[${this.h}] ${simbol.valor.charAt(i)}\n`
+                    this.h += 1
+                    this.main += `\tH = H + 1;\n`
+                }
+                //se guarda el fin de la cadena
+                this.heap[this.h] = -1
+                this.main += `\theap[(int)H] = -1;\t\t//se agrega el caracter eos H[${this.h}] -1\n`
+                this.h += 1
+                this.main += `\tH = H + 1;\n`
+                //
+                let ret = { "id": this.generateTemp(), "val": this.s + this.last_stack }
+                this.main += `\tt${ret.id} = S + ${this.last_stack};\n`
+                //parametro
+                let param = { "id": this.generateTemp(), "val": ret.val + 1}
+                this.main += `\tt${param.id} = t${ret.id} + 1;\n`
+                //valor stack cadena
+                this.stack[param.val] = ini.val
+                this.main += `\tstack[(int)t${param.id}] = t${ini.id};\n`
+                //entorno in
+                this.s = this.s + this.last_stack
+                this.main += `\tS = S + ${this.last_stack};\n`
+                this.temp
+                //llamadaVal()
+                this.main += `\tprintVal2();\n`
+                //entorno out
+                ret.val = this.stack[this.s]
+                this.main += `\tt${ret.id} = stack[(int)S];\n`
+                this.s = this.s - this.last_stack
+                this.main += `\tS = S - ${this.last_stack};\n`
+            } else if (nTag == 1) {
                 //tag ini
                 this.main += `\tprintf("%c",(char)60);\n`
                 let id = n_ent.tabla["id"]
@@ -663,8 +704,8 @@ void main() {
                 this.main += `\tS = S - ${this.last_stack};\n`
                 this.main += `\tprintf("%c",(char)47);\n`
                 this.main += `\tprintf("%c",(char)62);\n`
-            } else {
-                    //tag ini
+            } else if (nTag == 2) {
+                //tag ini
                 this.main += `\tprintf("%c",(char)60);\n`
                 let id = n_ent.tabla["id"]
                 //retorno
@@ -689,14 +730,14 @@ void main() {
                 this.main += `\tt${ret.id} = stack[(int)S];\n`
                 this.s = this.s - this.last_stack
                 this.main += `\tS = S - ${this.last_stack};\n`
-                    //atributos
+                //atributos
                 this.printAtributos(n_ent)
                 this.main += `\tprintf("%c",(char)62);\n`
-                    //valor | nodos
-                if (n_ent.tabla["valor"] == null){
+                //valor | nodos
+                if (n_ent.tabla["valor"] == null) {
                     //hijos, funcion recursiva
-                    for (let key in n_ent.tabla){
-                        if (key.startsWith("hijo")){
+                    for (let key in n_ent.tabla) {
+                        if (key.startsWith("hijo")) {
                             this.printEntorno([n_ent.tabla[key].valor])
                         }
                     }
@@ -710,7 +751,7 @@ void main() {
                     let ret = { "id": this.generateTemp(), "val": this.s + this.last_stack }
                     this.main += `\tt${ret.id} = S + ${this.last_stack};\n`
                     //parametro
-                    let param = { "id": this.generateTemp(), "val": ret.val }
+                    let param = { "id": this.generateTemp(), "val": ret.val + 1 }
                     this.main += `\tt${param.id} = t${ret.id} + 1;\n`
                     //valor stack cadena
                     let ini = { "id": this.generateTemp(), "val": id.stack }
@@ -729,7 +770,7 @@ void main() {
                     this.s = this.s - this.last_stack
                     this.main += `\tS = S - ${this.last_stack};\n`
                 }
-                    //tag fin
+                //tag fin
                 //retorno
                 id = n_ent.tabla["id"]
                 this.main += `\tprintf("%c",(char)60);\n`
@@ -946,13 +987,11 @@ void main() {
         this.funciones += `void printVal(){\n`
         //declaracion
         let s_val = { "id": this.generateTemp(), "val": -1 }//valor s
-        let s_i = { "id": this.generateTemp(), "val": -1 }//stack index
         let ref_h = { "id": this.generateTemp(), "val": -1 }//stack [val] = heap index
         let val = { "id": this.generateTemp(), "val": -1 }//heap [val] = val
         //asignacion de valores
         this.funciones += `\tt${s_val.id} = S + 1;\t\t//\n`
-        this.funciones += `\tt${s_i.id} = stack[(int)t${s_val.id}];\t\t//\n`
-        this.funciones += `\tt${ref_h.id} = stack[(int)t${s_i.id}];\t\t//\n`
+        this.funciones += `\tt${ref_h.id} = stack[(int)t${s_val.id}];\t\t//\n`
         this.funciones += `\tt${val.id} = heap[(int)t${ref_h.id}];\t\t//\n`
         /*this.funciones += `\tprintf("%c",(char)10);\n`
         this.funciones += `\tprintf("%c",(char)83);printf("%f",(double)t${s_val.id});\n`
@@ -972,7 +1011,36 @@ void main() {
         //fin
         this.funciones += `\treturn;\n}\n`
     }
-    expInt(){
+    ValCode2() {
+        /*************************** VAL ***************************/
+        this.funciones += `void printVal2(){\n`
+        //declaracion
+        let s_val = { "id": this.generateTemp(), "val": -1 }//valor s
+        let ref_h = { "id": this.generateTemp(), "val": -1 }//stack [val] = heap index
+        let val = { "id": this.generateTemp(), "val": -1 }//heap [val] = val
+        //asignacion de valores
+        this.funciones += `\tt${s_val.id} = S + 1;\t\t//\n`
+        this.funciones += `\tt${ref_h.id} = stack[(int)t${s_val.id}];\t\t//\n`
+        this.funciones += `\tt${val.id} = heap[(int)t${ref_h.id}];\t\t//\n`
+        /*this.funciones += `\tprintf("%c",(char)10);\n`
+        this.funciones += `\tprintf("%c",(char)83);printf("%f",(double)t${s_val.id});\n`
+        this.funciones += `\tprintf("%c",(char)73);printf("%f",(double)t${s_i.id});\n`
+        this.funciones += `\tprintf("%c",(char)72);printf("%f",(double)t${ref_h.id});\n`
+        this.funciones += `\tprintf("%c",(char)86);printf("%f",(double)t${val.id});\n`
+        this.funciones += `\tprintf("%c",(char)10);\n`*/
+        //ini
+        //loop
+        this.funciones += `\tLchar:\t\t//\n`
+        this.funciones += `\tif (t${val.id} == -1) goto Lfin;\t\t//\n`
+        this.funciones += `\tprintf("%c",(char)t${val.id});\t\t//\n`
+        this.funciones += `\tt${ref_h.id} = t${ref_h.id} + 1;\t\t//\n`
+        this.funciones += `\tt${val.id} = heap[(int)t${ref_h.id}];\t\t//\n`
+        this.funciones += `\tgoto Lchar;\t\t//\n`
+        this.funciones += `\tLfin:\t\t//\n`
+        //fin
+        this.funciones += `\treturn;\n}\n`
+    }
+    expInt() {
         this.funciones += `void expInt(){\n`
         let slc_ref = { "id": this.generateTemp(), "val": -1 }
         let num_ref = { "id": this.generateTemp(), "val": -1 }
@@ -997,7 +1065,7 @@ void main() {
         this.funciones += `\treturn;\n`
         this.funciones += `\n}\n`
     }
-    expRel1(){
+    expRel1() {
         this.funciones += `void expRel1(){\n`
         this.funciones += `\tprintf("%s",xxx);printf("%c",(char)10);\n`
         //ref
@@ -1073,7 +1141,7 @@ void main() {
         this.funciones += `\treturn;\n`
         this.funciones += `\n}\n`
     }
-    expRel2(){
+    expRel2() {
         this.funciones += `void expRel2(){\n`
         this.funciones += `\tprintf("%s",xxx);printf("%c",(char)10);\n`
         //ref

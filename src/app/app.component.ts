@@ -48,7 +48,7 @@ export class AppComponent {
   entornoGlobal: entorno = new entorno(null)
   nombre: string = "name_ini"
   contenido: string = "cont_ini"
-  consola: string = '/mundo/continente/pais[@moneda="Dolar"]'
+  consola: string = 'let $y := upper-case("hello world")\nreturn $y'
   salida: string = ""
   n_node: number
   c3d: nodo3d
@@ -57,6 +57,9 @@ export class AppComponent {
   result: ast_xpath
   heap: Array<arreglo>
   stack: Array<arreglo>
+  xquery_result: string
+  P_xpath: boolean
+  entornos: Array<entorno>
   /*openFile(input) {
     var x: File = input.files[0]
     if (x) {
@@ -87,21 +90,21 @@ export class AppComponent {
     let entrada = this.clearEntry(this.xcode);
     let op_result = op.parse(entrada);
     let salida = "";
-    if(op_result[0] instanceof declaraciones){
+    if (op_result[0] instanceof declaraciones) {
       salida += op_result[0].getText();
     }
-    if(op_result[1] instanceof Array){
-      for( let m of op_result[1]){
-       if(m instanceof  metodo){
-         m.optimizarCaso1();
-         m.optimizarCaso3();
-         m.optimizarCaso4();
-         m.optimizarCaso5();
-         m.optimizarCaso6();
-         m.optimizarCaso7();
-         m.optimizarCaso8();
-         salida += m.getText();
-       }
+    if (op_result[1] instanceof Array) {
+      for (let m of op_result[1]) {
+        if (m instanceof metodo) {
+          m.optimizarCaso1();
+          m.optimizarCaso3();
+          m.optimizarCaso4();
+          m.optimizarCaso5();
+          m.optimizarCaso6();
+          m.optimizarCaso7();
+          m.optimizarCaso8();
+          salida += m.getText();
+        }
       }
     }
     console.log(salida);
@@ -267,9 +270,9 @@ export class AppComponent {
     let simbolitos = new tablaSimbolos()
     simbolitos.getTableSimbolos(this.entornoGlobal.tabla["xml"].valor)
     this.ts = simbolitos.simbolos
-    if (this.tsx !== undefined && this.ts !== undefined){
+    if (this.tsx !== undefined && this.ts !== undefined) {
       this.ts = this.ts.concat(this.tsx);
-    }else if(this.tsx !== undefined){
+    } else if (this.tsx !== undefined) {
       this.ts = this.tsx;
     }
     /*let simbolitos = new tablaSimbolos().getTableSimbolos(this.entornoGlobal);
@@ -287,30 +290,31 @@ export class AppComponent {
   /* Analisis xpath ascendente */
   execXpath() {
     if (this.consola !== "") {
+      this.P_xpath = true
       localStorage.removeItem('errores');
       localStorage.setItem('cstx', "digraph L {\n" + "\n" + "  node [shape=record fontname=Arial];");
       localStorage.setItem('actual', 'cst');
 
       let entrada = this.consola
-        let parse_result = xpath.parse(entrada);
-        this.result = parse_result.xpath;
-        let reportG = parse_result.reportG;
+      let parse_result = xpath.parse(entrada);
+      this.result = parse_result.xpath;
+      let reportG = parse_result.reportG;
 
-        let xpath_str
-        let arbol: ast = new ast()
-        xpath_str = this.result.ejecutar(this.entornoGlobal.tabla["xml"].valor, arbol)
-        this.salida = xpath_str
-        console.log(this.salida)
+      let xpath_str
+      let arbol: ast = new ast()
+      xpath_str = this.result.ejecutar(this.entornoGlobal.tabla["xml"].valor, arbol)
+      this.salida = xpath_str
+      console.log(this.salida)
 
-        //Reporte Ast
-        let arbolito = new astXpath().getArbolito(this.result);
-        localStorage.setItem('astx', 'digraph g {\n ' + arbolito + '}');
+      //Reporte Ast
+      let arbolito = new astXpath().getArbolito(this.result);
+      localStorage.setItem('astx', 'digraph g {\n ' + arbolito + '}');
 
-        //reporte gramatical
-        this.tablaReportGramatical(new gramatical("", "").getReporteG(reportG), "Reporte Gramatical Xpath Ascendente", "reportGX", "TitleReportGramaticalX");
+      //reporte gramatical
+      this.tablaReportGramatical(new gramatical("", "").getReporteG(reportG), "Reporte Gramatical Xpath Ascendente", "reportGX", "TitleReportGramaticalX");
 
-        //Fin analisis
-        alert("Analisis finalizado con exito!");
+      //Fin analisis
+      alert("Analisis finalizado con exito!");
       /*try {
         let entrada = this.consola
         let parse_result = xpath.parse(entrada);
@@ -374,35 +378,38 @@ export class AppComponent {
       } catch (error) {
         alert("Error, no ha sido posible recuperarse!");
       }
-    }else{
+    } else {
       alert("Error, Ingrese consulta a ejecutar!");
     }
   }
 
   /* analizdor xquery ascendente */
   execXquery() {
-    if (this.consola !== ""){
+    if (this.consola !== "") {
+      this.P_xpath = false
       localStorage.removeItem('errores');
       try {
         let entrada = this.consola
         let result_parser = xquery.parse(entrada);
+        console.log(result_parser)
         let result = result_parser['xquery'];
         let reportG = result_parser['reportG'];
 
-        if (Array.isArray(result[0])){
+        if (Array.isArray(result[0])) {
           result = result[0]
         }
 
         let entXquery = new ast_xquery;
-        entXquery.creaEntornoXquery(this.entornoGlobal,result);
+        entXquery.creaEntornoXquery(this.entornoGlobal, result);
         entXquery.getSimbolitos(this.entornoGlobal.tabla["xquery"].valor)
         this.tsx = entXquery.simbolos;
 
         /* Ejecuta xquery */
         let result_str
         let arbol = new ast();
-        result_str = entXquery.ejecutar(this.entornoGlobal,arbol);
+        result_str = entXquery.ejecutar(this.entornoGlobal, arbol);
         this.salida = result_str
+        this.xquery_result = result_str
 
         /* reporte gramatical */
         this.tablaReportGramatical(new gramatical("", "").getReporteG(reportG), "Reporte Gramatical Xquery", "reportGQ", "TitleReportGramaticalQ");
@@ -476,9 +483,15 @@ export class AppComponent {
     this.c3d.main += `\t\t/* xml */\n`
     this.c3d.addRoot()
     let ent: entorno = this.entornoGlobal.tabla["xml"].valor
+    //xml
     this.addNodo3D(ent)
-    this.c3d.main += `\n\t\t/* xpath */\n`
-    this.processSeveral(ent)
+    if (this.P_xpath){//xpath
+      this.c3d.main += `\n\t\t/* xpath */\n`
+      this.processSeveral(ent)
+    } else {//xquery
+      this.processXquery()
+    }
+    this.c3d.printEntorno(this.entornos)
     this.c3d.endCode()
     this.salida = this.c3d.code
   }
@@ -495,6 +508,7 @@ export class AppComponent {
     }
   }
   processSeveral(ent) {
+    this.entornos = new Array<entorno>()
     let entorno_temp
     for (let i = 0; i < this.result.lista_several.length; i++) {
       let slc: Array<select> = this.result.lista_several[i]
@@ -506,6 +520,9 @@ export class AppComponent {
       //entorno final
       console.log("entorno final")
       console.log(entorno_temp)
+      for (let n_ent of entorno_temp){
+        this.entornos.push(n_ent)
+      }
       //this.c3d.printEntorno(entorno_temp)
     }
   }
@@ -520,6 +537,13 @@ export class AppComponent {
     for (let key in this.c3d.stack) {
       this.stack.push(new arreglo(key, this.c3d.stack[key]))
     }
+  }
+  processXquery(){
+    this.entornos = new Array<entorno>()
+    let xqueryEnt: entorno = new entorno(this.entornoGlobal)
+    xqueryEnt.agregar("n_etiquetas", new simbolo("n_etiquetas", 0, tipo.N_ETIQUETAS, 0, 0))
+    xqueryEnt.agregar("valor", new simbolo("valor", this.xquery_result, tipo.VALOR, 0, 0))
+    this.entornos.push(xqueryEnt)
   }
 
 }

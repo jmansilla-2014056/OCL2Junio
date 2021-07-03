@@ -1,5 +1,6 @@
 import { ast } from "src/clases/ast/ast";
 import { entorno } from "src/clases/ast/entorno";
+import { nodo3d } from "src/clases/c3d/nodo3d";
 import { instruccion } from "src/clases/interfaces/instruccion";
 import { InsertarError } from "src/reports/ReportController";
 import variable from "./variable";
@@ -70,5 +71,8 @@ export default class nativa implements instruccion{
             InsertarError("Semantico",`Error, la funcion nativa ${this.id} no existe`,"xquery",this.linea,this.columna);
             return result;
         }
+    }
+    traducir(ent: entorno[], c3d: nodo3d, ambito: entorno) {
+        throw new Error("Method not implemented.");
     }
 }

@@ -1,5 +1,6 @@
 import { ast } from "../ast/ast";
 import { entorno } from "../ast/entorno";
+import { nodo3d } from "../c3d/nodo3d";
 import { expresion } from "../interfaces/expresion";
 import { instruccion } from "../interfaces/instruccion";
 
@@ -14,5 +15,8 @@ export default class print implements instruccion{
     }
     ejecutar(ent: entorno, arbol: ast) {
         ent.appEnd(this.exp.getValor(ent,arbol))
+    }
+    traducir(ent: entorno[], c3d: nodo3d, ambito: entorno) {
+        throw new Error("Method not implemented.");
     }
 }

@@ -1,5 +1,6 @@
 import { ast } from "src/clases/ast/ast";
 import { entorno } from "src/clases/ast/entorno";
+import { nodo3d } from "src/clases/c3d/nodo3d";
 import primitivo from "src/clases/expresiones/primitivo";
 import select from "src/clases/expresiones/select";
 import { instruccion } from "src/clases/interfaces/instruccion";
@@ -22,7 +23,6 @@ export default class LET implements instruccion{
         this.linea = linea;
         this.columna = columna;
     }
-
     ejecutar(ent: entorno, arbol: ast) {
         let result: any = null;
         let entXquery = ent.tabla["xquery"].valor
@@ -72,5 +72,8 @@ export default class LET implements instruccion{
             result = this.return.ejecutar(ent,arbol);
             return result;
         }
+    }
+    traducir(ent: entorno[], c3d: nodo3d, ambito: entorno) {
+        throw new Error("Method not implemented.");
     }
 }
