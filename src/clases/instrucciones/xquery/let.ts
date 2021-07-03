@@ -83,71 +83,9 @@ export default class LET implements instruccion {
                 let simbol: simbolo = n_ent.tabla[key]
                 if (simbol.id == this.identificador.id) {
                     simbol.stack = c3d.last_stack
+                    simbol.valor = this.identificador.traducir(ent,c3d)
                     c3d.last_stack += 1
-                    let arr_val = this.identificador.valor
-                    if (arr_val.length == 1) {
-                        let val = arr_val[0]
-                        if (typeof val === 'number') {
-                            //guarda numero
-                            c3d.stack[simbol.stack] = val
-                            simbol.valor = val
-                        } else {
-                            //guarda cadena
-                            let ini = { "id": c3d.generateTemp(), "val": c3d.h }
-                            c3d.main += `\tt${ini.id} = H;\n`
-                            //se guarda caracter por caracter
-                            for (let i = 0; i < val.length; i++) {
-                                c3d.heap[c3d.h] = val.charCodeAt(i)
-                                c3d.main += `\theap[(int)H] = ${val.charCodeAt(i)};\t\t//se agrega el caracter H[${c3d.h}] ${val.charAt(i)}\n`
-                                c3d.h += 1
-                                c3d.main += `\tH = H + 1;\n`
-                            }
-                            //se guarda el fin de la cadena
-                            c3d.heap[c3d.h] = -1
-                            c3d.main += `\theap[(int)H] = -1;\t\t//se agrega el caracter eos H[${c3d.h}] -1\n`
-                            c3d.h += 1
-                            c3d.main += `\tH = H + 1;\n`
-                            c3d.stack[simbol.stack] = ini.val
-                            simbol.valor = val
-                        }
-                    } else {
-                        if (arr_val[arr_val.length - 1] == "xpath") {
-                            let ini = { "id": c3d.generateTemp(), "val": c3d.h }
-                            c3d.main += `\tt${ini.id} = H;\n`
-                            for (let i = 0; i < arr_val[0].length; i++){
-                                let n_ent: entorno = arr_val[0][i]
-                                let id: simbolo = n_ent.tabla["id"]
-                                //guarda stack de ent
-                                c3d.heap[c3d.h] = id.stack
-                                c3d.main += `\theap[(int)H] = ${id.stack};\t\t//se agrega el caracter H[${c3d.h}] ${id.stack}\n`
-                                c3d.h += 1
-                                c3d.main += `\tH = H + 1;\n`
-                            }
-                            //se guarda el fin del arreglo ent
-                            c3d.heap[c3d.h] = -1
-                            c3d.main += `\theap[(int)H] = -1;\t\t//se agrega el caracter eos H[${c3d.h}] -1\n`
-                            c3d.h += 1
-                            c3d.main += `\tH = H + 1;\n`
-                            c3d.stack[simbol.stack] = ini.val
-                        } else {
-                            //guarda arreglo
-                            let ini = { "id": c3d.generateTemp(), "val": c3d.h }
-                            c3d.main += `\tt${ini.id} = H;\n`
-                            //se guarda caracter por caracter
-                            for (let i = 0; i < arr_val.length; i++) {
-                                c3d.heap[c3d.h] = arr_val[i]
-                                c3d.main += `\theap[(int)H] = ${arr_val[i]};\t\t//se agrega el caracter H[${c3d.h}] ${arr_val[i]}\n`
-                                c3d.h += 1
-                                c3d.main += `\tH = H + 1;\n`
-                            }
-                            //se guarda el fin del arreglo
-                            c3d.heap[c3d.h] = -1
-                            c3d.main += `\theap[(int)H] = -1;\t\t//se agrega el caracter eos H[${c3d.h}] -1\n`
-                            c3d.h += 1
-                            c3d.main += `\tH = H + 1;\n`
-                            c3d.stack[simbol.stack] = ini.val
-                        }
-                    }
+                    break
                 }
             }
         }
