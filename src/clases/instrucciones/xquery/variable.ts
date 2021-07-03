@@ -104,23 +104,6 @@ export default class variable implements expresion{
                     console.log(slc[i])
                     slc[i].traducir(slc[i].matches, c3d)
                 }
-                let ini = { "id": c3d.generateTemp(), "val": c3d.h }
-                c3d.main += `\tt${ini.id} = H;\n`
-                for (let i = 0; i < arr_val[0].length; i++){
-                    let n_ent: entorno = arr_val[0][i]
-                    let id: simbolo = n_ent.tabla["id"]
-                    //guarda stack de ent
-                    c3d.heap[c3d.h] = id.stack
-                    c3d.main += `\theap[(int)H] = ${id.stack};\t\t//se agrega el caracter H[${c3d.h}] ${id.stack}\n`
-                    c3d.h += 1
-                    c3d.main += `\tH = H + 1;\n`
-                }
-                //se guarda el fin del arreglo ent
-                c3d.heap[c3d.h] = -1
-                c3d.main += `\theap[(int)H] = -1;\t\t//se agrega el caracter eos H[${c3d.h}] -1\n`
-                c3d.h += 1
-                c3d.main += `\tH = H + 1;\n`
-                c3d.stack[c3d.last_stack] = ini.val
             } else {
                 //guarda arreglo
                 let ret = { "id": c3d.generateTemp(), "val": c3d.last_stack }
