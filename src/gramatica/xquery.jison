@@ -347,11 +347,11 @@ opcion_where    : WHERE VAR opcion_xpath {
 
 /* instruccion order by */
 opcion_order    : ORDER BY VAR opcion_xpath {
-                    $$ = new order_query.default(new variable_query.default($2,$3,@1.first_line,@1.first_column),@1.first_line,@1.first_column);
+                    $$ = new order_query.default(new variable_query.default($3,$4,@1.first_line,@1.first_column),@1.first_line,@1.first_column);
                     reportG.push(new gramatic.default("opcion_order : ORDER BY VAR opcion_xpath","{ opcion_order.val = new order_query.default(new variable_query.default(VAR.valLex,opcion_xpath.val)); }")); 
                 }
                 | ORDER BY VAR {
-                    $$ = new where_query.default(new variable_query.default($2,[],@1.first_line,@1.first_column),@1.first_line,@1.first_column);
+                    $$ = new where_query.default(new variable_query.default($3,[],@1.first_line,@1.first_column),@1.first_line,@1.first_column);
                     reportG.push(new gramatic.default("opcion_order : ORDER BY VAR","{ opcion_order.val = new order_query.default(new variable_query.default(VAR.valLex,[])); }")); 
                 }
                 ;

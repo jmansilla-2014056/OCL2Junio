@@ -36,6 +36,7 @@ export default class where implements instruccion{
         }
     }
 
+    /* Verifica que la variable a retornar exista en la tabla de simbolos */
     verificaMatch(ent:entorno){
         let match = true; let ind = 0; let entXq = ent.tabla["xquery"].valor;
         while(match){

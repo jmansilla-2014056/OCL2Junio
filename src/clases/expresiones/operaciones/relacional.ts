@@ -322,4 +322,45 @@ export default class relacional implements expresion {
         return -1
     }
 
+    /* relacional para ifs */
+    getValorX(ent:entorno,arbol:ast){
+        let val1 = this.e1.getValor(ent, arbol)
+        let val2 = this.e2.getValor(ent, arbol)
+        
+        switch (this.operador) {
+            case "<":
+                if (val1 < val2) {
+                    return true;
+                }
+                return false;
+            case "<=":
+                if (val1 <= val2) {
+                    return true;
+                }
+                return false;
+            case ">":
+                if (val1 > val2) {
+                    return true;
+                }
+                return false;
+            case ">=":
+                if (val1 >= val2) {
+                    return true;
+                }
+                return false;
+            case "=":
+                if (val1 == val2) {
+                    return true;
+                }
+                return false;
+            case "!=":
+                if (val1 != val2) {
+                    return true;
+                }
+                return false;
+            default:
+                return false;
+        }
+    }
+
 }

@@ -49,9 +49,9 @@ export default class LET implements instruccion {
                 if (this.asignacion instanceof Function || this.asignacion instanceof nativa) {
                     result.push(this.asignacion.ejecutar(ent, arbol));
                     this.identificador.valor = result;
-                } else {
-                    this.identificador.valor = this.asignacion.getValor(ent, arbol);
-                    result.push(this.identificador.valor);
+                }else{
+                    result.push(this.asignacion.getValor(ent,arbol));
+                    this.identificador.valor = result;
                 }
             }
         } else {

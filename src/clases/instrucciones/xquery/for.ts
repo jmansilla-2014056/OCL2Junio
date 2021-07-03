@@ -5,6 +5,7 @@ import primitivo from "src/clases/expresiones/primitivo";
 import select from "src/clases/expresiones/select";
 import { instruccion } from "src/clases/interfaces/instruccion";
 import { InsertarError } from "src/reports/ReportController";
+import order from "./order";
 import Return from "./return";
 import variable from "./variable";
 import where from "./where";
@@ -71,6 +72,8 @@ export default class FOR implements instruccion{
                 if(this.contenido[i] instanceof Return){
                     result = this.contenido[i].ejecutar(ent,arbol);
                 }else if(this.contenido[i] instanceof where){
+                    result = this.contenido[i].ejecutar(ent,arbol);
+                }else if(this.contenido[i] instanceof order){
                     result = this.contenido[i].ejecutar(ent,arbol);
                 }
             }

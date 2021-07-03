@@ -311,13 +311,13 @@ case 33:
 break;
 case 34:
 
-                    this.$ = new order_query.default(new variable_query.default($$[$0-2],$$[$0-1],_$[$0-3].first_line,_$[$0-3].first_column),_$[$0-3].first_line,_$[$0-3].first_column);
+                    this.$ = new order_query.default(new variable_query.default($$[$0-1],$$[$0],_$[$0-3].first_line,_$[$0-3].first_column),_$[$0-3].first_line,_$[$0-3].first_column);
                     reportG.push(new gramatic.default("opcion_order : ORDER BY VAR opcion_xpath","{ opcion_order.val = new order_query.default(new variable_query.default(VAR.valLex,opcion_xpath.val)); }")); 
                 
 break;
 case 35:
 
-                    this.$ = new where_query.default(new variable_query.default($$[$0-1],[],_$[$0-2].first_line,_$[$0-2].first_column),_$[$0-2].first_line,_$[$0-2].first_column);
+                    this.$ = new where_query.default(new variable_query.default($$[$0],[],_$[$0-2].first_line,_$[$0-2].first_column),_$[$0-2].first_line,_$[$0-2].first_column);
                     reportG.push(new gramatic.default("opcion_order : ORDER BY VAR","{ opcion_order.val = new order_query.default(new variable_query.default(VAR.valLex,[])); }")); 
                 
 break;

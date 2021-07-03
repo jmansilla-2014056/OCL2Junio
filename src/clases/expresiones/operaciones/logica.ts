@@ -3,6 +3,7 @@ import { entorno } from "src/clases/ast/entorno";
 import { tipo } from "src/clases/ast/tipo";
 import { nodo3d } from "src/clases/c3d/nodo3d";
 import { expresion } from "src/clases/interfaces/expresion";
+import relacional from "./relacional";
 
 export default class logica implements expresion {
     public e1: expresion
@@ -128,5 +129,44 @@ export default class logica implements expresion {
             arr[index.valor] = index.valor
         }
         return arr
+    }
+
+    /* logicas para ifs */
+    getValorX(ent:entorno,arbol:ast){
+        let val1
+        let val2
+        let valU
+        if (this.expU) {
+            if(this.e1 instanceof relacional || this.e1 instanceof logica){
+                valU = this.e1.getValorX(ent, arbol)
+            }else{
+                valU = this.e1.getValor(ent, arbol)
+            }
+        } else {
+            if(this.e1 instanceof relacional || this.e1 instanceof logica){
+                val1 = this.e1.getValorX(ent, arbol)
+            }else{
+                val1 = this.e1.getValor(ent, arbol)
+            }
+            if(this.e2 instanceof relacional || this.e2 instanceof logica){
+                val2 = this.e2.getValorX(ent, arbol)
+            }else{
+                val2 = this.e2.getValor(ent, arbol)
+            }
+        }
+        switch (this.operador) {
+            case "||":
+                if(val1 || val2){
+                    return true;
+                }
+                return false;
+            case "&&":
+                if(val1 && val2){
+                    return true;
+                }
+                return false;
+            default:
+                return false;
+        }
     }
 }

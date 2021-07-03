@@ -65,8 +65,19 @@ export default class Return implements instruccion{
     /* Verifica que la variable a retornar exista en la tabla de simbolos */
     verificaMatch(ent:entorno,i:number){
         let match = true; let ind = 0; let entXq = ent.tabla["xquery"].valor;
+        let func = entXq.getSimbol("function");
+        if(func){
+            entXq = func.valor;
+        }
         while(match){
             let simbol = entXq.getSimbol("var"+ind.toString());
+            if (!simbol){
+                simbol = entXq.getSimbol("param"+ind.toString());
+            }else{
+                if(simbol.valor.id !== this.retu[i].variable.id){
+                    simbol = entXq.getSimbol("param"+ind.toString());
+                }
+            }
             if(simbol && simbol.valor instanceof variable){
                 if(simbol.valor.id === this.retu[i].variable.id){
                     this.retu[i].variable.valor = simbol.valor.valor;

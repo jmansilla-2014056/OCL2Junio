@@ -25,20 +25,20 @@ export default class ast_xquery{
 
     /* recursiva y no recursiva para contenidos */
     hijosEntorno(ent:entorno,result:Array<any>){
-        let lets : number = 0;
-        let fors : number = 0;
-        
+        let vars : number = 0;
+
         for (let i = 0; i < result.length; i++){
             if (result[i] instanceof LET) {
-                ent.agregar("var" + lets.toString(),new simbolo(result[i].identificador.id,result[i].identificador,tipo.ATRIBUTE,result[i].identificador.linea,result[i].identificador.columna));
-                lets++;
+                ent.agregar("var" + vars.toString(),new simbolo(result[i].identificador.id,result[i].identificador,tipo.ATRIBUTE,result[i].identificador.linea,result[i].identificador.columna));
+                vars++;
             }else if (result[i] instanceof FOR){
                 for(let j = 0; j < result[i].id.length; j++){
-                    ent.agregar("var" + fors.toString(),new simbolo(result[i].id[j].id,result[i].id[j],tipo.STRUCT,result[i].id[j].linea,result[i].id[j].columna));
-                    fors++;
+                    ent.agregar("var" + vars.toString(),new simbolo(result[i].id[j].id,result[i].id[j],tipo.STRUCT,result[i].id[j].linea,result[i].id[j].columna));
+                    vars++;
                 }
             }else if(result[i] instanceof IF){
-                let res = [];
+                ent.agregar("if",new simbolo("if",result[i],tipo.STRUCT,result[i].linea,result[i].columna));
+                /*
                 if (result[i].ifList.length > 0){
                     (Array.isArray(result[i].ifList[0]) ? res = result[i].ifList[0] : res = result[i].ifList)
                     if (res[0] instanceof LET || res[0] instanceof FOR || res[0] instanceof Function || res[0] instanceof IF){
@@ -54,13 +54,13 @@ export default class ast_xquery{
                         this.hijosEntorno(entAux,res);
                         ent.agregar("elseList",new simbolo("else",entAux,tipo.STRUCT,result[i].linea,result[i].columna));
                     }
-                }
+                }*/
             }else if (result[i] instanceof Function){
                 if (!result[i].llamada){
                     let entfun = new entorno(ent);
-                    result[i].tipo = this.getType(result[i].tipe)
+                    result[i].tipo = this.getType(result[i].tipe);
                     for (let j = 0; j < result[i].parametros.length; j++){
-                        entfun.agregar("param" + j.toString(),new simbolo(result[i].parametros[j][0].id,null,tipo.PARAMETRO,result[i].linea,result[i].columna));
+                        entfun.agregar("param" + j.toString(),new simbolo(result[i].parametros[j][0].id,result[i].parametros[j],tipo.PARAMETRO,result[i].parametros[j][0].linea,result[i].parametros[j][0].columna));
                     }
                     ent.agregar("function",new simbolo(result[i].id,entfun,tipo.FUNCTION,result[i].linea,result[i].columna));
                     let entAux = new entorno(ent);
@@ -68,8 +68,8 @@ export default class ast_xquery{
                     if (Array.isArray(res[0])) {
                         res = res[0]
                     }
-                    this.hijosEntorno(entAux,res);
-                    entfun.agregar("content",new simbolo(result[i].id,entAux,tipo.STRUCT,result[i].linea,result[i].columna));
+                    this.hijosEntorno(entfun,res);
+                    entfun.agregar("content",new simbolo(result[i].id,res,tipo.STRUCT,result[i].linea,result[i].columna));
                 }
             }
         }
@@ -107,13 +107,13 @@ export default class ast_xquery{
             if (key.startsWith("var")){
                 this.simbolos.push(new simbolTabla(ent.tabla[key].id,tipo[ent.tabla[key].tipo],this.ambito,ent.tabla[key].linea,ent.tabla[key].columna,null,null));
             }
-            if (key === "content" || key === "elselist" || key === "iflist"){
+            /*if (key === "content" || key === "elselist" || key === "iflist"){
                 if (ent.tabla !== {}){
                     if (ent.tabla[key].valor instanceof entorno){
                         this.getSimbolitos(ent.tabla[key].valor)
                     }
                 }
-            }
+            }*/
         }
     }
 
