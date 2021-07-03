@@ -26,6 +26,7 @@ import { arreglo } from 'src/clases/arreglo';
 import ast_xquery from 'src/clases/ast/ast_xquery';
 import declaraciones from "../clases/optimizador/declaraciones";
 import metodo from "../clases/optimizador/metodo";
+import { instruccion } from 'src/clases/interfaces/instruccion';
 
 @Component({
   selector: 'app-root',
@@ -60,6 +61,7 @@ export class AppComponent {
   xquery_result: string
   P_xpath: boolean
   entornos: Array<entorno>
+  xquery: Array<instruccion>
   /*openFile(input) {
     var x: File = input.files[0]
     if (x) {
@@ -386,12 +388,13 @@ export class AppComponent {
   /* analizdor xquery ascendente */
   execXquery() {
     if (this.consola !== "") {
+      this.xquery = new Array<instruccion>()
       this.P_xpath = false
       localStorage.removeItem('errores');
       try {
         let entrada = this.consola
         let result_parser = xquery.parse(entrada);
-        console.log(result_parser)
+        this.xquery = result_parser.xquery
         let result = result_parser['xquery'];
         let reportG = result_parser['reportG'];
 
@@ -494,6 +497,7 @@ export class AppComponent {
     this.c3d.printEntorno(this.entornos)
     this.c3d.endCode()
     this.salida = this.c3d.code
+    console.log(this.entornoGlobal)
   }
   addNodo3D(ent: entorno) {
     this.c3d.addNodo(ent)
@@ -540,6 +544,11 @@ export class AppComponent {
   }
   processXquery(){
     this.entornos = new Array<entorno>()
+    console.log("INSTRUCCIONES")
+    console.log(this.xquery)
+    for (let inst of this.xquery){
+      //inst.traducir(null, this.c3d, this.entornoGlobal)
+    }
     let xqueryEnt: entorno = new entorno(this.entornoGlobal)
     xqueryEnt.agregar("n_etiquetas", new simbolo("n_etiquetas", 0, tipo.N_ETIQUETAS, 0, 0))
     xqueryEnt.agregar("valor", new simbolo("valor", this.xquery_result, tipo.VALOR, 0, 0))

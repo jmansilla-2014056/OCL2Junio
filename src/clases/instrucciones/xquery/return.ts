@@ -79,7 +79,7 @@ export default class Return implements instruccion{
             }
         }
     }
-    traducir(ent: entorno[], c3d: nodo3d, ambito: entorno) {
+    traducir(ent: entorno[], c3d: nodo3d) {
         throw new Error("Method not implemented.");
     }
 }

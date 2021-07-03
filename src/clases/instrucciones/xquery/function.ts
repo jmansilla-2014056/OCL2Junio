@@ -28,7 +28,7 @@ export default class Function implements instruccion{
     ejecutar(ent: entorno, arbol: ast) {
         throw new Error("Method not implemented.");
     }
-    traducir(ent: entorno[], c3d: nodo3d, ambito: entorno) {
+    traducir(ent: entorno[], c3d: nodo3d) {
         throw new Error("Method not implemented.");
     }
 

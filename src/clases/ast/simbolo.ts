@@ -11,13 +11,15 @@ export class simbolo implements expresion{
     public linea: number
     public columna: number
     public stack: number
-    constructor(id,valor,tipo,linea,columna){
+    public ambito: string
+    constructor(id,valor,tipo,linea,columna,ambito?,stack?){
         this.id = id
         this.valor = valor
         this.tipo = tipo
         this.linea = linea
         this.columna = columna
-        this.stack = null
+        this.stack = stack
+        this.ambito = ambito
     }
     traducir(ent: entorno[], c3d: nodo3d) {
         throw new Error("Method not implemented.");
@@ -35,6 +37,8 @@ export class simbolo implements expresion{
             return "ATTRIBUTE"
         } else if (this.tipo == tipo.VALOR){
             return "VALOR"
+        } else if (this.tipo == tipo.VARIABLE){
+            return "VARIABLE"
         }
         return ""
     }

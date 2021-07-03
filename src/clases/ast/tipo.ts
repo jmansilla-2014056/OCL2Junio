@@ -10,5 +10,6 @@ export enum tipo{
     ARRAY,
     N_ETIQUETAS,
     FUNCTION,
-    PARAMETRO
+    PARAMETRO,
+    VARIABLE,
 }

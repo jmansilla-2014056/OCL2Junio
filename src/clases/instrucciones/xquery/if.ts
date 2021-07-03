@@ -36,7 +36,7 @@ export default class IF implements instruccion {
             InsertarError("Semantico","Error, condición no valida","xquery",this.linea,this.columna);
         }
     }
-    traducir(ent: entorno[], c3d: nodo3d, ambito: entorno) {
+    traducir(ent: entorno[], c3d: nodo3d) {
         throw new Error("Method not implemented.");
     }
 }

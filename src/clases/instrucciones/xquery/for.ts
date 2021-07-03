@@ -79,7 +79,7 @@ export default class FOR implements instruccion{
             InsertarError("Semantico",`Error, la cantidad de variables ${this.id.length} no es igual a la cantidad de condiciones ${this.condicion.length}`,"xquery",this.linea[this.linea.length - 1],this.columna[this.columna.length - 1]);
         }
     }
-    traducir(ent: entorno[], c3d: nodo3d, ambito: entorno) {
+    traducir(ent: entorno[], c3d: nodo3d) {
         throw new Error("Method not implemented.");
     }
 }
