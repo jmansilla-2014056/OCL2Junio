@@ -67,6 +67,34 @@ export function getErrores():string{
   return errorcitos;
 }
 
+export function getOptimizar():string{
+  let errorcitos = '';
+  if (window.localStorage.getItem('reglas') !== undefined && window.localStorage.getItem('reglas')) {
+    let listaerrores = JSON.parse(localStorage.getItem('reglas'));
+    errorcitos = '<table class="table">\n\
+                        <thead>\n\
+                        <tr>\n\
+                            <th scope="col">#</th>\n\
+                            <th scope="col">Regla</th>\n\
+                            <th scope="col">Descripcion</th>\n\
+                        </tr>\n\
+                        </thead>\n\
+                        <tbody>\n';
+    for (let index = 0; index < listaerrores.length; index++) {
+      if(!(listaerrores[index]["desc"]=="se elimino codigo inalcanzable:")){
+        errorcitos += '<tr>\n\
+                      <th scope="row">' + (index + 1).toString() + '</th>\n\
+                      <td>' + listaerrores[index]["regla"] + '</td>\n\
+                      <td>' + listaerrores[index]["desc"] + '</td>\n\
+                    </tr>';
+      }
+    }
+    errorcitos += '</tbody>\n</table>\n';
+  }
+  return errorcitos;
+}
+
+
 export function InsertarCst(nodoS: string){
   let actual = localStorage.getItem('actual');
   if(actual === 'cst'){

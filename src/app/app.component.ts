@@ -5,7 +5,7 @@ import { simbolo } from 'src/clases/ast/simbolo';
 import { tipo } from 'src/clases/ast/tipo';
 import { ast } from '../clases/ast/ast';
 import { astXpath } from '../reports/astXpath';
-import { getErrores, InsertarError } from '../reports/ReportController';
+import {getErrores, getOptimizar, InsertarError} from '../reports/ReportController';
 import gramatical from '../reports/gramatical';
 import nodo_xml from '../clases/xml/nodo_xml';
 import xml from "../gramatica/xml";
@@ -92,25 +92,28 @@ export class AppComponent {
     localStorage.clear();
     let entrada = this.clearEntry(this.xcode);
     let op_result = op.parse(entrada);
-    let salida = "";
-    if (op_result[0] instanceof declaraciones) {
-      salida += op_result[0].getText();
+    let exit = "";
+    if(op_result[0] instanceof declaraciones){
+      exit += op_result[0].getText();
     }
-    if (op_result[1] instanceof Array) {
-      for (let m of op_result[1]) {
-        if (m instanceof metodo) {
-          m.optimizarCaso1();
-          m.optimizarCaso3();
-          m.optimizarCaso4();
-          m.optimizarCaso5();
-          m.optimizarCaso6();
-          m.optimizarCaso7();
-          m.optimizarCaso8();
-          salida += m.getText();
-        }
+    if(op_result[1] instanceof Array){
+      for( let m of op_result[1]){
+       if(m instanceof  metodo){
+         for(let i = 0 ; i < 6; i++){
+           m.optimizarCaso1();
+           m.optimizarCaso3();
+           m.optimizarCaso4();
+           m.optimizarCaso5();
+           m.optimizarCaso6();
+           m.optimizarCaso7();
+           m.optimizarCaso8();
+         }
+         exit += m.getText();
+       }
       }
     }
-    console.log(salida);
+    this.salida = exit;
+    this.consola = localStorage.getItem("reglas");
   }
 
   /* Analisis Ascendente */
@@ -444,6 +447,13 @@ export class AppComponent {
 
   reporteArbolC() {
     window.open(window.location.href + 'xpath/ast.html', '_blank');
+  }
+
+  reporteArbolD() {
+    console.log("hola");
+    let errores = getOptimizar();
+    document.getElementById("TitleErrorTable").innerHTML = "Reporte"
+    document.getElementById("reportE").innerHTML = errores;
   }
 
   /* Limpiar Entrada */
