@@ -64,15 +64,18 @@ export default class variable implements expresion{
         }
     }
     traducir(ent: entorno[], c3d: nodo3d) {
-        console.log("TRADUCIR VARIABLE")
         let arr_val = this.valor
         if (arr_val.length == 1) {
             let val = arr_val[0]
             if (typeof val === 'number') {
                 //guarda numero
+                let ret = { "id": c3d.generateTemp(), "val": c3d.last_stack }
                 c3d.stack[c3d.last_stack] = val
+                c3d.last_stack += 1
+                c3d.t_res = ret.id
                 return val
             } else {
+                let ret = { "id": c3d.generateTemp(), "val": c3d.last_stack }
                 //guarda cadena
                 let ini = { "id": c3d.generateTemp(), "val": c3d.h }
                 c3d.main += `\tt${ini.id} = H;\n`
@@ -89,12 +92,12 @@ export default class variable implements expresion{
                 c3d.h += 1
                 c3d.main += `\tH = H + 1;\n`
                 c3d.stack[c3d.last_stack] = ini.val
+                c3d.last_stack += 1
+                c3d.t_res = ret.id
                 return val
             }
         } else {
             if (arr_val[arr_val.length - 1] == "xpath") {
-                console.log("XPATH")
-                console.log(this.xpath)
                 let slc = this.xpath[0]
                 for (let i = 0; i < slc.length; i++){
                     console.log(i)
@@ -120,6 +123,7 @@ export default class variable implements expresion{
                 c3d.stack[c3d.last_stack] = ini.val
             } else {
                 //guarda arreglo
+                let ret = { "id": c3d.generateTemp(), "val": c3d.last_stack }
                 let ini = { "id": c3d.generateTemp(), "val": c3d.h }
                 c3d.main += `\tt${ini.id} = H;\n`
                 //se guarda caracter por caracter
@@ -135,6 +139,8 @@ export default class variable implements expresion{
                 c3d.h += 1
                 c3d.main += `\tH = H + 1;\n`
                 c3d.stack[c3d.last_stack] = ini.val
+                c3d.last_stack += 1
+                c3d.t_res = ret.id
             }
         }
         return null

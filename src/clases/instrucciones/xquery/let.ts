@@ -82,9 +82,9 @@ export default class LET implements instruccion {
             if (key.startsWith("var")) {
                 let simbol: simbolo = n_ent.tabla[key]
                 if (simbol.id == this.identificador.id) {
-                    simbol.stack = c3d.last_stack
+                    let ret = { "id": c3d.t_res, "val": c3d.temp[c3d.t_res] }
+                    simbol.stack = ret.val
                     simbol.valor = this.identificador.traducir(ent,c3d)
-                    c3d.last_stack += 1
                     break
                 }
             }
