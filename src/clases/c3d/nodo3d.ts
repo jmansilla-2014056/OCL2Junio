@@ -647,7 +647,7 @@ void main() {
                 //se guarda caracter por caracter
                 for (let i = 0; i < simbol.valor.length; i++) {
                     this.heap[this.h] = simbol.valor.charCodeAt(i)
-                    this.main += `\theap[(int)H] = ${simbol.valor.charCodeAt(i)};\t\t//se agrega el caracter H[${this.h}] ${simbol.valor.charAt(i)}\n`
+                    this.main += `\theap[(int)H] = ${simbol.valor.charCodeAt(i)};\n`
                     this.h += 1
                     this.main += `\tH = H + 1;\n`
                 }

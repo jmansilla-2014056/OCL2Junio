@@ -95,17 +95,17 @@ export default class ast_xquery{
         for (const key in ent.tabla) {
             
             if(key === "function"){
-                this.simbolos.push(new simbolTabla(ent.tabla[key].id,tipo[ent.tabla[key].tipo],this.ambito,ent.tabla[key].linea,ent.tabla[key].columna,null,null));
+                this.simbolos.push(new simbolTabla(ent.tabla[key].id,tipo[ent.tabla[key].tipo],this.ambito,ent.tabla[key].linea,ent.tabla[key].columna,ent.tabla[key].stack,null));
                 this.ambito = ent.tabla[key].id;
                 if (ent.tabla !== {} && ent.tabla[key].valor instanceof entorno){
                     this.getSimbolitos(ent.tabla[key].valor)
                 }
             }
             if (key.startsWith("param")){
-                this.simbolos.push(new simbolTabla(ent.tabla[key].id,tipo[ent.tabla[key].tipo],this.ambito,ent.tabla[key].linea,ent.tabla[key].columna,null,null));
+                this.simbolos.push(new simbolTabla(ent.tabla[key].id,tipo[ent.tabla[key].tipo],this.ambito,ent.tabla[key].linea,ent.tabla[key].columna,ent.tabla[key].stack,null));
             }
             if (key.startsWith("var")){
-                this.simbolos.push(new simbolTabla(ent.tabla[key].id,tipo[ent.tabla[key].tipo],this.ambito,ent.tabla[key].linea,ent.tabla[key].columna,null,null));
+                this.simbolos.push(new simbolTabla(ent.tabla[key].id,tipo[ent.tabla[key].tipo],this.ambito,ent.tabla[key].linea,ent.tabla[key].columna,ent.tabla[key].stack,ent.tabla[key].valor));
             }
             /*if (key === "content" || key === "elselist" || key === "iflist"){
                 if (ent.tabla !== {}){

@@ -62,6 +62,7 @@ export class AppComponent {
   P_xpath: boolean
   entornos: Array<entorno>
   xquery: Array<instruccion>
+  entXquery: ast_xquery;
   /*openFile(input) {
     var x: File = input.files[0]
     if (x) {
@@ -142,7 +143,7 @@ export class AppComponent {
       }
       this.createEntorno(result, encoding, tipo_encoding);
       // reporte tabla de simbolos
-      this.tablaSimbolosReport();
+        //this.tablaSimbolosReport();
       // Fin analisis
       alert("Analisis finalizado con exito!");
       /*try {
@@ -185,7 +186,7 @@ export class AppComponent {
         }
         this.createEntorno(result, encoding, tipo_encoding);
         /* reporte tabla de simbolos */
-        this.tablaSimbolosReport();
+          //this.tablaSimbolosReport();
         /* Fin analisis */
         alert("Analisis finalizado con exito!");
       } catch (error) {
@@ -271,6 +272,11 @@ export class AppComponent {
   tablaSimbolosReport() {
     let simbolitos = new tablaSimbolos()
     simbolitos.getTableSimbolos(this.entornoGlobal.tabla["xml"].valor)
+    console.log("--------------------------")
+    console.log(this.entornoGlobal.tabla["xquery"].valor)
+    console.log("--------------------------")
+    this.entXquery.getSimbolitos(this.entornoGlobal.tabla["xquery"].valor)
+    this.tsx = this.entXquery.simbolos
     this.ts = simbolitos.simbolos
     if (this.tsx !== undefined && this.ts !== undefined) {
       this.ts = this.ts.concat(this.tsx);
@@ -402,15 +408,15 @@ export class AppComponent {
           result = result[0]
         }
 
-        let entXquery = new ast_xquery;
-        entXquery.creaEntornoXquery(this.entornoGlobal, result);
-        entXquery.getSimbolitos(this.entornoGlobal.tabla["xquery"].valor)
-        this.tsx = entXquery.simbolos;
+        this.entXquery = new ast_xquery;
+        this.entXquery.creaEntornoXquery(this.entornoGlobal, result);
+        //entXquery.getSimbolitos(this.entornoGlobal.tabla["xquery"].valor)
+        //this.tsx = entXquery.simbolos;
 
         /* Ejecuta xquery */
         let result_str
         let arbol = new ast();
-        result_str = entXquery.ejecutar(this.entornoGlobal, arbol);
+        result_str = this.entXquery.ejecutar(this.entornoGlobal, arbol);
         this.salida = result_str
         this.xquery_result = result_str
 
@@ -544,10 +550,8 @@ export class AppComponent {
   }
   processXquery(){
     this.entornos = new Array<entorno>()
-    console.log("INSTRUCCIONES")
-    console.log(this.xquery)
     for (let inst of this.xquery){
-      //inst.traducir(null, this.c3d, this.entornoGlobal)
+      inst.traducir([this.entornoGlobal.tabla["xquery"].valor], this.c3d)
     }
     let xqueryEnt: entorno = new entorno(this.entornoGlobal)
     xqueryEnt.agregar("n_etiquetas", new simbolo("n_etiquetas", 0, tipo.N_ETIQUETAS, 0, 0))

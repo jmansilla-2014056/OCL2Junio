@@ -18,9 +18,6 @@ export default class variable implements expresion{
         this.linea = linea;
         this.columna = columna;
     }
-    traducir(ent: entorno[], c3d: nodo3d) {
-        throw new Error("Method not implemented.");
-    }
     getTipo(ent: entorno, arbol: ast) {
         throw new Error("Method not implemented.");
     }
@@ -63,5 +60,8 @@ export default class variable implements expresion{
                 }
             }
         }
+    }
+    traducir(ent: entorno[], c3d: nodo3d) {
+        throw new Error("Method not implemented.");
     }
 }
