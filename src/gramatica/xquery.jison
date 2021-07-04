@@ -496,6 +496,10 @@ parametros      : parametros COMA parametros {
                     $$ = [new variable_query.default($1,$2,@1.first_line,@1.first_column)];
                     reportG.push(new gramatic.default("parametros : VAR opcion_xpath","{ parametros.val = [new variable_query.default(VAR.valLex,opcion_xpath.val)]; }"));
                 }
+                | opcion_xpath {
+                    $$ = [new variable_query.default('',$1,@1.first_line,@1.first_column)];
+                    reportG.push(new gramatic.default("parametros : opcion_xpath","{ parametros.val = [new variable_query.default('',opcion_xpath.val)]; }"));
+                }
                 ;
 
 /* tipos para las funciones */

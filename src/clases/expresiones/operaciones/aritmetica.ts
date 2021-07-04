@@ -3,6 +3,7 @@ import { entorno } from "src/clases/ast/entorno";
 import { tipo } from "src/clases/ast/tipo";
 import { nodo3d } from "src/clases/c3d/nodo3d";
 import Function from "src/clases/instrucciones/xquery/function";
+import variable from "src/clases/instrucciones/xquery/variable";
 import { expresion } from "src/clases/interfaces/expresion";
 import { InsertarError } from "src/reports/ReportController";
 
@@ -40,8 +41,8 @@ export default class aritmetica implements expresion {
                 val1 = this.e1.ejecutar(ent, arbol)
                 val2 = this.e2.getValor(ent, arbol)
             }else if(this.e2 instanceof Function){
-                val2 = this.e2.ejecutar(ent, arbol)
                 val1 = this.e1.getValor(ent, arbol)
+                val2 = this.e2.ejecutar(ent, arbol)
             }else{
                 val1 = this.e1.getValor(ent, arbol)
                 val2 = this.e2.getValor(ent, arbol)

@@ -70,12 +70,12 @@ export default class Return implements instruccion{
             entXq = func.valor;
         }
         while(match){
-            let simbol = entXq.getSimbol("var"+ind.toString());
+            let simbol = entXq.getSimbol("var"+i.toString());
             if (!simbol){
-                simbol = entXq.getSimbol("param"+ind.toString());
+                simbol = entXq.getSimbol("param"+i.toString());
             }else{
                 if(simbol.valor.id !== this.retu[i].variable.id){
-                    simbol = entXq.getSimbol("param"+ind.toString());
+                    simbol = entXq.getSimbol("param"+i.toString());
                 }
             }
             if(simbol && simbol.valor instanceof variable){
@@ -83,7 +83,6 @@ export default class Return implements instruccion{
                     this.retu[i].variable.valor = simbol.valor.valor;
                     match = false;
                 }
-                ind++;
             }else{
                 match = false;
                 InsertarError("Semantico",`Error, la variable de retorno ${this.retu[i].variable.id} no esta definida`,"xquery",this.retu[i].variable.linea,this.retu[i].variable.columna);

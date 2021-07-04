@@ -20,6 +20,7 @@ export default class LET implements instruccion {
     public columna: number;
     public nat: nativa
     public slc: Array<select>
+    public simbol:simbolo;
 
     constructor(id, asig, linea, columna) {
         this.identificador = id;
@@ -35,6 +36,7 @@ export default class LET implements instruccion {
             entXml = ent.tabla["xml"].valor;
         }
 
+        this.verificaMatch(ent)
         if (this.asignacion !== null) {
             if (Array.isArray(this.asignacion)) {
                 if (this.asignacion[0] === "to") {
@@ -44,6 +46,7 @@ export default class LET implements instruccion {
                             result.push(i);
                         }
                         this.identificador.valor = result;
+                        this.simbol.valor = result
                     }
                 }
             } else {
@@ -51,13 +54,16 @@ export default class LET implements instruccion {
                 if (this.asignacion instanceof Function) {
                     result.push(this.asignacion.ejecutar(ent, arbol));
                     this.identificador.valor = result;
+                    this.simbol.valor = result
                 } else if(this.asignacion instanceof nativa) {
                     this.nat = this.asignacion
                     result.push(this.asignacion.ejecutar(ent, arbol));
                     this.identificador.valor = result;
+                    this.simbol.valor = result
                 } else {
                     result.push(this.asignacion.getValor(ent, arbol));
                     this.identificador.valor = result;
+                    this.simbol.valor = result
                 }
             }
         } else {
@@ -66,7 +72,6 @@ export default class LET implements instruccion {
             for (let i = 0; i < this.identificador.xpath.length; i++) {
                 this.slc = this.identificador.xpath[i]
                 entorno_temp = entXml
-                console.log(entorno_temp);
                 for (let slc_sub of this.slc) {
                     entorno_temp = slc_sub.getValor(entorno_temp, arbol)
                 }
@@ -74,6 +79,7 @@ export default class LET implements instruccion {
             }
             this.identificador.valor = result;
             result.push("xpath");
+            this.simbol.valor = result
         }
 
         if (this.return !== null && this.return !== undefined) {
@@ -103,6 +109,34 @@ export default class LET implements instruccion {
                     simbol.stack = ret.val
                     break
                 }
+            }
+        }
+    }
+
+    /* Verifica que la variable a retornar exista en la tabla de simbolos */
+    verificaMatch(ent:entorno){
+        let match = true; let ind = 0; let entXq = ent.tabla["xquery"].valor;
+        let func = entXq.getSimbol("function");
+        if(func){
+            entXq = func.valor;
+        }
+        while(match){
+            let simbol = entXq.getSimbol("var"+ind.toString());
+            if (!simbol){
+                simbol = entXq.getSimbol("param"+ind.toString());
+            }else{
+                if(simbol.valor.id !== this.identificador.id){
+                    simbol = entXq.getSimbol("param"+ind.toString());
+                }
+            }
+            if(simbol && simbol.valor instanceof variable){
+                if(simbol.valor.id === this.identificador.id){
+                    this.simbol = simbol.valor;
+                    match = false;
+                }
+                ind++;
+            }else{
+                match = false;
             }
         }
     }
