@@ -25,7 +25,10 @@ double S;
 double H;
 char x[100] = "select nodes void";
 char xx[100] = "select atr void";
-char xxx[100] = "exp relacional";\n`
+char xxx[100] = "exp relacional";
+char nup[100] = "uppercase";
+char nlow[100] = "lowercase";
+char nsub[100] = "substring";\n`
         this.main = `/*------MAIN------*/
 void main() {
 \tS = 0; H = 0;\n`
@@ -146,6 +149,7 @@ void main() {
         this.temp[ini.id] = ini.val
     }
     endCode() {
+        //xpath
         this.matchID()
         this.matchAtr()
         this.matchAncestor()
@@ -162,6 +166,10 @@ void main() {
         this.AtrCode()
         this.ValCode()
         this.ValCode2()
+        //xquery
+        this.upperCase()
+        this.lowerCase()
+        this.subString()
         //this.TagFinCode()
         this.declareTemps()
         this.code = this.header
@@ -660,7 +668,7 @@ void main() {
                 let ret = { "id": this.generateTemp(), "val": this.s + this.last_stack }
                 this.main += `\tt${ret.id} = S + ${this.last_stack};\n`
                 //parametro
-                let param = { "id": this.generateTemp(), "val": ret.val + 1}
+                let param = { "id": this.generateTemp(), "val": ret.val + 1 }
                 this.main += `\tt${param.id} = t${ret.id} + 1;\n`
                 //valor stack cadena
                 this.stack[param.val] = ini.val
@@ -1222,6 +1230,113 @@ void main() {
         //fin
         this.funciones += `\tLfin:\n`
         this.funciones += `\tprintf("%s",xxx);printf("%c",(char)10);\n`
+        this.funciones += `\treturn;\n`
+        this.funciones += `\n}\n`
+    }
+    upperCase() {
+        this.funciones += `void upperCase(){\n`
+        this.funciones += `\tprintf("%s",nup);printf("%c",(char)10);\n`
+        //ref
+        let s1 = { "id": this.generateTemp(), "val": -1 }
+        let sval = { "id": this.generateTemp(), "val": -1 }
+        let hval = { "id": this.generateTemp(), "val": -1 }
+        //val
+        this.funciones += `\tt${s1.id} = S + 1;\n`
+        this.funciones += `\tprintf("%c",(char)73);printf("%f",(double)t${s1.id});\n`
+        this.funciones += `\tprintf("%c",(char)32);\n`
+        this.funciones += `\tt${sval.id} = stack[(int)t${s1.id}];\n`
+        this.funciones += `\tprintf("%c",(char)83);printf("%f",(double)t${sval.id});\n`
+        this.funciones += `\tprintf("%c",(char)32);\n`
+        this.funciones += `\tt${hval.id} = heap[(int)t${sval.id}];\t\t//posicion slc\n`
+        this.funciones += `\tprintf("%c",(char)72);printf("%f",(double)t${hval.id});\n`
+        this.funciones += `\tprintf("%c",(char)10);\n`
+        //ciclo
+        this.funciones += `\tLini:\n`
+        this.funciones += `\tif (t${hval.id} == -1) goto Lfin;\n`
+        this.funciones += `\tif (t${hval.id} < 97) goto Lnext;\n`
+        this.funciones += `\tif (t${hval.id} > 122) goto Lnext;\n`
+        this.funciones += `\theap[(int)t${sval.id}] = t${hval.id} - 32;\n`
+        this.funciones += `\tLnext:\n`
+        //this.funciones += `\tt${hval.id} = heap[(int)t${sval.id}];\n`
+        //this.funciones += `\tprintf("%c",(char)t${hval.id});\n`
+        this.funciones += `\tt${sval.id} = t${sval.id} + 1;\n`
+        this.funciones += `\tt${hval.id} = heap[(int)t${sval.id}];\n`
+        this.funciones += `\tgoto Lini;\n`
+        //fin
+        this.funciones += `\tLfin:\n`
+        this.funciones += `\treturn;\n`
+        this.funciones += `\n}\n`
+    }
+    lowerCase() {
+        this.funciones += `void lowerCase(){\n`
+        this.funciones += `\tprintf("%s",nlow);printf("%c",(char)10);\n`
+        //ref
+        let s1 = { "id": this.generateTemp(), "val": -1 }
+        let sval = { "id": this.generateTemp(), "val": -1 }
+        let hval = { "id": this.generateTemp(), "val": -1 }
+        //val
+        this.funciones += `\tt${s1.id} = S + 1;\n`
+        this.funciones += `\tprintf("%c",(char)73);printf("%f",(double)t${s1.id});\n`
+        this.funciones += `\tprintf("%c",(char)32);\n`
+        this.funciones += `\tt${sval.id} = stack[(int)t${s1.id}];\n`
+        this.funciones += `\tprintf("%c",(char)83);printf("%f",(double)t${sval.id});\n`
+        this.funciones += `\tprintf("%c",(char)32);\n`
+        this.funciones += `\tt${hval.id} = heap[(int)t${sval.id}];\t\t//posicion slc\n`
+        this.funciones += `\tprintf("%c",(char)72);printf("%f",(double)t${hval.id});\n`
+        this.funciones += `\tprintf("%c",(char)10);\n`
+        //ciclo
+        this.funciones += `\tLini:\n`
+        this.funciones += `\tif (t${hval.id} == -1) goto Lfin;\n`
+        this.funciones += `\tif (t${hval.id} < 65) goto Lnext;\n`
+        this.funciones += `\tif (t${hval.id} > 90) goto Lnext;\n`
+        this.funciones += `\theap[(int)t${sval.id}] = t${hval.id} + 32;\n`
+        this.funciones += `\tLnext:\n`
+        //this.funciones += `\tt${hval.id} = heap[(int)t${sval.id}];\n`
+        //this.funciones += `\tprintf("%c",(char)t${hval.id});\n`
+        this.funciones += `\tt${sval.id} = t${sval.id} + 1;\n`
+        this.funciones += `\tt${hval.id} = heap[(int)t${sval.id}];\n`
+        this.funciones += `\tgoto Lini;\n`
+        //fin
+        this.funciones += `\tLfin:\n`
+        this.funciones += `\treturn;\n`
+        this.funciones += `\n}\n`
+    }
+    subString() {
+        this.funciones += `void subString(){\n`
+        this.funciones += `\tprintf("%s",nsub);printf("%c",(char)10);\n`
+        //ref
+        let s1 = { "id": this.generateTemp(), "val": -1 }
+        let s2 = { "id": this.generateTemp(), "val": -1 }
+        let s3 = { "id": this.generateTemp(), "val": -1 }
+        let ini = { "id": this.generateTemp(), "val": -1 }
+        let fin = { "id": this.generateTemp(), "val": -1 }
+        let posh = { "id": this.generateTemp(), "val": -1 }
+        let ini_res = { "id": this.generateTemp(), "val": -1 }
+        let fin_res = { "id": this.generateTemp(), "val": -1 }
+        //val
+        this.funciones += `\tt${s1.id} = S + 1;\n`
+        this.funciones += `\tt${s2.id} = S + 2;\n`
+        this.funciones += `\tt${s3.id} = S + 3;\n`
+        this.funciones += `\tt${ini.id} = stack[(int)t${s1.id}];\n`
+        this.funciones += `\tt${fin.id} = stack[(int)t${s2.id}];\n`
+        this.funciones += `\tt${posh.id} = stack[(int)t${s3.id}];\n`
+        this.funciones += `\tt${ini_res.id} = t${posh.id} + t${ini.id};\n`
+        this.funciones += `\tt${fin_res.id} = t${posh.id} + t${fin.id};\n`
+        //valores in
+        this.funciones += `\tprintf("%c",(char)49);printf("%f",(double)t${s1.id});printf("%c",(char)10);\n`
+        this.funciones += `\tprintf("%c",(char)50);printf("%f",(double)t${s2.id});printf("%c",(char)10);\n`
+        this.funciones += `\tprintf("%c",(char)51);printf("%f",(double)t${s3.id});printf("%c",(char)10);\n`
+        //ini-fin pos
+        this.funciones += `\tprintf("%c",(char)105);printf("%f",(double)t${ini.id});printf("%c",(char)10);\n`
+        this.funciones += `\tprintf("%c",(char)102);printf("%f",(double)t${fin.id});printf("%c",(char)10);\n`
+        this.funciones += `\tprintf("%c",(char)112);printf("%f",(double)t${posh.id});printf("%c",(char)10);\n`
+        //result
+        this.funciones += `\tprintf("%c",(char)120);printf("%f",(double)t${ini_res.id});printf("%c",(char)10);\n`
+        this.funciones += `\tprintf("%c",(char)121);printf("%f",(double)t${fin_res.id});printf("%c",(char)10);\n`
+        //cambio
+        this.funciones += `\theap[(int)t${posh.id}] = t${ini_res.id};\n`
+        this.funciones += `\theap[(int)t${fin_res.id}] = -1;\n`
+        this.funciones += `\tstack[(int)S] = t${ini_res.id};\n`
         this.funciones += `\treturn;\n`
         this.funciones += `\n}\n`
     }
