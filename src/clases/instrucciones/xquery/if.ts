@@ -9,6 +9,7 @@ import FOR from "./for";
 import LET from "./let";
 import nativa from "./nativa";
 import Function from "./function";
+import entornoXquery from "src/clases/ast/entornoXquery";
 
 export default class IF implements instruccion {
     public condicion:any;
@@ -25,25 +26,27 @@ export default class IF implements instruccion {
         this.columna = columna;
     }
     ejecutar(ent: entorno, arbol: ast) {
-        if (this.condicion.getTipo(ent,arbol) === tipo.BOOL){
-            let result = this.condicion.getValorX(ent,arbol);
+        let newEnt = new entornoXquery().newEntorno(ent);
+        
+        if (this.condicion.getTipo(newEnt,arbol) === tipo.BOOL){
+            let result = this.condicion.getValorX(newEnt,arbol);
             let res:any = "";
             if (result){
                 for (let i = 0; i < this.ifList.length; i++){
                     if(this.ifList[i] instanceof FOR || this.ifList[i] instanceof LET || this.ifList[i] instanceof IF
                         || this.ifList[i] instanceof nativa || this.ifList[i] instanceof Function){
-                            res = this.ifList[i].ejecutar(ent,arbol);
+                            res = this.ifList[i].ejecutar(newEnt,arbol);
                         }else{
-                        res = this.ifList[i].getValor(ent,arbol);
+                        res = this.ifList[i].getValor(newEnt,arbol);
                     }
                 }
             }else{
                 for (let i = 0; i < this.elseList.length; i++){
                     if(this.elseList[i] instanceof FOR || this.elseList[i] instanceof LET || this.elseList[i] instanceof IF
                         || this.elseList[i] instanceof nativa || this.elseList[i] instanceof Function){
-                            res = this.elseList[i].ejecutar(ent,arbol);
+                            res = this.elseList[i].ejecutar(newEnt,arbol);
                         }else{
-                            res = this.elseList[i].getValor(ent,arbol);
+                            res = this.elseList[i].getValor(newEnt,arbol);
                     }
                 }
             }

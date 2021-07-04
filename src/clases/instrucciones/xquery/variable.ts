@@ -14,11 +14,12 @@ export default class variable implements expresion{
     public columna: number;
     public valor: any = null;
 
-    constructor(id,xpath,linea,columna){
+    constructor(id,xpath,linea,columna,valor?){
         this.id = id;
         this.xpath = xpath;
         this.linea = linea;
         this.columna = columna;
+        this.valor = valor;
     }
     getTipo(ent: entorno, arbol: ast) {
         throw new Error("Method not implemented.");

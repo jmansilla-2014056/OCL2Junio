@@ -67,6 +67,36 @@ export default class relacional implements expresion {
                                 index.push(i)
                             }
                             break;
+                        case "lt":
+                            if (val1 < val2) {
+                                index.push(i);
+                            }
+                            break;
+                        case "le":
+                            if (val1 <= val2) {
+                                index.push(i);
+                            }
+                            break;
+                        case "gt":
+                            if (val1 > val2) {
+                                index.push(i);
+                            }
+                            break;
+                        case "ge":
+                            if (val1 >= val2) {
+                                index.push(i);
+                            }
+                            break;
+                        case "eq":
+                            if (val1 == val2) {
+                                index.push(i);
+                            }
+                            break;
+                        case "ne":
+                            if (val1 != val2) {
+                                index.push(i);
+                            }
+                            break;
                         default:
                             break;
                     }
@@ -138,6 +168,36 @@ export default class relacional implements expresion {
             case "!=":
                 if (val1 != val2) {
                     return true
+                }
+                break;
+            case "lt":
+                if (val1 < val2) {
+                    return true;
+                }
+                break;
+            case "le":
+                if (val1 <= val2) {
+                    return true;
+                }
+                break;
+            case "gt":
+                if (val1 > val2) {
+                    return true;
+                }
+                break;;
+            case "ge":
+                if (val1 >= val2) {
+                    return true;
+                }
+                break;;
+            case "eq":
+                if (val1 == val2) {
+                    return true;
+                }
+                break;
+            case "ne":
+                if (val1 != val2) {
+                    return true;
                 }
                 break;
             default:
@@ -316,6 +376,18 @@ export default class relacional implements expresion {
                 return 5
             case "!=":
                 return 6
+            case "lt":
+                return 7;
+            case "le":
+                return 8;
+            case "gt":
+                return 9;
+            case "ge":
+                return 10;
+            case "eq":
+                return 11;
+            case "ne":
+                return 12;
             default:
                 break;
         }
@@ -354,6 +426,36 @@ export default class relacional implements expresion {
                 }
                 return false;
             case "!=":
+                if (val1 != val2) {
+                    return true;
+                }
+                return false;
+            case "lt":
+                if (val1 < val2) {
+                    return true;
+                }
+                return false;
+            case "le":
+                if (val1 <= val2) {
+                    return true;
+                }
+                return false;
+            case "gt":
+                if (val1 > val2) {
+                    return true;
+                }
+                return false;
+            case "ge":
+                if (val1 >= val2) {
+                    return true;
+                }
+                return false;
+            case "eq":
+                if (val1 == val2) {
+                    return true;
+                }
+                return false;
+            case "ne":
                 if (val1 != val2) {
                     return true;
                 }

@@ -1,6 +1,7 @@
 import { ast } from "src/clases/ast/ast";
 import { entorno } from "src/clases/ast/entorno";
 import { simbolo } from "src/clases/ast/simbolo";
+import entornoXquery from "src/clases/ast/entornoXquery";
 import { nodo3d } from "src/clases/c3d/nodo3d";
 import primitivo from "src/clases/expresiones/primitivo";
 import select from "src/clases/expresiones/select";
@@ -19,7 +20,8 @@ export default class FOR implements instruccion {
     public contenido: Array<any>
     public linea: Array<number>;
     public columna: Array<number>;
-    public slc: Array<select>
+    public slc: Array<select>;
+    public simbol:simbolo;
 
     constructor(id, idat, condicion, at, content, linea, columna) {
         this.id = id;
@@ -31,26 +33,31 @@ export default class FOR implements instruccion {
         this.columna = columna;
     }
     ejecutar(ent: entorno, arbol: ast) {
-        let result: any = ""; let entXml: any = null;
-        if (Object.prototype.hasOwnProperty.call(ent.tabla, "xml")) {
-            entXml = ent.tabla["xml"].valor;
+        let newEnt = new entornoXquery().newEntorno(ent);
+
+        let result:any = ""; let entXml:any = null;
+        if(Object.prototype.hasOwnProperty.call(newEnt.tabla,"xml")){
+            entXml = newEnt.tabla["xml"].valor;
         }
 
-        if (this.id.length === this.condicion.length) {
-            for (let i = 0; i < this.id.length; i++) {
+        if(this.id.length === this.condicion.length){
+            for(let i = 0; i < this.id.length; i++){
+                this.verificaMatch(newEnt,i);
                 result = [];
-                if (Array.isArray(this.condicion[i])) {
-                    if (this.condicion[i][0] === ",") {
-                        for (let j = 1; j < this.condicion[i].length; j++) {
-                            result.push(this.condicion[i][j].getValor(ent, arbol));
+                if(Array.isArray(this.condicion[i])){
+                    if(this.condicion[i][0] === ","){
+                        for(let j = 1; j < this.condicion[i].length; j++){
+                            result.push(this.condicion[i][j].getValor(newEnt,arbol));
                         }
                         this.id[i].valor = result;
-                    } else if (this.condicion[i][0] === "to") {
-                        if (this.condicion[i][1] instanceof primitivo && this.condicion[i][2] instanceof primitivo) {
-                            for (let j = Number(this.condicion[i][1].getValor(ent, arbol)); j <= Number(this.condicion[i][2].getValor(ent, arbol)); j++) {
+                        this.simbol.valor = result;
+                    }else if(this.condicion[i][0] === "to"){
+                        if(this.condicion[i][1] instanceof primitivo && this.condicion[i][2] instanceof primitivo){
+                            for(let j = Number(this.condicion[i][1].getValor(newEnt,arbol)); j <= Number(this.condicion[i][2].getValor(newEnt,arbol)); j++){
                                 result.push(j);
                             }
                             this.id[i].valor = result;
+                            this.simbol.valor = result;
                         }
                     }
                 } else {
@@ -67,16 +74,17 @@ export default class FOR implements instruccion {
                         }
                         this.id[i].valor = result;
                         result.push("xpath");
+                        this.simbol.valor = result
                     }
                 }
             }
-            for (let i = 0; i < this.contenido.length; i++) {
-                if (this.contenido[i] instanceof Return) {
-                    result = this.contenido[i].ejecutar(ent, arbol);
-                } else if (this.contenido[i] instanceof where) {
-                    result = this.contenido[i].ejecutar(ent, arbol);
-                } else if (this.contenido[i] instanceof order) {
-                    result = this.contenido[i].ejecutar(ent, arbol);
+            for(let i = 0; i < this.contenido.length; i++){
+                if(this.contenido[i] instanceof Return){
+                    result = this.contenido[i].ejecutar(newEnt,arbol);
+                }else if(this.contenido[i] instanceof where){
+                    result = this.contenido[i].ejecutar(newEnt,arbol);
+                }else if(this.contenido[i] instanceof order){
+                    result = this.contenido[i].ejecutar(newEnt,arbol);
                 }
             }
             return result;
@@ -116,6 +124,33 @@ export default class FOR implements instruccion {
         console.log(this.contenido)
         for (let c of this.contenido){
             c.traducir(ent, c3d)
+        }
+    }
+
+    /* Verifica que la variable a retornar exista en la tabla de simbolos */
+    verificaMatch(ent:entorno,i:number){
+        let match = true; let entXq = ent.tabla["xquery"].valor;
+        let func = entXq.getSimbol("function");
+        if(func){
+            entXq = func.valor;
+        }
+        while(match){
+            let simbol = entXq.getSimbol("var"+i.toString());
+            if (!simbol){
+                simbol = entXq.getSimbol("param"+i.toString());
+            }else{
+                if(simbol.valor.id !== this.id[i].id){
+                    simbol = entXq.getSimbol("param"+i.toString());
+                }
+            }
+            if(simbol && simbol.valor instanceof variable){
+                if(simbol.valor.id === this.id[i].id){
+                    this.simbol = simbol.valor;
+                    match = false;
+                }
+            }else{
+                match = false;
+            }
         }
     }
 }

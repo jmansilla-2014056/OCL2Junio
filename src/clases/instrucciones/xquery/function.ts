@@ -1,5 +1,6 @@
 import { ast } from "src/clases/ast/ast";
 import { entorno } from "src/clases/ast/entorno";
+import entornoXquery from "src/clases/ast/entornoXquery";
 import { simbolo } from "src/clases/ast/simbolo";
 import { tipo } from "src/clases/ast/tipo";
 import { nodo3d } from "src/clases/c3d/nodo3d";
@@ -23,7 +24,6 @@ export default class Function implements instruccion{
     public linea:number;
     public columna:number;
     public simbol:entorno;
-    public param: {[id:string]:Array<any>} = {}
 
     constructor(local,id,param,tipe,content,llamada,linea,columna){
         this.local = local;
@@ -37,27 +37,54 @@ export default class Function implements instruccion{
     }
     ejecutar(ent: entorno, arbol: ast) {
         if(this.llamada){
+            let newEnt = new entornoXquery().newEntorno(ent);
+
+            let entXml:any = null;
+            if(Object.prototype.hasOwnProperty.call(newEnt.tabla,"xml")){
+                entXml = newEnt.tabla["xml"].valor;
+            }
+
             let result:any = "";
-            this.verificaMatch(ent)
+            this.verificaMatch(newEnt)
             if(this.simbol){
                 this.contenido = this.simbol["tabla"].content.valor
                 let totalParam = true;
-                
                 for(let i = 0; i < this.parametros.length;i++){
                     let varParam = this.simbol.getSimbol("param"+i.toString());
                     let valParam:any;
                     if(this.parametros[i] instanceof Function){
-                        valParam = this.parametros[i].ejecutar(ent,arbol);
+                        valParam = this.parametros[i].ejecutar(newEnt,arbol);
                     }else if(this.parametros[i] instanceof aritmetica){
-                        valParam = this.parametros[i].getValor(ent,arbol);
-                    }else if(Array.isArray(this.parametros[i][0])){
-
+                        valParam = this.parametros[i].getValor(newEnt,arbol);
+                    }else if(Array.isArray(this.parametros[i].xpath) && this.parametros[i].xpath.length > 0){
+                        let entorno_temp;
+                        let retxpa = new Array<Array<entorno>>()
+                        for (let j = 0; j < this.parametros[i].xpath.length; j++) {
+                            let slc = this.parametros[i].xpath[j]
+                            entorno_temp = entXml
+                            for (let slc_sub of slc) {
+                                entorno_temp = slc_sub.getValor(entorno_temp, arbol)
+                            }
+                            retxpa.push(entorno_temp)
+                        }
+                        if(retxpa.length === 1 && retxpa[0].length === 1){
+                            let valAux = retxpa[0][0]["tabla"].valor
+                            if(!(valAux.valor instanceof entorno)){
+                                let valPAux = Number(valAux.valor);
+                                if(valPAux !== NaN){
+                                    valParam = valPAux;
+                                }else{
+                                    valParam = valAux.valor
+                                }
+                            }else{
+                                InsertarError("Semantico",`Error, el dato a buscar no es un valor`,"xquery",this.parametros[i].linea,this.parametros[i].columna);
+                            }
+                        }
                     }else{
-                        valParam = this.parametros[i].getValor(ent,arbol);
+                        valParam = this.parametros[i].getValor(newEnt,arbol);
                     }
                     if(varParam){
                         varParam.valor[0].valor = valParam
-                        this.param[varParam.id] = varParam.valor;
                     }else{
                         if(totalParam){
                             totalParam = false;
@@ -65,19 +92,16 @@ export default class Function implements instruccion{
                         }
                     }
                 }
-                //console.log("que pedo ", this.param)
+
                 if(this.contenido){
                     for(let i = 0; i < this.contenido.length; i++){
                         if(this.contenido[i] instanceof FOR || this.contenido[i] instanceof LET || this.contenido[i] instanceof IF
                            || this.contenido[i] instanceof nativa || this.contenido[i] instanceof Function){
-                               result = this.contenido[i].ejecutar(ent,arbol);
+                               result = this.contenido[i].ejecutar(newEnt,arbol);
                         }else{
-                            result = this.contenido[i].getValor(ent,arbol);
+                            result = this.contenido[i].getValor(newEnt,arbol);
                         }
                     }
-                    //if(result !== "" && result){
-                    //    result = result.toString();
-                    //}
                 }
             }
             return result;
@@ -106,21 +130,4 @@ export default class Function implements instruccion{
     traducir(ent: entorno[], c3d: nodo3d) {
         throw new Error("Method not implemented.");
     }
-
-    /* Verificar parametros 
-    verificaMatchParam(ent:entorno,id:variable){
-        let match = true; let ind = 0;
-        while(match){
-            let simbol = ent.getSimbol("param"+ind.toString());
-            if(simbol){
-                if(simbol.id === id.id){
-                    match = false;
-                }
-            }else{
-                match = false;
-                InsertarError("Semantico",`Error, la funcion a buscar ${this.id} no esta definida`,"xquery",this.linea,this.columna);
-            }
-            ind++;
-        }
-    }*/
 }
