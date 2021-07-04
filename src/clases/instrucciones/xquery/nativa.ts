@@ -5,74 +5,214 @@ import { instruccion } from "src/clases/interfaces/instruccion";
 import { InsertarError } from "src/reports/ReportController";
 import variable from "./variable";
 
-export default class nativa implements instruccion{
-    public id:string;
-    public accion:any;
-    public linea:number;
-    public columna:number;
+export default class nativa implements instruccion {
+    public id: string;
+    public accion: any;
+    public linea: number;
+    public columna: number;
+    public str
+    public result
+    public i_ini: number
+    public i_fin: number
 
-    constructor (id,accion,linea,columna){
+    constructor(id, accion, linea, columna) {
         this.id = id;
         this.accion = accion;
         this.linea = linea;
         this.columna = columna;
     }
     ejecutar(ent: entorno, arbol: ast) {
-        let result:any = "";
-
-        if(this.id.toLowerCase() === "upper-case"){
-            if(!(this.accion[0] instanceof variable)){
-                let str = this.accion[0].getValor(ent,arbol);
-                result = str.toUpperCase();
-                return result;
-            }else{
+        if (this.id.toLowerCase() === "upper-case") {
+            if (!(this.accion[0] instanceof variable)) {
+                this.str = this.accion[0].getValor(ent, arbol);
+                this.result = this.str.toUpperCase();
+                return this.result;
+            } else {
                 //xpath
             }
-        }else if(this.id.toLowerCase() === "lower-case"){
-            if(!(this.accion[0] instanceof variable)){
-                let str = this.accion[0].getValor(ent,arbol);
-                result = str.toLowerCase();
-                return result;
-            }else{
+        } else if (this.id.toLowerCase() === "lower-case") {
+            if (!(this.accion[0] instanceof variable)) {
+                this.str = this.accion[0].getValor(ent, arbol);
+                this.result = this.str.toLowerCase();
+                return this.result;
+            } else {
                 //xpath
             }
-        }else if(this.id.toLowerCase() === "tostring"){
-            if(!(this.accion[0] instanceof variable)){
-                let str = this.accion[0].getValor(ent,arbol);
-                result = str.toString();
-                return result;
-            }else{
+        } else if (this.id.toLowerCase() === "tostring") {
+            if (!(this.accion[0] instanceof variable)) {
+                this.str = this.accion[0].getValor(ent, arbol);
+                this.result = this.str.toString();
+                return this.result;
+            } else {
                 //xpath
             }
-        }else if(this.id.toLowerCase() === "number"){
-            if(!(this.accion[0] instanceof variable)){
-                let str = this.accion[0].getValor(ent,arbol);
+        } else if (this.id.toLowerCase() === "number") {
+            if (!(this.accion[0] instanceof variable)) {
+                this.str = this.accion[0].getValor(ent, arbol);
                 try {
-                    result = Number(str);
-                    return result
+                    this.result = Number(this.str);
+                    return this.result
                 } catch (error) {
-                    InsertarError("Semantico",`Error, el dato ${str} no se puede convertir a number`,"xquery",this.accion[0].linea,this.accion[0].columna);
+                    InsertarError("Semantico", `Error, el dato ${this.str} no se puede convertir a number`, "xquery", this.accion[0].linea, this.accion[0].columna);
                 }
-            }else{
+            } else {
                 //xpath
             }
-        }else if(this.id.toLowerCase() === "substring"){
-            if(!(this.accion[0] instanceof variable)){
-                let str = this.accion[0].getValor(ent,arbol);
-                result = str.substring(Number(this.accion[1].getValor(ent,arbol)),Number(this.accion[2].getValor(ent,arbol)));
-                return result;
-            }else{
+        } else if (this.id.toLowerCase() === "substring") {
+            if (!(this.accion[0] instanceof variable)) {
+                this.str = this.accion[0].getValor(ent, arbol);
+                this.i_ini = Number(this.accion[1].getValor(ent, arbol))
+                this.i_fin = Number(this.accion[2].getValor(ent, arbol))
+                this.result = this.str.substring(this.i_ini, this.i_fin);
+                return this.result;
+            } else {
                 //xpath
             }
 
-        }else if(this.id.toLowerCase() === "data"){
+        } else if (this.id.toLowerCase() === "data") {
 
-        }else{
-            InsertarError("Semantico",`Error, la funcion nativa ${this.id} no existe`,"xquery",this.linea,this.columna);
-            return result;
+        } else {
+            InsertarError("Semantico", `Error, la funcion nativa ${this.id} no existe`, "xquery", this.linea, this.columna);
+            return this.result;
         }
     }
     traducir(ent: entorno[], c3d: nodo3d) {
-        throw new Error("Method not implemented.");
+        c3d.main += `\t//nativa\n`
+        console.log("NATIVA: " + this.id)
+        console.log(this.str)
+        let ret = { "id": c3d.generateTemp(), "val": c3d.last_stack }
+        c3d.main += `\tt${ret.id} = ${c3d.last_stack};\n`
+        let ini = { "id": -1, "val": -1 }
+        let pos = { "id": -1, "val": -1 }
+        let index: number = -1
+        //guarda cadena
+        ini = { "id": c3d.generateTemp(), "val": c3d.h }
+        c3d.main += `\tt${ini.id} = H;\n`
+        //se guarda caracter por caracter
+        for (let i = 0; i < this.str.length; i++) {
+            c3d.heap[c3d.h] = this.str.charCodeAt(i)
+            c3d.main += `\theap[(int)H] = ${this.str.charCodeAt(i)};\t\t//se agrega el caracter H[${c3d.h}] ${this.str.charAt(i)}\n`
+            c3d.h += 1
+            c3d.main += `\tH = H + 1;\n`
+        }
+        //se guarda el fin de la cadena
+        c3d.heap[c3d.h] = -1
+        c3d.main += `\theap[(int)H] = -1;\t\t//se agrega el caracter eos H[${c3d.h}] -1\n`
+        c3d.h += 1
+        c3d.main += `\tH = H + 1;\n`
+        switch (this.id) {
+            case "upper-case":
+                //la siguiente posicion disponible string
+                pos = { "id": c3d.generateTemp(), "val": ret.val + 1 }
+                c3d.main += `\tt${pos.id} = t${ret.id} + 1;\t\t//La siguiente posicion string\n`
+                //se guarda la posicion (heap) del string
+                c3d.stack[pos.val] = ini.val
+                c3d.main += `\tstack[(int)t${pos.id}] = t${ini.id};\t\t//guarda stack del string: stack[${pos.val}] = ${ini.val}\n`
+                c3d.temp[pos.id] = pos.val
+                //se cambia de entorno
+                c3d.s = c3d.s + c3d.last_stack
+                c3d.main += `\tS = S + ${c3d.last_stack};\t\t//Establece posicion return\n`
+                //llamada()
+                c3d.main += `\tupperCase();\n`
+                c3d.s = c3d.s - c3d.last_stack
+                c3d.main += `\tS = S - ${c3d.last_stack};\t\t//Establece posicion return\n`
+                //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                index = ini.val
+                while (true) {
+                    if (c3d.heap[index] == -1) {
+                        break
+                    } else {
+                        if (c3d.heap[index] >= 97 && c3d.heap[index] <= 120) {
+                            let val: number = c3d.heap[index]
+                            c3d.heap[index] = val - 32
+                        }
+                        index += 1
+                    }
+                }
+                //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                c3d.stack[ret.val] = ini.val
+                c3d.main += `\tstack[(int)t${ret.id}] = ${ini.val};\n`
+                c3d.last_stack += 2
+                c3d.t_res = ret.id
+                break;
+            case "lower-case":
+                //la siguiente posicion disponible string
+                pos = { "id": c3d.generateTemp(), "val": ret.val + 1 }
+                c3d.main += `\tt${pos.id} = t${ret.id} + 1;\t\t//La siguiente posicion string\n`
+                //se guarda la posicion (heap) del string
+                c3d.stack[pos.val] = ini.val
+                c3d.main += `\tstack[(int)t${pos.id}] = t${ini.id};\t\t//guarda stack del string: stack[${pos.val}] = ${ini.val}\n`
+                c3d.temp[pos.id] = pos.val
+                //se cambia de entorno
+                c3d.s = c3d.s + c3d.last_stack
+                c3d.main += `\tS = S + ${c3d.last_stack};\t\t//Establece posicion return\n`
+                //llamada()
+                c3d.main += `\tupperCase();\n`
+                c3d.s = c3d.s - c3d.last_stack
+                c3d.main += `\tS = S - ${c3d.last_stack};\t\t//Establece posicion return\n`
+                //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                index = ini.val
+                while (true) {
+                    if (c3d.heap[index] == -1) {
+                        break
+                    } else {
+                        if (c3d.heap[index] >= 65 && c3d.heap[index] <= 90) {
+                            let val: number = c3d.heap[index]
+                            c3d.heap[index] = val + 32
+                        }
+                        index += 1
+                    }
+                }
+                //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                c3d.stack[ret.val] = ini.val
+                c3d.main += `\tstack[(int)t${ret.id}] = ${ini.val};\n`
+                c3d.last_stack += 2
+                c3d.t_res = ret.id
+                break;
+            case "tostring":
+                c3d.stack[ret.val] = ini.val
+                c3d.main += `\tstack[(int)t${ret.id}] = t${ini.id};\n`
+                c3d.last_stack += 1
+                break;
+            case "number":
+                c3d.stack[ret.val] = this.result
+                c3d.main += `\tstack[(int)t${ret.id}] = ${this.result};\n`
+                c3d.last_stack += 1
+                c3d.t_res = ret.id
+                break;
+            case "substring":
+                //la siguiente posicion disponible string
+                pos = { "id": c3d.generateTemp(), "val": ret.val + 1 }
+                let t2 = { "id": c3d.generateTemp(), "val": ret.val + 2 }
+                let t3 = { "id": c3d.generateTemp(), "val": ret.val + 3 }
+                c3d.main += `\tt${pos.id} = t${ret.id} + 1;\t\t//S + 1: ini\n`
+                c3d.main += `\tt${t2.id} = t${ret.id} + 2;\t\t//S + 2: fin\n`
+                c3d.main += `\tt${t3.id} = t${ret.id} + 3;\t\t//S + 3: posh\n`
+                //se guarda la posicion (heap) del string
+                c3d.stack[pos.val] = this.i_ini
+                c3d.main += `\tstack[(int)t${pos.id}] = ${this.i_ini};\t\t//guarda stack del string: stack[${pos.val}] = ${this.i_ini}\n`
+                c3d.stack[t2.val] = this.i_fin
+                c3d.main += `\tstack[(int)t${t2.id}] = ${this.i_fin};\t\t//guarda stack del string: stack[${t2.val}] = ${this.i_fin}\n`
+                c3d.stack[t3.val] = ini.val
+                c3d.main += `\tstack[(int)t${t3.id}] = t${ini.id};\t\t//guarda stack del string: stack[${t3.val}] = ${ini.val}\n`
+                //se cambia de entorno
+                c3d.s = c3d.s + c3d.last_stack
+                c3d.main += `\tS = S + ${c3d.last_stack};\t\t//Establece posicion return\n`
+                //llamada()
+                c3d.main += `\tsubString();\n`
+                c3d.s = c3d.s - c3d.last_stack
+                c3d.main += `\tS = S - ${c3d.last_stack};\t\t//Establece posicion return\n`
+                //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                c3d.heap[ini.val] = ini.val + this.i_ini
+                c3d.heap[ini.val + this.i_fin] = -1
+                c3d.stack[ret.val] = ini.val + this.i_ini
+                //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                c3d.last_stack += 4
+                c3d.t_res = ret.id
+                break;
+            default:
+                break;
+        }
+        return this.result
     }
 }

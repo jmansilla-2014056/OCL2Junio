@@ -61,17 +61,21 @@ export default class variable implements expresion{
     }
     traducir(ent: entorno[], c3d: nodo3d) {
         let arr_val = this.valor
+        console.log(arr_val)
         if (arr_val.length == 1) {
             let val = arr_val[0]
             if (typeof val === 'number') {
                 //guarda numero
                 let ret = { "id": c3d.generateTemp(), "val": c3d.last_stack }
-                c3d.stack[c3d.last_stack] = val
+                c3d.main += `\tt${ret.id} = ${c3d.last_stack};\n`
+                c3d.stack[ret.id] = val
+                c3d.main += `\tstack[(int)t${ret.id}] = ${val};\n`
                 c3d.last_stack += 1
                 c3d.t_res = ret.id
                 return val
             } else {
                 let ret = { "id": c3d.generateTemp(), "val": c3d.last_stack }
+                c3d.main += `\tt${ret.id} = ${c3d.last_stack};\n`
                 //guarda cadena
                 let ini = { "id": c3d.generateTemp(), "val": c3d.h }
                 c3d.main += `\tt${ini.id} = H;\n`
@@ -87,7 +91,8 @@ export default class variable implements expresion{
                 c3d.main += `\theap[(int)H] = -1;\t\t//se agrega el caracter eos H[${c3d.h}] -1\n`
                 c3d.h += 1
                 c3d.main += `\tH = H + 1;\n`
-                c3d.stack[c3d.last_stack] = ini.val
+                c3d.stack[ret.id] = ini.val
+                c3d.main += `\tstack[(int)t${ret.id}] = ${ini.val};\n`
                 c3d.last_stack += 1
                 c3d.t_res = ret.id
                 return val
@@ -103,6 +108,7 @@ export default class variable implements expresion{
             } else {
                 //guarda arreglo
                 let ret = { "id": c3d.generateTemp(), "val": c3d.last_stack }
+                c3d.main += `\tt${ret.id} = ${c3d.last_stack};\n`
                 let ini = { "id": c3d.generateTemp(), "val": c3d.h }
                 c3d.main += `\tt${ini.id} = H;\n`
                 //se guarda caracter por caracter
@@ -117,7 +123,8 @@ export default class variable implements expresion{
                 c3d.main += `\theap[(int)H] = -1;\t\t//se agrega el caracter eos H[${c3d.h}] -1\n`
                 c3d.h += 1
                 c3d.main += `\tH = H + 1;\n`
-                c3d.stack[c3d.last_stack] = ini.val
+                c3d.stack[ret.id] = ini.val
+                c3d.main += `\tstack[(int)t${ret.id}] = ${ini.val};\n`
                 c3d.last_stack += 1
                 c3d.t_res = ret.id
             }

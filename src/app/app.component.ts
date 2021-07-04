@@ -49,7 +49,7 @@ export class AppComponent {
   entornoGlobal: entorno = new entorno(null)
   nombre: string = "name_ini"
   contenido: string = "cont_ini"
-  consola: string = 'let $x := (/m/n)\nreturn $x'
+  consola: string = 'let $x := substring("hello world",0,5)\nreturn $x'
   salida: string = ""
   n_node: number
   c3d: nodo3d

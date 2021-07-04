@@ -18,6 +18,7 @@ export default class LET implements instruccion {
     public return: Return;
     public linea: number;
     public columna: number;
+    public nat: nativa
 
     constructor(id, asig, linea, columna) {
         this.identificador = id;
@@ -46,7 +47,11 @@ export default class LET implements instruccion {
                 }
             } else {
                 result = [];
-                if (this.asignacion instanceof Function || this.asignacion instanceof nativa) {
+                if (this.asignacion instanceof Function) {
+                    result.push(this.asignacion.ejecutar(ent, arbol));
+                    this.identificador.valor = result;
+                } else if(this.asignacion instanceof nativa) {
+                    this.nat = this.asignacion
                     result.push(this.asignacion.ejecutar(ent, arbol));
                     this.identificador.valor = result;
                 } else {
@@ -82,7 +87,11 @@ export default class LET implements instruccion {
             if (key.startsWith("var")) {
                 let simbol: simbolo = n_ent.tabla[key]
                 if (simbol.id == this.identificador.id) {
-                    simbol.valor = this.identificador.traducir(ent,c3d)
+                    if (this.nat != null){
+                        this.nat.traducir(ent, c3d)
+                    } else {
+                        simbol.valor = this.identificador.traducir(ent,c3d)
+                    }
                     let ret = { "id": c3d.t_res, "val": c3d.temp[c3d.t_res] }
                     simbol.stack = ret.val
                     break
