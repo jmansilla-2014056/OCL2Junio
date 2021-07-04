@@ -3,6 +3,7 @@ import { entorno } from "src/clases/ast/entorno";
 import { simbolo } from "src/clases/ast/simbolo";
 import { tipo } from "src/clases/ast/tipo";
 import { nodo3d } from "src/clases/c3d/nodo3d";
+import aritmetica from "src/clases/expresiones/operaciones/aritmetica";
 import { instruccion } from "src/clases/interfaces/instruccion";
 import { InsertarError } from "src/reports/ReportController";
 import FOR from "./for";
@@ -46,7 +47,9 @@ export default class Function implements instruccion{
                     let varParam = this.simbol.getSimbol("param"+i.toString());
                     let valParam:any;
                     if(this.parametros[i] instanceof Function){
-
+                        valParam = this.parametros[i].ejecutar(ent,arbol);
+                    }else if(this.parametros[i] instanceof aritmetica){
+                        valParam = this.parametros[i].getValor(ent,arbol);
                     }else if(Array.isArray(this.parametros[i][0])){
 
                     }else{
@@ -90,6 +93,9 @@ export default class Function implements instruccion{
                 if(simbol.id === this.id){
                     this.simbol = simbol.valor;
                     match = false;
+                }else{
+                    match = false;
+                    InsertarError("Semantico",`Error, la funcion a buscar ${this.id} no esta definida`,"xquery",this.linea,this.columna);
                 }
             }else{
                 match = false;

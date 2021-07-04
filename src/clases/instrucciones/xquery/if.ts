@@ -38,7 +38,6 @@ export default class IF implements instruccion {
                     }
                 }
             }else{
-                console.log("que putas else ", ent);
                 for (let i = 0; i < this.elseList.length; i++){
                     if(this.elseList[i] instanceof FOR || this.elseList[i] instanceof LET || this.elseList[i] instanceof IF
                         || this.elseList[i] instanceof nativa || this.elseList[i] instanceof Function){
@@ -48,7 +47,7 @@ export default class IF implements instruccion {
                     }
                 }
             }
-            return res.toString();
+            return res;
         }else{
             InsertarError("Semantico","Error, condición no valida","xquery",this.linea,this.columna);
         }

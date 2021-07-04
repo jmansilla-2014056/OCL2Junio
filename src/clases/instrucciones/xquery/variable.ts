@@ -24,44 +24,40 @@ export default class variable implements expresion{
         throw new Error("Method not implemented.");
     }
     getValor(ent: entorno, arbol: ast) {
-        if(this.valor !== null){
-            return this.valor;
-        }else{
-            let match = true; let ind = 0; let entXq = ent.tabla["xquery"].valor;
-            let func = entXq.getSimbol("function");
-            if(func){
-                entXq = func.valor;
-            }
-            while(match){
-                let simbol = entXq.getSimbol("var"+ind.toString());
-                if (!simbol){
+        let match = true; let ind = 0; let entXq = ent.tabla["xquery"].valor;
+        let func = entXq.getSimbol("function");
+        if(func){
+            entXq = func.valor;
+        }
+        while(match){
+            let simbol = entXq.getSimbol("var"+ind.toString());
+            if (!simbol){
+                simbol = entXq.getSimbol("param"+ind.toString());
+            }else{
+                if(simbol.id !== this.id){
                     simbol = entXq.getSimbol("param"+ind.toString());
-                }else{
-                    if(simbol.id !== this.id){
-                        simbol = entXq.getSimbol("param"+ind.toString());
-                    }
                 }
-                console.log("tons que ", simbol.valor[0]);
-                if(simbol){
-                    if(simbol.id === this.id){
-                        let val = simbol.valor;
-                        if (Array.isArray(val) && val[0] instanceof variable){
-                            this.valor = val[0].valor;
-                        }else if(val instanceof primitivo){
-                            this.valor = val.getValor(ent,arbol);
-                        }else{
-                            this.valor = val
-                        }
-                        match = false;
-                        return this.valor;
+            }
+            if(simbol){
+                if(simbol.id === this.id){
+                    let val = simbol.valor;
+                    if (Array.isArray(val) && val[0] instanceof variable){
+                        this.valor = val[0].valor;
+                    }else if(val instanceof primitivo){
+                        this.valor = val.getValor(ent,arbol);
+                    }else{
+                        this.valor = val
                     }
-                    ind++;
-                }else{
                     match = false;
-                    InsertarError("Semantico",`Error, la variable ${this.id} no esta definida`,"xquery",this.linea,this.columna);
                 }
+                ind++;
+            }else{
+                this.valor = null;
+                match = false;
+                InsertarError("Semantico",`Error, la variable ${this.id} no esta definida`,"xquery",this.linea,this.columna);
             }
         }
+        return this.valor;
     }
     traducir(ent: entorno[], c3d: nodo3d) {
         let arr_val = this.valor
