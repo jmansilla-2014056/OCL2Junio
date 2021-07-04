@@ -101,8 +101,6 @@ export default class variable implements expresion{
             if (arr_val[arr_val.length - 1] == "xpath") {
                 let slc = this.xpath[0]
                 for (let i = 0; i < slc.length; i++){
-                    console.log(i)
-                    console.log(slc[i])
                     slc[i].traducir(slc[i].matches, c3d)
                 }
             } else {

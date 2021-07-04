@@ -15,14 +15,14 @@ export default class nativa implements instruccion {
     public i_ini: number
     public i_fin: number
 
-    constructor(id, accion, linea, columna) {
-        this.id = id;
+    constructor(id: string, accion, linea, columna) {
+        this.id = id.toLocaleLowerCase();
         this.accion = accion;
         this.linea = linea;
         this.columna = columna;
     }
     ejecutar(ent: entorno, arbol: ast) {
-        if (this.id.toLowerCase() === "upper-case") {
+        if (this.id === "upper-case") {
             if (!(this.accion[0] instanceof variable)) {
                 this.str = this.accion[0].getValor(ent, arbol);
                 this.result = this.str.toUpperCase();
@@ -30,7 +30,7 @@ export default class nativa implements instruccion {
             } else {
                 //xpath
             }
-        } else if (this.id.toLowerCase() === "lower-case") {
+        } else if (this.id === "lower-case") {
             if (!(this.accion[0] instanceof variable)) {
                 this.str = this.accion[0].getValor(ent, arbol);
                 this.result = this.str.toLowerCase();
@@ -38,7 +38,7 @@ export default class nativa implements instruccion {
             } else {
                 //xpath
             }
-        } else if (this.id.toLowerCase() === "tostring") {
+        } else if (this.id === "tostring") {
             if (!(this.accion[0] instanceof variable)) {
                 this.str = this.accion[0].getValor(ent, arbol);
                 this.result = this.str.toString();
@@ -46,7 +46,7 @@ export default class nativa implements instruccion {
             } else {
                 //xpath
             }
-        } else if (this.id.toLowerCase() === "number") {
+        } else if (this.id === "number") {
             if (!(this.accion[0] instanceof variable)) {
                 this.str = this.accion[0].getValor(ent, arbol);
                 try {
@@ -58,7 +58,7 @@ export default class nativa implements instruccion {
             } else {
                 //xpath
             }
-        } else if (this.id.toLowerCase() === "substring") {
+        } else if (this.id === "substring") {
             if (!(this.accion[0] instanceof variable)) {
                 this.str = this.accion[0].getValor(ent, arbol);
                 this.i_ini = Number(this.accion[1].getValor(ent, arbol))
@@ -80,6 +80,7 @@ export default class nativa implements instruccion {
         c3d.main += `\t//nativa\n`
         console.log("NATIVA: " + this.id)
         console.log(this.str)
+        this.str = this.str.toString()
         let ret = { "id": c3d.generateTemp(), "val": c3d.last_stack }
         c3d.main += `\tt${ret.id} = ${c3d.last_stack};\n`
         let ini = { "id": -1, "val": -1 }
@@ -170,6 +171,7 @@ export default class nativa implements instruccion {
                 c3d.t_res = ret.id
                 break;
             case "tostring":
+                console.log(`stack[${ret.val}]=${ini.val}`)
                 c3d.stack[ret.val] = ini.val
                 c3d.main += `\tstack[(int)t${ret.id}] = t${ini.id};\n`
                 c3d.last_stack += 1
