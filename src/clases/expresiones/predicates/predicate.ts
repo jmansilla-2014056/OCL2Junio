@@ -14,8 +14,8 @@ export default class predicate implements expresion {
     public matches: Array<entorno>
     public val
     public entornos
-    public xq:boolean = false;
-    public slcxq:Array<entorno>;
+    public xq: boolean = false;
+    public slcxq: Array<entorno>;
     constructor(slc, exp, linea, columna) {
         this.slc = slc
         this.exp = exp
@@ -27,7 +27,7 @@ export default class predicate implements expresion {
         return tipo.STRUCT
     }
     getValor(ent: entorno, arbol: ast) {
-        (this.xq)?this.entornos = this.slcxq : this.entornos = this.slc.getValor(ent, arbol);
+        (this.xq) ? this.entornos = this.slcxq : this.entornos = this.slc.getValor(ent, arbol);
         //this.entornos = this.slc.getValor(ent, arbol)
         this.val = this.exp.getValor(this.entornos, arbol)
         if (this.val instanceof Array) {
@@ -50,17 +50,30 @@ export default class predicate implements expresion {
         return this.matches
     }
     traducir(ent: Array<entorno>, c3d: nodo3d) {
-        c3d.main += `\t/* ini predicate */\n`
-        this.slc.traducir(this.slc.matches, c3d)
-        c3d.main += `\t/* ini exp */\n`
-        console.log("EXP")
-        console.log(this.exp)
-        let t = this.exp.traducir(this.entornos, c3d)
-        if (typeof t === 'number') {
-            this.num(ent, t, c3d)
+        if (this.slc != null) {
+            c3d.main += `\t/* ini predicate */\n`
+            this.slc.traducir(this.slc.matches, c3d)
+            c3d.main += `\t/* ini exp */\n`
+            console.log("EXP")
+            console.log(this.exp)
+            let t = this.exp.traducir(this.entornos, c3d)
+            if (typeof t === 'number') {
+                this.num(ent, t, c3d)
+            }
+            c3d.main += `\t/* fin exp */\n`
+            c3d.main += `\t/* fin predicate */\n`
+        } else {
+            c3d.main += `\t/* ini predicate */\n`
+            c3d.main += `\t/* ini exp */\n`
+            console.log("EXP")
+            console.log(this.exp)
+            let t = this.exp.traducir(this.entornos, c3d)
+            if (typeof t === 'number') {
+                this.num(ent, t, c3d)
+            }
+            c3d.main += `\t/* fin exp */\n`
+            c3d.main += `\t/* fin predicate */\n`
         }
-        c3d.main += `\t/* fin exp */\n`
-        c3d.main += `\t/* fin predicate */\n`
     }
     num(ent: Array<entorno>, t: number, c3d: nodo3d) {
         //posiciones y parametros

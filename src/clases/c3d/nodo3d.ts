@@ -28,7 +28,8 @@ char xx[100] = "select atr void";
 char xxx[100] = "exp relacional";
 char nup[100] = "uppercase";
 char nlow[100] = "lowercase";
-char nsub[100] = "substring";\n`
+char nsub[100] = "substring";
+char ord[100] = "order";\n`
         this.main = `/*------MAIN------*/
 void main() {
 \tS = 0; H = 0;\n`
@@ -170,6 +171,7 @@ void main() {
         this.upperCase()
         this.lowerCase()
         this.subString()
+        this.order()
         //this.TagFinCode()
         this.declareTemps()
         this.code = this.header
@@ -1337,6 +1339,94 @@ void main() {
         this.funciones += `\theap[(int)t${posh.id}] = t${ini_res.id};\n`
         this.funciones += `\theap[(int)t${fin_res.id}] = -1;\n`
         this.funciones += `\tstack[(int)S] = t${ini_res.id};\n`
+        this.funciones += `\treturn;\n`
+        this.funciones += `\n}\n`
+    }
+    order() {
+        this.funciones += `void order(){\n`
+        this.funciones += `\tprintf("%s",ord);printf("%c",(char)10);\n`
+        let s1 = { "id": this.generateTemp(), "val": -1 }
+        let s2 = { "id": this.generateTemp(), "val": -1 }
+        let i1 = { "id": this.generateTemp(), "val": -1 }
+        let i2 = { "id": this.generateTemp(), "val": -1 }
+        let up1 = { "id": this.generateTemp(), "val": -1 }
+        let up2 = { "id": this.generateTemp(), "val": -1 }
+        let child1 = { "id": this.generateTemp(), "val": -1 }
+        let child2 = { "id": this.generateTemp(), "val": -1 }
+        let schar1 = { "id": this.generateTemp(), "val": -1 }
+        let schar2 = { "id": this.generateTemp(), "val": -1 }
+        let char1 = { "id": this.generateTemp(), "val": -1 }
+        let char2 = { "id": this.generateTemp(), "val": -1 }
+        let j1 = { "id": this.generateTemp(), "val": -1 }
+        let j2 = { "id": this.generateTemp(), "val": -1 }
+        let temp = { "id": this.generateTemp(), "val": -1 }
+        //param
+        this.funciones += `\tt${s1.id} = S + 1;\n`
+        this.funciones += `\tt${s2.id} = S + 2;\n`
+        this.funciones += `\tt${i1.id} = stack[(int)t${s1.id}];\n`
+        this.funciones += `\tt${i2.id} = stack[(int)t${s2.id}];\n`
+        this.funciones += `\tt${j1.id} = t${i1.id} + 1;\n`
+        this.funciones += `\tt${j2.id} = t${i2.id} + 1;\n`
+        //valores
+        this.funciones += `\tLini:\n`
+        this.funciones += `\tt${up1.id} = heap[(int)t${i1.id}];\n`
+        this.funciones += `\tt${up2.id} = heap[(int)t${j1.id}];\n`
+        this.funciones += `\tt${child1.id} = heap[(int)t${i2.id}];\n`
+        this.funciones += `\tt${child2.id} = heap[(int)t${j2.id}];\n`
+        this.funciones += `\tt${schar1.id} = stack[(int)t${child1.id}];\n`
+        this.funciones += `\tt${schar2.id} = stack[(int)t${child2.id}];\n`
+        this.funciones += `\tt${char1.id} = heap[(int)t${schar1.id}];\n`
+        this.funciones += `\tt${char2.id} = heap[(int)t${schar2.id}];\n`
+        this.funciones += `\tprintf("%c",(char)73);printf("%f",(double)t${i1.id});\n`
+        this.funciones += `\tprintf("%c",(char)74);printf("%f",(double)t${j1.id});printf("%c",(char)10);\n`
+        this.funciones += `\tprintf("%c",(char)73);printf("%f",(double)t${i2.id});\n`
+        this.funciones += `\tprintf("%c",(char)74);printf("%f",(double)t${j2.id});printf("%c",(char)10);\n`
+        this.funciones += `\tprintf("%c",(char)67);printf("%f",(double)t${char1.id});printf("%c",(char)10);\n`
+        this.funciones += `\tprintf("%c",(char)67);printf("%f",(double)t${char2.id});printf("%c",(char)10);\n`
+        this.funciones += `\tif (t${child1.id} == -1) goto Lfin;\n`
+        this.funciones += `\tif (t${child2.id} == -1) goto Lnextij;\n`
+        this.funciones += `\tLchar:\n`
+        this.funciones += `\tif (t${char1.id} > t${char2.id}) goto Lchange;\n`
+        this.funciones += `\tif (t${char1.id} == t${char2.id}) goto Lnextchar;\n`
+        this.funciones += `\tgoto Lnextj;\n`
+        
+        this.funciones += `\tLchange:\n`//CH
+        this.funciones += `\tprintf("%c",(char)67);printf("%c",(char)72);printf("%c",(char)10);\n`
+        //up
+        this.funciones += `\tt${temp.id} = t${up1.id};\n`
+        this.funciones += `\theap[(int)t${i1.id}] = t${up2.id};\n`
+        this.funciones += `\theap[(int)t${j1.id}] = t${temp.id};\n`
+        //child
+        this.funciones += `\tt${temp.id} = t${child1.id};\n`
+        this.funciones += `\theap[(int)t${i2.id}] = t${child2.id};\n`
+        this.funciones += `\theap[(int)t${j2.id}] = t${temp.id};\n`
+        this.funciones += `\tgoto Lnextj;\n`
+
+        this.funciones += `\tLnextchar:\n`//NC
+        this.funciones += `\tprintf("%c",(char)78);printf("%c",(char)67);printf("%c",(char)10);\n`
+        this.funciones += `\tif (t${char1.id} == -1) goto Lnextj;\n`
+        this.funciones += `\tt${schar1.id} = t${schar1.id} + 1;\n`
+        this.funciones += `\tt${schar2.id} = t${schar2.id} + 1;\n`
+        this.funciones += `\tt${char1.id} = heap[(int)t${schar1.id}];\n`
+        this.funciones += `\tt${char2.id} = heap[(int)t${schar2.id}];\n`
+        this.funciones += `\tgoto Lchar;\n`
+
+        this.funciones += `\tLnextij:\n`//NIJ
+        this.funciones += `\tprintf("%c",(char)78);printf("%c",(char)73);printf("%c",(char)74);printf("%c",(char)10);\n`
+        this.funciones += `\tt${i1.id} = t${i1.id} + 1;\n`
+        this.funciones += `\tt${i2.id} = t${i2.id} + 1;\n`
+        this.funciones += `\tt${j1.id} = t${i1.id} + 1;\n`
+        this.funciones += `\tt${j2.id} = t${i2.id} + 1;\n`
+        this.funciones += `\tgoto Lini;\n`
+
+        this.funciones += `\tLnextj:\n`//NJ
+        this.funciones += `\tprintf("%c",(char)78);printf("%c",(char)74);printf("%c",(char)10);\n`
+        this.funciones += `\tt${j1.id} = t${j1.id} + 1;\n`
+        this.funciones += `\tt${j2.id} = t${j2.id} + 1;\n`
+        this.funciones += `\tgoto Lini;\n`
+        //
+        this.funciones += `\tLfin:\n`
+        this.funciones += `\tprintf("%c",(char)10);printf("%s",ord);printf("%c",(char)10);\n`
         this.funciones += `\treturn;\n`
         this.funciones += `\n}\n`
     }

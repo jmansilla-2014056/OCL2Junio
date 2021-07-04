@@ -38,9 +38,9 @@ export class AppComponent {
   content: string = "CODEMIRROR"
   xcode: string = `<?xml version="1.0" encoding="UTF-8"?>
 <m>
-	<n atr="a">a</n>
-	<n atr="b">b</n>
-	<n atr="c">c</n>
+  <n atr="a">a</n>
+  <n atr="b">b</n>
+  <n atr="c">c</n>
 </m>`
   /* MANEJO ARCHIVOS
   fls = new Array<archivos>()
@@ -49,7 +49,10 @@ export class AppComponent {
   entornoGlobal: entorno = new entorno(null)
   nombre: string = "name_ini"
   contenido: string = "cont_ini"
-  consola: string = 'for $x in /m/n\nreturn $x'
+  consola: string = `for $x in /catalog/book
+where $x/price>30
+order by $x/title
+return $x`
   salida: string = ""
   n_node: number
   c3d: nodo3d

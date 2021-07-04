@@ -98,6 +98,7 @@ export default class FOR implements instruccion {
                     if (simbol.id == id_str){
                         let ret = { "id": c3d.generateTemp(), "val": c3d.last_stack }
                         simbol.stack = ret.val
+                        break
                     }
                 }
             }
