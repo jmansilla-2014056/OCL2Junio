@@ -91,6 +91,12 @@ export default class Return implements instruccion{
         }
     }
     traducir(ent: entorno[], c3d: nodo3d) {
-        throw new Error("Method not implemented.");
+        c3d.main += `\t//return\n`
+        /*console.log("RETURN")
+        console.log(this.retu)
+        for (let r of this.retu){
+            console.log(r.variable)
+        }*/
+        //throw new Error("Method not implemented.");
     }
 }

@@ -49,7 +49,7 @@ export class AppComponent {
   entornoGlobal: entorno = new entorno(null)
   nombre: string = "name_ini"
   contenido: string = "cont_ini"
-  consola: string = 'let $x := substring("hello world",0,5)\nreturn $x'
+  consola: string = 'for $x in /m/n\nreturn $x'
   salida: string = ""
   n_node: number
   c3d: nodo3d
@@ -560,6 +560,8 @@ export class AppComponent {
   }
   processXquery(){
     this.entornos = new Array<entorno>()
+    console.log("LISTA XQUERY")
+    console.log(this.xquery)
     for (let inst of this.xquery){
       inst.traducir([this.entornoGlobal.tabla["xquery"].valor], this.c3d)
     }

@@ -19,6 +19,7 @@ export default class LET implements instruccion {
     public linea: number;
     public columna: number;
     public nat: nativa
+    public slc: Array<select>
 
     constructor(id, asig, linea, columna) {
         this.identificador = id;
@@ -63,10 +64,10 @@ export default class LET implements instruccion {
             let entorno_temp;
             result = new Array<Array<entorno>>()
             for (let i = 0; i < this.identificador.xpath.length; i++) {
-                let slc: Array<select> = this.identificador.xpath[i]
+                this.slc = this.identificador.xpath[i]
                 entorno_temp = entXml
                 console.log(entorno_temp);
-                for (let slc_sub of slc) {
+                for (let slc_sub of this.slc) {
                     entorno_temp = slc_sub.getValor(entorno_temp, arbol)
                 }
                 result.push(entorno_temp)
@@ -90,7 +91,13 @@ export default class LET implements instruccion {
                     if (this.nat != null){
                         this.nat.traducir(ent, c3d)
                     } else {
-                        simbol.valor = this.identificador.traducir(ent,c3d)
+                        if (this.slc != null){
+                            for (let slc_sub of this.slc){
+                                slc_sub.traducir(slc_sub.matches, c3d)
+                            }
+                        } else {
+                            simbol.valor = this.identificador.traducir(ent,c3d)
+                        }
                     }
                     let ret = { "id": c3d.t_res, "val": c3d.temp[c3d.t_res] }
                     simbol.stack = ret.val

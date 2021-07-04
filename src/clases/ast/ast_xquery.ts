@@ -1,3 +1,4 @@
+import { nodo3d } from "../c3d/nodo3d";
 import FOR from "../instrucciones/xquery/for";
 import Function from "../instrucciones/xquery/function";
 import IF from "../instrucciones/xquery/if";

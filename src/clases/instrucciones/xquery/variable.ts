@@ -60,6 +60,7 @@ export default class variable implements expresion{
         return this.valor;
     }
     traducir(ent: entorno[], c3d: nodo3d) {
+        c3d.main += `\t//variable\n`
         let arr_val = this.valor
         console.log(arr_val)
         if (arr_val.length == 1) {
@@ -99,8 +100,10 @@ export default class variable implements expresion{
             }
         } else {
             if (arr_val[arr_val.length - 1] == "xpath") {
-                let slc = this.xpath[0]
+                let slc = arr_val[0]
+                console.log(slc)
                 for (let i = 0; i < slc.length; i++){
+                    console.log(slc[i])
                     slc[i].traducir(slc[i].matches, c3d)
                 }
             } else {
