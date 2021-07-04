@@ -399,7 +399,7 @@ range_return    : VAR {
                     reportG.push(new gramatic.default("range_return : LLAVEA VAR LLAVEC","{ range_return.val = subReturn_query.default(new variable_query.default(VAR.valLex,[]),null,null,null); }"));
                 }
                 | DATA PARA VAR PARC {
-                    $$ = new subReturn_query.default(null,null,new nativa_query.default($1,new variable_query.default($3,[],@1.first_line,@1.first_column),@1.first_line,@1.first_column),null);
+                    $$ = new subReturn_query.default(null,null,new nativa_query.default($1,[new variable_query.default($3,[],@1.first_line,@1.first_column)],@1.first_line,@1.first_column),null);
                     reportG.push(new gramatic.default("range_return : DATA PARA VAR PARC","{ range_return.val = subReturn_query.default(null,null,new nativa_query.default(DATA.valLex,new variable_query.default(VAR.valLex,[])),null); }"));
                 }
                 | e LLAVEA VAR LLAVEC {
@@ -411,7 +411,7 @@ range_return    : VAR {
                     reportG.push(new gramatic.default("range_return : LLAVEA VAR opcion_xpath LLAVEC","{ range_return.val = subReturn_query.default(new variable_query.default(VAR.valLex,opcion_xpath.val),null,null,null); }"));
                 }
                 | DATA PARA VAR opcion_xpath PARC {
-                    $$ = new subReturn_query.default(null,null,new nativa_query.default($1,new variable_query.default($3,$4,@1.first_line,@1.first_column),@1.first_line,@1.first_column),null);
+                    $$ = new subReturn_query.default(null,null,new nativa_query.default($1,[new variable_query.default($3,$4,@1.first_line,@1.first_column)],@1.first_line,@1.first_column),null);
                     reportG.push(new gramatic.default("range_return : DATA PARA VAR opcion_xpath PARC","{ range_return.val = subReturn_query.default(null,null,new nativa_query.default(DATA.valLex,new variable_query.default(VAR.valLex,opcion_xpath.val)),null); }"));
                 }
                 | e LLAVEA VAR opcion_xpath LLAVEC {
@@ -419,19 +419,19 @@ range_return    : VAR {
                     reportG.push(new gramatic.default("range_return : e LLAVEA VAR opcion_xpath LLAVEC","{ range_return.val = subReturn_query.default(new variable_query.default(VAR.valLex,opcion_xpath),e.val,null,null); }"));
                 }
                 | LLAVEA DATA PARA VAR PARC LLAVEC {
-                    $$ = new subReturn_query.default(null,null,new nativa_query.default($2,new variable_query.default($4,[],@1.first_line,@1.first_column),@1.first_line,@1.first_column),null);
+                    $$ = new subReturn_query.default(null,null,new nativa_query.default($2,[new variable_query.default($4,[],@1.first_line,@1.first_column)],@1.first_line,@1.first_column),null);
                     reportG.push(new gramatic.default("range_return : LLAVEA DATA PARA VAR PARC LLAVEC","{ range_return.val = subReturn_query.default(null,null,new nativa_query.default(DATA.valLex,new variable_query.default(VAR.valLex,[])),null); }"));
                 }
                 | e LLAVEA DATA PARA VAR PARC LLAVEC {
-                    $$ = new subReturn_query.default(null,$1,new nativa_query.default($3,new variable_query.default($5,[],@1.first_line,@1.first_column),@1.first_line,@1.first_column),null);
+                    $$ = new subReturn_query.default(null,$1,new nativa_query.default($3,[new variable_query.default($5,[],@1.first_line,@1.first_column)],@1.first_line,@1.first_column),null);
                     reportG.push(new gramatic.default("range_return : e LLAVEA DATA PARA VAR PARC LLAVEC","{ range_return.val = subReturn_query.default(null,e.val,new nativa_query.default(DATA.valLex,new variable_query.default(VAR.valLex,[])),null); }"));
                 }
                 | LLAVEA DATA PARA VAR opcion_xpath PARC LLAVEC {
-                    $$ = new subReturn_query.default(null,null,new nativa_query.default($2,new variable_query.default($4,$5,@1.first_line,@1.first_column),@1.first_line,@1.first_column),null);
+                    $$ = new subReturn_query.default(null,null,new nativa_query.default($2,[new variable_query.default($4,$5,@1.first_line,@1.first_column)],@1.first_line,@1.first_column),null);
                     reportG.push(new gramatic.default("range_return : LLAVEA DATA PARA VAR opcion_xpath PARC LLAVEC","{ range_return.val = subReturn_query.default(null,null,new nativa_query.default(DATA.valLex,new variable_query.default(VAR.valLex,opcion_xpath.val)),null); }"));
                 }
                 | e LLAVEA DATA PARA VAR opcion_xpath PARC LLAVEC {
-                    $$ = new subReturn_query.default(null,$1,new nativa_query.default($3,new variable_query.default($5,$6,@1.first_line,@1.first_column),@1.first_line,@1.first_column),null);
+                    $$ = new subReturn_query.default(null,$1,new nativa_query.default($3,[new variable_query.default($5,$6,@1.first_line,@1.first_column)],@1.first_line,@1.first_column),null);
                     reportG.push(new gramatic.default("range_return : e LLAVEA DATA PARA VAR opcion_xpath PARC LLAVEC","{ range_return.val = subReturn_query.default(null,e.val,new nativa_query.default(DATA.valLex,new variable_query.default(VAR.valLex,opcion_xpath.val)),null); }"));
                 }
                 ;
@@ -481,6 +481,10 @@ function_nativa : ID PARA parametros PARC {
                     let id = $1 + "-" + $3;
                     $$ = new nativa_query.default(id,$5,@1.first_line,@1.first_column);
                     reportG.push(new gramatic.default("function_nativa : ID MENOS ID PARA parametros PARC","{ let id = ID.valLex + '-' + ID.valLex;\n function_nativa.val = new nativa_query.default(id,parametros.val); }")); 
+                }
+                | DATA PARA parametros PARC {
+                    $$ = new nativa_query.default($1,$3,@1.first_line,@1.first_column)
+                    reportG.push(new gramatic.default("function_nativa : DATA PARA parametros PARC","{ function_nativa.val = new nativa_query.default(DATA.val,parametros.val); }")); 
                 }
                 ;
 

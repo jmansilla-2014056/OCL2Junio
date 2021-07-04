@@ -37,6 +37,7 @@ import { instruccion } from 'src/clases/interfaces/instruccion';
 export class AppComponent {
   content: string = "CODEMIRROR"
   xcode: string = `<?xml version="1.0" encoding="UTF-8"?>
+  <m>
 	<n atr="a">6</n>
 	<o atr="o">7</o>
 	<k atr="k">4</k>
@@ -58,6 +59,7 @@ return $x`*/
 };
 local:suma(/m/n)`
   salida: string = ""
+  cd3r:string = ""
   n_node: number
   c3d: nodo3d
   ts: Array<simbolTabla>
@@ -97,7 +99,7 @@ local:suma(/m/n)`
 
   optimizar() {
     localStorage.clear();
-    let entrada = this.clearEntry(this.xcode);
+    let entrada = this.clearEntry(this.cd3r);
     let op_result = op.parse(entrada);
     let exit = "";
     if(op_result[0] instanceof declaraciones){
@@ -119,7 +121,7 @@ local:suma(/m/n)`
        }
       }
     }
-    this.salida = exit;
+    this.cd3r = exit;
     this.consola = localStorage.getItem("reglas");
   }
 
@@ -519,7 +521,7 @@ local:suma(/m/n)`
     }
     this.c3d.printEntorno(this.entornos)
     this.c3d.endCode()
-    this.salida = this.c3d.code
+    this.cd3r = this.c3d.code
     console.log(this.entornoGlobal)
   }
   addNodo3D(ent: entorno) {

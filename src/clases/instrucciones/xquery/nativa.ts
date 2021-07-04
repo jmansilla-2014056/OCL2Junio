@@ -22,6 +22,10 @@ export default class nativa implements instruccion {
         this.columna = columna;
     }
     ejecutar(ent: entorno, arbol: ast) {
+        let entXml:any = null;
+        if(Object.prototype.hasOwnProperty.call(ent.tabla,"xml")){
+            entXml = ent.tabla["xml"].valor;
+        }
         if (this.id === "upper-case") {
             if (!(this.accion[0] instanceof variable)) {
                 this.str = this.accion[0].getValor(ent, arbol);
@@ -29,6 +33,8 @@ export default class nativa implements instruccion {
                 return this.result;
             } else {
                 //xpath
+                this.getXpathVal("upper-case",entXml,arbol)
+                return this.result;
             }
         } else if (this.id === "lower-case") {
             if (!(this.accion[0] instanceof variable)) {
@@ -37,6 +43,8 @@ export default class nativa implements instruccion {
                 return this.result;
             } else {
                 //xpath
+                this.getXpathVal("lower-case",entXml,arbol)
+                return this.result;
             }
         } else if (this.id === "tostring") {
             if (!(this.accion[0] instanceof variable)) {
@@ -45,6 +53,8 @@ export default class nativa implements instruccion {
                 return this.result;
             } else {
                 //xpath
+                this.getXpathVal("tostring",entXml,arbol);
+                return this.result;
             }
         } else if (this.id === "number") {
             if (!(this.accion[0] instanceof variable)) {
@@ -57,6 +67,8 @@ export default class nativa implements instruccion {
                 }
             } else {
                 //xpath
+                this.getXpathVal("number",entXml,arbol);
+                return this.result;
             }
         } else if (this.id === "substring") {
             if (!(this.accion[0] instanceof variable)) {
@@ -67,10 +79,50 @@ export default class nativa implements instruccion {
                 return this.result;
             } else {
                 //xpath
+                if(this.accion[0].xpath.length > 0){
+                    this.i_ini = Number(this.accion[1].getValor(ent, arbol))
+                    this.i_fin = Number(this.accion[2].getValor(ent, arbol))
+                    this.getXpathVal("substring",entXml,arbol,this.i_ini,this.i_fin)
+                    return this.result;
+                }
             }
 
         } else if (this.id.toLowerCase() === "data") {
-
+            if (this.accion[0] instanceof variable){
+                if(this.accion[0].xpath.length > 0){
+                    let entorno_temp;
+                    let retxpa = new Array<Array<entorno>>()
+                    for (let j = 0; j < this.accion[0].xpath.length; j++) {
+                        let slc = this.accion[0].xpath[j]
+                        entorno_temp = entXml
+                        for (let slc_sub of slc) {
+                            entorno_temp = slc_sub.getValor(entorno_temp, arbol)
+                        }
+                        retxpa.push(entorno_temp)
+                    }
+                    this.str = "";
+                    for(let i = 0; i < retxpa[0].length; i++){
+                        if(Object.prototype.hasOwnProperty.call(retxpa[0][i]["tabla"],"valor")){
+                            let valAux = retxpa[0][i]["tabla"].valor
+                            if(!(valAux.valor instanceof entorno)){
+                                this.str += valAux.valor.toString() + "\n";
+                            }else{
+                                InsertarError("Semantico",`Error, el dato a buscar no es un valor`,"xquery",this.accion[0].linea,this.accion[0].columna);
+                            }
+                        }else{
+                            for (const key in retxpa[0][i]["tabla"]) {
+                                if (Object.prototype.hasOwnProperty.call(retxpa[0][i]["tabla"], key)) {
+                                    if(key.startsWith("hijo")){
+                                        this.str += retxpa[0][i]["tabla"][key].valor["tabla"].valor.valor.toString() + "\n";
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    this.result = this.str;
+                    return this.result;
+                }
+            }
         } else {
             InsertarError("Semantico", `Error, la funcion nativa ${this.id} no existe`, "xquery", this.linea, this.columna);
             return this.result;
@@ -216,5 +268,46 @@ export default class nativa implements instruccion {
                 break;
         }
         return this.result
+    }
+
+    getXpathVal(instruc:string,entXml:entorno,arbol:ast,iini?:number,ifin?:number){
+        if(this.accion[0].xpath.length > 0){
+            let entorno_temp;
+            let retxpa = new Array<Array<entorno>>()
+            for (let j = 0; j < this.accion[0].xpath.length; j++) {
+                let slc = this.accion[0].xpath[j]
+                entorno_temp = entXml
+                for (let slc_sub of slc) {
+                    entorno_temp = slc_sub.getValor(entorno_temp, arbol)
+                }
+                retxpa.push(entorno_temp)
+            }
+            if(retxpa.length === 1 && retxpa[0].length === 1){
+                let valAux = retxpa[0][0]["tabla"].valor
+                if(!(valAux.valor instanceof entorno)){
+                    this.str = valAux.valor;
+
+                    if(instruc === "upper-case"){
+                        this.result = this.str.toUpperCase();
+                    }else if(instruc === "lower-case"){
+                        this.result = this.str.toLowerCase();
+                    }else if(instruc === "number"){
+                        try {
+                            this.result = Number(this.str);
+                        } catch (error) {
+                            InsertarError("Semantico", `Error, el dato ${this.str} no se puede convertir a number`, "xquery", this.accion[0].linea, this.accion[0].columna);
+                        }
+                    }else if(instruc === "tostring"){
+                        this.result = this.str.toString();
+                    }else if(instruc === "substring"){
+                        this.result = this.str.substring(iini,ifin);
+                    }
+
+                    
+                }else{
+                    InsertarError("Semantico",`Error, el dato a buscar no es un valor`,"xquery",this.accion[0].linea,this.accion[0].columna);
+                }
+            }
+        }
     }
 }
