@@ -56,6 +56,13 @@ export default class IF implements instruccion {
         }
     }
     traducir(ent: entorno[], c3d: nodo3d) {
-        throw new Error("Method not implemented.");
+        c3d.main += `\t//if\n`;
+        this.condicion.traducir(ent,c3d);
+        for(let i = 0; i < this.ifList.length; i++){
+            this.ifList[i].traducir(ent,c3d);
+        }
+        for(let i = 0; i < this.elseList.length; i++){
+            this.elseList[i].traducir(ent,c3d);
+        }
     }
 }

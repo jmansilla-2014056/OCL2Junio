@@ -123,7 +123,7 @@ local:suma(/m/n)`
       }
     }
     this.cd3r = exit;
-    this.consola = localStorage.getItem("reglas");
+    //this.consola = localStorage.getItem("reglas");
   }
 
   /* Analisis Ascendente */

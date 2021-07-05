@@ -128,6 +128,17 @@ export default class Function implements instruccion{
         }
     }
     traducir(ent: entorno[], c3d: nodo3d) {
-        throw new Error("Method not implemented.");
+        c3d.main += `\t//function\n`
+        console.log("funcion: " + this.id)
+
+        let ret = { "id": c3d.generateTemp(), "val": c3d.last_stack }
+        c3d.main += `\tt${ret.id} = ${c3d.last_stack};\n`
+
+        let ini = { "id": -1, "val": -1 }
+        let pos = { "id": -1, "val": -1 }
+        let index: number = -1
+
+        ini = { "id": c3d.generateTemp(), "val": c3d.h }
+        c3d.main += `\tt${ini.id} = H;\n`
     }
 }
