@@ -462,7 +462,7 @@ local:suma(/m/n)`
     }
 
     let traductor: Traductor = new Traductor();
-    this.salida = traductor.traducir_3d(temp);
+    this.salida = traductor.ejecutar_(temp);
   }
 
   execXqueryVT() {
@@ -476,7 +476,7 @@ local:suma(/m/n)`
     }
 
     let traductor: Traductor = new Traductor();
-    this.salida = traductor.traducir_3d(temp);
+    this.cd3r = traductor.traducir_3d(temp);
   }
 
   reporteArbolA() {
