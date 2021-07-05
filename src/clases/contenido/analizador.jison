@@ -72,7 +72,7 @@ BSL               "\\".
 
 
 "string"                return 'TK_STRING';
-"integer"                return 'TK_NUMBER';
+"integer"               return 'TK_NUMBER';
 "number"                return 'TK_NUMBER';
 "boolean"               return 'TK_BOOLEAN';
 "void"                  return 'TK_VOID';
@@ -117,7 +117,6 @@ BSL               "\\".
 "declare"               return 'TK_DECLARE';
 "local"                 return 'TK_LOCAL';
 
-
 "console"               return 'TK_CONSOLE';
 "log"                   return 'TK_LOG';
 
@@ -135,6 +134,7 @@ BSL               "\\".
 "]"                   return 'TK_C_CIERRA';
 ","                   return 'TK_COMA';
 "?"                   return 'TK_INTERROGACION';
+":="                  return 'TK_IGUAL';
 ":"                   return 'TK_DOS_PUNTOS';
 ";"                   return 'TK_P_COMA';
 
@@ -149,7 +149,6 @@ BSL               "\\".
 "&&"                  return 'TK_AND';
 "!"                   return 'TK_NOT';
 
-":="                  return 'TK_IGUAL';
 "="                   return 'TK_IGUAL';
 "+="                  return 'TK_MAS_IGUAL';
 "-="                  return 'TK_MENOS_IGUAL';
