@@ -11,6 +11,7 @@
       const clase_etiqueta = require('../clases/optimizador/etiqueta');
       const clase_return = require('../clases/optimizador/return_expresion');
       const clase_print = require('../clases/optimizador/print_expresion');
+      const eee = require('../clases/optimizador/eliminado');
       const rep_error = require('../reports/ReportController');
 %}
 
@@ -137,7 +138,7 @@ instruccion : asignacion { $$ = $1; }
             | salto_etiqueta { $$ = $1; }
             | declaracion_etiquita { $$ = $1; }
             | retorno { $$ = $1; }
-            | PUNTOCOMA { }
+            | PUNTOCOMA { $$ = new eee.default(); }
             ;
 
 asignacion : ID IGUAL stack PUNTOCOMA { $$ = new clase_asignacion.default( $1, $3, "","" ); }

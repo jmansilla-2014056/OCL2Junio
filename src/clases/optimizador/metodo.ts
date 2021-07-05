@@ -243,7 +243,12 @@ export default class metodo implements instruccion_3d{
     let r : string = "";
     for(let t of this.intrucciones_3d){
        if(!(t instanceof eliminado)){
-         r+= t.getText() + "\n";
+         console.log(t);
+         try{
+           r+= t.getText() + "\n";
+         }catch (e){
+
+         }
        }
     }
     return r;

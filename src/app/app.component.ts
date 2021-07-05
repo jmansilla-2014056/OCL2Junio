@@ -337,7 +337,7 @@ local:suma(/m/n)`
 
         //Fin analisis
         alert("Analisis xpath finalizado con exito!");
-        
+
         /*  let entrada = this.consola
           let parse_result = xpath.parse(entrada);
           this.result = parse_result.xpath;
@@ -355,7 +355,7 @@ local:suma(/m/n)`
 
           //reporte gramatical
           this.tablaReportGramatical(new gramatical("", "").getReporteG(reportG), "Reporte Gramatical Xpath Ascendente", "reportGX", "TitleReportGramaticalX");
-          
+
           //Fin analisis
           alert("Analisis xpath finalizado con exito!");*/
       } catch (error) {
@@ -452,6 +452,20 @@ local:suma(/m/n)`
   }
 
   execXqueryV2() {
+    let temp : string = this.consola;
+    for (var _i = 0; _i < 80; _i++) {
+      temp = temp.split('>' + '\s').join('>');
+      temp = temp.split(' eq ').join('==');
+      temp = temp.split(' or ').join(' || ');
+      temp = temp.split(' and ').join(' && ');
+      temp = temp.split('as xs').join(' ');
+    }
+
+    let traductor: Traductor = new Traductor();
+    this.salida = traductor.traducir_3d(temp);
+  }
+
+  execXqueryVT() {
     let temp : string = this.consola;
     for (var _i = 0; _i < 80; _i++) {
       temp = temp.split('>' + '\s').join('>');
