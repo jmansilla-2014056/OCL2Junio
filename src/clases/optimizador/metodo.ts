@@ -111,8 +111,10 @@ export default class metodo implements instruccion_3d{
             if( clase1.variable == clase2.izq && clase2.variable == clase1.izq){
               if(clase1.der == '' && clase2.der == "" && clase1.operador == "" && clase2.operador == "" ) {
                   if(this.eliminarAsignacion(clase1,numero1,clase2,numero2)){
-                    InsertarOptimizacion("regla 5" , "se elimino asignacion redundante " + this.intrucciones_3d[j].getText());
-                    this.intrucciones_3d[j] = new eliminado();
+                    if(!this.intrucciones_3d[j].getText().includes("[")){
+                      InsertarOptimizacion("regla 5" , "se elimino asignacion redundante " + this.intrucciones_3d[j].getText());
+                      this.intrucciones_3d[j] = new eliminado();
+                    }
                   }
               }
             }

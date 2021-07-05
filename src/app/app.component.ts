@@ -27,6 +27,7 @@ import ast_xquery from 'src/clases/ast/ast_xquery';
 import declaraciones from "../clases/optimizador/declaraciones";
 import metodo from "../clases/optimizador/metodo";
 import { instruccion } from 'src/clases/interfaces/instruccion';
+import Traductor from "../clases/contenido/Traductor";
 
 @Component({
   selector: 'app-root',
@@ -448,6 +449,20 @@ local:suma(/m/n)`
     } else {
       alert("Error, Ingrese consulta xquery a ejecutar!");
     }
+  }
+
+  execXqueryV2() {
+    let temp : string = this.consola;
+    for (var _i = 0; _i < 80; _i++) {
+      temp = temp.split('>' + '\s').join('>');
+      temp = temp.split(' eq ').join('==');
+      temp = temp.split(' or ').join(' || ');
+      temp = temp.split(' and ').join(' && ');
+      temp = temp.split('as xs').join(' ');
+    }
+
+    let traductor: Traductor = new Traductor();
+    this.salida = traductor.traducir_3d(temp);
   }
 
   reporteArbolA() {

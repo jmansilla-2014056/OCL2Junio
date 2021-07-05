@@ -10,7 +10,8 @@
       const clase_goto = require('../clases/optimizador/goto_expresion');
       const clase_etiqueta = require('../clases/optimizador/etiqueta');
       const clase_return = require('../clases/optimizador/return_expresion');
-      const clase_print = require('../clases/optimizador/print_expresion')
+      const clase_print = require('../clases/optimizador/print_expresion');
+      const rep_error = require('../reports/ReportController');
 %}
 
 
@@ -34,6 +35,7 @@ cadena  (\"([^\"\\])*\")
 \s+                     /* skip whitespace */
 (\/\/[^\n]*)            /* */
 [/][*][^*]*[*]+([^/*][^*]*[*]+)*[/]   /* IGNORE */
+[/][-][^*]*[*]+([^/*][^*]*[*]+)*[/]   /* IGNORE */
 
 /* Simbolos del programa */
 {num}                 return 'NUM';
@@ -54,7 +56,9 @@ cadena  (\"([^\"\\])*\")
 ">"                   return 'LOGICA';
 "!="                  return 'LOGICA';
 "!"                   return 'LOGICA';
+"&&"                  return 'LOGICA';
 "="                   return 'IGUAL';
+
 
 "+"                   return 'OPERACION';
 "-"                   return 'OPERACION';
@@ -104,7 +108,9 @@ declaracion         : TIPO ID COR_ABRE NUM COR_CIERRA PUNTOCOMA { $$ = new clase
                     | TIPO ID COMA lista_comas ID PUNTOCOMA { $$ = new clase_declaracion.default($1, $2 + " ," + $4 + $5);  }
                     | TIPO ID COMA ID PUNTOCOMA { $$ = new clase_declaracion.default($1, $2+$3+$4);}
                     | TIPO ID IGUAL NUM PUNTOCOMA { $$ = new clase_declaracion.default($1, $2+$3+$4);}
+                    | TIPO ID IGUAL CADENA PUNTOCOMA { $$ = new clase_declaracion.default($1, $2+$3+$4);}
                     | VOID ID PAR_ABRE PAR_CIERRA PUNTOCOMA { $$ = new clase_declaracion.default($1, $2+$3+$4);}
+                    | TIPO stack IGUAL CADENA PUNTOCOMA { $$ = new clase_declaracion.default($1, $2+$3+$4);}
                     ;
 
 lista_comas         : lista_comas ID COMA  { $$ = $1; $$+= $2+' '+$3 }
@@ -131,6 +137,7 @@ instruccion : asignacion { $$ = $1; }
             | salto_etiqueta { $$ = $1; }
             | declaracion_etiquita { $$ = $1; }
             | retorno { $$ = $1; }
+            | PUNTOCOMA { }
             ;
 
 asignacion : ID IGUAL stack PUNTOCOMA { $$ = new clase_asignacion.default( $1, $3, "","" ); }
@@ -143,11 +150,21 @@ asignacion : ID IGUAL stack PUNTOCOMA { $$ = new clase_asignacion.default( $1, $
            | stack IGUAL NUM PUNTOCOMA { $$ = new clase_asignacion.default( $1, $3,"","" ); }
            | stack IGUAL ID PUNTOCOMA { $$ = new clase_asignacion.default( $1, $3,"","" ); }
            | stack IGUAL stack PUNTOCOMA { $$ = new clase_asignacion.default( $1, $3,"","" ); }
+           | stack IGUAL NUM OPERACION NUM PUNTOCOMA { $$ = new clase_asignacion.default( $1, $3, $4, $5); }
+           | stack IGUAL NUM OPERACION ID PUNTOCOMA { $$ = new clase_asignacion.default( $1, $3, $4, $5); }
+           | stack IGUAL ID OPERACION NUM PUNTOCOMA { $$ = new clase_asignacion.default( $1, $3, $4, $5); }
+           | stack IGUAL ID OPERACION ID PUNTOCOMA { $$ = new clase_asignacion.default( $1, $3, $4, $5); }
+           | stack IGUAL stack OPERACION NUM PUNTOCOMA { $$ = new clase_asignacion.default( $1, $3, $4, $5); }
+           | stack IGUAL stack OPERACION ID PUNTOCOMA { $$ = new clase_asignacion.default( $1, $3, $4, $5); }
+           | stack IGUAL stack OPERACION stack PUNTOCOMA { $$ = new clase_asignacion.default( $1, $3, $4, $5); }
+           | stack IGUAL NUM OPERACION stack PUNTOCOMA { $$ = new clase_asignacion.default( $1, $3, $4, $5); }
+           | stack IGUAL ID OPERACION stck PUNTOCOMA { $$ = new clase_asignacion.default( $1, $3, $4, $5); }
            | ID IGUAL NUM PUNTOCOMA { $$ = new clase_asignacion.default( $1, $3, "","" ); }
            | ID IGUAL ID PUNTOCOMA { $$ = new clase_asignacion.default( $1, $3, "","" ); }
            ;
 
 stack : ID COR_ABRE PAR_ABRE TIPO PAR_CIERRA ID COR_CIERRA { $$ =  $1+$2+$3+$4+$5+$6+$7; }
+      | ID COR_ABRE PAR_ABRE TIPO PAR_CIERRA NUM COR_CIERRA { $$ =  $1+$2+$3+$4+$5+$6+$7; }
       | ID COR_ABRE ID COR_CIERRA {  $$ =  $1+$2+$3+$4; }
       | ID COR_ABRE NUM COR_CIERRA {  $$ =  $1+$2+$3+$4; }
       ;
