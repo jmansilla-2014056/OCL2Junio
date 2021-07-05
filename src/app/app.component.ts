@@ -132,39 +132,37 @@ local:suma(/m/n)`
       localStorage.removeItem('errores');
       localStorage.setItem('cst', " digraph L {\n" + "\n" + "  node [shape=record fontname=Arial];");
       localStorage.setItem('actual', 'cst');
-      //TRY
-      let entrada = this.clearEntry(this.xcode);
-      let parse_result = xml.parse(entrada);
-      let result: nodo_xml = parse_result.etiqueta
-      let encoding: nodo_xml = parse_result.encoding
-      let reportG = parse_result.reportG;
-      console.log("Analisis xml (arbol):")
-      result.printNode("")
-      let arbol = new ast().getArbolito(result);
-      localStorage.setItem('ast', 'digraph g {\n ' + arbol + '}');
-      localStorage.setItem('cst', localStorage.getItem('cst') + "}");
-      // reporte gramatical
-      this.tablaReportGramatical(new gramatical("", "").getReporteG(reportG), "Reporte Gramatical Ascendente", "reportG", "TitleReportGramatical");
-      // Entornos
-      this.n_node = 1
-      let tipo_encoding: string
-      for (let atr of encoding.atributos) {
-        if (atr.id.toLocaleLowerCase() == "encoding") {
-          tipo_encoding = atr.valor
+      try {
+        let entrada = this.clearEntry(this.xcode);
+        let parse_result = xml.parse(entrada);
+        let result: nodo_xml = parse_result.etiqueta
+        let encoding: nodo_xml = parse_result.encoding
+        let reportG = parse_result.reportG;
+        console.log("Analisis xml (arbol):")
+        result.printNode("")
+        let arbol = new ast().getArbolito(result);
+        localStorage.setItem('ast', 'digraph g {\n ' + arbol + '}');
+        localStorage.setItem('cst', localStorage.getItem('cst') + "}");
+        // reporte gramatical
+        this.tablaReportGramatical(new gramatical("", "").getReporteG(reportG), "Reporte Gramatical Ascendente", "reportG", "TitleReportGramatical");
+        // Entornos
+        this.n_node = 1
+        let tipo_encoding: string
+        for (let atr of encoding.atributos) {
+          if (atr.id.toLocaleLowerCase() == "encoding") {
+            tipo_encoding = atr.valor
+          }
         }
-      }
-      this.createEntorno(result, encoding, tipo_encoding);
-      // reporte tabla de simbolos
-        //this.tablaSimbolosReport();
-      // Fin analisis
-      alert("Analisis finalizado con exito!");
-      /*try {
-
+        this.createEntorno(result, encoding, tipo_encoding);
+        // reporte tabla de simbolos
+          //this.tablaSimbolosReport();
+        // Fin analisis
+        alert("Analisis xml finalizado con exito!");
       } catch (error) {
-        alert("Error, no ha sido posible recuperarse!");
-      }*/
+        alert("Error, no ha sido posible recuperarse, xml!");
+      }
     } else {
-      alert("Error, Ingrese archivo a analizar!");
+      alert("Error, Ingrese archivo xml a analizar!");
     }
   }
 
@@ -310,32 +308,14 @@ local:suma(/m/n)`
   /* Analisis xpath ascendente */
   execXpath() {
     if (this.consola !== "") {
+      /* ejecuta xml */
+      this.analizarXml();
+
       this.P_xpath = true
       localStorage.removeItem('errores');
       localStorage.setItem('cstx', "digraph L {\n" + "\n" + "  node [shape=record fontname=Arial];");
       localStorage.setItem('actual', 'cst');
-
-      let entrada = this.consola
-      let parse_result = xpath.parse(entrada);
-      this.result = parse_result.xpath;
-      let reportG = parse_result.reportG;
-
-      let xpath_str
-      let arbol: ast = new ast()
-      xpath_str = this.result.ejecutar(this.entornoGlobal.tabla["xml"].valor, arbol)
-      this.salida = xpath_str
-      console.log(this.salida)
-
-      //Reporte Ast
-      let arbolito = new astXpath().getArbolito(this.result);
-      localStorage.setItem('astx', 'digraph g {\n ' + arbolito + '}');
-
-      //reporte gramatical
-      this.tablaReportGramatical(new gramatical("", "").getReporteG(reportG), "Reporte Gramatical Xpath Ascendente", "reportGX", "TitleReportGramaticalX");
-
-      //Fin analisis
-      alert("Analisis finalizado con exito!");
-      /*try {
+      try {
         let entrada = this.consola
         let parse_result = xpath.parse(entrada);
         this.result = parse_result.xpath;
@@ -355,13 +335,34 @@ local:suma(/m/n)`
         this.tablaReportGramatical(new gramatical("", "").getReporteG(reportG), "Reporte Gramatical Xpath Ascendente", "reportGX", "TitleReportGramaticalX");
 
         //Fin analisis
-        alert("Analisis finalizado con exito!");
+        alert("Analisis xpath finalizado con exito!");
+        
+        /*  let entrada = this.consola
+          let parse_result = xpath.parse(entrada);
+          this.result = parse_result.xpath;
+          let reportG = parse_result.reportG;
+
+          let xpath_str
+          let arbol: ast = new ast()
+          xpath_str = this.result.ejecutar(this.entornoGlobal.tabla["xml"].valor, arbol)
+          this.salida = xpath_str
+          console.log(this.salida)
+
+          //Reporte Ast
+          let arbolito = new astXpath().getArbolito(this.result);
+          localStorage.setItem('astx', 'digraph g {\n ' + arbolito + '}');
+
+          //reporte gramatical
+          this.tablaReportGramatical(new gramatical("", "").getReporteG(reportG), "Reporte Gramatical Xpath Ascendente", "reportGX", "TitleReportGramaticalX");
+          
+          //Fin analisis
+          alert("Analisis xpath finalizado con exito!");*/
       } catch (error) {
-        alert("Error, no ha sido posible recuperarse!");
+        alert("Error, no ha sido posible recuperarse, xpath!");
         console.log(error);
-      }*/
+      }
     } else {
-      alert("Error, Ingrese consulta a ejecutar!");
+      alert("Error, Ingrese consulta xpath a ejecutar!");
     }
   }
 
@@ -406,6 +407,9 @@ local:suma(/m/n)`
   /* analizdor xquery ascendente */
   execXquery() {
     if (this.consola !== "") {
+      /* ejecuta xml */
+      this.analizarXml();
+
       this.xquery = new Array<instruccion>()
       this.P_xpath = false
       localStorage.removeItem('errores');
@@ -436,13 +440,13 @@ local:suma(/m/n)`
         this.tablaReportGramatical(new gramatical("", "").getReporteG(reportG), "Reporte Gramatical Xquery", "reportGQ", "TitleReportGramaticalQ");
 
         /* Fin analisis */
-        alert("Analisis finalizado con exito!");
+        alert("Analisis xquery finalizado con exito!");
       } catch (error) {
-        alert("Error, no ha sido posible recuperarse!");
+        alert("Error, no ha sido posible recuperarse, xquery!");
         console.log(error);
       }
     } else {
-      alert("Error, Ingrese consulta a ejecutar!");
+      alert("Error, Ingrese consulta xquery a ejecutar!");
     }
   }
 

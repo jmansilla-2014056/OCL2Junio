@@ -4,6 +4,7 @@ import Function from "../instrucciones/xquery/function";
 import IF from "../instrucciones/xquery/if";
 import LET from "../instrucciones/xquery/let";
 import { ast } from "./ast";
+import ast_xpath from "./ast_xpath";
 import { entorno } from "./entorno";
 import { simbolo } from "./simbolo";
 import { simbolTabla } from "./simbolTabla";
@@ -122,8 +123,13 @@ export default class ast_xquery{
     ejecutar(entorno:entorno,arbol:ast){
         let resultado:any = "";
         for (let i = 0; i < this.listXquery.length; i++){
-            resultado = this.listXquery[i].ejecutar(entorno,arbol);
+            if(Array.isArray(this.listXquery[i])){
+                resultado = new ast_xpath([this.listXquery[i]]).ejecutar(entorno.tabla["xml"].valor,arbol);
+            }else{
+                resultado = this.listXquery[i].ejecutar(entorno,arbol);
+            }
         }
-        return resultado.toString();
+        (resultado) ? resultado = resultado.toString() : resultado = ""
+        return resultado;
     }
 }

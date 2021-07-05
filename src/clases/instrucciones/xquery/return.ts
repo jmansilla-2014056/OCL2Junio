@@ -20,7 +20,7 @@ export default class Return implements instruccion{
     ejecutar(ent: entorno, arbol: ast) {
         let ret: any = "";
         for(let i = 0; i < this.retu.length; i++){
-            if(this.retu[i].variable != null && this.retu[i].exp == null && this.retu[i].func == null && this.retu[i].ifs == null){
+            if(this.retu[i].variable != null && this.retu[i].exp == null && this.retu[i].func == null && this.retu[i].iF == null){
                 this.verificaMatch(ent,i);
                 if(Array.isArray(this.retu[i].variable.valor)){
                     let valor = this.retu[i].variable.valor;
@@ -38,7 +38,7 @@ export default class Return implements instruccion{
                         }
                     }
                 }
-            }else if(this.retu[i].variable != null && this.retu[i].exp != null && this.retu[i].func == null && this.retu[i].ifs == null){
+            }else if(this.retu[i].variable != null && this.retu[i].exp != null && this.retu[i].func == null && this.retu[i].iF == null){
                 this.verificaMatch(ent,i);
                 if(Array.isArray(this.retu[i].variable.valor)){
                     let valor = this.retu[i].variable.valor;
@@ -57,6 +57,10 @@ export default class Return implements instruccion{
                         }
                     }
                 }
+            }else if(this.retu[i].variable == null && this.retu[i].exp == null && this.retu[i].func != null && this.retu[i].iF == null){
+                ret = this.retu[i].func.ejecutar(ent,arbol);
+            }else if(this.retu[i].variable == null && this.retu[i].exp == null && this.retu[i].func == null && this.retu[i].iF != null){
+                ret = this.retu[i].iF.ejecutar(ent,arbol);
             }
         }
         return ret

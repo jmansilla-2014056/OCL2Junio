@@ -402,6 +402,10 @@ range_return    : VAR {
                     $$ = new subReturn_query.default(null,null,new nativa_query.default($1,[new variable_query.default($3,[],@1.first_line,@1.first_column)],@1.first_line,@1.first_column),null);
                     reportG.push(new gramatic.default("range_return : DATA PARA VAR PARC","{ range_return.val = subReturn_query.default(null,null,new nativa_query.default(DATA.valLex,new variable_query.default(VAR.valLex,[])),null); }"));
                 }
+                | DATA PARA opcion_xpath PARC {
+                    $$ = new subReturn_query.default(null,null,new nativa_query.default($1,[new variable_query.default('',$3,@1.first_line,@1.first_column)],@1.first_line,@1.first_column),null);
+                    reportG.push(new gramatic.default("range_return : DATA PARA VAR PARC","{ range_return.val = subReturn_query.default(null,null,new nativa_query.default(DATA.valLex,new variable_query.default(VAR.valLex,[])),null); }"));
+                }
                 | e LLAVEA VAR LLAVEC {
                     $$ = new subReturn_query.default(new variable_query.default($3,[],@1.first_line,@1.first_column),$1,null,null);
                     reportG.push(new gramatic.default("range_return : e LLAVEA VAR LLAVEC","{ range_return.val = subReturn_query.default(new variable_query.default(VAR.valLex,[]),e.val,null,null); }"));
