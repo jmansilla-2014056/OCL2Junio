@@ -28,5 +28,4 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## Others
 [Demo]:(https://jmansilla-2014056.github.io/OCL2Junio/)
-
-[Explain](https://github.com/tytusdb/tytusx)
+[Explain]:(https://github.com/tytusdb/tytusx/)
