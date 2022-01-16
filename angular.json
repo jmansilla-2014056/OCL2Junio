@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "OCL2Junio": {
+    "OLC2Junio": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:application": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/OCL2Junio",
+            "outputPath": "dist/OLC2Junio",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -72,10 +72,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "OCL2Junio:build:production"
+              "browserTarget": "OLC2Junio:build:production"
             },
             "development": {
-              "browserTarget": "OCL2Junio:build:development"
+              "browserTarget": "OLC2Junio:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -83,7 +83,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "OCL2Junio:build"
+            "browserTarget": "OLC2Junio:build"
           }
         },
         "test": {
@@ -113,5 +113,5 @@
       }
     }
   },
-  "defaultProject": "OCL2Junio"
+  "defaultProject": "OLC2Junio"
 }
